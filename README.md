@@ -55,4 +55,13 @@ Configuration Packages
 
 Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
 
+These packages are denoted as `namespace/name`. For example, an ODROID XU4 configuration would be `odroid/xu4`.
 
+Configuration package directories should have a depth of 2, where the first directory is the category name and the second is the package name.
+
+You can set the following env variables to control this process:
+
+ - `SKIFF_CONFIG_PATH_ODROID_XU4`: Set the path for the ODROID_XU4 config package. You can set this to add new packages or override old ones.
+ - `SKIFF_EXTRA_CONFIGS_PATH`: Colon separated list of paths to look for config packages.
+
+These packages will be available in the Skiff system.
