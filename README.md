@@ -1,6 +1,6 @@
 # SkiffOS
 
-![](http://i.imgur.com/oZtPvSc.png)
+![](http://i.imgur.com/XqpQJEm.png)
 
 Skiff is an extremely lightweight, minimal, in-memory operating system for embedded Linux devices.
 
