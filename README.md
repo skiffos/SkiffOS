@@ -49,3 +49,10 @@ Users can work within a familiar, traditional, persistent OS environment if desi
  - SSH connections to the **core** user are dropped into the Docker container seamlessly.
 
 This allows virtually any workflow to be migrated to Skiff with almost no effort.
+
+Configuration Packages
+======================
+
+Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
+
+
