@@ -1,5 +1,7 @@
 # SkiffOS
 
+![](http://i.imgur.com/oZtPvSc.png)
+
 Skiff is an extremely lightweight, minimal, in-memory operating system for embedded Linux devices.
 
 Skiff loads a small ~30MB image containing the Linux kernel and critical software (like networking/WiFi drivers) into RAM at boot-time, and never mounts the root filesystem. This allows the system to be powered off without a graceful shutdown with **no consequences** whatsoever. It offers **guaranteed boots and SSH reachability** which is ideal for embedded environments.
