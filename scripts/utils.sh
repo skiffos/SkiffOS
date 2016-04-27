@@ -1,0 +1,6 @@
+export SKIFF_PACKAGE_ENV_PREFIX=SKIFF_CONFIG_PATH_
+export SKIFF_FILTER_ENVS="grep $SKIFF_PACKAGE_ENV_PREFIX[[:alnum:]]*_[[:alnum:]]*="
+
+# Config paths
+export SKIFF_CONFIG_METADATA_SUBDIR=metadata
+export SKIFF_CONFIG_METADATA_DESCRIPTION=description

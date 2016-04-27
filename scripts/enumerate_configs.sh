@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+source ../scripts/utils.sh
 
 echo -e "Discovered Skiff configs:"
 
@@ -11,7 +12,6 @@ popd () {
   command popd "$@" > /dev/null
 }
 
-export SKIFF_PACKAGE_ENV_PREFIX=SKIFF_CONFIG_PATH_
 SKIFF_MAGIC_PREFIX="${SKIFF_PACKAGE_ENV_PREFIX}"
 
 # Converts odroid/xu4 to SKIFF_CONFIG_PATH_ODROID_XU4
