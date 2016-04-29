@@ -77,5 +77,14 @@ while [ "$var" ] ;do
     var="${var#*:}"
 done
 
+# Now see if we can find SKIFF_CONFIG.
+# SKIFF_CONFIG_FULL = ODROID_XU4
+if [ -n "$SKIFF_CONFIG" ]; then
+  export SKIFF_CONFIG_FULL=$(echo "$SKIFF_CONFIG" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
+  export SKIFF_CONFIG_PATH_VAR="${SKIFF_MAGIC_PREFIX}${SKIFF_CONFIG_FULL}"
+  export SKIFF_CONFIG_PATH="${!SKIFF_CONFIG_PATH_VAR}"
+fi
+
 # now we have all the env set up
 # env | grep "${SKIFF_MAGIC_PREFIX}.*="
+export SKIFF_HAS_ENUMERATED_CONFIGS="yes"
