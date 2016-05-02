@@ -27,7 +27,7 @@ fi
 
 echo ""
 echo -e "\e[0;31m\033[1mConfigurations\e[0m"
-echo -e "Set SKIFF_CONFIG to one of the following:"
+echo -e "Set SKIFF_CONFIG to one or more of the following (comma separated):"
 cd ../configs/ && ../scripts/print_packages_help.sh
 cd - > /dev/null
 echo ""
