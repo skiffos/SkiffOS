@@ -15,4 +15,4 @@ if [ -z "$SKIFF_WORKSPACE" ]; then
 fi
 
 export SKIFF_FINAL_CONFIG_DIR=$ROOT_DIR/workspaces/.config_$SKIFF_WORKSPACE/
-cd -
+cd - > /dev/null
