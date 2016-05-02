@@ -86,55 +86,89 @@ done
 # Now see if we can find SKIFF_CONFIG.
 # SKIFF_CONFIG_FULL = ODROID_XU4
 if [ -n "$SKIFF_CONFIG" ]; then
-  echo "Selected config chain (from SKIFF_CONFIG):"
-  # Split SKIFF_CONFIG into configs, by converting comma to space
-  export SKIFF_CONFIG=$(echo "$SKIFF_CONFIG" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " ")
-  # Iterate over it
-  SKIFF_CONFIGS=($SKIFF_CONFIG)
-  SKIFF_CONFIG_FULL=()
-  SKIFF_CONFIG_PATH_VAR=()
-  SKIFF_CONFIG_PATH=()
-  SKIFF_CONFIGS_FINAL=()
-  for conf in "${SKIFF_CONFIGS[@]}"; do
-    # Filter it to make sure it's actually valid
-    if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
-      echo " ! [$conf] Invalid config, should be category/name. Ignored."
-      continue
+  REQUIRES_REEVAL=true
+  while $REQUIRES_REEVAL; do
+    REQUIRES_REEVAL=false
+    echo "Selected config chain (from SKIFF_CONFIG):"
+    # Split SKIFF_CONFIG into configs, by converting comma to space
+    export SKIFF_CONFIG=$(echo "$SKIFF_CONFIG" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " ")
+    # Iterate over it
+    SKIFF_CONFIGS=($SKIFF_CONFIG)
+    SKIFF_CONFIG_FULL=()
+    SKIFF_CONFIG_PATH_VAR=()
+    SKIFF_CONFIG_PATH=()
+    SKIFF_CONFIGS_FINAL=()
+    for conf in "${SKIFF_CONFIGS[@]}"; do
+      # Filter it to make sure it's actually valid
+      if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
+        echo " ! [$conf] Invalid config, should be category/name. Ignored."
+        continue
+      fi
+      # Check if its already known
+      if containsElement "$conf" "${SKIFF_CONFIGS_FINAL[@]}"; then
+        echo " ! [$conf] Duplicate, ignoring."
+        continue
+      fi
+      conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
+      path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
+      conf_path="${!path_var}"
+      if [ -z "$conf_path" ]; then
+        echo " ! [$conf] Unknown path! $path_var not set. Ignored."
+        continue
+      fi
+      if [ ! -d "$conf_path" ]; then
+        echo " ! [$conf] Path $conf_path does not exist. Ignored."
+        continue
+      fi
+      # Check if it has any dependencies
+      if [ -f "$conf_path/metadata/dependencies" ]; then
+        depsuf=$(cat $conf_path/metadata/dependencies)
+        if [[ "$depsuf" =~ [^a-zA-Z0-9/\\] ]]; then
+          echo " ! [$conf] Invalid dependencies: $depsuf"
+          continue
+        fi
+        invpack=false
+        depsn=($(echo "$depsuf" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
+        for depconf in "${depsn[@]}"; do
+          # Filter it to make sure it's actually valid
+          if [ -z "$(echo $depconf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
+            echo " ! [$conf] Invalid dependency: $depconf"
+            invpack=true
+            continue
+          fi
+          # Make sure we have this in our list of configs
+          if ! containsElement "$depconf" "${SKIFF_CONFIGS[@]}"; then
+            # Add to the final configs list and respin
+            SKIFF_CONFIGS_FINAL+=("$depconf")
+            REQUIRES_REEVAL=true
+          fi
+        done
+        if $invpack; then
+          continue
+        fi
+      fi
+      SKIFF_CONFIG_FULL+=("$conf_full")
+      SKIFF_CONFIG_PATH_VAR+=("$path_var")
+      SKIFF_CONFIG_PATH+=("$conf_path")
+      SKIFF_CONFIGS_FINAL+=("$conf")
+      echo " > [$conf] [$conf_path]"
+    done
+    unset SKIFF_CONFIGS
+    export SKIFF_CONFIGS="${SKIFF_CONFIGS_FINAL[@]}"
+    tmp="${SKIFF_CONFIG_FULL[@]}"
+    unset SKIFF_CONFIG_FULL
+    export SKIFF_CONFIG_FULL="$tmp"
+    tmp="${SKIFF_CONFIG_PATH_VAR[@]}"
+    unset SKIFF_CONFIG_PATH_VAR
+    export SKIFF_CONFIG_PATH_VAR="$tmp"
+    tmp="${SKIFF_CONFIG_PATH[@]}"
+    unset SKIFF_CONFIG_PATH
+    export SKIFF_CONFIG_PATH="$tmp"
+    export SKIFF_CONFIG=$(joinStr , ${SKIFF_CONFIGS[@]})
+    if $REQUIRES_REEVAL; then
+      echo "Re-evaluating configs due to dep change:"
     fi
-    # Check if its already known
-    if containsElement "$conf" "${SKIFF_CONFIGS_FINAL[@]}"; then
-      echo " ! [$conf] Duplicate, ignoring."
-      continue
-    fi
-    conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
-    path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
-    conf_path="${!path_var}"
-    if [ -z "$conf_path" ]; then
-      echo " ! [$conf] Unknown path! $path_var not set. Ignored."
-      continue
-    fi
-    if [ ! -d "$conf_path" ]; then
-      echo " ! [$conf] Path $conf_path does not exist. Ignored."
-      continue
-    fi
-    SKIFF_CONFIG_FULL+=("$conf_full")
-    SKIFF_CONFIG_PATH_VAR+=("$path_var")
-    SKIFF_CONFIG_PATH+=("$conf_path")
-    SKIFF_CONFIGS_FINAL+=("$conf")
-    echo " > [$conf] [$conf_path]"
   done
-  unset SKIFF_CONFIGS
-  export SKIFF_CONFIGS="${SKIFF_CONFIGS_FINAL[@]}"
-  tmp="${SKIFF_CONFIG_FULL[@]}"
-  unset SKIFF_CONFIG_FULL
-  export SKIFF_CONFIG_FULL="$tmp"
-  tmp="${SKIFF_CONFIG_PATH_VAR[@]}"
-  unset SKIFF_CONFIG_PATH_VAR
-  export SKIFF_CONFIG_PATH_VAR="$tmp"
-  tmp="${SKIFF_CONFIG_PATH[@]}"
-  unset SKIFF_CONFIG_PATH
-  export SKIFF_CONFIG_PATH="$tmp"
-  export SKIFF_CONFIG=$(joinStr , ${SKIFF_CONFIGS[@]})
 fi
 
 
