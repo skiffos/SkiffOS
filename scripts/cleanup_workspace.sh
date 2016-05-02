@@ -26,3 +26,8 @@ else
   rm .config
   make clean
 fi
+
+# Delete the config dir
+if [ -d "$SKIFF_FINAL_CONFIG_DIR" ]; then
+  rm -rf $SKIFF_FINAL_CONFIG_DIR
+fi
