@@ -7,6 +7,9 @@ cat ../resources/text/logo.ascii
 echo -e "\e[0m"
 
 echo ""
+if [ -n "$SKIFF_WARN_ABOUT_RECOVERED_CONFIG" ]; then
+  printf "\033[0;34m✓ Previous config recovered: $SKIFF_CONFIG\033[0m\n"
+fi
 if ERR=$(../scripts/verify_selected_config.sh 2>&1); then
   printf "\033[0;34m✓ Selected config chain:\033[0m\n"
   i=0
