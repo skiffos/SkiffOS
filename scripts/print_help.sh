@@ -33,4 +33,5 @@ cd - > /dev/null
 echo ""
 
 echo -e "\e[0;31m\033[1mCommands\e[0m"
-echo -e "\033[0;34mbuild\033[0m: Compiles the system."
+echo -e "\033[0;34mcompile\033[0m:   Configures and compiles the system."
+echo -e "\033[0;34mconfigure\033[0m: Force a re-configuration of the system."

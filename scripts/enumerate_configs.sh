@@ -119,12 +119,21 @@ if [ -n "$SKIFF_CONFIG" ]; then
     fi
     SKIFF_CONFIG_FULL+=("$conf_full")
     SKIFF_CONFIG_PATH_VAR+=("$path_var")
-    SKIFF_CONFIG_PATH+=("${!path_var}")
+    SKIFF_CONFIG_PATH+=("$conf_path")
     SKIFF_CONFIGS_FINAL+=("$conf")
     echo " > [$conf] [$conf_path]"
   done
-  export SKIFF_CONFIGS=("${SKIFF_CONFIGS_FINAL[@]}")
-  export SKIFF_CONFIG_FULL SKIFF_CONFIG_PATH_VAR SKIFF_CONFIG_PATH
+  unset SKIFF_CONFIGS
+  export SKIFF_CONFIGS="${SKIFF_CONFIGS_FINAL[@]}"
+  tmp="${SKIFF_CONFIG_FULL[@]}"
+  unset SKIFF_CONFIG_FULL
+  export SKIFF_CONFIG_FULL="$tmp"
+  tmp="${SKIFF_CONFIG_PATH_VAR[@]}"
+  unset SKIFF_CONFIG_PATH_VAR
+  export SKIFF_CONFIG_PATH_VAR="$tmp"
+  tmp="${SKIFF_CONFIG_PATH[@]}"
+  unset SKIFF_CONFIG_PATH
+  export SKIFF_CONFIG_PATH="$tmp"
   export SKIFF_CONFIG=$(joinStr , ${SKIFF_CONFIGS[@]})
 fi
 
