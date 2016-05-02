@@ -21,3 +21,4 @@ configure: ensure-sane
 compile: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$(tput smso)Kicking off Buildroot build...$(tput sgr0)"
 	cd $$BUILDROOT_DIR && make
+	@echo "$(tput smso)Compilation complete!$(tput sgr0)"
