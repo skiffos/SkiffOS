@@ -6,7 +6,11 @@ warn:
 ensure-submodule:
 	@$(SKIFF_SCRIPTS_DIR)/ensure_submodule.sh
 
-ensure-sane: ensure-submodule
+ensure-workspace: ensure-submodule
+	@$(SKIFF_SCRIPTS_DIR)/setup_workspace.sh
+
+ensure-sane: ensure-submodule ensure-workspace
+	@$(SKIFF_SCRIPTS_DIR)/worktree_prune.sh
 
 verify-skiff-config:
 	@$(SKIFF_SCRIPTS_DIR)/verify_selected_config.sh
@@ -16,6 +20,11 @@ maybe-build-configs:
 
 configure: ensure-sane
 	@SKIFF_FORCE_RECONFIG=true $(SKIFF_SCRIPTS_DIR)/build_configs.sh
+
+cleanup-workspace:
+	@$(SKIFF_SCRIPTS_DIR)/cleanup_workspace.sh
+
+clean: ensure-submodule cleanup-workspace
 
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs

@@ -68,3 +68,17 @@ You can set the following env variables to control this process:
  - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
 
 These packages will be available in the Skiff system.
+
+Workspaces
+==========
+
+Workspaces allow you to configure and compile multiple Buildroot trees in tandem.
+
+Set SKIFF_WORKSPACE to the name of the workspace you want to use.
+
+Other Env Variables
+===================
+
+Here are some other unmentioned env variables:
+
+ - `SKIFF_NO_INTERACTIVE`: Auto-confirm all interactive prompts
