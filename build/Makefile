@@ -1,4 +1,3 @@
-
 warn:
 	@echo "$(tput smso)Please run make from the root dir, not build.$(tput sgr0)"
 	@echo "Please run make from the root dir, not build."
@@ -16,3 +15,4 @@ configure:
 # Build
 compile: verify-skiff-config maybe-build-configs
 	@echo "$(tput smso)Kicking off Buildroot build...$(tput sgr0)"
+	cd $$BUILDROOT_DIR && make
