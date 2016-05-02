@@ -53,6 +53,8 @@ This allows virtually any workflow to be migrated to Skiff with almost no effort
 Configuration Packages
 ======================
 
+![](http://i.imgur.com/2xdFpql.png)
+
 Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
 
 These packages are denoted as `namespace/name`. For example, an ODROID XU4 configuration would be `odroid/xu4`.
