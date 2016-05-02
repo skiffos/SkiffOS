@@ -11,6 +11,12 @@ pushd () {
 popd () {
   command popd "$@" > /dev/null
 }
+function joinStr { local IFS="$1"; shift; echo "$*"; }
+containsElement () {
+  local e
+  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+  return 1
+}
 
 SKIFF_MAGIC_PREFIX="${SKIFF_PACKAGE_ENV_PREFIX}"
 
@@ -60,10 +66,10 @@ while [ "$var" ] ;do
       conffp="${iter}/${pack}"
       conffp=$(echo "$conffp" | sed -e "s#//#/#g")
       if [ -z "${!confvarn}" ]; then
-        echo "> [$pack] [$conffp]"
+        echo " > [$pack] [$conffp]"
         export ${confvarn}="$conffp"
       else
-        echo "! [$pack] [$iter] (duplicate, ignored)"
+        echo " ! [$pack] [$iter] (duplicate, ignored)"
       fi
     fi
 
@@ -80,11 +86,48 @@ done
 # Now see if we can find SKIFF_CONFIG.
 # SKIFF_CONFIG_FULL = ODROID_XU4
 if [ -n "$SKIFF_CONFIG" ]; then
-  export SKIFF_CONFIG_FULL=$(echo "$SKIFF_CONFIG" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
-  export SKIFF_CONFIG_PATH_VAR="${SKIFF_MAGIC_PREFIX}${SKIFF_CONFIG_FULL}"
-  export SKIFF_CONFIG_PATH="${!SKIFF_CONFIG_PATH_VAR}"
+  echo "Selected config chain (from SKIFF_CONFIG):"
+  # Split SKIFF_CONFIG into configs, by converting comma to space
+  export SKIFF_CONFIG=$(echo "$SKIFF_CONFIG" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " ")
+  # Iterate over it
+  SKIFF_CONFIGS=($SKIFF_CONFIG)
+  SKIFF_CONFIG_FULL=()
+  SKIFF_CONFIG_PATH_VAR=()
+  SKIFF_CONFIG_PATH=()
+  SKIFF_CONFIGS_FINAL=()
+  for conf in "${SKIFF_CONFIGS[@]}"; do
+    # Filter it to make sure it's actually valid
+    if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
+      echo " ! [$conf] Invalid config, should be category/name. Ignored."
+      continue
+    fi
+    # Check if its already known
+    if containsElement "$conf" "${SKIFF_CONFIGS_FINAL[@]}"; then
+      echo " ! [$conf] Duplicate, ignoring."
+      continue
+    fi
+    conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
+    path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
+    conf_path="${!path_var}"
+    if [ -z "$conf_path" ]; then
+      echo " ! [$conf] Unknown path! $path_var not set. Ignored."
+      continue
+    fi
+    if [ ! -d "$conf_path" ]; then
+      echo " ! [$conf] Path $conf_path does not exist. Ignored."
+      continue
+    fi
+    SKIFF_CONFIG_FULL+=("$conf_full")
+    SKIFF_CONFIG_PATH_VAR+=("$path_var")
+    SKIFF_CONFIG_PATH+=("${!path_var}")
+    SKIFF_CONFIGS_FINAL+=("$conf")
+    echo " > [$conf] [$conf_path]"
+  done
+  export SKIFF_CONFIGS=("${SKIFF_CONFIGS_FINAL[@]}")
+  export SKIFF_CONFIG_FULL SKIFF_CONFIG_PATH_VAR SKIFF_CONFIG_PATH
+  export SKIFF_CONFIG=$(joinStr , ${SKIFF_CONFIGS[@]})
 fi
 
+
 # now we have all the env set up
-# env | grep "${SKIFF_MAGIC_PREFIX}.*="
 export SKIFF_HAS_ENUMERATED_CONFIGS="yes"

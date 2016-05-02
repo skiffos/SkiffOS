@@ -8,8 +8,19 @@ echo -e "\e[0m"
 
 echo ""
 if ERR=$(../scripts/verify_selected_config.sh 2>&1); then
-  printf "\033[0;34m✓ Selected config:\033[0m $SKIFF_CONFIG\n"
-  printf "  $(cat $SKIFF_CONFIG_PATH/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION)\n"
+  printf "\033[0;34m✓ Selected config chain:\033[0m\n"
+  i=0
+  for conf in "${SKIFF_CONFIGS[@]}"; do
+    conf_path=${SKIFF_CONFIG_PATH[i]}
+    path_to_descrip="$conf_path/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION"
+    printf "  $conf"
+    if [ -f $path_to_descrip ]; then
+      printf ": $(cat $conf_path/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION)\n"
+    else
+      printf "\n"
+    fi
+    i+=1
+  done
 else
   printf "\033[1;49;31m✖ $ERR\033[0m\n"
 fi

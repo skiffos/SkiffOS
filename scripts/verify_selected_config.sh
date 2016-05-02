@@ -9,16 +9,6 @@ if [ -z "$SKIFF_HAS_ENUMERATED_CONFIGS" ]; then
 fi
 
 if [ -z "$SKIFF_CONFIG" ]; then
-  errecho "Set SKIFF_CONFIG."
-  exit 1
-fi
-
-if [ -z "$SKIFF_CONFIG_PATH" ]; then
-  errecho "Config path not found for $SKIFF_CONFIG."
-  exit 1
-fi
-
-if [ ! -d "$SKIFF_CONFIG_PATH" ]; then
-  errecho "Cannot find directory $SKIFF_CONFIG_PATH."
+  errecho "Set SKIFF_CONFIG, for example: odroid/xu4,time/chrony"
   exit 1
 fi
