@@ -63,7 +63,6 @@ You can set the following env variables to control this process:
 
  - `SKIFF_CONFIG_PATH_ODROID_XU4`: Set the path for the ODROID_XU4 config package. You can set this to add new packages or override old ones.
  - `SKIFF_EXTRA_CONFIGS_PATH`: Colon separated list of paths to look for config packages.
- - `SKIFF_EXTRA_BUILDROOT_CONFIGS`: Path to a directory containing additional Buildroot config fragments (overrides)
- - `SKIFF_EXTRA_KERNEL_CONFIGS`: Path to a directory containing additional Kernel config fragments (overrides)
+ - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
 
 These packages will be available in the Skiff system.
