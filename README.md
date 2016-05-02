@@ -74,7 +74,7 @@ Workspaces
 
 Workspaces allow you to configure and compile multiple Buildroot trees in tandem.
 
-Set SKIFF_WORKSPACE to the name of the workspace you want to use.
+Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 
 Other Env Variables
 ===================
