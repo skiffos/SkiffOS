@@ -45,3 +45,28 @@ echo -e "\033[0;34mconfigure\033[0m: Force a re-configuration of the system."
 echo -e "\033[0;34mclean\033[0m:     Cleans the current workspace."
 
 # Iterate over configs in config chain and print available commands
+i=0
+for conf in "${SKIFF_CONFIGS[@]}"; do
+  conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
+  cmd_full_cmdlv="SKIFF_${conf_full}_COMMAND_LIST"
+  cmd_full_cmdpt="SKIFF_${conf_full}_COMMAND_PATHS"
+  if [ -z "${!cmd_full_cmdlv}" ]; then
+    continue
+  fi
+
+  cmd_full_cmdl=${!cmd_full_cmdlv}
+  cmd_cmdl=($cmd_full_cmdl)
+  cmd_full_cmdp=(${!cmd_full_cmdpt})
+
+  # Print command header
+  echo ""
+  echo -e "\e[0;31m\033[1m${conf} Commands\e[0m"
+  for cmd in "${cmd_cmdl[@]}"; do
+    cmd_full=$(echo "$cmd" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
+    descripnv="SKIFF_${conf_full}_COMMAND_${cmd_full}_DESCRIP"
+    descrip=${!descripnv}
+    echo -e "\033[0;34mcmd/$conf/$cmd\033[0m: $descrip"
+  done
+
+  i+=1
+done

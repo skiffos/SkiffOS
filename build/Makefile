@@ -3,6 +3,9 @@ warn:
 	@echo "Please run make from the root dir, not build."
 	exit 1
 
+cmd/%:
+	@$(SKIFF_SCRIPTS_DIR)/execute_command.sh $@
+
 ensure-submodule:
 	@$(SKIFF_SCRIPTS_DIR)/ensure_submodule.sh
 

@@ -7,7 +7,7 @@ PRIMARY_ENV= \
 	  cd configs && \
 		. ../scripts/check_git_worktree.sh && \
 		. ../scripts/maybe_recover_skiff_config.sh && \
-		. ../scripts/enumerate_configs.sh > /dev/null && \
+		. ../scripts/enumerate_configs.sh && \
 		export BUILDROOT_DEFAULT_DIR=$${ROOT_DIR}/workspaces/default && \
 		export BUILDROOT_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
 		export WORKSPACE_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
