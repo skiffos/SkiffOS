@@ -69,6 +69,7 @@ for confp in "${SKIFF_CONFIG_PATH[@]}"; do
     for file in $(ls -v $br_confp); do
       # echo "Merging in config file $file"
       $domerge $br_conf $br_confp/$file
+      sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $br_conf
     done
   fi
@@ -76,6 +77,7 @@ for confp in "${SKIFF_CONFIG_PATH[@]}"; do
     for file in $(ls -v $kern_confp); do
       echo "Merging in config file $file"
       $domerge $kern_conf $kern_confp/$file
+      sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $kern_conf
     done
   fi
