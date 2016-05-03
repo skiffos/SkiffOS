@@ -31,4 +31,7 @@ if ! [ -d "${conf_path}" ]; then
 fi
 
 # Found the config path
+export SKIFF_CURRENT_CONF_DIR="${!confvn}"
+export SKIFF_CURRENT_CONF_NAME="$conf"
+export SKIFF_CURRENT_CONF_NAME_FULL="$confvn"
 cd $conf_path && make ${parts[2]}

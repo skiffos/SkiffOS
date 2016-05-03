@@ -1,0 +1,2 @@
+# Up the maximum ramdisk size to 1gb
+CONFIG_BLK_DEV_RAM_SIZE=1000000
