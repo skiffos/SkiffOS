@@ -21,8 +21,8 @@ if ERR=$(../scripts/verify_selected_config.sh 2>&1); then
     conf_path=${SKIFF_CONFIG_PATH[i]}
     path_to_descrip="$conf_path/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION"
     printf "  $conf"
-    if [ -f $path_to_descrip ]; then
-      printf ": $(cat $conf_path/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION)\n"
+    if [ -f "$path_to_descrip" ]; then
+      printf ": $(cat $path_to_descrip)\n"
     else
       printf "\n"
     fi
@@ -43,3 +43,5 @@ echo -e "\e[0;31m\033[1mCommands\e[0m"
 echo -e "\033[0;34mcompile\033[0m:   Configures and compiles the system."
 echo -e "\033[0;34mconfigure\033[0m: Force a re-configuration of the system."
 echo -e "\033[0;34mclean\033[0m:     Cleans the current workspace."
+
+# Iterate over configs in config chain and print available commands
