@@ -111,6 +111,6 @@ Next, let's install everything:
 ODROID_SD=/dev/sdb make cmd/odroid/u/install
 ```
 
-You should now be able to plug the SD card into the board and boot. The default root password is `skiff`.
+You should now be able to plug the SD card into the board and boot.
 
 If you change the config chain Skiff will automatically recognize this and re-configure. You only need to format the disk once. Later changes can be installed by running the install command alone.
