@@ -68,7 +68,7 @@ for confp in "${SKIFF_CONFIG_PATH[@]}"; do
   br_confp=$confp/buildroot
   kern_confp=$confp/kernel
   rootfsp=$confp/root_overlay
-  if [ -d $br_confp ]; then
+  if [ -d "$br_confp" ]; then
     for file in $(ls -v $br_confp); do
       # echo "Merging in config file $file"
       $domerge $br_conf $br_confp/$file
@@ -76,7 +76,7 @@ for confp in "${SKIFF_CONFIG_PATH[@]}"; do
       mv .config $br_conf
     done
   fi
-  if [ -d $kern_confp ]; then
+  if [ -d "$kern_confp" ]; then
     for file in $(ls -v $kern_confp); do
       echo "Merging in config file $file"
       $domerge $kern_conf $kern_confp/$file
