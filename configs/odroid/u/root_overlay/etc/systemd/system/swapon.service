@@ -1,0 +1,9 @@
+[Unit]
+Description=Turn on swap
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/swapon LABEL=swap
+
+[Install]
+WantedBy=swap.target
