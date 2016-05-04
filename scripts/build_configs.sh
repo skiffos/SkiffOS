@@ -40,6 +40,9 @@ cp $SKIFF_RESOURCES_DIR/text/temp_confdir_warning $SKIFF_FINAL_CONFIG_DIR/DO_NOT
 
 # Save the SKIFF_CONFIG chain.
 echo "$SKIFF_CONFIG" > $SKIFF_FINAL_CONFIG_DIR/skiff_config
+if [ -n "$SKIFF_EXTRA_CONFIGS_PATH" ]; then
+  echo "$SKIFF_EXTRA_CONFIGS_PATH" > $SKIFF_FINAL_CONFIG_DIR/skiff_extra_configs_path
+fi
 
 # Copy the base configs to kick off the process
 kern_dir=$SKIFF_FINAL_CONFIG_DIR/kernel
