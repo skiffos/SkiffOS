@@ -82,3 +82,35 @@ Other Env Variables
 Here are some other unmentioned env variables:
 
  - `SKIFF_NO_INTERACTIVE`: Auto-confirm all interactive prompts
+
+Example: Odroid U3
+==================
+
+As an example, here's how to build SkiffOS for the ODROID U3.
+
+Set the config setting `SKIFF_CONFIG` and the workspace `SKIFF_WORKSPACE` and kick off the build:
+
+```
+export SKIFF_WORKSPACE=tutorial
+SKIFF_CONFIG=odroid/u make compile
+```
+
+You have to set `SKIFF_WORKSPACE` always, as this tells Skiff which workspace to use. However, Skiff will remember which config chain you used for the workspace, so you don't need to set it multiple times.
+
+Next, type `make` to see the list of commands. Let's format the SD card at `/dev/sdb` for Skiff.
+
+```
+ODROID_SD=/dev/sdb make cmd/odroid/u/format
+```
+
+This will format your SD card after some prompts with "are you sure" type messages. You might need to re-plug the SD card into your computer at this point.
+
+Next, let's install everything:
+
+```
+ODROID_SD=/dev/sdb make cmd/odroid/u/install
+```
+
+You should now be able to plug the SD card into the board and boot. The default root password is `skiff`.
+
+If you change the config chain Skiff will automatically recognize this and re-configure. You only need to format the disk once. Later changes can be installed by running the install command alone.
