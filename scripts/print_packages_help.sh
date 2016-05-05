@@ -15,6 +15,11 @@ while read -r line; do
   packname=$(echo "$confpackfull" | tr '[:upper:]' '[:lower:]' | sed "s#_#/#g")
 
   descripp="$ppath/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION"
+  nolist="$ppath/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_NOLIST"
+
+  if [ -f "$nolist" ]; then
+    continue
+  fi
 
   printf "\033[0;34m$packname\033[0m"
   if [ -f "$descripp" ]; then

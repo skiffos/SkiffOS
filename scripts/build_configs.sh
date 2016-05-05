@@ -63,7 +63,8 @@ SKIFF_CONFIG_PATH+=("$SKIFF_BASE_CONFIGS_DIR/post")
 echo ${SKIFF_CONFIG_PATH}
 domerge="$SKIFF_SCRIPTS_DIR/merge_config.sh -O $SKIFF_BRCONF_WORK_DIR -m -r"
 rootfs_overlays=()
-for confp in "${SKIFF_CONFIG_PATH[@]}"; do
+confpaths=(${SKIFF_CONFIG_PATH[@]})
+for confp in "${confpaths[@]}"; do
   echo "Merging Skiff config at $confp"
   br_confp=$confp/buildroot
   kern_confp=$confp/kernel
@@ -91,8 +92,9 @@ for confp in "${SKIFF_CONFIG_PATH[@]}"; do
 done
 
 # Touch up the buildroot
-sed -i -e "s#REPLACEME_KERNEL_FRAGMENTS#$kern_conf#g" $br_conf
-sed -i -e "s#REPLACEME_ROOTFS_OVERLAY#${rootfs_overlays[@]}#g" $br_conf
+sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
+overlays="${rootfs_overlays[@]}"
+sed -i "s@REPLACEME_ROOTFS_OVERLAY@$overlays@g" $br_conf
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig

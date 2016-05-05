@@ -101,23 +101,23 @@ if [ -n "$SKIFF_CONFIG" ]; then
     for conf in "${SKIFF_CONFIGS[@]}"; do
       # Filter it to make sure it's actually valid
       if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
-        echo " ! [$conf] Invalid config, should be category/name. Ignored."
+        (>&2 echo " ! [$conf] Invalid config, should be category/name. Ignored.")
         continue
       fi
       # Check if its already known
       if containsElement "$conf" "${SKIFF_CONFIGS_FINAL[@]}"; then
-        echo " ! [$conf] Duplicate, ignoring."
+        (>&2 echo " ! [$conf] Duplicate, ignoring.")
         continue
       fi
       conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
       path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
       conf_path="${!path_var}"
       if [ -z "$conf_path" ]; then
-        echo " ! [$conf] Unknown path! $path_var not set. Ignored."
+        (>&2 echo " ! [$conf] Unknown path! $path_var not set. Ignored.")
         continue
       fi
       if [ ! -d "$conf_path" ]; then
-        echo " ! [$conf] Path $conf_path does not exist. Ignored."
+        (>&2 echo " ! [$conf] Path $conf_path does not exist. Ignored.")
         continue
       fi
       eval "SKIFF_${conf_full}_COMMAND_LIST=()"

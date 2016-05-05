@@ -100,7 +100,7 @@ You have to set `SKIFF_WORKSPACE` always, as this tells Skiff which workspace to
 Next, type `make` to see the list of commands. Let's format the SD card at `/dev/sdb` for Skiff.
 
 ```
-ODROID_SD=/dev/sdb make cmd/odroid/u/format
+ODROID_SD=/dev/sdb make cmd/odroid/base/format
 ```
 
 This will format your SD card after some prompts with "are you sure" type messages. You might need to re-plug the SD card into your computer at this point.

@@ -46,7 +46,8 @@ echo -e "\033[0;34mclean\033[0m:     Cleans the current workspace."
 
 # Iterate over configs in config chain and print available commands
 i=0
-for conf in "${SKIFF_CONFIGS[@]}"; do
+confs=(${SKIFF_CONFIGS[@]})
+for conf in "${confs[@]}"; do
   conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
   cmd_full_cmdlv="SKIFF_${conf_full}_COMMAND_LIST"
   cmd_full_cmdpt="SKIFF_${conf_full}_COMMAND_PATHS"
