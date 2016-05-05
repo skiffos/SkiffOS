@@ -51,7 +51,7 @@ mkdir -p $kern_dir
 cp $SKIFF_BASE_CONFIGS_DIR/pre/kernel/config $kern_conf
 
 # Make the scripts wrappers
-bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /')"
+bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
 post_build_script=$SKIFF_FINAL_CONFIG_DIR/post_build.sh
 echo "#!/bin/bash" > $post_build_script
 echo "$bind_env" >> $post_build_script
