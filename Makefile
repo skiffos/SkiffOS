@@ -10,6 +10,8 @@ PRIMARY_ENV= \
 		. ../scripts/enumerate_configs.sh >/dev/null && \
 		export BUILDROOT_DEFAULT_DIR=$${ROOT_DIR}/workspaces/default && \
 		export BUILDROOT_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
+		export SKIFF_BUILDROOT_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
+		export SKIFF_WORKSPACE_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
 		export WORKSPACE_DIR=$${ROOT_DIR}/workspaces/$${SKIFF_WORKSPACE} && \
 
 %:

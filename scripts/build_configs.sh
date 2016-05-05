@@ -50,6 +50,17 @@ kern_conf=$kern_dir/config
 mkdir -p $kern_dir
 cp $SKIFF_BASE_CONFIGS_DIR/pre/kernel/config $kern_conf
 
+# Make the scripts wrappers
+bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /')"
+post_build_script=$SKIFF_FINAL_CONFIG_DIR/post_build.sh
+echo "#!/bin/bash" > $post_build_script
+echo "$bind_env" >> $post_build_script
+chmod +x $post_build_script
+pre_build_script=$SKIFF_FINAL_CONFIG_DIR/pre_build.sh
+echo "#!/bin/bash" > $pre_build_script
+echo "$bind_env" >> $pre_build_script
+chmod +x $pre_build_script
+
 br_dir=$SKIFF_FINAL_CONFIG_DIR/buildroot
 br_conf=$br_dir/config
 mkdir -p $br_dir
@@ -89,12 +100,22 @@ for confp in "${confpaths[@]}"; do
     echo "Adding root overlay directory..."
     rootfs_overlays+=("$rootfsp")
   fi
+  pre_hook_pat="$confp/hooks/pre.sh"
+  if [ -f "$pre_hook_pat" ]; then
+    echo "Adding pre-image hook..."
+    echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $pre_hook_pat" >> $pre_build_script
+  fi
+  post_hook_pat="$confp/hooks/pre.sh"
+  if [ -f "$post_hook_pat" ]; then
+    echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $post_hook_pat" >> $post_build_script
+  fi
 done
 
 # Touch up the buildroot
 sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
 overlays="${rootfs_overlays[@]}"
 sed -i "s@REPLACEME_ROOTFS_OVERLAY@$overlays@g" $br_conf
+sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig
