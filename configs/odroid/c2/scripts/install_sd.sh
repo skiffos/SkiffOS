@@ -2,9 +2,6 @@
 
 mkimage="$BUILDROOT_DIR/output/host/usr/bin/mkimage"
 
-# boot.ini hangs right now, use boot.scr
-USE_BOOT_SCR=yes
-
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
@@ -15,13 +12,6 @@ if [ -z "$ODROID_SD" ]; then
   exit 1
 fi
 
-if [ -n "$USE_BOOT_SCR" ]; then
-  if [ ! -f "$mkimage" ]; then
-    echo "uboot-tools not compiled for host in Buildroot."
-    exit 1
-  fi
-fi
-
 if [ ! -b "$ODROID_SD" ]; then
   echo "$ODROID_SD is not a block device or doesn't exist."
   exit 1
@@ -29,9 +19,9 @@ fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 outp_path="${BUILDROOT_DIR}/output"
-uimg_path="${outp_path}/images/zImage.exynos4412-odroidu3"
+uimg_path="${outp_path}/images/Image"
 uinit_path="${outp_path}/images/rootfs.cpio.uboot"
-dtb_path="${outp_path}/images/exynos4412-odroidu3.dtb"
+dtb_path="${outp_path}/images/meson64_odroidc2.dtb"
 
 if [ ! -f "$uimg_path" ]; then
   echo "zImage not found, make sure Buildroot is done compiling."
@@ -66,22 +56,21 @@ mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
 mount ${ODROID_SD}2 $rootfs_dir
 
-echo "Copying zImage..."
+echo "Copying Image..."
 sync
-rsync -rav --no-perms --no-owner --no-group $uimg_path $rootfs_dir/zImage
+rsync -rav --no-perms --no-owner --no-group $uimg_path $boot_dir/Image
+sync
+
+echo "Copying dtb..."
+rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/meson64_odroidc2.dtb
 sync
 
 echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group $uinit_path $rootfs_dir/uInitrd
 sync
 
-if [ -n "$USE_BOOT_SCR" ]; then
-  echo "Compiling boot.txt..."
-  $mkimage -A arm -C none -T script -n 'Skiff Odroid U' -d $resources_path/boot-scripts/boot.txt $boot_dir/boot.scr
-else
-  echo "Copying boot.ini..."
-  rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
-fi
+echo "Copying boot.ini..."
+rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
 sync
 
 cleanup

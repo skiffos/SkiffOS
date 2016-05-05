@@ -2,7 +2,8 @@
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
-ubootscripts="${resources_path}/sd_fuse"
+ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
+sd_fuse_scr="${BUILDROOT_DIR}/output/images/hk_sd_fuse/sd_fusing.sh"
 
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
@@ -16,6 +17,11 @@ fi
 
 if ! mkfs.msdos -F 32 --help > /dev/null; then
   echo "Please install 'mkfs.msdos' and try again."
+  exit 1
+fi
+
+if [ ! -f "$sd_fuse_scr" ]; then
+  echo "Cannot find $sd_fuse_scr, make sure Buildroot is compiled."
   exit 1
 fi
 
@@ -57,14 +63,14 @@ echo "Formatting device..."
 parted $ODROID_SD mklabel msdos
 
 echo "Making boot partition..."
-parted $ODROID_SD mkpart primary fat16 2MiB 10MiB
+parted $ODROID_SD mkpart primary fat32 2MiB 50MiB
 parted $ODROID_SD set 1 boot on
 parted $ODROID_SD set 1 lba on
-mlabel -i ${ODROID_SD}1 ::boot
 mkfs.msdos -F 32 ${ODROID_SD}1
+mlabel -i ${ODROID_SD}1 ::boot
 
 echo "Making rootfs partition..."
-parted $ODROID_SD mkpart primary ext4 10MiB 210MiB
+parted $ODROID_SD mkpart primary ext4 50MiB 210MiB
 mkfs.ext4 ${ODROID_SD}2
 e2label ${ODROID_SD}2 rootfs
 
