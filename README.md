@@ -53,7 +53,7 @@ This allows virtually any workflow to be migrated to Skiff with almost no effort
 Configuration Packages
 ======================
 
-![](http://i.imgur.com/2nlUvvL.png)
+![](http://i.imgur.com/y3KbMqA.png)
 
 Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
 
