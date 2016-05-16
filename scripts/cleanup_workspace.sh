@@ -23,7 +23,7 @@ if [ "$SKIFF_WORKSPACE" != "default" ] && [ -z "$SKIFF_WORKTREE_NOT_SUPPORTED" ]
 # Otherwise just distclean buildroot
 else
   cd $WORKSPACE_DIR
-  rm .config
+  rm .config || true
   make clean
 fi
 
