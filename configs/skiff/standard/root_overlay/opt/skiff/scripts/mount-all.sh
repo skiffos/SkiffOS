@@ -52,5 +52,7 @@ fi
 echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
 printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
 
-systemctl daemon-reload
 touch $INIT_ONCE
+systemctl daemon-reload
+systemctl restart systemd-journald
+systemctl restart systemd-networkd
