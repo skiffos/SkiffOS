@@ -9,6 +9,8 @@ RESET_COLOR=$(tput sgr0)
 # - alphabetical: SKIFF_CONFIG_PATH/buildroot/config
 # Merge them together, tell buildroot to use it as a defconfig
 # Also merges kernel defconfigs
+SKIFF_PRE_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/pre
+SKIFF_POST_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/post
 
 if [ -z "$SKIFF_FORCE_RECONFIG" ]; then
   if [ -f $SKIFF_FINAL_CONFIG_DIR/skiff_config ]; then
@@ -44,11 +46,11 @@ if [ -n "$SKIFF_EXTRA_CONFIGS_PATH" ]; then
   echo "$SKIFF_EXTRA_CONFIGS_PATH" > $SKIFF_FINAL_CONFIG_DIR/skiff_extra_configs_path
 fi
 
-# Copy the base configs to kick off the process
+# Touch the initial files
 kern_dir=$SKIFF_FINAL_CONFIG_DIR/kernel
 kern_conf=$kern_dir/config
 mkdir -p $kern_dir
-cp $SKIFF_BASE_CONFIGS_DIR/pre/kernel/config $kern_conf
+touch $kern_conf
 
 # Make the scripts wrappers
 bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
@@ -64,13 +66,13 @@ chmod +x $pre_build_script
 br_dir=$SKIFF_FINAL_CONFIG_DIR/buildroot
 br_conf=$br_dir/config
 mkdir -p $br_dir
-cp $SKIFF_BASE_CONFIGS_DIR/pre/buildroot/config $br_conf
+touch $br_conf
 
 # Iterate over skiff config paths.
 # Add the post path
 cd $SKIFF_BRCONF_WORK_DIR
 echo "Config path: "
-SKIFF_CONFIG_PATH+=("$SKIFF_BASE_CONFIGS_DIR/post")
+SKIFF_CONFIG_PATH=("$SKIFF_PRE_CONFIG_DIR" "${SKIFF_CONFIG_PATH[@]}" "$SKIFF_POST_CONFIG_DIR")
 echo ${SKIFF_CONFIG_PATH}
 domerge="$SKIFF_SCRIPTS_DIR/merge_config.sh -O $SKIFF_BRCONF_WORK_DIR -m -r"
 rootfs_overlays=()
