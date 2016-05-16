@@ -1,10 +1,5 @@
 # interface file from odroid/base
+# see /etc/systemd/network to configure
 
 auto lo
 iface lo inet loopback
-
-auto wlan0
-iface wlan0 inet dhcp
-
-auto eth0
-iface eth0 inet dhcp

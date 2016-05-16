@@ -1,0 +1,6 @@
+[Unit]
+Description=SkiffOS early-init
+
+[Service]
+Type=oneshot
+ExecStart=/opt/skiff/scripts/mount-all.sh
