@@ -24,7 +24,8 @@ fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 outp_path="${BUILDROOT_DIR}/output"
-uimg_path="${outp_path}/images/zImage.exynos5422-odroidxu4"
+uimg_path="${outp_path}/images/zImage"
+dtb_path="${outp_path}/images/exynos5422-odroidxu4.dtb"
 uinit_path="${outp_path}/images/rootfs.cpio.uboot"
 
 if [ ! -f "$uimg_path" ]; then
@@ -71,6 +72,10 @@ sync
 
 echo "Compiling boot.txt..."
 $mkimage -A arm -C none -T script -n 'Skiff Odroid XU4' -d $resources_path/boot-scripts/boot.txt $boot_dir/boot.scr
+sync
+
+echo "Copying device tree..."
+rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/devicetree.dtb
 sync
 
 cleanup
