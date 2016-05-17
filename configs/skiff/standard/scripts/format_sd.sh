@@ -2,6 +2,7 @@
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
+ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
 ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
 sd_fuse_scr="${BUILDROOT_DIR}/output/images/hk_sd_fuse/sd_fusing.sh"
 
@@ -28,6 +29,10 @@ fi
 if [ -z "$ODROID_SD" ]; then
   echo "Please set ODROID_SD and try again."
   exit 1
+fi
+
+if [ ! -f "$ubootimg" ]; then
+  ubootimg=$ubootimgb
 fi
 
 if [ ! -f "$ubootimg" ]; then

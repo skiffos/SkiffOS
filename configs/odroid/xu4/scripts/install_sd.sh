@@ -12,6 +12,11 @@ if [ -z "$ODROID_SD" ]; then
   exit 1
 fi
 
+if [ ! -f "$mkimage" ]; then
+  echo "uboot-tools not compiled for host in Buildroot."
+  exit 1
+fi
+
 if [ ! -b "$ODROID_SD" ]; then
   echo "$ODROID_SD is not a block device or doesn't exist."
   exit 1
@@ -31,15 +36,15 @@ mounts=()
 WORK_DIR=`mktemp -d -p "$DIR"`
 # deletes the temp directory
 function cleanup {
-  sync || true
-  for mount in "${mounts[@]}"; do
-    echo "Unmounting ${mount}..."
-    umount $mount || true
-  done
-  mounts=()
-  if [ -d "$WORK_DIR" ]; then
-    rm -rf "$WORK_DIR" || true
-  fi
+sync || true
+for mount in "${mounts[@]}"; do
+  echo "Unmounting ${mount}..."
+  umount $mount || true
+done
+mounts=()
+if [ -d "$WORK_DIR" ]; then
+  rm -rf "$WORK_DIR" || true
+fi
 }
 trap cleanup EXIT
 
@@ -64,8 +69,8 @@ echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group $uinit_path $rootfs_dir/uInitrd
 sync
 
-echo "Copying boot.ini..."
-rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
+echo "Compiling boot.txt..."
+$mkimage -A arm -C none -T script -n 'Skiff Odroid XU4' -d $resources_path/boot-scripts/boot.txt $boot_dir/boot.scr
 sync
 
 cleanup

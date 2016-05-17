@@ -1,5 +1,3 @@
-ODROID5422-UBOOT-CONFIG
-
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 setenv bootargs "console=tty1 console=ttySAC0,115200n8 root=/dev/initrd ro ramdisk_size=100000 mem=2047M"

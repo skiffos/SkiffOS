@@ -1,0 +1,30 @@
+From 7710c74a9784a1a08a9d3a85c1cf4a5b5f022815 Mon Sep 17 00:00:00 2001
+From: Brian Kim <brian.kim@hardkernel.com>
+Date: Wed, 25 Nov 2015 18:55:24 +0900
+Subject: [PATCH 3/3] odroid-xu3: config: Enable RTL8152 network device
+
+This change enable RTL8152 usb network driver for networking. We can use
+networking by this defineds with RTL8152 driver and xhci address patch.
+
+Signed-off-by: Brian Kim <brian.kim@hardkernel.com>
+---
+ include/configs/odroid_xu3.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/odroid_xu3.h b/include/configs/odroid_xu3.h
+index 648e48b..0d80a5b 100644
+--- a/include/configs/odroid_xu3.h
++++ b/include/configs/odroid_xu3.h
+@@ -47,6 +47,9 @@
+ #define CONFIG_USB_EHCI
+ #define CONFIG_USB_EHCI_EXYNOS
+ 
++#define CONFIG_USB_HOST_ETHER
++#define CONFIG_USB_ETHER_RTL8152
++
+ /* DWC3 */
+ #define CONFIG_USB_DWC3
+ #define CONFIG_USB_DWC3_GADGET
+-- 
+1.9.1
+

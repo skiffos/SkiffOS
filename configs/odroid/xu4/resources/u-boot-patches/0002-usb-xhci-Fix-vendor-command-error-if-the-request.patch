@@ -1,0 +1,39 @@
+From a3e5eeb22ff611a3b1bef3f52a5d259b524ea618 Mon Sep 17 00:00:00 2001
+From: Ted Chen <tedchen@realtek.com>
+Date: Wed, 25 Nov 2015 11:27:00 +0900
+Subject: [PATCH 2/3] usb: xhci: Fix vendor command error if the request
+
+type is USB_REQ_SET_ADDRESS or USB_REQ_SET_CONFIGURATION.
+To: marex@denx.de, swarren@nvidia.com, u-boot@lists.denx.de
+Cc: linux.amoon@gmail.com, Ted Chen <tedchen@realtek.com>
+
+Add a condition of set_address and set_configuration to check
+if the request is standardized.
+
+Signed-off-by: Ted Chen <tedchen@realtek.com>
+---
+ drivers/usb/host/xhci.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index ca598aa..cb8a04b 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -941,10 +941,12 @@ static int _xhci_submit_control_msg(struct usb_device *udev, unsigned long pipe,
+ 	if (usb_pipedevice(pipe) == ctrl->rootdev)
+ 		return xhci_submit_root(udev, pipe, buffer, setup);
+ 
+-	if (setup->request == USB_REQ_SET_ADDRESS)
++	if (setup->request == USB_REQ_SET_ADDRESS &&
++	   (setup->requesttype & USB_TYPE_MASK) == USB_TYPE_STANDARD)
+ 		return xhci_address_device(udev, root_portnr);
+ 
+-	if (setup->request == USB_REQ_SET_CONFIGURATION) {
++	if (setup->request == USB_REQ_SET_CONFIGURATION &&
++	   (setup->requesttype & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+ 		ret = xhci_set_configuration(udev);
+ 		if (ret) {
+ 			puts("Failed to configure xHCI endpoint\n");
+-- 
+1.9.1
+
