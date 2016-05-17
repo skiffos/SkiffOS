@@ -44,8 +44,7 @@ if [ -n "$PERSIST_DRIVE" ]; then
   fi
   ln -s $JOURNAL_PERSIST /var/log/journal
 else
-  echo "Unable to find drive with label \"persist\"! Telling Docker to use ramdisk."
-  printf "[Service]\nEnvironment=DOCKER_RAMDISK=true" > $DOCKER_CONFD/ramdisk.conf
+  echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
   mkdir -p /var/log/journal
 fi
 
