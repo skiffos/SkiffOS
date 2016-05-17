@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 set -x
+exec 5>&1
 
 info1() {
   echo " --> $1"
@@ -45,24 +46,25 @@ if [ -z "$IMAGES" ]; then
       FROM_IMG_VERSION=latest
     fi
     VER_IMG_VERSION="$(docker images | sed 1d | tr -s ' ' | grep "$FROM_IMG_NOVER" | cut -d" " -f2 | grep -m1 "$FROM_IMG_VERSION")" || true
-    if [ -n "$VER_IMG_VERSION" ]; then
-      info2 "$FROM_IMG already is built, skipping scratch build."
-    else
-      info2 "$FROM_IMG scratch buildling."
-      chmod +x $SKIFF_SCRIPTS_DIR/scratchbuild.bash
-      IMAGE=$($SKIFF_SCRIPTS_DIR/scratchbuild.bash build $FROM_IMG)
-      sed -i -e "s#FROM .*#FROM ${IMAGE}#" Dockerfile
-    fi
+    info2 "$FROM_IMG scratch building."
+    chmod +x $SKIFF_SCRIPTS_DIR/scratchbuild.bash
+    IMAGE=$($SKIFF_SCRIPTS_DIR/scratchbuild.bash build $FROM_IMG | tee >(cat - >&5) | tail -n1)
+    sed -i -e "s#FROM .*#FROM ${IMAGE}#" Dockerfile
   fi
   info2 "skiff/core:latest copying files."
   cp /usr/bin/dumb-init ./dumb-init
   info2 "skiff/core:latest building."
   docker build -t "skiff/core:latest" .
 fi
-CONTAINER_NAMES=$(docker ps -a | sed 1d | rev | awk '{ print $1 }' | rev | grep -m1 "skiff_core") || true
-if [ -n "$CONTAINER_NAMES" ]; then
-  info2 "Starting existing container skiff_core..."
-  docker start -a skiff_core
+
+if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} skiff_core); then
+  if [ "$CONTAINER_IS_RUNNING" = "true" ]; then
+    info2 "Container skiff_core already running, tailing it."
+    docker logs -f skiff_core
+  else
+    info2 "Starting existing container skiff_core..."
+    docker start -a skiff_core
+  fi
 else
   info2 "Starting new skiff core attached..."
   docker run --name=skiff_core -t skiff/core:latest
