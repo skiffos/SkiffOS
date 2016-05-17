@@ -1,0 +1,11 @@
+[Unit]
+Description=SkiffOS core container
+Requires=docker.service
+Requires=skiff-init.service
+Requires=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/skiff/scripts/core-container.sh
+Restart=on-failure
+RestartSec=10

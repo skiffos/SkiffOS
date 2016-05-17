@@ -107,7 +107,7 @@ for confp in "${confpaths[@]}"; do
     echo "Adding pre-image hook..."
     echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $pre_hook_pat" >> $pre_build_script
   fi
-  post_hook_pat="$confp/hooks/pre.sh"
+  post_hook_pat="$confp/hooks/post.sh"
   if [ -f "$post_hook_pat" ]; then
     echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $post_hook_pat" >> $post_build_script
   fi

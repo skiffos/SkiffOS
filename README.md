@@ -50,6 +50,17 @@ Users can work within a familiar, traditional, persistent OS environment if desi
 
 This allows virtually any workflow to be migrated to Skiff with almost no effort.
 
+You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` list.
+
+You can set `SKIFF_CORE_ENVIRONMENT` to a path to a tree containing a Dockerfile. This tree will be copied
+to the target system and used to build the core env.
+
+Note that the `CMD` will be overridden. If you would like to specify a script to run on container start you can place it at /core-startup.sh in the container.
+
+Make sure `/core-startup.sh` actually exits as all connections into the container will be held until it finishes.
+
+A subdirectory called "core" of the persistent drive will be mounted to /mnt/core. You can use your startup script to simlink this anywhere you want.
+
 Configuration Packages
 ======================
 
@@ -100,7 +111,7 @@ You have to set `SKIFF_WORKSPACE` always, as this tells Skiff which workspace to
 Next, type `make` to see the list of commands. Let's format the SD card at `/dev/sdb` for Skiff.
 
 ```
-ODROID_SD=/dev/sdb make cmd/odroid/base/format
+ODROID_SD=/dev/sdb make cmd/skiff/standard/format
 ```
 
 This will format your SD card after some prompts with "are you sure" type messages. You might need to re-plug the SD card into your computer at this point.

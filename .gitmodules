@@ -1,3 +1,6 @@
 [submodule "buildroot"]
 	path = workspaces/default
 	url = git@github.com:paralin/buildroot.git
+[submodule "configs/skiff/core/resources/scratchbuild"]
+	path = configs/skiff/core/resources/scratchbuild
+	url = https://github.com/paralin/scratchbuild.git
