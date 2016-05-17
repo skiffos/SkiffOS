@@ -54,4 +54,3 @@ printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/exec
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald
-systemctl restart systemd-networkd
