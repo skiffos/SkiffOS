@@ -31,7 +31,7 @@ cp -r /root/.ssh $HOME_DIR
 chmod 700 $HOME_DIR/.ssh
 chmod 600 $HOME_DIR/.ssh/authorized_keys
 chown -R core:core $HOME_DIR
-passwd -u core
+passwd -u core || true
 
 info2 "Verifying skiff/core:latest image is built..."
 IMAGES=$(docker images | sed 1d | grep "latest" | cut -d" " -f1 | grep "skiff/core") || true
