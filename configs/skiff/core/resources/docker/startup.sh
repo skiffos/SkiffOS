@@ -1,12 +1,11 @@
 #!/bin/sh
-set -eo pipefail
 touch /.container_startup_in_progress
 
 echo " --> initializing skiff core..."
 
 if [ -f /core-startup.sh ]; then
   chmod +x /core-startup.sh
-  /core-startup.sh
+  /core-startup.sh || true
 fi
 
 # Compat fix for mosh and screen
