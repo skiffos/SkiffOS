@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 exec 5>&1
 
@@ -18,14 +18,31 @@ PERSIST_MNT=/mnt/persist
 TARGET_CORE_MNT=/mnt/core
 CORE_PERSIST=$PERSIST_MNT/core
 SKIFF_DIR=/opt/skiff
-COREENV_DIR=$SKIFF_DIR/coreenv
+COREENV_DIR=$SKIFF_DIR/coreenv/user
 SKIFF_SCRIPTS_DIR=$SKIFF_DIR/scripts
+HOME_DIR=/home/core
+
+mkdir -p $HOME_DIR
+if [ -d $HOME_DIR/.ssh ]; then
+  rm -rf $HOME_DIR/.ssh
+fi
+cp -r /root/.ssh $HOME_DIR
+chmod 700 $HOME_DIR/.ssh
+chmod 600 $HOME_DIR/.ssh/authorized_keys
+chown -R core:core $HOME_DIR
+passwd -u core
 
 info2 "Verifying skiff/core:latest image is built..."
 IMAGES=$(docker images | sed 1d | grep "latest" | cut -d" " -f1 | grep "skiff/core") || true
 if [ -z "$IMAGES" ]; then
   info2 "skiff/core:latest not found, attempting to scratch build it at $COREENV_DIR"
   cd $COREENV_DIR
+  if [ -f /run/skiff_core/Dockerfile.bak ]; then
+    cp /run/skiff_core/Dockerfile.bak Dockerfile
+  else
+    mkdir -p /run/skiff_core/
+    cp Dockerfile /run/skiff_core/Dockerfile.bak
+  fi
   # Find the FROM definition
   if [ ! -f Dockerfile ]; then
     info2 "Dockerfile not found!"
@@ -44,7 +61,7 @@ if [ -z "$IMAGES" ]; then
     if [ -z "$FROM_IMG_VERSION" ]; then
       FROM_IMG_VERSION=latest
     fi
-    VER_IMG_VERSION="$(docker images | sed 1d | tr -s ' ' | grep "$FROM_IMG_NOVER" | cut -d" " -f2 | grep -m1 "$FROM_IMG_VERSION")" || true
+    VER_IMG_VERSION=$(docker images | sed 1d | tr -s ' ' | grep "$FROM_IMG_NOVER" | cut -d" " -f2 | grep -m1 "$FROM_IMG_VERSION") || true
     info2 "$FROM_IMG scratch building."
     chmod +x $SKIFF_SCRIPTS_DIR/scratchbuild.bash
     IMAGE=$($SKIFF_SCRIPTS_DIR/scratchbuild.bash build $FROM_IMG | tee >(cat - >&5) | tail -n1)
@@ -53,6 +70,8 @@ if [ -z "$IMAGES" ]; then
   info2 "skiff/core:latest copying files."
   cp /usr/bin/dumb-init ./dumb-init
   info2 "skiff/core:latest building."
+  cat ../base/Dockerfile >> Dockerfile
+  cat ../base/startup.sh > startup.sh
   docker build -t "skiff/core:latest" .
 fi
 

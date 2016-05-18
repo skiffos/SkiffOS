@@ -1,8 +1,13 @@
 #!/bin/bash
 cd /
-
-CMD=${SSH_ORIGINAL_COMMAND:-/bin/sh}
+CMD=/bin/sh
+DOCKER_EXEC_ARGS=-i
 CONT_NAME=skiff_$(whoami)
+
+if [ "$1" = "-c" ]; then
+  shift
+  CMD="$@"
+fi
 
 check_container_running() {
   if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} $CONT_NAME 2> /dev/null) && [ "$CONTAINER_IS_RUNNING" = "true" ]; then
@@ -29,15 +34,19 @@ if ! check_container_running; then
   done
 fi
 
-[ -t 1 ] && DOCKER_EXEC_ARGS="-t"
+[ -t 1 ] && DOCKER_EXEC_ARGS+=" -t"
 
 # Wait for the lock file to be deleted
 # Note this will also fail if the docker container dies
 # So we can't get stuck here forever
-while eval "docker exec -u $(whoami) -i $DOCKER_EXEC_ARGS $CONT_ID stat /.container_startup_in_progress" > /dev/null 2>&1
+while eval "docker exec $DOCKER_EXEC_ARGS $CONT_NAME stat /.container_startup_in_progress" > /dev/null 2>&1
 do
   # Wait a bit before checking again
   sleep 0.5
 done
 
-eval "docker exec -u $(whoami) -i $DOCKER_EXEC_ARGS $CONT_NAME $CMD"
+# Check if the user exists in the container
+if eval "docker exec -i $DOCKER_EXEC_ARGS $CONT_NAME id -u $(whoami)" > /dev/null 2>&1; then
+  DOCKER_EXEC_ARGS+=" -u $(whoami)"
+fi
+eval "docker exec $DOCKER_EXEC_ARGS $CONT_NAME $CMD"

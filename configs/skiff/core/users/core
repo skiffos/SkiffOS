@@ -1,1 +1,1 @@
-core -1 core -1 ! - /usr/bin/ecshell docker SkiffOS Core user
+core -1 core -1 ! /home/core /usr/bin/ecshell docker,systemd-journal SkiffOS Core user

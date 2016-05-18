@@ -34,6 +34,16 @@ Here's what happens when a Skiff system boots:
  - **Networking Init**: the networking subsystem is initialized and configured.
  - **Docker Init**: the Docker partition is mounted and the daemon launched.
 
+Access
+======
+
+The system on boot will generate the authorized_keys file for root.
+
+It takes SSH public key files (`*.pub`) from these locations:
+
+ - `/etc/skiff/authorized_keys` from inside the image
+ - `skiff/keys` from inside the persist partition
+
 Crew App Management
 ===================
 
@@ -44,16 +54,14 @@ User Environment Containers
 
 Users can work within a familiar, traditional, persistent OS environment if desired. This is called the "core" user within Skiff. If this feature is enabled:
 
- - A **core** app is created within Crew.
- - Users push to the **core** app a "core environment" which is essentially a repository with a Dockerfile which describes the desired system environment. This can be Ubuntu, Alpine, Arch, or any other environment runnable under Docker.
+ - On first boot, the system will build the **core** container image.
  - SSH connections to the **core** user are dropped into the Docker container seamlessly.
 
 This allows virtually any workflow to be migrated to Skiff with almost no effort.
 
 You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` list.
 
-You can set `SKIFF_CORE_ENVIRONMENT` to a path to a tree containing a Dockerfile. This tree will be copied
-to the target system and used to build the core env.
+To customize the core environment, add another config that places a Dockerfile and any associated files in the root filesystem at /opt/skiff/coreenv/user
 
 Note that the `CMD` will be overridden. If you would like to specify a script to run on container start you can place it at /core-startup.sh in the container.
 
