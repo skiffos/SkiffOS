@@ -63,6 +63,8 @@ You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` lis
 
 To customize the core environment, add another config that places a Dockerfile and any associated files in the root filesystem at /opt/skiff/coreenv/user
 
+You can also customize the core environment by placing a Dockerfile and any associated files on the persist partition at `skiff/coreenv`.
+
 Note that the `CMD` will be overridden. If you would like to specify a script to run on container start you can place it at /core-startup.sh in the container.
 
 Make sure `/core-startup.sh` actually exits as all connections into the container will be held until it finishes.

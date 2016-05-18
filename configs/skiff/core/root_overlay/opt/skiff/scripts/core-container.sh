@@ -20,8 +20,14 @@ TARGET_CORE_MNT=/mnt/core
 CORE_PERSIST=$PERSIST_MNT/core
 SKIFF_DIR=/opt/skiff
 COREENV_DIR=$SKIFF_DIR/coreenv/user
+COREENV_OVERRIDE_DIR=$PERSIST_MNT/skiff/coreenv
 SKIFF_SCRIPTS_DIR=$SKIFF_DIR/scripts
 HOME_DIR=/home/core
+
+if [ -d $COREENV_OVERRIDE_DIR ]; then
+  echo "Using coreenv files from $COREENV_OVERRIDE_DIR."
+  rsync -rav $COREENV_OVERRIDE_DIR/ $COREENV_DIR/
+fi
 
 mkdir -p $HOME_DIR
 if [ -d $HOME_DIR/.ssh ]; then
