@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 exec 5>&1
+chown -R root:systemd-journal /var/log/journal/
 
 info1() {
   echo " --> $1"
@@ -74,6 +75,8 @@ if [ -z "$IMAGES" ]; then
   cat ../base/startup.sh > startup.sh
   docker build -t "skiff/core:latest" .
 fi
+
+chown -R root:systemd-journal /var/log/journal/
 
 if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} skiff_core); then
   if [ "$CONTAINER_IS_RUNNING" = "true" ]; then
