@@ -1,0 +1,43 @@
+#!/bin/bash
+cd /
+
+CMD=${SSH_ORIGINAL_COMMAND:-/bin/sh}
+CONT_NAME=skiff_$(whoami)
+
+check_container_running() {
+  if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} $CONT_NAME 2> /dev/null) && [ "$CONTAINER_IS_RUNNING" = "true" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+if ! check_container_running; then
+  echo "======================"
+  echo "Container not running."
+  if ! [ "$CONT_NAME" = "skiff_core" ]; then
+    echo "you are not core, exiting."
+    echo "======================"
+    exit 1
+  fi
+  echo "Showing setup logs now."
+  echo "======================"
+  journalctl -fu skiff-core.service &
+  LOGS_PID=$!
+  until check_container_running; do
+    sleep 1
+  done
+fi
+
+[ -t 1 ] && DOCKER_EXEC_ARGS="-t"
+
+# Wait for the lock file to be deleted
+# Note this will also fail if the docker container dies
+# So we can't get stuck here forever
+while eval "docker exec -u $(whoami) -i $DOCKER_EXEC_ARGS $CONT_ID stat /.container_startup_in_progress" > /dev/null 2>&1
+do
+  # Wait a bit before checking again
+  sleep 0.5
+done
+
+eval "docker exec -u $(whoami) -i $DOCKER_EXEC_ARGS $CONT_NAME $CMD"

@@ -52,6 +52,9 @@ kern_conf=$kern_dir/config
 mkdir -p $kern_dir
 touch $kern_conf
 
+users_conf=$SKIFF_FINAL_CONFIG_DIR/users
+touch $users_conf
+
 # Make the scripts wrappers
 bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
 post_build_script=$SKIFF_FINAL_CONFIG_DIR/post_build.sh
@@ -82,6 +85,7 @@ for confp in "${confpaths[@]}"; do
   br_confp=$confp/buildroot
   kern_confp=$confp/kernel
   rootfsp=$confp/root_overlay
+  usersp=$confp/users
   if [ -d "$br_confp" ]; then
     for file in $(ls -v $br_confp); do
       # echo "Merging in config file $file"
@@ -101,6 +105,11 @@ for confp in "${confpaths[@]}"; do
   if [ -d "$rootfsp" ]; then
     echo "Adding root overlay directory..."
     rootfs_overlays+=("$rootfsp")
+  fi
+  if [ -d "$usersp" ]; then
+    for file in $(ls -v $usersp); do
+      cat $usersp/$file >> $users_conf
+    done
   fi
   pre_hook_pat="$confp/hooks/pre.sh"
   if [ -f "$pre_hook_pat" ]; then

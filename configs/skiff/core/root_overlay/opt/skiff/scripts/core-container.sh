@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-set -x
 exec 5>&1
 
 info1() {
@@ -67,5 +66,6 @@ if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} skiff_core); then
   fi
 else
   info2 "Starting new skiff core attached..."
-  docker run --name=skiff_core -t skiff/core:latest
+  mkdir -p $CORE_PERSIST
+  docker run --name=skiff_core -v $CORE_PERSIST:$TARGET_CORE_MNT -t skiff/core:latest
 fi
