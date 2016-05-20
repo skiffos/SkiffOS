@@ -80,6 +80,10 @@ if [ -d $PERSIST_MNT/skiff/wifi ]; then
   cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
 fi
 
+if [ -d $PERSIST_MNT/skiff/network ]; then
+  cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
+fi
+
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald

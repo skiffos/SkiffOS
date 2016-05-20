@@ -3,6 +3,10 @@ touch /.container_startup_in_progress
 
 echo " --> initializing skiff core..."
 
+if [ -d /host ]; then
+  mount --rbind /host/proc /proc || true
+fi
+
 if [ -f /core-startup.sh ]; then
   chmod +x /core-startup.sh
   /core-startup.sh || true
