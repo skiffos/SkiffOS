@@ -76,6 +76,10 @@ rm -rf /tmp/skiff_ssh_keys
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
 
+if [ -d $PERSIST_MNT/skiff/wifi ]; then
+  cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
+fi
+
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald

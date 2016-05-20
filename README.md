@@ -30,9 +30,31 @@ Here's what happens when a Skiff system boots:
 
  - **Bootloader**: the u-boot (or similar) boot-loader executes, loading the OS image into RAM and executing the kernel.
  - **Kernel Load**: any required kernel modules are inserted.
- - **RootFS Overlay**: optionally, the rootfs overlay drive is mounted and copied into the in-memory filesystem tree.
  - **Networking Init**: the networking subsystem is initialized and configured.
  - **Docker Init**: the Docker partition is mounted and the daemon launched.
+
+WiFi
+====
+
+You can configure WiFi at OS build time or at runtime. It's recommended to have a configuration package with your WiFi settings, but you might want to tweak them later.
+
+Skiff will load any wpa supplicant configs from the persist partition at `skiff/wifi`.
+
+Here is an example file, `wpa_supplicant_wlan0.conf`. You can generate the entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
+
+```
+ctrl_interface=/var/run/wpa_supplicant
+eapol_version=1
+ap_scan=1
+fast_reauth=1
+
+# Put networks here.
+network={
+  ssid="Example_Network"
+  psk=1b1069f468f6f7b2492c659802676074c3e69026e79c4d64f2c6d3d5a0ae1866
+}
+```
+
 
 Access
 ======
