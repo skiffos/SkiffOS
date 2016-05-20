@@ -126,16 +126,16 @@ Here are some other unmentioned env variables:
 
  - `SKIFF_NO_INTERACTIVE`: Auto-confirm all interactive prompts
 
-Example: Odroid U3
+Example: Odroid XU4
 ==================
 
-As an example, here's how to build SkiffOS for the ODROID U3.
+As an example, here's how to build SkiffOS for the ODROID XUr.
 
 Set the config setting `SKIFF_CONFIG` and the workspace `SKIFF_WORKSPACE` and kick off the build:
 
 ```
 export SKIFF_WORKSPACE=tutorial
-SKIFF_CONFIG=odroid/u make compile
+SKIFF_CONFIG=odroid/xu4,skiff/core make compile
 ```
 
 You have to set `SKIFF_WORKSPACE` always, as this tells Skiff which workspace to use. However, Skiff will remember which config chain you used for the workspace, so you don't need to set it multiple times.
