@@ -88,6 +88,14 @@ if [ -d $PERSIST_MNT/skiff/network ]; then
   cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
 fi
 
+if [ -f $PERSIST_MNT/skiff/hostname ]; then
+  OHOSTNAME=$(cat /etc/hostname)
+  NHOSTNAME=$(cat $PERSIST_MNT/skiff/hostname)
+  sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
+  echo "$NHOSTNAME" > /etc/hostname
+  hostname $NHOSTNAME
+fi
+
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald

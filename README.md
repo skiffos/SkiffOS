@@ -76,6 +76,11 @@ Gateway=192.168.1.1
 
 At runtime you can use `networkctl` to get information.
 
+Hostname
+========
+
+You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your configs.
+
 Access
 ======
 
