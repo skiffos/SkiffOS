@@ -80,7 +80,7 @@ mkfs.ext4 ${ODROID_SD}2
 e2label ${ODROID_SD}2 rootfs
 
 echo "Making persist partition..."
-parted $ODROID_SD -- mkpart primary ext4 210MiB "-1GiB"
+parted $ODROID_SD -- mkpart primary ext4 210MiB "-2GiB"
 mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 
