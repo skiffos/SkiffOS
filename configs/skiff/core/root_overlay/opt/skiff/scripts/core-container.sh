@@ -29,6 +29,8 @@ if [ -d $COREENV_OVERRIDE_DIR ]; then
   rsync -rav $COREENV_OVERRIDE_DIR/ $COREENV_DIR/
 fi
 
+rm -rf $PERSIST_MNT/tmp/crewscratch || true
+
 mkdir -p $HOME_DIR
 if [ -d $HOME_DIR/.ssh ]; then
   rm -rf $HOME_DIR/.ssh
@@ -43,9 +45,6 @@ info2 "Verifying skiff/core:latest image is built..."
 IMAGES=$(docker images | sed 1d | grep "latest" | cut -d" " -f1 | grep "skiff/core") || true
 if [ -z "$IMAGES" ]; then
   info2 "skiff/core:latest not found, attempting to scratch build it at $COREENV_DIR"
-  if [ -d $PERSIST_MNT/tmp/crewscratch ]; then
-    rm -rf $PERSIST_MNT/tmp/crewscratch || true
-  fi
   cd $COREENV_DIR
   if [ -f /run/skiff_core/Dockerfile.bak ]; then
     cp /run/skiff_core/Dockerfile.bak Dockerfile
