@@ -77,12 +77,14 @@ chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
 
 RESTART_NETWORKD=""
+RESTART_WPA=""
 if [ -d $PERSIST_MNT/skiff/wifi ]; then
-  RESTART_NETWORKD="yes"
+  RESTART_WPA="yes"
   cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
 fi
 
 if [ -d $PERSIST_MNT/skiff/network ]; then
+  RESTART_NETWORKD="yes"
   cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
 fi
 
@@ -91,6 +93,9 @@ systemctl daemon-reload
 systemctl restart systemd-journald
 if [ -n "$RESTART_NETWORKD" ] && systemctl is-active systemd-networkd; then
   systemctl restart systemd-networkd
+fi
+if [ -n "$RESTART_WPA" ]; then
+  systemctl restart wpa_supplicant*.service
 fi
 if systemctl is-active docker ; then
   systemctl restart docker
