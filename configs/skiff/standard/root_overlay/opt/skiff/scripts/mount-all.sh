@@ -92,3 +92,6 @@ systemctl restart systemd-journald
 if [ -n "$RESTART_NETWORKD" ]; then
   systemctl restart systemd-networkd || true
 fi
+if systemctl is-active docker ; then
+  systemctl restart docker
+fi
