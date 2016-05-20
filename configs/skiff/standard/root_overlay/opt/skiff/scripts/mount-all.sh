@@ -89,8 +89,8 @@ fi
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald
-if [ -n "$RESTART_NETWORKD" ]; then
-  systemctl restart systemd-networkd || true
+if [ -n "$RESTART_NETWORKD" ] && systemctl is-active systemd-networkd; then
+  systemctl restart systemd-networkd
 fi
 if systemctl is-active docker ; then
   systemctl restart docker
