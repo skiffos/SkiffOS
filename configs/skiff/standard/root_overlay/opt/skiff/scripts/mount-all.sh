@@ -98,13 +98,7 @@ fi
 
 touch $INIT_ONCE
 systemctl daemon-reload
-systemctl restart systemd-journald
-if [ -n "$RESTART_NETWORKD" ] && systemctl is-active systemd-networkd; then
-  systemctl restart systemd-networkd
-fi
-if [ -n "$RESTART_WPA" ]; then
-  systemctl restart wpa_supplicant*.service
-fi
-if systemctl is-active docker ; then
-  systemctl restart docker
-fi
+systemctl restart systemd-journald || true
+systemctl restart systemd-networkd || true
+systemctl restart wpa_supplicant*.service || true
+systemctl restart docker || true
