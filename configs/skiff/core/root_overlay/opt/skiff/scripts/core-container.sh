@@ -72,6 +72,7 @@ if [ -z "$IMAGES" ]; then
     fi
     VER_IMG_VERSION=$(docker images | sed 1d | tr -s ' ' | grep "$FROM_IMG_NOVER" | cut -d" " -f2 | grep -m1 "$FROM_IMG_VERSION") || true
     info2 "$FROM_IMG scratch building."
+    export CREW_IGNORE_EXISTING_SBDIR="true"
     chmod +x $SKIFF_SCRIPTS_DIR/scratchbuild.bash
     IMAGE=$($SKIFF_SCRIPTS_DIR/scratchbuild.bash build $FROM_IMG | tee >(cat - >&5) | tail -n1)
     sed -i -e "s#FROM .*#FROM ${IMAGE}#" Dockerfile
