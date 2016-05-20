@@ -58,9 +58,11 @@ network={
 Static IP
 =========
 
-To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/wlan0.network`
+To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/00-wlan0.network`
 
-For example, `wlan0.network`:
+The file should be prefixed with `00-`.
+
+For example, `00-wlan0.network`:
 
 ```
 [Match]
@@ -68,9 +70,11 @@ Name=wlan0
 
 [Network]
 DNS=8.8.8.8
-Address=192.168.1.119/24
+Address=192.168.1.119
 Gateway=192.168.1.1
 ```
+
+At runtime you can use `networkctl` to get information.
 
 Access
 ======
