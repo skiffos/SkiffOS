@@ -86,7 +86,7 @@ e2label ${ODROID_SD}3 persist
 
 echo "Making swap partition..."
 
-parted $ODROID_SD -- mkpart primary linux-swap "-1Gib" "-0"
+parted $ODROID_SD -- mkpart primary linux-swap "-2Gib" "-0"
 mkswap ${ODROID_SD}4
 swaplabel -L swap ${ODROID_SD}4
 
