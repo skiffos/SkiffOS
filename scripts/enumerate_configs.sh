@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-source ../scripts/utils.sh
+. ../scripts/utils.sh
 
 echo -e "Discovered Skiff configs:"
 

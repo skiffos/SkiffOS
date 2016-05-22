@@ -1,8 +1,8 @@
 #!/bin/bash
 # should be run within the configs dir
 
-source ../scripts/utils.sh
-source ../scripts/enumerate_configs.sh > /dev/null
+. ../scripts/utils.sh
+. ../scripts/enumerate_configs.sh > /dev/null
 
 # Look through all SKIFF_PACKAGE_ENV_PREFIX variables
 IFS=' '

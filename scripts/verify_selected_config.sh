@@ -5,7 +5,7 @@ errecho() {
 
 # Assume we are in configs dir
 if [ -z "$SKIFF_HAS_ENUMERATED_CONFIGS" ]; then
-  source ../scripts/enumerate_configs.sh
+  . ../scripts/enumerate_configs.sh
 fi
 
 if [ -z "$SKIFF_CONFIG" ]; then

@@ -6,6 +6,9 @@ warn:
 cmd/%:
 	@$(SKIFF_SCRIPTS_DIR)/execute_command.sh $@
 
+help:
+	@cd $(SKIFF_SCRIPTS_DIR) && $(SKIFF_SCRIPTS_DIR)/print_help.sh
+
 ensure-submodule:
 	@$(SKIFF_SCRIPTS_DIR)/ensure_submodule.sh
 
