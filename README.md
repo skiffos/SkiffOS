@@ -69,9 +69,9 @@ For example, `00-wlan0.network`:
 Name=wlan0
 
 [Network]
-DNS=8.8.8.8
-Address=192.168.1.119
+Address=192.168.1.119/24
 Gateway=192.168.1.1
+DNS=8.8.8.8
 ```
 
 At runtime you can use `networkctl` to get information.
