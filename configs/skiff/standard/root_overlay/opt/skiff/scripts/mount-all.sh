@@ -21,6 +21,7 @@ PERSIST_DRIVE=$(echo "$DRIVES" | grep "LABEL=\"persist\"")
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
 DOCKER_PERSIST=$SKIFF_PERSIST/docker
+SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
 
 # Grab the default docker execstart
@@ -38,6 +39,7 @@ if [ -n "$PERSIST_DRIVE" ]; then
     mkdir -p $SKIFF_PERSIST
     mkdir -p $DOCKER_PERSIST
     mkdir -p $JOURNAL_PERSIST
+    mkdir -p $SSH_PERSIST
     echo "Configuring Docker to use $DOCKER_PERSIST"
     DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
     echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
@@ -46,6 +48,14 @@ if [ -n "$PERSIST_DRIVE" ]; then
     fi
     ln -s $JOURNAL_PERSIST /var/log/journal
     chown -R root:systemd-journal /var/log/journal/
+
+    if [ ! -f $SSH_PERSIST/sshd_config ]; then
+      cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
+    fi
+    if [ ! -f $SSH_PERSIST/ssh_config ]; then
+      cp /etc/ssh/ssh_config $SSH_PERSIST/ssh_config
+    fi
+    mount --rbind $SSH_PERSIST /etc/ssh
   fi
 else
   echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
@@ -102,3 +112,4 @@ systemctl restart systemd-journald || true
 systemctl restart systemd-networkd || true
 systemctl restart wpa_supplicant*.service || true
 systemctl restart docker || true
+systemctl restart sshd || true
