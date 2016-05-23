@@ -16,7 +16,7 @@ if ! parted -h > /dev/null; then
   exit 1
 fi
 
-if ! mkfs.msdos -F 32 --help > /dev/null; then
+if ! command -v mkfs.msdos >/dev/null 2>&1; then
   echo "Please install 'mkfs.msdos' and try again."
   exit 1
 fi
