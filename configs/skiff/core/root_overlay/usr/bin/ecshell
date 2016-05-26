@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /
-CMD=/bin/sh
+CMD=
 DOCKER_EXEC_ARGS=-i
 CONT_NAME=skiff_$(whoami)
 
@@ -48,5 +48,17 @@ done
 # Check if the user exists in the container
 if eval "docker exec -i $DOCKER_EXEC_ARGS $CONT_NAME id -u $(whoami)" > /dev/null 2>&1; then
   DOCKER_EXEC_ARGS+=" -u $(whoami)"
+  # Check the user's shell if needed
+  if [ -z "$CMD" ]; then
+    if ! CMD=$(docker exec -i $DOCKER_EXEC_ARGS $CONT_NAME /bin/sh -c "getent passwd $(whoami)" | cut -d: -f7 | xargs echo); then
+      CMD=/bin/sh
+    fi
+  fi
 fi
+
+if [ -z "$CMD" ]; then
+  CMD=/bin/sh
+fi
+
 eval "docker exec $DOCKER_EXEC_ARGS $CONT_NAME $CMD"
+
