@@ -91,10 +91,6 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
-Crew App Management
-===================
-
-Optionally, Skiff can use a minimal fork of Dokku named [Crew](http://github.com/paralin/crew) to build and manage Docker-based apps. Users can simply Git Push to the system to trigger a docker image build and deploy to the embedded environment. See the Crew repository for additional details.
 
 User Environment Containers
 ===========================
