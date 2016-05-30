@@ -13,11 +13,11 @@ if [ -f $INIT_ONCE ]; then
   exit 0
 fi
 
-DRIVES=$(blkid)
 SYSTEMD_CONFD=/etc/systemd/system
 DOCKER_CONFD=/etc/systemd/system/docker.service.d
 PERSIST_MNT=/mnt/persist
-PERSIST_DRIVE=$(echo "$DRIVES" | grep "LABEL=\"persist\"")
+ROOTFS_MNT=/mnt/rootfs
+
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
 DOCKER_PERSIST=$SKIFF_PERSIST/docker
@@ -30,36 +30,39 @@ DOCKER_EXECSTART=$(cat /usr/lib/systemd/system/docker.service | grep '^ExecStart
 mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
-if [ -n "$PERSIST_DRIVE" ]; then
-  if ! mountpoint -q $PERSIST_MNT; then
-    PERSIST_DEV=$(echo "$PERSIST_DRIVE" | cut -d: -f1)
-    echo "Found persist drive $PERSIST_DEV, mounting to $PERSIST_MNT"
-    mkdir -p $PERSIST_MNT
-    mount $PERSIST_DEV $PERSIST_MNT
-    mkdir -p $SKIFF_PERSIST
-    mkdir -p $DOCKER_PERSIST
-    mkdir -p $JOURNAL_PERSIST
-    mkdir -p $SSH_PERSIST
-    echo "Configuring Docker to use $DOCKER_PERSIST"
-    DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
-    echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
-    if [ -d /var/log/journal ]; then
-      rm -rf /var/log/journal || true
-    fi
-    ln -s $JOURNAL_PERSIST /var/log/journal
-    chown -R root:systemd-journal /var/log/journal/
-
-    if [ ! -f $SSH_PERSIST/sshd_config ]; then
-      cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
-    fi
-    if [ ! -f $SSH_PERSIST/ssh_config ]; then
-      cp /etc/ssh/ssh_config $SSH_PERSIST/ssh_config
-    fi
-    mount --rbind $SSH_PERSIST /etc/ssh
+mkdir -p $PERSIST_MNT
+if mount LABEL=persist $PERSIST_MNT; then
+  echo "Found and mounted persist drive to $PERSIST_MNT"
+  mkdir -p $SKIFF_PERSIST
+  mkdir -p $DOCKER_PERSIST
+  mkdir -p $JOURNAL_PERSIST
+  mkdir -p $SSH_PERSIST
+  echo "Configuring Docker to use $DOCKER_PERSIST"
+  DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
+  echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
+  if [ -d /var/log/journal ]; then
+    rm -rf /var/log/journal || true
   fi
+  ln -s $JOURNAL_PERSIST /var/log/journal
+  chown -R root:systemd-journal /var/log/journal/
+
+  if [ ! -f $SSH_PERSIST/sshd_config ]; then
+    cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
+  fi
+  if [ ! -f $SSH_PERSIST/ssh_config ]; then
+    cp /etc/ssh/ssh_config $SSH_PERSIST/ssh_config
+  fi
+  mount --rbind $SSH_PERSIST /etc/ssh
 else
   echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
   mkdir -p /var/log/journal
+fi
+
+mkdir -p $ROOTFS_MNT
+if mount LABEL=rootfs $ROOTFS_MNT; then
+  echo "Found and mounted rootfs drive to $PERSIST_MNT"
+else
+  echo "Unable to find drive with label \"rootfs\"!"
 fi
 
 if modprobe aufs; then
