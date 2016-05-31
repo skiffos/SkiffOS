@@ -75,12 +75,12 @@ mkfs.msdos -F 32 ${ODROID_SD}1
 mlabel -i ${ODROID_SD}1 ::boot
 
 echo "Making rootfs partition..."
-parted $ODROID_SD mkpart primary ext4 50MiB 210MiB
+parted $ODROID_SD mkpart primary ext4 50MiB 310MiB
 mkfs.ext4 ${ODROID_SD}2
 e2label ${ODROID_SD}2 rootfs
 
 echo "Making persist partition..."
-parted $ODROID_SD -- mkpart primary ext4 210MiB "-2GiB"
+parted $ODROID_SD -- mkpart primary ext4 310MiB "-2GiB"
 mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 
