@@ -113,6 +113,3 @@ touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald || true
 systemctl restart systemd-networkd || true
-systemctl restart wpa_supplicant*.service || true
-systemctl restart docker || true
-systemctl restart sshd || true
