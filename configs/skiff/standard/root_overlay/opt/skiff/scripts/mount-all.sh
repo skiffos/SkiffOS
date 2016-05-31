@@ -59,7 +59,7 @@ else
 fi
 
 mkdir -p $ROOTFS_MNT
-if mount LABEL=rootfs $ROOTFS_MNT; then
+if mount -o ro LABEL=rootfs $ROOTFS_MNT; then
   echo "Found and mounted rootfs drive to $PERSIST_MNT"
 else
   echo "Unable to find drive with label \"rootfs\"!"

@@ -2,6 +2,7 @@
 Description=SkiffOS core container
 Requires=docker.service
 Requires=skiff-init.service
+After=skiff-init.service
 
 [Service]
 Type=simple

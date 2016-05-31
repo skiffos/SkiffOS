@@ -1,5 +1,7 @@
 [Unit]
 Description=SkiffOS early-init
+Before=docker.service
+Before=sshd.service
 
 [Service]
 Type=oneshot
