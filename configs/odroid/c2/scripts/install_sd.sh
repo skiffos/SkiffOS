@@ -69,6 +69,11 @@ echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group $uinit_path $rootfs_dir/uInitrd
 sync
 
+echo "Copying resources..."
+mkdir -p $rootfs_dir/resources/
+rsync -rav --no-perms --no-owner --no-group $outp_path/images/resources/ $rootfs_dir/resources/
+sync
+
 echo "Copying boot.ini..."
 rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
 sync

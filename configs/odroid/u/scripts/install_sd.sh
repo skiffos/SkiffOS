@@ -75,6 +75,11 @@ echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group $uinit_path $rootfs_dir/uInitrd
 sync
 
+echo "Copying resources..."
+mkdir -p $rootfs_dir/resources/
+rsync -rav --no-perms --no-owner --no-group $outp_path/images/resources/ $rootfs_dir/resources/
+sync
+
 if [ -n "$USE_BOOT_SCR" ]; then
   echo "Compiling boot.txt..."
   $mkimage -A arm -C none -T script -n 'Skiff Odroid U' -d $resources_path/boot-scripts/boot.txt $boot_dir/boot.scr
