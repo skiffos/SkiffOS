@@ -31,7 +31,7 @@ mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
-if mount LABEL=persist $PERSIST_MNT; then
+if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   echo "Found and mounted persist drive to $PERSIST_MNT"
   mkdir -p $SKIFF_PERSIST
   mkdir -p $DOCKER_PERSIST
@@ -52,14 +52,16 @@ if mount LABEL=persist $PERSIST_MNT; then
   if [ ! -f $SSH_PERSIST/ssh_config ]; then
     cp /etc/ssh/ssh_config $SSH_PERSIST/ssh_config
   fi
-  mount --rbind $SSH_PERSIST /etc/ssh
+  if ! mountpoint -q /etc/ssh; then
+    mount --rbind $SSH_PERSIST /etc/ssh
+  fi
 else
   echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
   mkdir -p /var/log/journal
 fi
 
 mkdir -p $ROOTFS_MNT
-if mount -o ro LABEL=rootfs $ROOTFS_MNT; then
+if mountpoint -q $ROOTFS_MNT || mount -o ro LABEL=rootfs $ROOTFS_MNT; then
   echo "Found and mounted rootfs drive to $PERSIST_MNT"
 else
   echo "Unable to find drive with label \"rootfs\"!"
@@ -78,6 +80,7 @@ mkdir -p $KEYS_PERSIST
 echo "Put your SSH keys (*.pub) here." > $KEYS_PERSIST/PUT_KEYS_HERE
 mkdir -p /tmp/skiff_ssh_keys
 mkdir -p /root/.ssh
+touch /root/.ssh/authorized_keys
 cp $KEYS_PERSIST/*.pub /tmp/skiff_ssh_keys 2>/dev/null || true
 cp /etc/skiff/authorized_keys/*.pub /tmp/skiff_ssh_keys 2>/dev/null || true
 if [ "$(ls -A /tmp/skiff_ssh_keys)" ]; then
