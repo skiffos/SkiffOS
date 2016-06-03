@@ -6,3 +6,4 @@ Before=sshd.service
 [Service]
 Type=oneshot
 ExecStart=/opt/skiff/scripts/mount-all.sh
+RemainAfterExit=true
