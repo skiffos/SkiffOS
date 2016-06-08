@@ -1,4 +1,2 @@
 CONFIG_RTL8192CU=m
-
-# Use our external build instead
-CONFIG_RTL8821AU=n
+CONFIG_RTL8821AU=m
