@@ -117,7 +117,7 @@ systemctl daemon-reload
 systemctl restart systemd-journald || true
 
 if [ -n "$RESTART_WPA" ]; then
-  systemctl restart 'wpa_supplicant@*'
+  systemctl restart --no-block 'wpa_supplicant@*'
 fi
 
 systemctl restart systemd-networkd || true
