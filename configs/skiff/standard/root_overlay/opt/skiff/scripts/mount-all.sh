@@ -115,4 +115,9 @@ fi
 touch $INIT_ONCE
 systemctl daemon-reload
 systemctl restart systemd-journald || true
+
+if [ -n "$RESTART_WPA" ]; then
+  systemctl restart 'wpa_supplicant@*'
+fi
+
 systemctl restart systemd-networkd || true

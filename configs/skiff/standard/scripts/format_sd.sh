@@ -40,10 +40,10 @@ if [ ! -f "$ubootimg" ]; then
   exit 1
 fi
 
-if [ ! -b "$ODROID_SD" ]; then
-  echo "$ODROID_SD is not a block device or doesn't exist."
-  exit 1
-fi
+# if [ ! -b "$ODROID_SD" ]; then
+#   echo "$ODROID_SD is not a block device or doesn't exist."
+#   exit 1
+# fi
 
 if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   read -p "Are you sure? This will completely destroy all data. [y/N] " -n 1 -r
@@ -68,19 +68,19 @@ echo "Formatting device..."
 parted $ODROID_SD mklabel msdos
 
 echo "Making boot partition..."
-parted $ODROID_SD mkpart primary fat32 2MiB 50MiB
+parted $ODROID_SD mkpart primary fat32 2MiB 310MiB
 parted $ODROID_SD set 1 boot on
 parted $ODROID_SD set 1 lba on
 mkfs.msdos -F 32 ${ODROID_SD}1
 mlabel -i ${ODROID_SD}1 ::boot
 
 echo "Making rootfs partition..."
-parted $ODROID_SD mkpart primary ext4 50MiB 310MiB
+parted $ODROID_SD mkpart primary ext4 310MiB 500MiB
 mkfs.ext4 ${ODROID_SD}2
 e2label ${ODROID_SD}2 rootfs
 
 echo "Making persist partition..."
-parted $ODROID_SD -- mkpart primary ext4 310MiB "-2GiB"
+parted $ODROID_SD -- mkpart primary ext4 500MiB "-2GiB"
 mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 

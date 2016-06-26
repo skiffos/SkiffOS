@@ -1,0 +1,230 @@
+From 43933d1b317434474103b0fc11fd00c439ea7d8b Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 3 Jun 2016 16:56:42 -0700
+Subject: [PATCH 2/6] Apply aufs4-base
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ MAINTAINERS            | 13 +++++++++++++
+ drivers/block/loop.c   | 18 ++++++++++++++++++
+ fs/dcache.c            |  2 +-
+ fs/fcntl.c             |  4 +++-
+ fs/read_write.c        | 22 ++++++++++++++++++++++
+ fs/splice.c            | 10 +++++-----
+ include/linux/file.h   |  1 +
+ include/linux/fs.h     |  8 ++++++++
+ include/linux/splice.h |  6 ++++++
+ 9 files changed, 77 insertions(+), 7 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9c567a4..a62aea4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2128,6 +2128,19 @@ F:	include/linux/audit.h
+ F:	include/uapi/linux/audit.h
+ F:	kernel/audit*
+ 
++AUFS (advanced multi layered unification filesystem) FILESYSTEM
++M:	"J. R. Okajima" <hooanon05g@gmail.com>
++L:	linux-unionfs@vger.kernel.org
++L:	aufs-users@lists.sourceforge.net (members only)
++W:	http://aufs.sourceforge.net
++T:	git://github.com/sfjro/aufs4-linux.git
++S:	Supported
++F:	Documentation/filesystems/aufs/
++F:	Documentation/ABI/testing/debugfs-aufs
++F:	Documentation/ABI/testing/sysfs-aufs
++F:	fs/aufs/
++F:	include/uapi/linux/aufs_type.h
++
+ AUXILIARY DISPLAY DRIVERS
+ M:	Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+ W:	http://miguelojeda.es/auxdisplay.htm
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 80cf8ad..ba9e4a7 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -712,6 +712,24 @@ static inline int is_loop_device(struct file *file)
+ 	return i && S_ISBLK(i->i_mode) && MAJOR(i->i_rdev) == LOOP_MAJOR;
+ }
+ 
++/*
++ * for AUFS
++ * no get/put for file.
++ */
++struct file *loop_backing_file(struct super_block *sb)
++{
++	struct file *ret;
++	struct loop_device *l;
++
++	ret = NULL;
++	if (MAJOR(sb->s_dev) == LOOP_MAJOR) {
++		l = sb->s_bdev->bd_disk->private_data;
++		ret = l->lo_backing_file;
++	}
++	return ret;
++}
++EXPORT_SYMBOL_GPL(loop_backing_file);
++
+ /* loop sysfs attributes */
+ 
+ static ssize_t loop_attr_show(struct device *dev, char *page,
+diff --git a/fs/dcache.c b/fs/dcache.c
+index d5ecc6e..4de75b2 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -1156,7 +1156,7 @@ enum d_walk_ret {
+  *
+  * The @enter() and @finish() callbacks are called with d_lock held.
+  */
+-static void d_walk(struct dentry *parent, void *data,
++void d_walk(struct dentry *parent, void *data,
+ 		   enum d_walk_ret (*enter)(void *, struct dentry *),
+ 		   void (*finish)(void *))
+ {
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 350a2c8..6f42279 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -29,7 +29,7 @@
+ 
+ #define SETFL_MASK (O_APPEND | O_NONBLOCK | O_NDELAY | O_DIRECT | O_NOATIME)
+ 
+-static int setfl(int fd, struct file * filp, unsigned long arg)
++int setfl(int fd, struct file * filp, unsigned long arg)
+ {
+ 	struct inode * inode = file_inode(filp);
+ 	int error = 0;
+@@ -60,6 +60,8 @@ static int setfl(int fd, struct file * filp, unsigned long arg)
+ 
+ 	if (filp->f_op->check_flags)
+ 		error = filp->f_op->check_flags(arg);
++	if (!error && filp->f_op->setfl)
++		error = filp->f_op->setfl(filp, arg);
+ 	if (error)
+ 		return error;
+ 
+diff --git a/fs/read_write.c b/fs/read_write.c
+index cf377cf..0ebcdc5 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -534,6 +534,28 @@ ssize_t __vfs_write(struct file *file, const char __user *p, size_t count,
+ }
+ EXPORT_SYMBOL(__vfs_write);
+ 
++vfs_readf_t vfs_readf(struct file *file)
++{
++	const struct file_operations *fop = file->f_op;
++
++	if (fop->read)
++		return fop->read;
++	if (fop->read_iter)
++		return new_sync_read;
++	return ERR_PTR(-ENOSYS);
++}
++
++vfs_writef_t vfs_writef(struct file *file)
++{
++	const struct file_operations *fop = file->f_op;
++
++	if (fop->write)
++		return fop->write;
++	if (fop->write_iter)
++		return new_sync_write;
++	return ERR_PTR(-ENOSYS);
++}
++
+ ssize_t __kernel_write(struct file *file, const char *buf, size_t count, loff_t *pos)
+ {
+ 	mm_segment_t old_fs;
+diff --git a/fs/splice.c b/fs/splice.c
+index dd9bf7e..9326c2a 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -1111,8 +1111,8 @@ EXPORT_SYMBOL(generic_splice_sendpage);
+ /*
+  * Attempt to initiate a splice from pipe to file.
+  */
+-static long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
+-			   loff_t *ppos, size_t len, unsigned int flags)
++long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
++		    loff_t *ppos, size_t len, unsigned int flags)
+ {
+ 	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *,
+ 				loff_t *, size_t, unsigned int);
+@@ -1128,9 +1128,9 @@ static long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
+ /*
+  * Attempt to initiate a splice from a file to a pipe.
+  */
+-static long do_splice_to(struct file *in, loff_t *ppos,
+-			 struct pipe_inode_info *pipe, size_t len,
+-			 unsigned int flags)
++long do_splice_to(struct file *in, loff_t *ppos,
++		  struct pipe_inode_info *pipe, size_t len,
++		  unsigned int flags)
+ {
+ 	ssize_t (*splice_read)(struct file *, loff_t *,
+ 			       struct pipe_inode_info *, size_t, unsigned int);
+diff --git a/include/linux/file.h b/include/linux/file.h
+index f87d308..9a290b3 100644
+--- a/include/linux/file.h
++++ b/include/linux/file.h
+@@ -19,6 +19,7 @@ struct dentry;
+ struct path;
+ extern struct file *alloc_file(struct path *, fmode_t mode,
+ 	const struct file_operations *fop);
++extern struct file *get_empty_filp(void);
+ 
+ static inline void fput_light(struct file *file, int fput_needed)
+ {
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 70e61b5..351bb05 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1277,6 +1277,7 @@ extern void fasync_free(struct fasync_struct *);
+ /* can be called from interrupts */
+ extern void kill_fasync(struct fasync_struct **, int, int);
+ 
++extern int setfl(int fd, struct file * filp, unsigned long arg);
+ extern void __f_setown(struct file *filp, struct pid *, enum pid_type, int force);
+ extern void f_setown(struct file *filp, unsigned long arg, int force);
+ extern void f_delown(struct file *filp);
+@@ -1660,6 +1661,7 @@ struct file_operations {
+ 	ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int);
+ 	unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+ 	int (*check_flags)(int);
++	int (*setfl)(struct file *, unsigned long);
+ 	int (*flock) (struct file *, int, struct file_lock *);
+ 	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
+ 	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
+@@ -1718,6 +1720,12 @@ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+ 			      struct iovec *fast_pointer,
+ 			      struct iovec **ret_pointer);
+ 
++typedef ssize_t (*vfs_readf_t)(struct file *, char __user *, size_t, loff_t *);
++typedef ssize_t (*vfs_writef_t)(struct file *, const char __user *, size_t,
++				loff_t *);
++vfs_readf_t vfs_readf(struct file *file);
++vfs_writef_t vfs_writef(struct file *file);
++
+ extern ssize_t __vfs_read(struct file *, char __user *, size_t, loff_t *);
+ extern ssize_t __vfs_write(struct file *, const char __user *, size_t, loff_t *);
+ extern ssize_t vfs_read(struct file *, char __user *, size_t, loff_t *);
+diff --git a/include/linux/splice.h b/include/linux/splice.h
+index da2751d..2e0fca6 100644
+--- a/include/linux/splice.h
++++ b/include/linux/splice.h
+@@ -83,4 +83,10 @@ extern void splice_shrink_spd(struct splice_pipe_desc *);
+ extern void spd_release_page(struct splice_pipe_desc *, unsigned int);
+ 
+ extern const struct pipe_buf_operations page_cache_pipe_buf_ops;
++
++extern long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
++			   loff_t *ppos, size_t len, unsigned int flags);
++extern long do_splice_to(struct file *in, loff_t *ppos,
++			 struct pipe_inode_info *pipe, size_t len,
++			 unsigned int flags);
+ #endif
+-- 
+2.7.3
+
