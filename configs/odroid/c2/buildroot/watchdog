@@ -1,0 +1,2 @@
+# Enable after some testing:
+# BR2_PACKAGE_BUSYBOX_WATCHDOG is not set
