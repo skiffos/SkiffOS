@@ -146,6 +146,6 @@ rm $BUILDROOT_DIR/.config 2>/dev/null || true
 mv $BUILDROOT_DIR/.config $SKIFF_FINAL_CONFIG_DIR/final/buildroot
 ln -fs $SKIFF_FINAL_CONFIG_DIR/final/buildroot $BUILDROOT_DIR/.config
 
-echo "${ACTION_COLOR}Re-generating defconfig...$RESET_COLOR"
+# echo "${ACTION_COLOR}Re-generating defconfig...$RESET_COLOR"
 # regen defconfig
-(cd $BUILDROOT_DIR && make savedefconfig BR2_DEFCONFIG=$SKIFF_FINAL_CONFIG_DIR/defconfig/buildroot)
+# (cd $BUILDROOT_DIR && make savedefconfig BR2_DEFCONFIG=$SKIFF_FINAL_CONFIG_DIR/defconfig/buildroot)
