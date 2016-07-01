@@ -150,7 +150,7 @@ Here are some other unmentioned env variables:
 Example: Odroid XU4
 ==================
 
-As an example, here's how to build SkiffOS for the ODROID XUr.
+As an example, here's how to build SkiffOS for the ODROID XU4.
 
 Set the config setting `SKIFF_CONFIG` and the workspace `SKIFF_WORKSPACE` and kick off the build:
 
