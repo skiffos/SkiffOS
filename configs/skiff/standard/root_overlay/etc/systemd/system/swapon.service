@@ -1,9 +1,8 @@
 [Unit]
 Description=Turn on swap
+Requires=skiff-init.service
+After=skiff-init.service
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/swapon LABEL=swap
-
-[Install]
-WantedBy=swap.target
+ExecStart=/opt/skiff/scripts/enable-swap.sh
