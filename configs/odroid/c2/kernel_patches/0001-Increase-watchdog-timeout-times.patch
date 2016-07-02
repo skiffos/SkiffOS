@@ -1,0 +1,35 @@
+From 2571b31bb1b1c0897461bc4b640613918c06b09e Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 1 Jul 2016 20:04:01 -0700
+Subject: [PATCH] Increase watchdog timeout times
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/arm64/boot/dts/amlogic/mesongxbb.dtsi | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/amlogic/mesongxbb.dtsi b/arch/arm64/boot/dts/amlogic/mesongxbb.dtsi
+index e954bcc..4deda36 100755
+--- a/arch/arm64/boot/dts/amlogic/mesongxbb.dtsi
++++ b/arch/arm64/boot/dts/amlogic/mesongxbb.dtsi
+@@ -298,13 +298,12 @@
+ 
+ 	amlwatchdog: amlogic-watchdog{
+ 		compatible = "amlogic, gx-wdt";
+-		status = "disable";
+-		default_timeout = <10>;
++		default_timeout = <25>;
+ 		reset_watchdog_method = <1>;//0:sysfs,1:kernel
+ 		reset_watchdog_time = <2>;
+-		shutdown_timeout = <10>;
+-		firmware_timeout = <6>;
+-		suspend_timeout = <6>;
++		shutdown_timeout = <30>;
++		firmware_timeout = <20>;
++		suspend_timeout = <20>;
+ 		reg = <0x0 0xc11098d0 0x0 0x10>;
+ 		clocks = <&clock CLK_XTAL>;
+ 	};
+-- 
+2.7.3
+
