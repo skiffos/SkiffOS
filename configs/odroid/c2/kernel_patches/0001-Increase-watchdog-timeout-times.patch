@@ -1,7 +1,7 @@
 From 2571b31bb1b1c0897461bc4b640613918c06b09e Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Fri, 1 Jul 2016 20:04:01 -0700
-Subject: [PATCH] Increase watchdog timeout times
+Subject: [PATCH 1/2] Increase watchdog timeout times
 
 Signed-off-by: Christian Stewart <christian@paral.in>
 ---
