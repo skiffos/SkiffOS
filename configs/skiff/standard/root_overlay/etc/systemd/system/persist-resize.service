@@ -1,0 +1,7 @@
+[Unit]
+Description=SkiffOS resize persist partition
+
+[Service]
+Type=oneshot
+ExecStart=/opt/skiff/scripts/resize-persist.sh
+RemainAfterExit=true
