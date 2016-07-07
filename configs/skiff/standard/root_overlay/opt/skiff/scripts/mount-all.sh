@@ -55,6 +55,10 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   if ! mountpoint -q /etc/ssh; then
     mount --rbind $SSH_PERSIST /etc/ssh
   fi
+  mkdir -p /root/persist
+  if ! mountpoint -q /root/persist; then
+    mount --rbind $PERSIST_MNT /root/persist || true
+  fi
 else
   echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
   mkdir -p /var/log/journal
@@ -77,7 +81,7 @@ printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/exec
 
 echo "Building SSH key list..."
 mkdir -p $KEYS_PERSIST
-echo "Put your SSH keys (*.pub) here." > $KEYS_PERSIST/PUT_KEYS_HERE
+echo "Put your SSH keys (*.pub) here." > $KEYS_PERSIST/readme
 mkdir -p /tmp/skiff_ssh_keys
 mkdir -p /root/.ssh
 touch /root/.ssh/authorized_keys
@@ -97,12 +101,26 @@ RESTART_WPA=""
 if [ -d $PERSIST_MNT/skiff/wifi ]; then
   RESTART_WPA="yes"
   cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
+else
+  mkdir -p $PERSIST_MNT/skiff/wifi
 fi
+echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_MNT/skiff/wifi/readme
 
 if [ -d $PERSIST_MNT/skiff/network ]; then
   RESTART_NETWORKD="yes"
   cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
+else
+  mkdir -p $PERSIST_MNT/skiff/network
+  cp /etc/systemd/network/* $PERSIST_MNT/skiff/network/
 fi
+echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/readme
+
+if [ -d $PERSIST_MNT/skiff/etc ]; then
+  rsync -rav $PERSIST_MNT/skiff/etc/ /etc/
+else
+  mkdir -p $PERSIST_MNT/skiff/etc/
+fi
+echo "Place etc overrides here." > $PERSIST_MNT/skiff/etc/readme
 
 if [ -f $PERSIST_MNT/skiff/hostname ]; then
   OHOSTNAME=$(cat /etc/hostname)
@@ -110,6 +128,8 @@ if [ -f $PERSIST_MNT/skiff/hostname ]; then
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
   hostname $NHOSTNAME
+else
+  hostname > $PERSIST_MNT/skiff/hostname
 fi
 
 touch $INIT_ONCE
