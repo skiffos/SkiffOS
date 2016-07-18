@@ -1,4 +1,0 @@
-# BR2_cortex_a9 is not set
-BR2_cortex_a15_a7=y
-# BR2_ARM_FPU_VFPV3D16 is not set
-BR2_ARM_FPU_NEON_VFPV4=y

@@ -1,5 +1,0 @@
-setenv initrd_high "0xffffffff"
-setenv fdt_high "0xffffffff"
-setenv bootargs "console=tty1 console=ttySAC2,115200n8 root=/dev/initrd ro ramdisk_size=100000 net.ifnames=0 no_console_suspend"
-setenv bootcmd "fatload mmc 0:1 0x40008000 zImage; fatload mmc 0:1 0x43E77E30 devicetree.dtb; fatload mmc 0:1 0x43E84568 uInitrd; bootz 0x40008000 0x43E84568 0x43E77E30"
-boot
