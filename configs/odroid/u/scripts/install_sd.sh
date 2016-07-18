@@ -2,9 +2,6 @@
 
 mkimage="$BUILDROOT_DIR/output/host/usr/bin/mkimage"
 
-# boot.ini hangs right now, use boot.scr
-USE_BOOT_SCR=yes
-
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
@@ -15,11 +12,9 @@ if [ -z "$ODROID_SD" ]; then
   exit 1
 fi
 
-if [ -n "$USE_BOOT_SCR" ]; then
-  if [ ! -f "$mkimage" ]; then
-    echo "uboot-tools not compiled for host in Buildroot."
-    exit 1
-  fi
+if [ ! -f "$mkimage" ]; then
+  echo "uboot-tools not compiled for host in Buildroot."
+  exit 1
 fi
 
 if [ ! -b "$ODROID_SD" ]; then
@@ -82,13 +77,13 @@ if [ -d "$outp_path/images/resources" ]; then
   sync
 fi
 
-if [ -n "$USE_BOOT_SCR" ]; then
-  echo "Compiling boot.txt..."
-  $mkimage -A arm -C none -T script -n 'Skiff Odroid U' -d $resources_path/boot-scripts/boot.txt $boot_dir/boot.scr
-else
-  echo "Copying boot.ini..."
-  rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
+echo "Compiling boot.txt..."
+rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.txt $boot_dir/boot.txt
+if [ -f "$outp_path/images/.disable-serial-console"]; then
+  echo "Disabling serial console..."
+  sed -i "/^setenv condev/s/^/# /" $boot_dir/boot.txt
 fi
+$mkimage -A arm -C none -T script -n 'Skiff Odroid U' -d $boot_dir/boot.txt $boot_dir/boot.scr
 sync
 
 cleanup
