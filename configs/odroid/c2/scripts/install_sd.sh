@@ -77,7 +77,7 @@ if [ -d "$outp_path/images/resources" ]; then
 fi
 
 echo "Copying boot.ini..."
-rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
+cp $resources_path/boot-scripts/boot.ini $boot_dir/boot.ini
 if [ -f "$outp_path/images/.disable-serial-console" ]; then
   echo "Disabling serial console..."
   sed -i "/^setenv condev/s/^/# /" $boot_dir/boot.ini

@@ -78,7 +78,7 @@ if [ -d "$rootfs_dir/resources/" ]; then
 fi
 
 echo "Compiling boot.txt..."
-rsync -rav $resources_path/boot-scripts/boot.txt $boot_dir/boot.txt
+cp $resources_path/boot-scripts/boot.txt $boot_dir/boot.txt
 if [ -f "$outp_path/images/.disable-serial-console" ]; then
   echo "Disabling serial console..."
   sed -i "/^setenv condev/s/^/# /" $boot_dir/boot.txt
