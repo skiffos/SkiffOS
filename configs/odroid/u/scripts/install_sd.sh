@@ -79,7 +79,7 @@ fi
 
 echo "Compiling boot.txt..."
 rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.txt $boot_dir/boot.txt
-if [ -f "$outp_path/images/.disable-serial-console"]; then
+if [ -f "$outp_path/images/.disable-serial-console" ]; then
   echo "Disabling serial console..."
   sed -i "/^setenv condev/s/^/# /" $boot_dir/boot.txt
 fi
