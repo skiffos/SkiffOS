@@ -26,17 +26,23 @@ mke2img -b 194560 -i 48768 $EXT4_OPTS -d $ROOTFS_PATH -l "rootfs" -o $IMAGES_PAT
 if [ -f $IMAGES_PATH/persist.ext4 ]; then
   rm $IMAGES_PATH/persist.ext4
 fi
-mke2img -i 57344 -b 214528 $EXT4_OPTS -d $PERSIST_PATH -l "persist" -o $IMAGES_PATH/persist.ext4
+mke2img -B 10000 $EXT4_OPTS -d $PERSIST_PATH -l "persist" -o $IMAGES_PATH/persist.ext4
 
 # Check filesize
 ROOTFS_SIZE=$(stat --printf="%s" $IMAGES_PATH/rootfs.ext4)
 PERSIST_SIZE=$(stat --printf="%s" $IMAGES_PATH/persist.ext4)
 
 # Round up in megabytes
-ROOTFS_SIZE_MB=$(echo "(${ROOTFS_SIZE}/1000000)+1" | bc)
+ROOTFS_SIZE_MB=$(echo "(${ROOTFS_SIZE}/1000000)+2" | bc)
 PERSIST_SIZE_MB=$(echo "(${ROOTFS_SIZE}/1000000)+1" | bc)
 
 cp $BOOT_PATH/boot.ini $IMAGES_PATH/boot.ini
+if [ -f "$IMAGES_PATH/.disable-serial-console" ]; then
+  echo "Disabling serial console..."
+  sed -i "/^setenv condev/s/^/# /" $IMAGES_PATH/boot.ini
+fi
+sed -i "s/uInitrd/rootfs.cpio.uboot/g" $IMAGES_PATH/boot.ini
+
 if [ -d $GENIMAGE_TMP ]; then
   rm -rf $GENIMAGE_TMP
 fi
@@ -64,5 +70,5 @@ if [ ! -d $IMAGES_PATH/hk_sd_fuse ]; then
 fi
 
 cd ${IMAGES_PATH}/hk_sd_fuse
-SD_FUSE_DD_ARGS="conv=sync,notrunc"
+export SD_FUSE_DD_ARGS="conv=sync,notrunc"
 bash ./sd_fusing.sh ${IMAGES_PATH}/sdcard.img

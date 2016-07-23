@@ -51,6 +51,8 @@ trap cleanup EXIT
 
 boot_dir="${WORK_DIR}/boot"
 rootfs_dir="${WORK_DIR}/rootfs"
+persist_dir="${WORK_DIR}/persist"
+
 mkdir -p $boot_dir
 echo "Mounting ${ODROID_SD}1 to $boot_dir..."
 mounts+=("$boot_dir")
@@ -61,6 +63,11 @@ mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
 mount ${ODROID_SD}2 $rootfs_dir
 
+echo "Mounting ${ODROID_SD}3 to $persist_dir..."
+mkdir -p $persist_dir
+mounts+=("$persist_dir")
+mount ${ODROID_SD}3 $persist_dir
+
 echo "Copying zImage..."
 sync
 rsync -rav --no-perms --no-owner --no-group $uimg_path $boot_dir/zImage
@@ -70,10 +77,15 @@ echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group $uinit_path $boot_dir/uInitrd
 sync
 
-if [ -d "$outp_path/images/resources" ]; then
-  echo "Copying resources..."
-  mkdir -p $rootfs_dir/resources/
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/resources/ $rootfs_dir/resources/
+if [ -d "$outp_path/images/rootfs_part" ]; then
+  echo "Copying rootfs_part..."
+  rsync -rav --no-perms --no-owner --no-group $outp_path/images/rootfs_part/ $rootfs_dir/
+  sync
+fi
+
+if [ -d "$outp_path/images/persist_part" ]; then
+  echo "Copying persist_part..."
+  rsync -rav --no-perms --no-owner --no-group $outp_path/images/persist_part/ $persist_dir/
   sync
 fi
 
