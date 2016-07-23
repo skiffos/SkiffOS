@@ -24,11 +24,11 @@ if [ ! -f $UBOOT ]; then
         exit 1
 fi
 
-sudo dd if=$BL1 of=$1 conv=fsync bs=1 count=442
-sudo dd if=$BL1 of=$1 conv=fsync bs=512 skip=1 seek=1
-sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=97
+sudo dd if=$BL1 of=$1 conv=fsync bs=1 count=442 ${SD_FUSE_DD_ARGS}
+sudo dd if=$BL1 of=$1 conv=fsync bs=512 skip=1 seek=1 ${SD_FUSE_DD_ARGS}
+sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=97 ${SD_FUSE_DD_ARGS}
 
 sync
 
-sudo eject $1
+# sudo eject $1
 echo Finished.

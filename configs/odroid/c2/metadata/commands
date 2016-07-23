@@ -1,1 +1,2 @@
 install Installs to a formatted SD card.
+genimage Generates a device image.

@@ -41,21 +41,20 @@ fi
 
 #<BL1 fusing>
 echo "BL1 fusing"
-sudo dd iflag=dsync oflag=dsync if=./bl1.HardKernel of=$device seek=$signed_bl1_position
+dd iflag=dsync oflag=dsync if=./bl1.HardKernel of=$device seek=$signed_bl1_position ${SD_FUSE_DD_ARGS}
 
 #<BL2 fusing>
 echo "BL2 fusing"
-sudo dd iflag=dsync oflag=dsync if=./bl2.HardKernel of=$device seek=$bl2_position
+dd iflag=dsync oflag=dsync if=./bl2.HardKernel of=$device seek=$bl2_position ${SD_FUSE_DD_ARGS}
 
 #<u-boot fusing>
 echo "u-boot fusing"
-sudo dd iflag=dsync oflag=dsync if=$ubootimg of=$device seek=$uboot_position
+dd iflag=dsync oflag=dsync if=$ubootimg of=$device seek=$uboot_position ${SD_FUSE_DD_ARGS}
 
 #<TrustZone S/W fusing>
 echo "TrustZone S/W fusing"
-sudo dd iflag=dsync oflag=dsync if=./tzsw.HardKernel of=$device seek=$tzsw_position
+dd iflag=dsync oflag=dsync if=./tzsw.HardKernel of=$device seek=$tzsw_position
 
 ####################################
 #<Message Display>
 echo "U-boot image is fused successfully."
-echo "Eject $1 and insert it again."
