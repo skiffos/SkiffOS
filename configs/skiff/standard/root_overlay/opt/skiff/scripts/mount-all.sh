@@ -134,10 +134,11 @@ fi
 
 touch $INIT_ONCE
 systemctl daemon-reload
-systemctl restart systemd-journald || true
+systemctl start --no-block multi-user.target || true
+systemctl restart --no-block systemd-journald || true
 
 if [ -n "$RESTART_WPA" ]; then
   systemctl restart --no-block 'wpa_supplicant@*'
 fi
 
-systemctl restart systemd-networkd || true
+systemctl restart --no-block systemd-networkd || true
