@@ -1,7 +1,8 @@
 From e143a229cfae7358526c23d0a96dc9978db9d622 Mon Sep 17 00:00:00 2001
 From: dann frazier <dann.frazier@canonical.com>
 Date: Mon, 25 Jan 2016 16:52:16 -0700
-Subject: [PATCH] arm64: errata: Add -mpc-relative-literal-loads to build flags
+Subject: [PATCH 1/2] arm64: errata: Add -mpc-relative-literal-loads to build
+ flags
 
 GCC6 (and Linaro's 2015.12 snapshot of GCC5) has a new default that uses
 adrp/ldr or adrp/add to address literal pools. When CONFIG_ARM64_ERRATUM_843419
