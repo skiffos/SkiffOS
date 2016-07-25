@@ -71,10 +71,11 @@ else
   echo "Unable to find drive with label \"rootfs\"!"
 fi
 
-if modprobe aufs; then
-  echo "Successfully modprobed aufs, using it for docker."
-  DOCKER_EXECSTART+=" --storage-driver=aufs"
-fi
+# cs: Allow docker to chose its own storage driver
+# if modprobe aufs; then
+#   echo "Successfully modprobed aufs, using it for docker."
+#   DOCKER_EXECSTART+=" --storage-driver=aufs"
+# fi
 
 echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
 printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
