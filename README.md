@@ -40,7 +40,7 @@ You can configure WiFi at OS build time or at runtime. It's recommended to have 
 
 Skiff will load any wpa supplicant configs from the persist partition at `skiff/wifi`.
 
-Here is an example file, `wpa_supplicant_wlan0.conf`. You can generate the entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
+Here is an example file, `wpa_supplicant-wlan0.conf`. You can generate the entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
 
 ```
 ctrl_interface=/var/run/wpa_supplicant
