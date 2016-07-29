@@ -40,11 +40,13 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   echo "Configuring Docker to use $DOCKER_PERSIST"
   DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
   echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
+  systemctl stop systemd-journald || true
   if [ -d /var/log/journal ]; then
     rm -rf /var/log/journal || true
   fi
   ln -s $JOURNAL_PERSIST /var/log/journal
   chown -R root:systemd-journal /var/log/journal/
+  systemctl start --no-block systemd-journald
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
     cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
@@ -135,11 +137,10 @@ fi
 
 touch $INIT_ONCE
 systemctl daemon-reload
-systemctl start --no-block multi-user.target || true
-systemctl restart --no-block systemd-journald || true
 
 if [ -n "$RESTART_WPA" ]; then
   systemctl restart --no-block 'wpa_supplicant@*'
 fi
 
 systemctl restart --no-block systemd-networkd || true
+systemctl start --no-block multi-user.target || true
