@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+# set -e
 
 if [ ! -d "/opt/skiff" ]; then
   echo "Non-skiff system detected, bailing out!"
