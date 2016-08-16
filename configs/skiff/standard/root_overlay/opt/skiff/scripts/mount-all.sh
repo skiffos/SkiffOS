@@ -48,7 +48,7 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
    rm -rf /var/log || true
   fi
   ln -f -s $JOURNAL_PERSIST /var/log
-  systemd-tmpfiles --create --prefix /var/log/journal
+  systemd-tmpfiles --create --prefix /var/log/journal || true
   systemctl start --no-block systemd-journald
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
