@@ -41,11 +41,14 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
   echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
   systemctl stop systemd-journald || true
-  if [ -d /var/log/journal ]; then
-    rm -rf /var/log/journal || true
+  # if [ -d /var/log/journal ]; then
+  #  rm -rf /var/log/journal || true
+  # fi
+  if [ -d /var/log ]; then
+   rm -rf /var/log || true
   fi
-  ln -s $JOURNAL_PERSIST /var/log/journal
-  chown -R root:systemd-journal /var/log/journal/
+  ln -f -s $JOURNAL_PERSIST /var/log
+  systemd-tmpfiles --create --prefix /var/log/journal
   systemctl start --no-block systemd-journald
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
