@@ -26,4 +26,4 @@ else
 fi
 
 echo "Recording hashes..."
-record-cache $TO_CACHE ${CACHE_CONTEXT}-hashes.txt
+record-cache $CACHE_PATH ${CACHE_CONTEXT}-hashes.txt
