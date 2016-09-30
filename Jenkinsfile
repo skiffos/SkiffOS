@@ -16,7 +16,7 @@ node {
     stage ("build") {
       sh '''
         #!/bin/bash
-        SKIFF_CONFIG="docker/standard" make
+        SKIFF_CONFIG="docker/standard" make compile
       '''
     }
 

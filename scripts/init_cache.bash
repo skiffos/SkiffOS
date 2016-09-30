@@ -14,7 +14,8 @@ fi
 init-gce-creds
 if ! download-cache $CACHE_CONTEXT; then
   echo "Downloading cache failed, starting with empty ccache."
-  mkdir -p ~/.
+  mkdir -p ~/.buildroot-ccache
+  touch ~/.buildroot-ccache/keepme
 else
   echo "Extracting cache..."
   tar -zxf build-cache.tar.gz
