@@ -3,6 +3,7 @@
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
 ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
+ubootimgc="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
 sd_fuse_scr="${BUILDROOT_DIR}/output/images/hk_sd_fuse/sd_fusing.sh"
 
@@ -33,6 +34,10 @@ fi
 
 if [ ! -f "$ubootimg" ]; then
   ubootimg=$ubootimgb
+fi
+
+if [ ! -f "$ubootimg" ]; then
+  ubootimg=$ubootimgc
 fi
 
 if [ ! -f "$ubootimg" ]; then

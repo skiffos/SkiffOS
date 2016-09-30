@@ -1,0 +1,5 @@
+setenv initrd_high "0xffffffff"
+setenv fdt_high "0xffffffff"
+setenv bootcmd "fatload mmc 1:1 0x40008000 zImage; fatload mmc 1:1 0x42100000 uInitrd; bootm 0x40008000 0x42100000"
+setenv bootargs "console=tty1 console=ttySAC1,115200n8 root=/dev/initrd ro ramdisk_size=100000 mem=2047M"
+boot
