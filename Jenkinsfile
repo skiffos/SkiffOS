@@ -1,6 +1,7 @@
 node {
   stage ("scm") {
     checkout scm
+    sh 'git submodule update --init --recursive'
   }
 
   wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
