@@ -6,21 +6,24 @@ if [ -z "$CACHE_CONTEXT" ]; then
   exit 1
 fi
 
-if [ ! -f ./cache_hashes.txt ]; then
-  echo "No cache hashes, cannot finalize."
+if [ -z "$CACHE_PATH" ]; then
+  echo "Set CACHE_PATH and try again."
   exit 1
 fi
 
-if compare-cache ~/.buildroot-ccache/; then
+ARCHIVE=${CACHE_CONTEXT}-cache.tar.gz
+HASHES=${CACHE_CONTEXT}-hashes.txt
+
+if compare-cache $CACHE_PATH $HASHES ; then
   echo "No changes, continuing without uploading cache."
   exit 0
 fi
 
 echo "Re-packaging cache..."
-if [ -f build-cache.tar.gz ]; then
-  rm build-cache.tar.gz
+if [ -f $ARCHIVE ]; then
+  rm $ARCHIVE
 fi
-tar -czf build-cache.tar.gz ~/.buildroot-ccache/
+tar -czf $ARCHIVE -C $CACHE_PATH .
 
 echo "Uploading cache..."
-upload-cache $CACHE_CONTEXT
+upload-cache $CACHE_CONTEXT $ARCHIVE

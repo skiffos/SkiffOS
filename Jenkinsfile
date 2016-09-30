@@ -3,13 +3,13 @@ node {
     checkout scm
   }
 
-  env.CACHE_CONTEXT='skiff'
   wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
     stage ("cache-download") {
       sh '''
         #!/bin/bash
         source ./scripts/jenkins_env.bash
-        ./scripts/init_cache.bash
+        CACHE_CONTEXT=skiff-ccache CACHE_PATH=~/.buildroot-ccache/ ./scripts/init_cache.bash
+        CACHE_CONTEXT=skiff-dl CACHE_PATH=./workspaces/default/dl/ ./scripts/init_cache.bash
       '''
     }
 
@@ -25,7 +25,8 @@ node {
       sh '''
         #!/bin/bash
         source ./scripts/jenkins_env.bash
-        ./scripts/finalize_cache.bash
+        CACHE_CONTEXT=skiff-ccache CACHE_PATH=~/.buildroot-ccache/ ./scripts/finalize_cache.bash
+        CACHE_CONTEXT=skiff-dl CACHE_PATH=./workspaces/default/dl/ ./scripts/finalize_cache.bash
       '''
     }
   }
