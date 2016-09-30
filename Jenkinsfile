@@ -16,6 +16,7 @@ node {
     stage ("build") {
       sh '''
         #!/bin/bash
+        source ./scripts/jenkins_env.bash
         SKIFF_CONFIG="docker/standard" make compile
       '''
     }
