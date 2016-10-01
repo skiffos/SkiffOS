@@ -1,0 +1,7 @@
+[Unit]
+Description=Placeholder for docker service.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env
+RemainAfterExit=true

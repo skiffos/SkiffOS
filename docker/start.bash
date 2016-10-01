@@ -4,7 +4,7 @@ DOCKER_TMP=${SKIFF_DOCKER_MOUNT:-"$(pwd)/../docker-mount"}
 mkdir -p $DOCKER_TMP/persist/ $DOCKER_TMP/rootfs/
 
 if docker rm -f systemd ; then
-  sleep 1
+  sleep 3
 fi
 docker run -d --name=systemd \
   --security-opt seccomp=unconfined \

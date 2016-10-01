@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+RSYNC_CMD="rsync -rav --no-perms --no-owner --no-group --delete "
 
 IMAGE_NAME=paralin/skiffos
 IMAGE_TAG=latest
@@ -9,8 +10,8 @@ roottar="${IMAGES_PATH}/rootfs.tar"
 mkdir -p ${SKIFF_DOCKER_MOUNT}/rootfs ${SKIFF_DOCKER_MOUNT}/persist \
   ${IMAGES_PATH}/rootfs_part
 
-cp ${IMAGES_PATH}/rootfs.tar ${SKIFF_DOCKER_ROOT}/rootfs.tar
-rsync -rav --no-perms --no-owner --no-group --delete \
+$RSYNC_CMD ${IMAGES_PATH}/rootfs.tar ${SKIFF_DOCKER_ROOT}/rootfs.tar
+$RSYNC_CMD \
   ${IMAGES_PATH}/rootfs_part/ ${SKIFF_DOCKER_MOUNT}/rootfs/
 
 pushd ${SKIFF_DOCKER_ROOT}

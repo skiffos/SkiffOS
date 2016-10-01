@@ -18,8 +18,10 @@ RUN find /etc/systemd/system \
 
 RUN systemctl set-default multi-user.target && \
     systemctl mask tmp.mount && \
-    touch /etc/skip-skiff-mounts
+    touch /etc/skip-skiff-mounts && \
+    touch /etc/skip-skiff-journal-mounts
 COPY fstab /etc/fstab
+COPY docker.service /etc/systemd/system/docker.service
 
 VOLUME [ "/sys/fs/cgroup", "/mnt/persist", "/mnt/rootfs" ]
 ENTRYPOINT ["/lib/systemd/systemd"]

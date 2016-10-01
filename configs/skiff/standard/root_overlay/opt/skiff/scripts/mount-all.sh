@@ -19,6 +19,7 @@ DOCKER_CONFD=/etc/systemd/system/docker.service.d
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
 SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
+SKIP_JOURNAL_FLAG=/etc/skip-skiff-journal-mounts
 
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
@@ -45,14 +46,17 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist 
     echo "Configuring Docker to use $DOCKER_PERSIST"
     DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
   fi
-  echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
-  systemctl stop systemd-journald || true
-  if [ -d /var/log ]; then
-   rm -rf /var/log || true
+
+  if ! [ -f $SKIP_JOURNAL_FLAG ]; then
+    echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
+    systemctl stop systemd-journald || true
+    if [ -d /var/log ]; then
+     rm -rf /var/log || true
+    fi
+    ln -f -s $JOURNAL_PERSIST /var/log
+    systemd-tmpfiles --create --prefix /var/log/journal || true
+    systemctl start --no-block systemd-journald
   fi
-  ln -f -s $JOURNAL_PERSIST /var/log
-  systemd-tmpfiles --create --prefix /var/log/journal || true
-  systemctl start --no-block systemd-journald
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
     cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
