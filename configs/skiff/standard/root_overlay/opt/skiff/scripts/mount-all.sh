@@ -14,6 +14,7 @@ if [ -f $INIT_ONCE ]; then
 fi
 
 SYSTEMD_CONFD=/etc/systemd/system
+DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
 DOCKER_CONFD=/etc/systemd/system/docker.service.d
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
@@ -25,7 +26,9 @@ SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
 
 # Grab the default docker execstart
-DOCKER_EXECSTART=$(cat /usr/lib/systemd/system/docker.service | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
+if [ -f $DOCKER_SERVICE ]; then
+  DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
+fi
 
 mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
@@ -37,8 +40,10 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   mkdir -p $DOCKER_PERSIST
   mkdir -p $JOURNAL_PERSIST
   mkdir -p $SSH_PERSIST
-  echo "Configuring Docker to use $DOCKER_PERSIST"
-  DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
+  if [ -f $DOCKER_SERVICE ]; then
+    echo "Configuring Docker to use $DOCKER_PERSIST"
+    DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
+  fi
   echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
   systemctl stop systemd-journald || true
   # if [ -d /var/log/journal ]; then
@@ -76,14 +81,10 @@ else
   echo "Unable to find drive with label \"rootfs\"!"
 fi
 
-# cs: Allow docker to chose its own storage driver
-# if modprobe aufs; then
-#   echo "Successfully modprobed aufs, using it for docker."
-#   DOCKER_EXECSTART+=" --storage-driver=aufs"
-# fi
-
-echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
-printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
+if [ -f $DOCKER_SERVICE ]; then
+  echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
+  printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
+fi
 
 echo "Building SSH key list..."
 mkdir -p $KEYS_PERSIST
