@@ -7,13 +7,22 @@ ENV LC_ALL C
 ADD rootfs.tar /
 USER root
 
-RUN find /etc/systemd/system \
+ RUN find /etc/systemd/system \
          /lib/systemd/system \
-         -path '*.wants/*' \
-         -not -name '*journald*' \
-         -not -name '*systemd-tmpfiles*' \
-         -not -name '*systemd-user-sessions*' \
-         -not -name '*ssh*' \
+         \( -path '*.wants/*' \
+         -name '*swapon*' \
+         -or -name '*systemd-networkd*' \
+         -or -name '*ntpd*' \
+         -or -name '*resolved*' \
+         -or -name '*udev*' \
+         -or -name '*freedesktop*' \
+         -or -name '*persist-resize*' \
+         -or -name '*remount-fs*' \
+         -or -name '*babeld*' \
+         -or -name '*getty*' \
+         -or -name '*.mount' \
+         -or -name '*remote-fs*' \) \
+         -exec echo \{} \; \
          -exec rm \{} \;
 
 RUN systemctl set-default multi-user.target && \
