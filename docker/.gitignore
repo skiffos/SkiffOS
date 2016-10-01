@@ -1,1 +1,3 @@
 rootfs.tar
+persist/
+rootfs/

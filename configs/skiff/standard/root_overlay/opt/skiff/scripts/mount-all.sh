@@ -18,6 +18,7 @@ DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
 DOCKER_CONFD=/etc/systemd/system/docker.service.d
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
+SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
 
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
@@ -34,8 +35,8 @@ mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
-if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
-  echo "Found and mounted persist drive to $PERSIST_MNT"
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
+  echo "Persist drive is at $PERSIST_MNT"
   mkdir -p $SKIFF_PERSIST
   mkdir -p $DOCKER_PERSIST
   mkdir -p $JOURNAL_PERSIST
@@ -46,9 +47,6 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   fi
   echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
   systemctl stop systemd-journald || true
-  # if [ -d /var/log/journal ]; then
-  #  rm -rf /var/log/journal || true
-  # fi
   if [ -d /var/log ]; then
    rm -rf /var/log || true
   fi
@@ -75,8 +73,8 @@ else
 fi
 
 mkdir -p $ROOTFS_MNT
-if mountpoint -q $ROOTFS_MNT || mount -o ro LABEL=rootfs $ROOTFS_MNT; then
-  echo "Found and mounted rootfs drive to $PERSIST_MNT"
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount -o ro LABEL=rootfs $ROOTFS_MNT; then
+  echo "Rootfs drive at $PERSIST_MNT"
 else
   echo "Unable to find drive with label \"rootfs\"!"
 fi
