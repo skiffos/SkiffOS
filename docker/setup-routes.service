@@ -1,0 +1,11 @@
+[Unit]
+Description=Initialize routes
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/skiff/scripts/setup-routes.bash
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

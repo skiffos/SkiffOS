@@ -5,12 +5,13 @@ ENV init /lib/systemd/systemd
 ENV LC_ALL C
 
 ADD rootfs.tar /
-# ADD ./persist/ /mnt/persist/
-# ADD ./rootfs/ /mnt/rootfs/
+ADD setup_routes.bash /opt/skiff/scripts/setup-routes.bash
+ADD setup-routes.service /etc/systemd/system/setup-routes.service
 
 USER root
-
-RUN find /etc/systemd/system \
+RUN chmod +x /opt/skiff/scripts/setup-routes.bash && \
+    systemctl enable setup-routes.service && \
+    find /etc/systemd/system \
          /lib/systemd/system \
          \( -path '*.wants/*' \
          -name '*swapon*' \
@@ -21,7 +22,6 @@ RUN find /etc/systemd/system \
          -or -name '*freedesktop*' \
          -or -name '*persist-resize*' \
          -or -name '*remount-fs*' \
-         -or -name '*babeld*' \
          -or -name '*getty*' \
          -or -name '*systemd-sysctl*' \
          -or -name '*.mount' \
