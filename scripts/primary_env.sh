@@ -1,7 +1,6 @@
 #!/bin/bash
 export ROOT_DIR=$(pwd)
 export SKIFF_DOCKER_ROOT=${ROOT_DIR}/docker
-export SKIFF_DOCKER_MOUNT=${ROOT_DIR}/docker-mount
 export SKIFF_CONFIGS_DIR=${ROOT_DIR}/configs 
 export SKIFF_RESOURCES_DIR=${ROOT_DIR}/resources 
 export SKIFF_BASE_CONFIGS_DIR=${ROOT_DIR}/configs-base 
