@@ -5,17 +5,12 @@ ENV init /lib/systemd/systemd
 ENV LC_ALL C
 
 ADD rootfs.tar /
-ADD setup_routes.bash /opt/skiff/scripts/setup-routes.bash
-ADD setup-routes.service /etc/systemd/system/setup-routes.service
 
 USER root
-RUN chmod +x /opt/skiff/scripts/setup-routes.bash && \
-    systemctl enable setup-routes.service && \
-    find /etc/systemd/system \
+RUN find /etc/systemd/system \
          /lib/systemd/system \
          \( -path '*.wants/*' \
          -name '*swapon*' \
-         -or -name '*systemd-networkd*' \
          -or -name '*ntpd*' \
          -or -name '*resolved*' \
          -or -name '*udev*' \

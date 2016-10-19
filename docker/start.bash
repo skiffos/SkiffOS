@@ -6,6 +6,7 @@ fi
 
 docker run -d --name=skiff \
   --privileged \
+  --cap-add=NET_ADMIN \
   --security-opt seccomp=unconfined \
   --stop-signal=SIGRTMIN+3 \
   --tmpfs /run \
