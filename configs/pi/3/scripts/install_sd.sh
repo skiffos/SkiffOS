@@ -20,7 +20,7 @@ fi
 
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/zImage"
-cpio_path="${outp_path}/images/rootfs.cpio"
+cpio_path="${outp_path}/images/rootfs.cpio.gz"
 dtb_path="${outp_path}/images/bcm2710-rpi-3-b.dtb"
 firm_path="${outp_path}/images/rpi-firmware"
 
@@ -99,7 +99,7 @@ rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/bcm2710-rpi-3-b.
 sync
 
 echo "Copying uInitrd..."
-gzip -c $cpio_path > $boot_dir/rootfs.cpio.gz
+rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.gz
 sync
 
 cleanup
