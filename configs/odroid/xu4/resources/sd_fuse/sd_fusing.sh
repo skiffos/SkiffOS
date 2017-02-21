@@ -8,20 +8,18 @@
 #
 ####################################
 set -x
+set -e
 
 if [ -z $1 ]
 then
     echo "usage: ./sd_fusing.sh <SD Reader's device file> <ubootimg>"
-    exit 0
+    exit 1
 fi
 ubootimg=$2
 
-if [ -f $1 ]
-then
-    echo "$1 reader is identified."
-else
-    echo "$1 is NOT identified."
-    exit 0
+if [ ! -b $1 ]
+    echo "$1 not found, unable to fuse bootloader."
+    exit 1
 fi
 
 ####################################
