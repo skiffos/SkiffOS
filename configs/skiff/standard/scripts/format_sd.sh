@@ -89,6 +89,8 @@ parted $ODROID_SD -- mkpart primary ext4 500MiB "-2GiB"
 mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 
+sync && sync
+
 echo "Flashing u-boot..."
 cd $ubootscripts
 bash ./sd_fusing.sh $ODROID_SD $ubootimg
