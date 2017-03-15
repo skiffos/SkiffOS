@@ -98,5 +98,16 @@ if CONTAINER_IS_RUNNING=$(docker inspect -f {{.State.Running}} skiff_core); then
 else
   info2 "Starting new skiff core attached..."
   mkdir -p $CORE_PERSIST
-  docker run --privileged --cap-add=ALL -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --net=host --volume=/sys:/sys --volume=/dev:/dev --name=skiff_core -v $CORE_PERSIST:$TARGET_CORE_MNT -t skiff/core:latest
+  docker run \
+    --privileged \
+    --cap-add=ALL \
+    --ipc=host \
+    --pid=host \
+    --uts=host \
+    --security-opt="seccomp=unconfined" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /usr/bin/docker:/usr/bin/docker \
+    -v /sys:/sys -v /dev:/dev --net=host \
+    -v $CORE_PERSIST:$TARGET_CORE_MNT \
+    --name=skiff_core -t skiff/core:latest
 fi
