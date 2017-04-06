@@ -42,17 +42,25 @@ set -e
 echo "Formatting device..."
 parted $PI_SD mklabel msdos
 
+sleep 2
+
 echo "Making boot partition..."
 parted $PI_SD mkpart primary fat32 0% 100M
+sleep 2
+
 mkfs.vfat -n BOOT -F 32 ${PI_SD}1
 parted $PI_SD set 1 boot on
 # parted $PI_SD set 1 lba on
 # mlabel -i ${PI_SD}1 ::boot
 
+sleep 2
 echo "Making rootfs partition..."
 parted $PI_SD mkpart primary ext4 100M 500MiB
+sleep 2
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD}2
 
 echo "Making persist partition..."
+sleep 2
 parted $PI_SD -- mkpart primary ext4 500MiB "-1s"
+sleep 2
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD}3
