@@ -2,6 +2,6 @@
 set -e
 
 cd $ROOT_DIR
-if [ ! -d "./workspaces/default" ] || [ ! -f "./workspaces/default/Makefile" ]; then
+if [ ! -d "./buildroot" ] || [ ! -f "./buildroot/Makefile" ]; then
   git submodule update --init --recursive
 fi

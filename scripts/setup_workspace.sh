@@ -4,8 +4,7 @@ set -x
 if [ ! -d "$WORKSPACE_DIR" ]; then
   # Setup the worktree
   cd $BUILDROOT_DEFAULT_DIR
-  git worktree add --detach "$WORKSPACE_DIR"
-  mkdir -p dl/
-  ln -s $(pwd)/dl $WORKSPACE_DIR/dl
+  make O=$WORKSPACE_DIR defconfig
+  ln -f -s $WORKSPACE_DIR $WORKSPACE_DIR/output
   cd - > /dev/null
 fi

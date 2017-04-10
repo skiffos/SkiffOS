@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 OLDPATH=$(pwd)
 ACTION_COLOR=$(tput smso)
 RESET_COLOR=$(tput sgr0)
@@ -33,8 +34,8 @@ function cleanup {
 trap cleanup EXIT
 
 # Setup the configs dir
-rm -rf $SKIFF_FINAL_CONFIG_DIR
-mkdir -p $SKIFF_FINAL_CONFIG_DIR
+rm -rf "$SKIFF_FINAL_CONFIG_DIR"
+mkdir -p "$SKIFF_FINAL_CONFIG_DIR"
 
 # Make some scary warnings
 cp $SKIFF_RESOURCES_DIR/text/temp_confdir_warning $SKIFF_FINAL_CONFIG_DIR/WARNING

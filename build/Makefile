@@ -16,7 +16,6 @@ ensure-workspace: ensure-submodule
 	@$(SKIFF_SCRIPTS_DIR)/setup_workspace.sh
 
 ensure-sane: ensure-submodule ensure-workspace
-	@$(SKIFF_SCRIPTS_DIR)/worktree_prune.sh
 
 verify-skiff-config:
 	@$(SKIFF_SCRIPTS_DIR)/verify_selected_config.sh

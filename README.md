@@ -143,7 +143,7 @@ Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 Other Env Variables
 ===================
 
-Here are some other unmentioned env variables:
+Here are some other relevant env variables:
 
  - `SKIFF_NO_INTERACTIVE`: Auto-confirm all interactive prompts
 

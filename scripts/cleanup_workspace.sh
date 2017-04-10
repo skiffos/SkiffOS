@@ -13,14 +13,8 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   fi
 fi
 
-# Delete the worktree
-if [ "$SKIFF_WORKSPACE" != "default" ] && [ -z "$SKIFF_WORKTREE_NOT_SUPPORTED" ]; then
-  cd $BUILDROOT_DEFAULT_DIR
-  git worktree prune
-  cd - > /dev/null
+if [ "$SKIFF_WORKSPACE" != "default" ] ; then
   rm -rf $WORKSPACE_DIR
-
-# Otherwise just distclean buildroot
 else
   cd $WORKSPACE_DIR
   rm .config || true

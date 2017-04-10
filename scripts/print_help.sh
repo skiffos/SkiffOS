@@ -7,9 +7,6 @@ cat ../resources/text/logo.ascii
 echo -e "\e[0m"
 
 echo ""
-if [ -n "$SKIFF_WORKTREE_NOT_SUPPORTED" ]; then
-  printf "\033[1;49;31m✖ Your git does not support worktree. SKIFF_WORKSPACE ignored.\033[0m\n"
-fi
 printf "\033[0;34m✓ SKIFF_WORKSPACE is: $SKIFF_WORKSPACE\033[0m\n"
 if [ -n "$SKIFF_WARN_ABOUT_RECOVERED_CONFIG" ]; then
   printf "\033[0;34m✓ Previous config recovered: $SKIFF_CONFIG\033[0m\n"
