@@ -2,7 +2,9 @@
 
 ![](http://i.imgur.com/XqpQJEm.png)
 
-Skiff is an extremely lightweight, minimal, in-memory operating system for embedded Linux devices.
+## Introduction
+
+Skiff is a extremely lightweight, minimal, in-memory operating system for embedded Linux devices. It is also an intuitive and modular configuration package manager for [Buildroot](http://buildroot.org). While any embedded system workflow can be implemented under Skiff, the default workflow is described below.
 
 Skiff loads a small ~30MB image containing the Linux kernel and critical software (like networking/WiFi drivers) into RAM at boot-time, and never mounts the root filesystem. This allows the system to be powered off without a graceful shutdown with **no consequences** whatsoever. It offers **guaranteed boots and SSH reachability** which is ideal for embedded environments.
 
@@ -10,31 +12,48 @@ Skiff uses **docker** containers for user-space software. It can intelligently r
 
 Skiff optionally can rsync a filesystem overlay at boot time on top of the compiled image to allow for easy persistent tweaks to the file tree. This functionality is typically used to tweak the SSH or networking configuration.
 
-Docker containers and images are stored in a "layer" filesystem partition. Thus, the mission-critical system is in-memory only and guaranteed to work, while the Docker partition can be less reliable.
+Docker containers and images are stored in a separate persist filesystem partition. Thus, the mission-critical system is in-memory only, while the Docker partition can be repaired by the parent system automatically if necessary.
 
-The Setup
-========
+This repository includes configurations supporting a variety of embedded platforms, including Raspberry Pi and ODROID boards.
 
-Skiff is made up of the following components:
+## Getting started
 
- - [**Buildroot**](http://buildroot.org) compiles the Kernel, Init System, etc. from source and vendors them into a single image.
- - **SkiffOS** includes the Buildroot configuration, boot scripts, and general setup.
- - **Make** - the Makefile and scripts in this repository make building a system easy.
+Building a system with Skiff is easy! This example will build a basic OS for a Pi 3.
 
-This repository also includes reference setups for ODROID devices.
+You can type `make` at any time to see a status and help printout. Do this now, and look at the list of configuration packages. Select which ones you want, and set the comma-separated `SKIFF_CONFIG` variable:
 
-Runtime Process
-===============
+```sh
+$ make                             # observe status output
+$ SKIFF_CONFIG=pi/3 make configure # configure the system
+$ make                             # check status again
+$ make compile                     # build the system
+```
 
-Here's what happens when a Skiff system boots:
+After you run `make configure` Skiff will remember what you selected in `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
- - **Bootloader**: the u-boot (or similar) boot-loader executes, loading the OS image into RAM and executing the kernel.
- - **Kernel Load**: any required kernel modules are inserted.
- - **Networking Init**: the networking subsystem is initialized and configured.
- - **Docker Init**: the Docker partition is mounted and the daemon launched.
+Once the build is complete, it's time to flash the system to a SD card. You will need to switch to `sudo bash` for this on most systems.
 
-WiFi
-====
+```sh
+$ sudo bash             # switch to root
+$ blkid                 # look for your SD card's device file
+$ export PI_SD=/dev/sda # make sure this is right!
+$ make cmd/pi/3/format  # tell skiff to format the device
+$ make cmd/pi/3/install # tell skiff to install the os
+```
+
+After you format a card, you do not need to do so again. You can call the install command as many times as you want to update the system. The persist partition is not touched in this step, so anything you save there, including Docker state and system configuration, will not be touched in the upgrade.
+
+## Workspaces
+
+Workspaces allow you to configure and compile multiple systems in tandem.
+
+Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
+
+## System Configuration
+
+Below are some common configuration tasks that may be necessary when configuring a new Skiff system.
+
+### WiFi
 
 You can configure WiFi at OS build time or at runtime. It's recommended to have a configuration package with your WiFi settings, but you might want to tweak them later.
 
@@ -55,8 +74,7 @@ network={
 }
 ```
 
-Static IP
-=========
+### Static IP
 
 To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/00-wlan0.network`
 
@@ -74,15 +92,13 @@ Gateway=192.168.1.1
 DNS=8.8.8.8
 ```
 
-At runtime you can use `networkctl` to get information.
+At runtime you can use `networkctl` to get a status printout.
 
-Hostname
-========
+### Hostname
 
-You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your configs.
+You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your config packages.
 
-Access
-======
+### SSH Keys
 
 The system on boot will generate the authorized_keys file for root.
 
@@ -92,8 +108,7 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `skiff/keys` from inside the persist partition
 
 
-User Environment Containers
-===========================
+## Skiff Core
 
 Users can work within a familiar, traditional, persistent OS environment if desired. This is called the "core" user within Skiff. If this feature is enabled:
 
@@ -114,16 +129,39 @@ Make sure `/core-startup.sh` actually exits as all connections into the containe
 
 A subdirectory called "core" of the persistent drive will be mounted to /mnt/core. You can use your startup script to simlink this anywhere you want.
 
-Configuration Packages
-======================
-
-![](http://i.imgur.com/y3KbMqA.png)
+## Configuration Packages
 
 Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
 
 These packages are denoted as `namespace/name`. For example, an ODROID XU4 configuration would be `odroid/xu4`.
 
 Configuration package directories should have a depth of 2, where the first directory is the category name and the second is the package name.
+
+### Package Layout
+
+A configuration package is laid out into the following directories:
+
+```
+├── buildroot:      buildroot configuration fragments
+├── extensions:     extra commands to add to the build system
+│   └── Makefile
+├── hooks:          scripts hooking pre/post build steps
+│   ├── post.sh
+│   └── pre.sh
+├── kernel:         kernel configuration fragments
+├── kernel_patches: kernel .patch files
+├── metadata:       metadata files
+│   ├── commands
+│   ├── dependencies
+│   ├── description
+│   └── unlisted
+├── resources:  files used by the configuration package
+└── scripts:    any scripts used by the extensions
+```
+
+All files are optional.
+
+### Out-of-tree configuration packages
 
 You can set the following env variables to control this process:
 
@@ -133,48 +171,6 @@ You can set the following env variables to control this process:
 
 These packages will be available in the Skiff system.
 
-Workspaces
-==========
+## Support
 
-Workspaces allow you to configure and compile multiple Buildroot trees in tandem.
-
-Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
-
-Other Env Variables
-===================
-
-Here are some other relevant env variables:
-
- - `SKIFF_NO_INTERACTIVE`: Auto-confirm all interactive prompts
-
-Example: Raspberry Pi 3
-==================
-
-As an example, here's how to build SkiffOS for the Pi 3.
-
-Set the config setting `SKIFF_CONFIG` and the workspace `SKIFF_WORKSPACE` and kick off the build:
-
-```
-export SKIFF_WORKSPACE=tutorial
-SKIFF_CONFIG=pi/3,skiff/core make compile
-```
-
-You have to set `SKIFF_WORKSPACE` always, as this tells Skiff which workspace to use. However, Skiff will remember which config chain you used for the workspace, so you don't need to set it multiple times.
-
-Next, type `make` to see the list of commands. Let's format the SD card at `/dev/sdb` for Skiff. You may need to run these commands in `sudo bash`.
-
-```
-PI_SD=/dev/sdb make cmd/pi/3/format
-```
-
-This will format your SD card after some prompts with "are you sure" type messages. You might need to re-plug the SD card into your computer at this point.
-
-Next, let's install everything:
-
-```
-ODROID_SD=/dev/sdb make cmd/pi/3/install
-```
-
-You should now be able to plug the SD card into the board and boot.
-
-If you change the config chain Skiff will automatically recognize this and re-configure. You only need to format the disk once. Later changes can be installed by running the install command alone.
+If you encounter issues or questions at any point when using Skiff, please file a [GitHub issue](https://github.com/paralin/SkiffOS/issues/new).
