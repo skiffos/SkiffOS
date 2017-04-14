@@ -5,6 +5,8 @@ OLDPATH=$(pwd)
 ACTION_COLOR=$(tput smso)
 RESET_COLOR=$(tput sgr0)
 
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
 # Build config like this:
 # - configs/base
 # - alphabetical: SKIFF_CONFIG_PATH/buildroot/config
@@ -77,9 +79,10 @@ touch $br_conf
 cd $SKIFF_BRCONF_WORK_DIR
 echo "Config path: "
 SKIFF_CONFIG_PATH=("$SKIFF_PRE_CONFIG_DIR" "${SKIFF_CONFIG_PATH[@]}" "$SKIFF_POST_CONFIG_DIR")
-echo ${SKIFF_CONFIG_PATH}
+echo ${SKIFF_CONFIG_PATH[@]}
 domerge="$SKIFF_SCRIPTS_DIR/merge_config.sh -O $SKIFF_BRCONF_WORK_DIR -m -r"
 rootfs_overlays=()
+br_exts=()
 kern_patches=()
 confpaths=(${SKIFF_CONFIG_PATH[@]})
 for confp in "${confpaths[@]}"; do
@@ -89,6 +92,16 @@ for confp in "${confpaths[@]}"; do
   kern_patchp=$confp/kernel_patches
   rootfsp=$confp/root_overlay
   usersp=$confp/users
+  br_extp=$confp/buildroot_ext
+  if [ -d "$br_extp" ]; then
+    if [ ! -f "$br_extp/external.mk" ] || \
+       [ ! -f "$br_extp/external.desc"] || \
+       [ ! -f "$br_extp/Config.in"]; then \
+      echo "Buildroot extension directory $br_extp invalid, see https://buildroot.org/downloads/manual/manual.html#outside-br-custom"
+    else
+      br_exts+=("$br_extp")
+    fi
+  fi
   if [ -d "$br_confp" ]; then
     for file in $(ls -v $br_confp); do
       # echo "Merging in config file $file"
@@ -136,6 +149,7 @@ sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patchesa@g" $br_conf
 overlays="${rootfs_overlays[@]}"
 sed -i "s@REPLACEME_ROOTFS_OVERLAY@$overlays@g" $br_conf
 sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
+br_exts=$(join_by : "${br_exts[@]}")
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig
@@ -149,4 +163,11 @@ ln -fs $SKIFF_FINAL_CONFIG_DIR/final/buildroot $BUILDROOT_DIR/.config
 
 # echo "${ACTION_COLOR}Re-generating defconfig...$RESET_COLOR"
 # regen defconfig
-# (cd $BUILDROOT_DIR && make savedefconfig BR2_DEFCONFIG=$SKIFF_FINAL_CONFIG_DIR/defconfig/buildroot)
+if [ -n "$br_exts" ]; then
+  (
+    cd $BUILDROOT_DIR
+    make savedefconfig \
+      BR2_DEFCONFIG=$SKIFF_FINAL_CONFIG_DIR/defconfig/buildroot \
+      BR2_EXTERNAL="${br_exts}"
+  )
+fi

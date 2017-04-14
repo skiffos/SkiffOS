@@ -143,6 +143,7 @@ A configuration package is laid out into the following directories:
 
 ```
 ├── buildroot:      buildroot configuration fragments
+├── buildroot_ext:  buildroot extensions (extra packages)
 ├── extensions:     extra commands to add to the build system
 │   └── Makefile
 ├── hooks:          scripts hooking pre/post build steps
