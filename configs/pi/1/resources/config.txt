@@ -1,0 +1,5 @@
+kernel=zImage
+initramfs rootfs.cpio.gz
+
+force_turbo=1
+enable_uart=1
