@@ -21,7 +21,7 @@ fi
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/zImage"
 cpio_path="${outp_path}/images/rootfs.cpio.gz"
-dtb_path="${outp_path}/images/bcm2710-rpi-3-b.dtb"
+dtb_path="${outp_path}/images/bcm2708-rpi-b-plus.dtb"
 firm_path="${outp_path}/images/rpi-firmware"
 
 if [ ! -f "$uimg_path" ]; then
@@ -95,7 +95,7 @@ if [ -d "$outp_path/images/persist_part" ]; then
 fi
 
 echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/bcm2710-rpi-3-b.dtb
+rsync -rav --no-perms --no-owner --no-group ${outp_path}/images/*.dtb $boot_dir/
 sync
 
 echo "Copying uInitrd..."
