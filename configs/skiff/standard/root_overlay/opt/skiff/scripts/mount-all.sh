@@ -145,7 +145,11 @@ touch $INIT_ONCE
 systemctl daemon-reload
 
 if [ -n "$RESTART_WPA" ]; then
-  systemctl restart --no-block 'wpa_supplicant@*'
+  if [ -f "/etc/systemd/system/wpa_supplicant-wext@.service" ]; then
+    systemctl restart --no-block 'wpa_supplicant-wext@*'
+  else
+    systemctl restart --no-block 'wpa_supplicant@*'
+  fi
 fi
 
 systemctl restart --no-block systemd-networkd || true
