@@ -1,7 +1,7 @@
 #!/bin/bash
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-mkknlimg=$(ls $BUILDROOT_DIR/output/build/linux-*/scripts/mkknlimg)
+mkknlimg=$(ls $BUILDROOT_DIR/output/build/linux-*/scripts/mkknlimg | head -n1)
 
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
