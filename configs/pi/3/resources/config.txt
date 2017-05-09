@@ -1,7 +1,4 @@
 kernel=zImage
 initramfs rootfs.cpio.gz
 
-dtoverlay=pi3-disable-bt
-core_freq=250
-force_turbo=1
-enable_uart=1
+dtoverlay=pi3-miniuart-bt
