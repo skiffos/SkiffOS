@@ -44,7 +44,7 @@ parted $PI_SD mklabel msdos
 sleep 1
 
 echo "Making boot partition..."
-parted $PI_SD mkpart primary fat16 0 100M
+parted $PI_SD mkpart primary fat16 0 150M
 sleep 1
 
 mkfs.vfat -n BOOT -F 16 ${PI_SD}1
@@ -54,7 +54,7 @@ sleep 1
 # mlabel -i ${PI_SD}1 ::boot
 
 echo "Making rootfs partition..."
-parted $PI_SD mkpart primary ext4 100M 500MiB
+parted $PI_SD mkpart primary ext4 150M 500MiB
 sleep 1
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD}2
 

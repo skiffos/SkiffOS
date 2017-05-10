@@ -77,8 +77,6 @@ if [ -z "$IMAGES" ]; then
     IMAGE=$($SKIFF_SCRIPTS_DIR/scratchbuild.bash build $FROM_IMG | tee >(cat - >&5) | tail -n1)
     sed -i -e "s#FROM .*#FROM ${IMAGE}#" Dockerfile
   fi
-  info2 "skiff/core:latest copying files."
-  cp /usr/bin/dumb-init ./dumb-init
   info2 "skiff/core:latest building."
   cat ../base/Dockerfile >> Dockerfile
   cat ../base/startup.sh > startup.sh
@@ -99,6 +97,7 @@ else
   info2 "Starting new skiff core attached..."
   mkdir -p $CORE_PERSIST
   docker run \
+    --init \
     --privileged \
     --cap-add=ALL \
     --ipc=host \
