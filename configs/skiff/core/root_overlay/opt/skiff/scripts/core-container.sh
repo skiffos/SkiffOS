@@ -15,8 +15,6 @@ if [ ! -d "/opt/skiff" ]; then
   exit 1
 fi
 
-PERSIST_MNT=/mnt/persist
-TARGET_CORE_MNT=/mnt/core
 CORE_PERSIST=$PERSIST_MNT/core
 SKIFF_DIR=/opt/skiff
 COREENV_DIR=$SKIFF_DIR/coreenv/user
@@ -103,10 +101,13 @@ else
     --ipc=host \
     --pid=host \
     --uts=host \
+    --net=host \
     --security-opt="seccomp=unconfined" \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/bin/docker:/usr/bin/docker \
-    -v /sys:/sys -v /dev:/dev --net=host \
-    -v $CORE_PERSIST:$TARGET_CORE_MNT \
+    -v /lib/modules:/lib/modules \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -v /dev:/dev -v /usr/bin/tini:/dev/init \
+    -v /home/core/.ssh:/home/core/.ssh \
+    -v /mnt:/mnt \
+    --tmpfs /run --tmpfs /run/lock \
     --name=skiff_core -t skiff/core:latest
 fi
