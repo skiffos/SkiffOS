@@ -60,13 +60,18 @@ touch $users_conf
 
 # Make the scripts wrappers
 bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
+bind_path_env="export PATH=\"\${PATH}:${BUILDROOT_DIR}/output/host/usr/bin:${BUILDROOT_DIR}/output/host/usr/sbin\""
 post_build_script=$SKIFF_FINAL_CONFIG_DIR/post_build.sh
+bind_env_script=$SKIFF_FINAL_CONFIG_DIR/bind_env.sh
+echo "#!/bin/bash" > $bind_env_script
+echo "$bind_env" >> $bind_env_script
+echo "$bind_path_env" >> $bind_env_script
 echo "#!/bin/bash" > $post_build_script
-echo "$bind_env" >> $post_build_script
+echo "source $bind_env_script" >> $post_build_script
 chmod +x $post_build_script
 pre_build_script=$SKIFF_FINAL_CONFIG_DIR/pre_build.sh
 echo "#!/bin/bash" > $pre_build_script
-echo "$bind_env" >> $pre_build_script
+echo "source $bind_env_script" >> $pre_build_script
 chmod +x $pre_build_script
 
 br_dir=$SKIFF_FINAL_CONFIG_DIR/buildroot

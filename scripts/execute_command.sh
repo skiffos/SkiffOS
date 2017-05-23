@@ -31,6 +31,7 @@ if ! [ -d "${conf_path}" ]; then
 fi
 
 # Found the config path
+source ${SKIFF_FINAL_CONFIG_DIR}/bind_env.sh
 export SKIFF_CURRENT_CONF_DIR="${!confvn}"
 export SKIFF_CURRENT_CONF_NAME="$conf"
 export SKIFF_CURRENT_CONF_NAME_FULL="$confvn"
