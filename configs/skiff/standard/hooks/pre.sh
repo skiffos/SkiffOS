@@ -1,1 +1,1 @@
-mkdir -p $(pwd)/output/images/resources
+mkdir -p ${SKIFF_BUILDROOT_DIR}/output/images/resources

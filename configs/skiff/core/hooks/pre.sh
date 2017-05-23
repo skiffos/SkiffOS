@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_DIR=$(pwd)/target/
+TARGET_DIR=${SKIFF_BUILDROOT_DIR}/output/target/
 TARGET_SCRIPT_DIR=$TARGET_DIR/opt/skiff/scripts
 TARGET_COREENV_DIR=$TARGET_DIR/opt/skiff/coreenv
 
