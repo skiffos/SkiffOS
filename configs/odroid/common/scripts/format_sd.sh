@@ -17,8 +17,8 @@ if ! parted -h > /dev/null; then
   exit 1
 fi
 
-if ! command -v mkfs.msdos >/dev/null 2>&1; then
-  echo "Please install 'mkfs.msdos' and try again."
+if ! command -v mkfs.vfat >/dev/null 2>&1; then
+  echo "Please install 'mkfs.vfat' (usually dosfstools) and try again."
   exit 1
 fi
 
@@ -76,8 +76,8 @@ echo "Making boot partition..."
 parted $ODROID_SD mkpart primary fat32 2MiB 310MiB
 parted $ODROID_SD set 1 boot on
 parted $ODROID_SD set 1 lba on
-mkfs.msdos -F 32 ${ODROID_SD}1
-mlabel -i ${ODROID_SD}1 ::boot
+mkfs.vfat -F 32 ${ODROID_SD}1
+fatlabel ${ODROID_SD}1 boot
 
 echo "Making rootfs partition..."
 parted $ODROID_SD mkpart primary ext4 310MiB 500MiB
