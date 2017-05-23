@@ -18,6 +18,11 @@ if [ ! -b "$PI_SD" ]; then
   exit 1
 fi
 
+PI_SD_SFX=${PI_SD}
+if [ -b ${PI_SD}p1 ]; then
+  PI_SD_SFX=${PI_SD}p
+fi
+
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/zImage"
 cpio_path="${outp_path}/images/rootfs.cpio.gz"
@@ -55,19 +60,19 @@ rootfs_dir="${WORK_DIR}/rootfs"
 persist_dir="${WORK_DIR}/persist"
 
 mkdir -p $boot_dir
-echo "Mounting ${PI_SD}1 to $boot_dir..."
+echo "Mounting ${PI_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-mount ${PI_SD}1 $boot_dir
+mount ${PI_SD_SFX}1 $boot_dir
 
-echo "Mounting ${PI_SD}2 to $rootfs_dir..."
+echo "Mounting ${PI_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-mount ${PI_SD}2 $rootfs_dir
+mount ${PI_SD_SFX}2 $rootfs_dir
 
-echo "Mounting ${PI_SD}3 to $persist_dir..."
+echo "Mounting ${PI_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-mount ${PI_SD}3 $persist_dir
+mount ${PI_SD_SFX}3 $persist_dir
 
 echo "Marking and copying kernel..."
 

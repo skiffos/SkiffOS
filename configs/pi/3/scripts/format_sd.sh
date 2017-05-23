@@ -47,7 +47,12 @@ echo "Making boot partition..."
 parted $PI_SD mkpart primary fat16 0 150M
 sleep 1
 
-mkfs.vfat -n BOOT -F 16 ${PI_SD}1
+PI_SD_SFX=${PI_SD}
+if [ -b ${PI_SD}p1 ]; then
+  PI_SD_SFX=${PI_SD}p
+fi
+
+mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
 parted $PI_SD set 1 boot on
 parted $PI_SD set 1 lba on
 sleep 1
@@ -56,9 +61,9 @@ sleep 1
 echo "Making rootfs partition..."
 parted $PI_SD mkpart primary ext4 150M 500MiB
 sleep 1
-mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD}2
+mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Making persist partition..."
 parted $PI_SD -- mkpart primary ext4 500MiB "-1s"
 sleep 1
-mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD}3
+mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
