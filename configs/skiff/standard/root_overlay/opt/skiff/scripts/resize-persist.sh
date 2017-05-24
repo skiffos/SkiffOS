@@ -23,12 +23,12 @@ fi
 echo "Disk partition detected at ${MOUNTPOINT} -> ${DEVPATH}"
 disk=$(lsblk -no pkname $DEVPATH)
 echo "Disk detected at ${disk}."
-part_num=$(lsblk -f $DEVPATH -o "MAJ:MIN" | tail -n1 | cut -d: -f2 | tr -d '[[:space:]]')
+part_num=$(lsblk -f $disk -o "MAJ:MIN" | tail -n1 | cut -d: -f2 | tr -d '[[:space:]]')
 echo "Partition number detected as $part_num"
 disk_part=$DEVPATH
-p2_start=$(fdisk -l /dev/$DEVPATH | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
+p2_start=$(fdisk -l /dev/$disk | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
 echo "Partition start: $p2_start"
-p2_end=$(fdisk -l /dev/$DEVPATH | grep $disk_part | awk '{print $3}' | tr -d '[[:space:]]')
+p2_end=$(fdisk -l /dev/$disk | grep $disk_part | awk '{print $3}' | tr -d '[[:space:]]')
 echo "Partition end: $p2_end"
 
 disk_size=$(blockdev --getsize /dev/$disk)
@@ -46,7 +46,7 @@ p2_new_end=$((disk_size-10))
 echo "Resizing $disk_part from $p2_end to $p2_new_end"
 
 set +e
-fdisk /dev/$DEVPATH <<EOF
+fdisk /dev/$disk <<EOF
 p
 d
 $part_num
