@@ -1,8 +1,13 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 
 MOUNTPOINT=/mnt/persist
 MARKER=$MOUNTPOINT/.resized
+
+if ! mountpoint $MOUNTPOINT ; then
+  echo "$MOUNTPOINT is not a mountpoint!"
+  exit 1
+fi
 
 if [ -f $MARKER ]; then
   echo "Marker $MARKER in place, skipping."
@@ -21,9 +26,9 @@ echo "Disk detected at ${disk}."
 part_num=$(lsblk -f $DEVPATH -o "MAJ:MIN" | tail -n1 | cut -d: -f2 | tr -d '[[:space:]]')
 echo "Partition number detected as $part_num"
 disk_part=$DEVPATH
-p2_start=$(fdisk -l /dev/mmcblk0 | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
+p2_start=$(fdisk -l /dev/$DEVPATH | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
 echo "Partition start: $p2_start"
-p2_end=$(fdisk -l /dev/mmcblk0 | grep $disk_part | awk '{print $3}' | tr -d '[[:space:]]')
+p2_end=$(fdisk -l /dev/$DEVPATH | grep $disk_part | awk '{print $3}' | tr -d '[[:space:]]')
 echo "Partition end: $p2_end"
 
 disk_size=$(blockdev --getsize /dev/$disk)
@@ -41,7 +46,7 @@ p2_new_end=$((disk_size-10))
 echo "Resizing $disk_part from $p2_end to $p2_new_end"
 
 set +e
-fdisk /dev/mmcblk0 <<EOF
+fdisk /dev/$DEVPATH <<EOF
 p
 d
 $part_num
@@ -55,4 +60,6 @@ w
 EOF
 
 echo "Resized persist. Rebooting."
-reboot
+if ! systemctl reboot ; then
+  reboot
+fi
