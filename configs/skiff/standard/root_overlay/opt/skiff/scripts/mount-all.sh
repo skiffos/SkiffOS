@@ -45,6 +45,9 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist 
   if [ -f $DOCKER_SERVICE ]; then
     echo "Configuring Docker to use $DOCKER_PERSIST"
     DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
+
+    echo "Configuring Docker to use systemd-journald"
+    DOCKER_EXECSTART+=" --log-driver=journald"
   fi
 
   if ! [ -f $SKIP_JOURNAL_FLAG ]; then
