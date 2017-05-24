@@ -86,12 +86,14 @@ domerge="$SKIFF_SCRIPTS_DIR/merge_config.sh -O $SKIFF_BRCONF_WORK_DIR -m -r"
 rootfs_overlays=()
 br_exts=()
 kern_patches=()
+uboot_patches=()
 confpaths=(${SKIFF_CONFIG_PATH[@]})
 for confp in "${confpaths[@]}"; do
   echo "Merging Skiff config at $confp"
   br_confp=$confp/buildroot
   kern_confp=$confp/kernel
   kern_patchp=$confp/kernel_patches
+  uboot_patchp=$confp/uboot_patches
   rootfsp=$confp/root_overlay
   usersp=$confp/users
   br_extp=$confp/buildroot_ext
@@ -128,6 +130,10 @@ for confp in "${confpaths[@]}"; do
     echo "Adding kernel patch directory..."
     kern_patches+=("$kern_patchp")
   fi
+  if [ -d "$uboot_patchp" ]; then
+    echo "Adding uboot patch directory..."
+    uboot_patches+=("$uboot_patchp")
+  fi
   if [ -d "$usersp" ]; then
     for file in $(ls -v $usersp); do
       cat $usersp/$file >> $users_conf
@@ -144,12 +150,16 @@ for confp in "${confpaths[@]}"; do
   fi
 done
 
+# Rewrite arrays
+kern_patches=${kern_patches[@]}
+rootfs_overlays=${rootfs_overlays[@]}
+uboot_patches=${uboot_patches[@]}
+
 # Touch up the buildroot
 sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
-kern_patchesa="${kern_patches[@]}"
-sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patchesa@g" $br_conf
-overlays="${rootfs_overlays[@]}"
-sed -i "s@REPLACEME_ROOTFS_OVERLAY@$overlays@g" $br_conf
+sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patches@g" $br_conf
+sed -i "s@REPLACEME_UBOOT_PATCHES@$uboot_patches@g" $br_conf
+sed -i "s@REPLACEME_ROOTFS_OVERLAY@$rootfs_overlays@g" $br_conf
 sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
 br_exts=$(join_by : "${br_exts[@]}")
 
