@@ -1,0 +1,28 @@
+From 855bc5a1a59331ca1d4796f35ffac5de2ef1651f Mon Sep 17 00:00:00 2001
+From: Andrei Gherzan <andrei@resin.io>
+Date: Mon, 13 Mar 2017 20:30:26 +0100
+Subject: [PATCH 1/7] artik710_raptor.h: Set CONFIG_ROOT_PART to 2
+
+Upstream-Status: Inappropiate [Configuration]
+
+Signed-off-by: Andrei Gherzan <andrei@resin.io>
+---
+ include/configs/artik710_raptor.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/artik710_raptor.h b/include/configs/artik710_raptor.h
+index 5906641..677bf80 100644
+--- a/include/configs/artik710_raptor.h
++++ b/include/configs/artik710_raptor.h
+@@ -321,7 +321,7 @@
+ #define CONFIG_ROOT_DEV		0
+ #define CONFIG_BOOT_PART	1
+ #define CONFIG_MODULE_PART	2
+-#define CONFIG_ROOT_PART	3
++#define CONFIG_ROOT_PART	2
+ 
+ #define CONFIG_DFU_ALT \
+ 	"bl1-emmcboot.img raw 0x1 0x80;" \
+-- 
+2.7.4
+

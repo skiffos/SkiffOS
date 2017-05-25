@@ -1,0 +1,31 @@
+From 9a1232b9857f71c6d1e9a81e2b373e66c4cab0b4 Mon Sep 17 00:00:00 2001
+From: Andrei Gherzan <andrei@resin.io>
+Date: Mon, 13 Mar 2017 20:33:05 +0100
+Subject: [PATCH 4/7] artik710_raptor.h: Use rootwait
+
+This board seems to try to mount the rootfs before the device is ready. Force
+wait on the device with rootwait argument.
+
+Upstream-Status: Inappropiate [Configuration]
+
+Signed-off-by: Andrei Gherzan <andrei@resin.io>
+---
+ include/configs/artik710_raptor.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/artik710_raptor.h b/include/configs/artik710_raptor.h
+index a9a0c0e..b6def9a 100644
+--- a/include/configs/artik710_raptor.h
++++ b/include/configs/artik710_raptor.h
+@@ -394,7 +394,7 @@
+ 		"factory_info write ethaddr $ethaddr;"			\
+ 		"run factory_save\0"					\
+ 	"load_args=run factory_load; setenv bootargs ${console} "	\
+-		"root=/dev/mmcblk${rootdev}p${rootpart} ${root_rw} "	\
++		"root=/dev/mmcblk${rootdev}p${rootpart} ${root_rw} rootwait "	\
+ 		"rootfstype=${rootfs_type} ${opts} ${recoverymode} "	\
+ 		"drm_panel=$lcd_panel\0"				\
+ 	"load_kernel=fatload mmc ${rootdev}:${bootpart} $kerneladdr $kernel_file\0" \
+-- 
+2.7.4
+
