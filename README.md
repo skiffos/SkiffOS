@@ -53,9 +53,17 @@ Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 
 Below are some common configuration tasks that may be necessary when configuring a new Skiff system.
 
-### WiFi
+### NetworkManager
 
-You can configure WiFi at OS build time or at runtime. It's recommended to have a configuration package with your WiFi settings, but you might want to tweak them later.
+Skiff uses NetworkManager to manage network connections.
+
+Network configurations are loaded from `/etc/NetworkManager/system-connections` and are copied there from `skiff/connections` on the persist partition.
+
+The configuration file format for these connections is [documented here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html) with examples.
+
+### WiFi with WPA Supplicant
+
+If you chose, you may configure WiFi using `wpa_supplicant` configs instead of `NetworkManager`.
 
 Skiff will load any wpa supplicant configs from the persist partition at `skiff/wifi`.
 
@@ -74,7 +82,9 @@ network={
 }
 ```
 
-### Static IP
+### Static IP with Systemd Networkd
+
+If you chose, you may configure static IPs for network interfaces with `systemd-networkd` definition files instead of NetworkManager.
 
 To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/00-wlan0.network`
 
@@ -96,7 +106,7 @@ At runtime you can use `networkctl` to get a status printout.
 
 ### Hostname
 
-You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your config packages.
+You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your config packages by writing the desired hostname to `/etc/hostname`.
 
 ### SSH Keys
 
@@ -119,15 +129,11 @@ This allows virtually any workflow to be migrated to Skiff with almost no effort
 
 You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` list.
 
-To customize the core environment, add another config that places a Dockerfile and any associated files in the root filesystem at /opt/skiff/coreenv/user
+To customize the core environment, add another config that places a Dockerfile and any associated files in the root filesystem at `/opt/skiff/coreenv/user`.
 
 You can also customize the core environment by placing a Dockerfile and any associated files on the persist partition at `skiff/coreenv`.
 
-Note that the `CMD` will be overridden. If you would like to specify a script to run on container start you can place it at /core-startup.sh in the container.
-
-Make sure `/core-startup.sh` actually exits as all connections into the container will be held until it finishes.
-
-A subdirectory called "core" of the persistent drive will be mounted to /mnt/core. You can use your startup script to simlink this anywhere you want.
+NOTE: This is currently [being rewritten](http://github.com/paralin/skiff-core) and will be significantly revised in the near future.
 
 ## Configuration Packages
 

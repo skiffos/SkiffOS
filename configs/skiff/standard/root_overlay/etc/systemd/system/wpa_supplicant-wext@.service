@@ -4,6 +4,7 @@ Requires=sys-subsystem-net-devices-%i.device
 After=sys-subsystem-net-devices-%i.device
 Before=network.target
 Wants=network.target
+Requires=skiff-init.service
 
 [Service]
 Type=simple

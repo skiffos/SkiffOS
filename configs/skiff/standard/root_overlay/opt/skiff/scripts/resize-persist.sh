@@ -1,29 +1,15 @@
 #!/bin/bash
 set -eo pipefail
 
-MOUNTPOINT=/mnt/persist
-MARKER=$MOUNTPOINT/.resized
+PERSIST_DEV=$(blkid | grep -m 1 'LABEL="persist"' | cut -d: -f1)
+echo "Found persist at ${PERSIST_DEV}, performing filesystem check if necessary..."
+FSCKFIX=yes fsck -y $PERSIST_DEV
 
-if ! mountpoint $MOUNTPOINT ; then
-  echo "$MOUNTPOINT is not a mountpoint!"
-  exit 1
-fi
-
-if [ -f $MARKER ]; then
-  echo "Marker $MARKER in place, skipping."
-  exit 0
-fi
-
-DEVPATH=$(df | grep "${MOUNTPOINT}\$" | head -n1 | awk '{print $1}')
-if [ -z "$DEVPATH" ]; then
-  echo "Dev path cannot be found for ${MOUNTPOINT}."
-  exit 1
-fi
-
-echo "Disk partition detected at ${MOUNTPOINT} -> ${DEVPATH}"
+DEVPATH=$PERSIST_DEV
+echo "Disk partition detected ${DEVPATH}"
 disk=$(lsblk -no pkname $DEVPATH)
 echo "Disk detected at ${disk}."
-part_num=$(lsblk -f $disk -o "MAJ:MIN" | tail -n1 | cut -d: -f2 | tr -d '[[:space:]]')
+part_num=$(lsblk -f /dev/$disk -o "MAJ:MIN" | tail -n1 | cut -d: -f2 | tr -d '[[:space:]]')
 echo "Partition number detected as $part_num"
 disk_part=$DEVPATH
 p2_start=$(fdisk -l /dev/$disk | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
@@ -37,7 +23,6 @@ echo "Disk size: $disk_size"
 if [ ! $(($disk_size-$p2_end)) -ge 10485760 ]; then
   echo "No need to resize physical, exiting."
   resize2fs ${disk_part} || true
-  touch $MARKER
   exit 0
 fi
 

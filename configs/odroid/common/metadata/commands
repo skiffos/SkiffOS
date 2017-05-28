@@ -1,1 +1,2 @@
 format Format a SD card and install bootloader.
+install Installs to a formatted SD card.

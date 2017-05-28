@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mkimage="$BUILDROOT_DIR/output/host/usr/bin/mkimage"
-
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
@@ -12,11 +10,6 @@ if [ -z "$ODROID_SD" ]; then
   exit 1
 fi
 
-if [ ! -f "$mkimage" ]; then
-  echo "uboot-tools not compiled for host in Buildroot."
-  exit 1
-fi
-
 if [ ! -b "$ODROID_SD" ]; then
   echo "$ODROID_SD is not a block device or doesn't exist."
   exit 1
@@ -24,12 +17,31 @@ fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 outp_path="${BUILDROOT_DIR}/output"
-uimg_path="${outp_path}/images/zImage.exynos4412-odroidu3"
-uinit_path="${outp_path}/images/rootfs.cpio.uboot"
-dtb_path="${outp_path}/images/exynos4412-odroidu3.dtb"
+images_path="${outp_path}/images"
 
-if [ ! -f "$uimg_path" ]; then
-  echo "zImage not found, make sure Buildroot is done compiling."
+img_path="${images_path}/Image"
+zimg_path="${images_path}/zImage"
+uinit_path="${outp_path}/rootfs.cpio.uboot"
+dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
+boot_txt="$resources_path/boot-scripts/boot.txt"
+boot_ini="$resources_path/boot-scripts/boot.ini"
+
+if [ ! -f $dtb_path ]; then
+  echo "dtb not found, make sure Buildroot is done compiling."
+  exit 1
+fi
+
+if [ ! -f "$img_path" ]; then
+  img_path=$zimg_path
+fi
+
+if [ ! -f "$img_path" ]; then
+  echo "zImage or Image not found, make sure Buildroot is done compiling."
+  exit 1
+fi
+
+if [ ! -f "$boot_txt"] && [ ! -f "$boot_ini"]; then
+  echo "Could not find boot.txt or boot.ini, check $resources_path"
   exit 1
 fi
 
@@ -37,15 +49,15 @@ mounts=()
 WORK_DIR=`mktemp -d -p "$DIR"`
 # deletes the temp directory
 function cleanup {
-  sync || true
-  for mount in "${mounts[@]}"; do
-    echo "Unmounting ${mount}..."
-    umount $mount || true
-  done
-  mounts=()
-  if [ -d "$WORK_DIR" ]; then
-    rm -rf "$WORK_DIR" || true
-  fi
+sync || true
+for mount in "${mounts[@]}"; do
+  echo "Unmounting ${mount}..."
+  umount $mount || true
+done
+mounts=()
+if [ -d "$WORK_DIR" ]; then
+  rm -rf "$WORK_DIR" || true
+fi
 }
 trap cleanup EXIT
 
@@ -68,9 +80,9 @@ mkdir -p $persist_dir
 mounts+=("$persist_dir")
 mount ${ODROID_SD}3 $persist_dir
 
-echo "Copying zImage..."
+echo "Copying kernel image..."
 sync
-rsync -rav --no-perms --no-owner --no-group $uimg_path $boot_dir/zImage
+rsync -rav --no-perms --no-owner --no-group $img_path $boot_dir/
 sync
 
 echo "Copying uInitrd..."
@@ -89,13 +101,18 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
-echo "Compiling boot.txt..."
-rsync -rav --no-perms --no-owner --no-group $resources_path/boot-scripts/boot.txt $boot_dir/boot.txt
-if [ -f "$outp_path/images/.disable-serial-console" ]; then
-  echo "Disabling serial console..."
-  sed -i "/^setenv condev/s/^/# /" $boot_dir/boot.txt
+if [ -f "$boot_txt"]; then
+  echo "Compiling boot.txt..."
+  cp $boot_txt $boot_dir/boot.txt
+  $mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
+else
+  echo "Copying boot.ini..."
+  cp $boot_ini $boot_dir/boot.ini
 fi
-$mkimage -A arm -C none -T script -n 'Skiff Odroid U' -d $boot_dir/boot.txt $boot_dir/boot.scr
+sync
+
+echo "Copying device tree..."
+rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/devicetree.dtb
 sync
 
 cleanup

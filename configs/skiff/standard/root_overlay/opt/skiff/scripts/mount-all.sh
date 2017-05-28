@@ -1,17 +1,5 @@
 #!/bin/sh
-# set -e
-
-if [ ! -d "/opt/skiff" ]; then
-  echo "Non-skiff system detected, bailing out!"
-  exit 1
-fi
-
-INIT_ONCE=/run/skiff-inited
-
-if [ -f $INIT_ONCE ]; then
-  echo "$INIT_ONCE exists, bailing out."
-  exit 0
-fi
+set -eo pipefail
 
 SYSTEMD_CONFD=/etc/systemd/system
 DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
@@ -108,10 +96,7 @@ rm -rf /tmp/skiff_ssh_keys
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
 
-RESTART_NETWORKD=""
-RESTART_WPA=""
 if [ -d $PERSIST_MNT/skiff/wifi ]; then
-  RESTART_WPA="yes"
   cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
 else
   mkdir -p $PERSIST_MNT/skiff/wifi
@@ -119,13 +104,19 @@ fi
 echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_MNT/skiff/wifi/readme
 
 if [ -d $PERSIST_MNT/skiff/network ]; then
-  RESTART_NETWORKD="yes"
   cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
 else
   mkdir -p $PERSIST_MNT/skiff/network
-  cp /etc/systemd/network/* $PERSIST_MNT/skiff/network/
 fi
 echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/readme
+
+if [ -d $PERSIST_MNT/skiff/connections ]; then
+  mkdir -p /etc/NetworkManager/system-connections
+  rsync -rav --exclude 'readme' $PERSIST_MNT/skiff/connections/ /etc/NetworkManager/system-connections/ || true
+else
+  mkdir -p $PERSIST_MNT/skiff/connections
+fi
+echo "# Place NetworkManager keyfile configs here." > $PERSIST_MNT/skiff/connections/readme
 
 if [ -d $PERSIST_MNT/skiff/etc ]; then
   rsync -rav $PERSIST_MNT/skiff/etc/ /etc/
@@ -144,16 +135,4 @@ else
   hostname > $PERSIST_MNT/skiff/hostname
 fi
 
-touch $INIT_ONCE
 systemctl daemon-reload
-
-if [ -n "$RESTART_WPA" ]; then
-  if [ -f "/etc/systemd/system/wpa_supplicant-wext@.service" ]; then
-    systemctl restart --no-block 'wpa_supplicant-wext@*'
-  else
-    systemctl restart --no-block 'wpa_supplicant@*'
-  fi
-fi
-
-systemctl restart --no-block systemd-networkd || true
-systemctl start --no-block multi-user.target || true

@@ -73,19 +73,19 @@ echo "Formatting device..."
 parted $ODROID_SD mklabel msdos
 
 echo "Making boot partition..."
-parted $ODROID_SD mkpart primary fat32 2MiB 310MiB
+parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
 parted $ODROID_SD set 1 boot on
 parted $ODROID_SD set 1 lba on
 mkfs.vfat -F 32 ${ODROID_SD}1
 fatlabel ${ODROID_SD}1 boot
 
 echo "Making rootfs partition..."
-parted $ODROID_SD mkpart primary ext4 310MiB 500MiB
+parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 500MiB
 mkfs.ext4 ${ODROID_SD}2
 e2label ${ODROID_SD}2 rootfs
 
 echo "Making persist partition..."
-parted $ODROID_SD -- mkpart primary ext4 500MiB "-2GiB"
+parted -a optimal $ODROID_SD -- mkpart primary ext4 500MiB "-2GiB"
 mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 

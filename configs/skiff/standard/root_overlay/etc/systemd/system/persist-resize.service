@@ -1,6 +1,5 @@
 [Unit]
 Description=SkiffOS resize persist partition
-After=skiff-init.service
 
 [Service]
 Type=oneshot

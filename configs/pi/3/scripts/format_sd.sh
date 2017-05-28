@@ -44,7 +44,7 @@ parted $PI_SD mklabel msdos
 sleep 1
 
 echo "Making boot partition..."
-parted $PI_SD mkpart primary fat16 0 150M
+parted -a optimal $PI_SD mkpart primary fat16 0% 300M
 sleep 1
 
 PI_SD_SFX=${PI_SD}
@@ -59,11 +59,11 @@ sleep 1
 # mlabel -i ${PI_SD}1 ::boot
 
 echo "Making rootfs partition..."
-parted $PI_SD mkpart primary ext4 150M 500MiB
+parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
 sleep 1
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Making persist partition..."
-parted $PI_SD -- mkpart primary ext4 500MiB "-1s"
+parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
 sleep 1
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
