@@ -81,7 +81,7 @@ rsync -rav --no-perms --no-owner --no-group $img_path $boot_dir/
 sync
 
 echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $uinit_path $boot_dir/uInitrd
+rsync -rav --no-perms --no-owner --no-group $uinit_path $boot_dir/rootfs.cpio.uboot
 sync
 
 if [ -d "$outp_path/images/rootfs_part" ]; then

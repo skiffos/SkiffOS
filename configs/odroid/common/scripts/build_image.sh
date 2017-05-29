@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
-WORK_DIR=`mktemp -d -p "skiff-odroid-img-"`
-EMPTY_WORK_DIR=`mktemp -d -p "skiff-odroid-img-empty-"`
+WORK_DIR=`mktemp -d`
+EMPTY_WORK_DIR=`mktemp -d`
 # deletes the temp directory
 function cleanup {
 sync || true
@@ -22,6 +22,7 @@ GENIMAGE_CFG="${SKIFF_CURRENT_CONF_DIR}/resources/gen-image/genimage.cfg"
 
 ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
 ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
+ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
 
 if [ ! -f $ubootimg ]; then
   ubootimg=$ubootimgb
@@ -32,9 +33,9 @@ if [ ! -f $ubootimg ]; then
   exit 1
 fi
 
-img_path="${images_path}/Image"
-zimg_path="${images_path}/zImage"
-dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
+img_path="${OUTPUT_DIR}/Image"
+zimg_path="${OUTPUT_DIR}/zImage"
+dtb_path=$(find ${OUTPUT_DIR}/ -name '*.dtb' -print -quit)
 
 if [ ! -f "$img_path" ]; then
   img_path=$zimg_path
@@ -67,5 +68,5 @@ genimage \
 
 echo "Flashing u-boot..."
 cd $ubootscripts
-SD_FUSE_DD_ARGS="conv=notrunc" bash ./sd_fusing.sh $OUTPUT_IMAGE $ubootimg
+SD_FUSE_DD_ARGS="conv=notrunc" ./sd_fusing.sh $OUTPUT_IMAGE $ubootimg
 cd -

@@ -13,7 +13,7 @@ setenv kernel_size 0x$filesize
 fatload mmc 0:1 $dtb_addr_r exynos4412-odroidu3.dtb
 
 # Load the initramfs
-fatload mmc 0:1 $initramfs_addr_r uInitrd
+fatload mmc 0:1 $initramfs_addr_r rootfs.cpio.uboot
 
 setenv condev "console=ttySAC1,115200n8"
 setenv bootcmd "bootz $kernel_addr_r $initramfs_addr_r $dtb_addr_r"
