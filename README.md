@@ -57,9 +57,11 @@ Below are some common configuration tasks that may be necessary when configuring
 
 Skiff uses NetworkManager to manage network connections.
 
-Network configurations are loaded from `/etc/NetworkManager/system-connections` and are copied there from `skiff/connections` on the persist partition.
+Network configurations are loaded from `/etc/NetworkManager/system-connections` and from `skiff/connections` on the persist partition.
 
 The configuration file format for these connections is [documented here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html) with examples.
+
+You can use `nmcli` on the device to manage `NetworkManager`, and any connection definitions written by `nmcli device wifi connect` or similar will automatically be written to the persist partition and persisted to future boots.
 
 ### WiFi with WPA Supplicant
 
