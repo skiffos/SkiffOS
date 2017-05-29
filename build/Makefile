@@ -3,6 +3,12 @@ warn:
 	@echo "Please run make from the root dir, not build."
 	exit 1
 
+env:
+	env
+
+shell:
+	/bin/bash
+
 cmd/%:
 	@$(SKIFF_SCRIPTS_DIR)/execute_command.sh $@
 

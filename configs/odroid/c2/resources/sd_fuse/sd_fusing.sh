@@ -7,10 +7,10 @@
 #
 
 BL1=bl1.bin.hardkernel
-UBOOT=u-boot.bin
+UBOOT=$2
 
 if [ -z $1 ]; then
-        echo "Usage ./sd_fusing.sh <SD card reader's device>"
+        echo "Usage ./sd_fusing.sh <SD card reader's device> <uboot path>"
         exit 1
 fi
 
@@ -30,5 +30,4 @@ sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=97 ${SD_FUSE_DD_ARGS}
 
 sync
 
-# sudo eject $1
 echo Finished.

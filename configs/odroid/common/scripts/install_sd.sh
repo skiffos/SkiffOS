@@ -1,10 +1,10 @@
 #!/bin/bash
+set -eo pipefail
 
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
 
-set -e
 if [ -z "$ODROID_SD" ]; then
   echo "Please set ODROID_SD and try again."
   exit 1
@@ -23,8 +23,8 @@ img_path="${images_path}/Image"
 zimg_path="${images_path}/zImage"
 uinit_path="${outp_path}/rootfs.cpio.uboot"
 dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
-boot_txt="$resources_path/boot-scripts/boot.txt"
-boot_ini="$resources_path/boot-scripts/boot.ini"
+
+source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
 if [ ! -f $dtb_path ]; then
   echo "dtb not found, make sure Buildroot is done compiling."
@@ -37,11 +37,6 @@ fi
 
 if [ ! -f "$img_path" ]; then
   echo "zImage or Image not found, make sure Buildroot is done compiling."
-  exit 1
-fi
-
-if [ ! -f "$boot_txt"] && [ ! -f "$boot_ini"]; then
-  echo "Could not find boot.txt or boot.ini, check $resources_path"
   exit 1
 fi
 
@@ -101,18 +96,18 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
-if [ -f "$boot_txt"]; then
+if [ -n "$boot_conf_enc"]; then
   echo "Compiling boot.txt..."
-  cp $boot_txt $boot_dir/boot.txt
+  cp $boot_conf $boot_dir/boot.txt
   $mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
 else
   echo "Copying boot.ini..."
-  cp $boot_ini $boot_dir/boot.ini
+  cp $boot_conf $boot_dir/boot.ini
 fi
 sync
 
 echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/devicetree.dtb
+rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/
 sync
 
 cleanup

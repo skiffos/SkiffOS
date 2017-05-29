@@ -112,11 +112,15 @@ echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/re
 
 if [ -d $PERSIST_MNT/skiff/connections ]; then
   mkdir -p /etc/NetworkManager/system-connections
-  rsync -rav --exclude 'readme' $PERSIST_MNT/skiff/connections/ /etc/NetworkManager/system-connections/ || true
+  rsync -rv --exclude 'readme' $PERSIST_MNT/skiff/connections/ /etc/NetworkManager/system-connections/ || true
 else
   mkdir -p $PERSIST_MNT/skiff/connections
 fi
 echo "# Place NetworkManager keyfile configs here." > $PERSIST_MNT/skiff/connections/readme
+chmod 0755 /etc/NetworkManager
+chmod 0644 /etc/NetworkManager/NetworkManager.conf
+chmod -R 0600 /etc/NetworkManager/system-connections
+chown -R root:root /etc/NetworkManager/system-connections
 
 if [ -d $PERSIST_MNT/skiff/etc ]; then
   rsync -rav $PERSIST_MNT/skiff/etc/ /etc/

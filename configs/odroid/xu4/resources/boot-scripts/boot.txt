@@ -11,7 +11,7 @@ fatload mmc 0:1 $kernel_addr_r zImage
 setenv kernel_size 0x$filesize
 
 # Load the device tree
-fatload mmc 0:1 $dtb_addr_r devicetree.dtb
+fatload mmc 0:1 $dtb_addr_r exynos5422-odroidxu4.dtb
 
 # Load the initramfs
 fatload mmc 0:1 $initramfs_addr_r uInitrd

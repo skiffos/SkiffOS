@@ -8,15 +8,15 @@
 #
 ####################################
 set -x
-set -e
+set -eo pipefail
 
 if [ -z $1 ]; then
     echo "usage: ./sd_fusing.sh <SD Reader's device file> <ubootimg>"
     exit 1
 fi
-ubootimg=$2
 
-if [ ! -b $1 ]; then
+ubootimg=$2
+if [ ! -f $1 ]; then
     echo "$1 not found, unable to fuse bootloader."
     exit 1
 fi

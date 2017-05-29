@@ -1,6 +1,21 @@
-setenv condev "console=ttySAC1,115200n8"
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
-setenv bootcmd "fatload mmc 0:1 0x40008000 zImage; fatload mmc 0:1 0x42100000 uInitrd; bootz 0x40008000 0x42100000"
-setenv bootargs "console=tty1 ${condev} root=/dev/initrd ro ramdisk_size=100000 mem=2047M"
+
+setenv dtb_addr_r "0x42000000"
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x44000000"
+
+# Load the kernel.
+fatload mmc 0:1 $kernel_addr_r zImage
+setenv kernel_size 0x$filesize
+
+# Load the device tree
+fatload mmc 0:1 $dtb_addr_r exynos4412-odroidu3.dtb
+
+# Load the initramfs
+fatload mmc 0:1 $initramfs_addr_r uInitrd
+
+setenv condev "console=ttySAC1,115200n8"
+setenv bootcmd "bootz $kernel_addr_r $initramfs_addr_r $dtb_addr_r"
+setenv bootargs "console=tty1 ${condev} root=/dev/initrd ro ramdisk_size=100000 mem=2047M net.ifnames=0 no_console_suspend"
 boot

@@ -7,23 +7,20 @@
 # published by the Free Software Foundation.
 #
 ####################################
-set -x
+set -eo pipefail
 
 if [ -z $1 ]
 then
     echo "usage: ./sd_fusing.sh <SD Reader's device file> <ubootimg>"
     exit 0
 fi
-ubootimg=$2
 
+ubootimg=$2
 device=$1
 
-if [ -b $device ]
-then
-    echo "$device reader is identified."
-else
-    echo "$device is NOT identified."
-    exit 0
+if [ ! -f $device ]; then
+    echo "$device not found"
+    exit 1
 fi
 
 ####################################
@@ -53,7 +50,7 @@ dd iflag=dsync oflag=dsync if=$ubootimg of=$device seek=$uboot_position ${SD_FUS
 
 #<TrustZone S/W fusing>
 echo "TrustZone S/W fusing"
-dd iflag=dsync oflag=dsync if=./tzsw.HardKernel of=$device seek=$tzsw_position
+dd iflag=dsync oflag=dsync if=./tzsw.HardKernel of=$device seek=$tzsw_position ${SD_FUSE_DD_ARGS}
 
 ####################################
 #<Message Display>
