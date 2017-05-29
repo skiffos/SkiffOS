@@ -164,8 +164,9 @@ A configuration package is laid out into the following directories:
 │   ├── dependencies
 │   ├── description
 │   └── unlisted
-├── resources:  files used by the configuration package
-└── scripts:    any scripts used by the extensions
+├── resources:     files used by the configuration package
+├── scripts:       any scripts used by the extensions
+└── uboot_patches: u-boot .patch files
 ```
 
 All files are optional.
