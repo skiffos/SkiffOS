@@ -26,6 +26,7 @@ mkdir -p $DOCKER_CONFD
 mkdir -p $PERSIST_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   echo "Persist drive is at $PERSIST_MNT"
+  mkdir -p $PERSIST_MNT/internal
   mkdir -p $SKIFF_PERSIST
   mkdir -p $DOCKER_PERSIST
   mkdir -p $JOURNAL_PERSIST
@@ -96,27 +97,36 @@ rm -rf /tmp/skiff_ssh_keys
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
 
-if [ -d $PERSIST_MNT/skiff/wifi ]; then
-  cp $PERSIST_MNT/skiff/wifi/*.conf /etc/wpa_supplicant/ || true
-else
+mkdir -p /etc/wpa_supplicant
+overlay_workdir=${PERSIST_MNT}/skiff-overlays
+if ! mountpoint /etc/wpa_supplicant ; then
+  echo "Setting up overlay mount for wpa_supplicant..."
   mkdir -p $PERSIST_MNT/skiff/wifi
+  echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_MNT/skiff/wifi/readme
+  wifi_workdir=${overlay_workdir}/wpa_supplicant
+  mkdir -p $wifi_workdir
+  mount -t overlay -o lowerdir=/etc/wpa_supplicant,upperdir=${PERSIST_MNT}/skiff/wifi,workdir=${wifi_workdir} overlay /etc/wpa_supplicant
 fi
-echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_MNT/skiff/wifi/readme
 
-if [ -d $PERSIST_MNT/skiff/network ]; then
-  cp $PERSIST_MNT/skiff/network/*.network /etc/systemd/network/ || true
-else
+mkdir -p /etc/systemd/network
+if ! mountpoint /etc/systemd/network ; then
+  echo "Setting up overlay mount for systemd-networkd configs..."
   mkdir -p $PERSIST_MNT/skiff/network
+  echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/readme
+  network_workdir=${overlay_workdir}/systemd_network
+  mkdir -p $network_workdir
+  mount -t overlay -o lowerdir=/etc/systemd/network,upperdir=$PERSIST_MNT/skiff/network,workdir=$network_workdir overlay /etc/systemd/network
 fi
-echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/readme
 
-if [ -d $PERSIST_MNT/skiff/connections ]; then
-  mkdir -p /etc/NetworkManager/system-connections
-  rsync -rv --exclude 'readme' $PERSIST_MNT/skiff/connections/ /etc/NetworkManager/system-connections/ || true
-else
+mkdir -p /etc/NetworkManager/system-connections
+if ! mountpoint /etc/NetworkManager/system-connections ; then
   mkdir -p $PERSIST_MNT/skiff/connections
+  echo "# Place NetworkManager keyfile configs here." > $PERSIST_MNT/skiff/connections/readme
+  mkdir -p /etc/NetworkManager/system-connections
+  connections_workdir=${overlay_workdir}/nm_connections
+  mkdir -p $connections_workdir
+  mount -t overlay -o lowerdir=/etc/NetworkManager/system-connections,upperdir=${PERSIST_MNT}/skiff/connections,workdir=$connections_workdir overlay /etc/NetworkManager/system-connections
 fi
-echo "# Place NetworkManager keyfile configs here." > $PERSIST_MNT/skiff/connections/readme
 chmod 0755 /etc/NetworkManager
 chmod 0644 /etc/NetworkManager/NetworkManager.conf
 chmod -R 0600 /etc/NetworkManager/system-connections
