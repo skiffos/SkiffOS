@@ -1,11 +1,10 @@
 [Unit]
-Description=SkiffOS core container
+Description=SkiffOS core setup
 Requires=docker.service
 Requires=skiff-init.service
 After=skiff-init.service
 
 [Service]
-Type=simple
-ExecStart=/opt/skiff/scripts/core-container.sh
-Restart=on-failure
-RestartSec=5
+Type=oneshot
+ExecStart=/opt/skiff/scripts/skiff-core.sh
+RemainAfterExit=true

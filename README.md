@@ -126,16 +126,13 @@ Users can work within a familiar, traditional, persistent OS environment if desi
 
  - On first boot, the system will build the **core** container image.
  - SSH connections to the **core** user are dropped into the Docker container seamlessly.
+ - When building the container, the system automatically attempts to build an image compatible with the target.
 
-This allows virtually any workflow to be migrated to Skiff with almost no effort.
+This allows virtually any workflow to be migrated to Skiff with almost no effort. The config file structure is flexible, and allows for any number of containers, users, and images to be defined and built.
 
 You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` list.
 
-To customize the core environment, add another config that places a Dockerfile and any associated files in the root filesystem at `/opt/skiff/coreenv/user`.
-
-You can also customize the core environment by placing a Dockerfile and any associated files on the persist partition at `skiff/coreenv`.
-
-NOTE: This is currently [being rewritten](http://github.com/paralin/skiff-core) and will be significantly revised in the near future.
+To customize the core environment, edit the file at `skiff/core/config.yaml` on the persist partition. The default config will be placed there on first boot.
 
 ## Configuration Packages
 

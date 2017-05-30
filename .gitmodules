@@ -1,6 +1,3 @@
 [submodule "buildroot"]
 	path = buildroot
 	url = https://github.com/paralin/buildroot.git
-[submodule "configs/skiff/core/resources/scratchbuild"]
-	path = configs/skiff/core/resources/scratchbuild
-	url = https://github.com/paralin/scratchbuild.git

@@ -102,6 +102,7 @@ for confp in "${confpaths[@]}"; do
        [ ! -f "$br_extp/external.desc"] || \
        [ ! -f "$br_extp/Config.in"]; then \
       echo "Buildroot extension directory $br_extp invalid, see https://buildroot.org/downloads/manual/manual.html#outside-br-custom"
+      exit 1
     else
       br_exts+=("$br_extp")
     fi
@@ -168,18 +169,7 @@ mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig
 # Build the buildroot config
 rm $BUILDROOT_DIR/.config 2>/dev/null || true
 # ln -fs $br_conf $BUILDROOT_DIR/.config
-(cd $BUILDROOT_DIR && make defconfig BR2_DEFCONFIG=$br_conf)
+(cd $BUILDROOT_DIR && make defconfig BR2_DEFCONFIG=$br_conf BR2_EXTERNAL="${br_exts}")
 # Now copy the config
 mv $BUILDROOT_DIR/.config $SKIFF_FINAL_CONFIG_DIR/final/buildroot
 ln -fs $SKIFF_FINAL_CONFIG_DIR/final/buildroot $BUILDROOT_DIR/.config
-
-# echo "${ACTION_COLOR}Re-generating defconfig...$RESET_COLOR"
-# regen defconfig
-if [ -n "$br_exts" ]; then
-  (
-    cd $BUILDROOT_DIR
-    make savedefconfig \
-      BR2_DEFCONFIG=$SKIFF_FINAL_CONFIG_DIR/defconfig/buildroot \
-      BR2_EXTERNAL="${br_exts}"
-  )
-fi
