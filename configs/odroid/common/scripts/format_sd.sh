@@ -90,6 +90,7 @@ mkfs.ext4 ${ODROID_SD}3
 e2label ${ODROID_SD}3 persist
 
 sync && sync
+sleep 1
 
 echo "Flashing u-boot..."
 cd $ubootscripts

@@ -18,11 +18,6 @@ fi
 ubootimg=$2
 device=$1
 
-if [ ! -f $device ]; then
-    echo "$device not found"
-    exit 1
-fi
-
 ####################################
 # fusing images
 signed_bl1_position=1
