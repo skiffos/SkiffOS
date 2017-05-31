@@ -15,12 +15,12 @@ if [ -z $1 ]; then
 fi
 
 if [ ! -f $BL1 ]; then
-        echo "error: $BL1 is not exist"
+        echo "error: $BL1 does not exist"
         exit 1
 fi
 
 if [ ! -f $UBOOT ]; then
-        echo "error: $UBOOT is not exist"
+        echo "error: $UBOOT does not exist"
         exit 1
 fi
 
