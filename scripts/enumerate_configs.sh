@@ -158,7 +158,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
         while read line; do
           # line contains command Description is here
           cmdn=($(echo "$line" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
-          if [[ ( "${#cmdn[@]}" < 2 ) ]]; then
+          if (( ${#cmdn[@]} < 2 )); then
             continue
           fi
           cmdname="${cmdn[0]}"
