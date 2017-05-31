@@ -96,7 +96,7 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
-if [ -n "$boot_conf_enc"]; then
+if [ -n "$boot_conf_enc" ]; then
   echo "Compiling boot.txt..."
   cp $boot_conf $boot_dir/boot.txt
   $mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
