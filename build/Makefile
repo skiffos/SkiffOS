@@ -40,5 +40,5 @@ clean: ensure-submodule cleanup-workspace
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$$(tput smso)Kicking off Buildroot build...$$(tput sgr0)"
-	cd $$BUILDROOT_DIR && make
+	cd $$BUILDROOT_DIR && make $(SKIFF_BUILD_TARGET_OVERRIDE)
 	@echo "$$(tput smso)Compilation complete!$$(tput sgr0)"

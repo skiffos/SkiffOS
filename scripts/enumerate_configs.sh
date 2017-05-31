@@ -149,6 +149,10 @@ if [ -n "$SKIFF_CONFIG" ]; then
           continue
         fi
       fi
+      # Check if it has a build target override
+      if [ -f "$conf_path/metadata/buildtarget" ] && [ -z "$SKIFF_BUILD_TARGET_OVERRIDE" ]; then
+        SKIFF_BUILD_TARGET_OVERRIDE="$(cat $conf_path/metadata/buildtarget)"
+      fi
       # Check if it has any commands
       if [ -f "$conf_path/metadata/commands" ] && [ -d "$conf_path/extensions" ]; then
         cmdsuf=$(cat $conf_path/metadata/commands)
@@ -205,3 +209,4 @@ fi
 
 # now we have all the env set up
 export SKIFF_HAS_ENUMERATED_CONFIGS="yes"
+export SKIFF_BUILD_TARGET_OVERRIDE
