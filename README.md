@@ -134,6 +134,8 @@ You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` lis
 
 To customize the core environment, edit the file at `skiff/core/config.yaml` on the persist partition. The default config will be placed there on first boot.
 
+The default config can be overridden with a file at `/opt/skiff/coreenv/defconfig.yaml`.
+
 ## Configuration Packages
 
 Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
