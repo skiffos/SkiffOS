@@ -99,7 +99,7 @@ fi
 if [ -n "$boot_conf_enc" ]; then
   echo "Compiling boot.txt..."
   cp $boot_conf $boot_dir/boot.txt
-  $mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
+  mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
 else
   echo "Copying boot.ini..."
   cp $boot_conf $boot_dir/boot.ini
