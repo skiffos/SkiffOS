@@ -66,6 +66,8 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   fi
 fi
 
+MKEXT4="mkfs.ext4 -F -O ^64bit"
+
 set -x
 set -e
 
@@ -81,13 +83,11 @@ fatlabel ${ODROID_SD}1 boot
 
 echo "Making rootfs partition..."
 parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 500MiB
-mkfs.ext4 ${ODROID_SD}2
-e2label ${ODROID_SD}2 rootfs
+$MKEXT4 -L "rootfs" ${ODROID_SD}2
 
 echo "Making persist partition..."
 parted -a optimal $ODROID_SD -- mkpart primary ext4 500MiB "-1s"
-mkfs.ext4 ${ODROID_SD}3
-e2label ${ODROID_SD}3 persist
+$MKEXT4 -L "persist" ${ODROID_SD}3
 
 sync && sync
 sleep 1
