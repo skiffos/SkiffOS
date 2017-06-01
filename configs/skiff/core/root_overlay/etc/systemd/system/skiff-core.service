@@ -8,3 +8,4 @@ After=skiff-init.service
 Type=oneshot
 ExecStart=/opt/skiff/scripts/skiff-core.sh
 RemainAfterExit=true
+TimeoutStartSec=infinity
