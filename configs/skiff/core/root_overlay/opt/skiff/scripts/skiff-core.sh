@@ -11,7 +11,7 @@ SKIFF_CORE="/usr/bin/skiff-core --config $CORE_CONFIG_FILE"
 
 mkdir -p $CORE_PERSIST_DIR
 if [ ! -f $CORE_CONFIG_FILE ]; then
-  if [ -f $CORE_DEFCONFIG_FILE]; then
+  if [ -f $CORE_DEFCONFIG_FILE ]; then
     echo "Copying default config from $CORE_DEFCONFIG_FILE to $CORE_CONFIG_FILE"
     cp ${CORE_DEFCONFIG_FILE} ${CORE_CONFIG_FILE}
   else
