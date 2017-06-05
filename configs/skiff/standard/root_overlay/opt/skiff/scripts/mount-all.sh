@@ -150,3 +150,4 @@ else
 fi
 
 systemctl daemon-reload
+hostnamectl set-hostname $(cat /etc/hostname)
