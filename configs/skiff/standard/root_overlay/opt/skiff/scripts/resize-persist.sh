@@ -45,6 +45,4 @@ w
 EOF
 
 echo "Resized persist. Rebooting."
-if ! systemctl reboot ; then
-  reboot
-fi
+nohup systemctl reboot &
