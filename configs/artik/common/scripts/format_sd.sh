@@ -46,5 +46,5 @@ sync && sync
 sleep 1
 
 echo "Flashing u-boot..."
-cd $ubootscripts
-
+cd $OUTPUT_DIR/images/sd_fuse
+./sd_fuse.sh ${IMG}
