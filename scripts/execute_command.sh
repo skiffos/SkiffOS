@@ -5,6 +5,7 @@ containsElement () {
   for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
   return 1
 }
+
 path_to_var () {
   partb=$(echo $1 | tr '[:lower:]' '[:upper:]' | sed "s#/#_#")
   echo "${SKIFF_PACKAGE_ENV_PREFIX}${partb}"

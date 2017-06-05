@@ -6,9 +6,6 @@ warn:
 env:
 	env
 
-shell:
-	/bin/bash
-
 cmd/%:
 	@$(SKIFF_SCRIPTS_DIR)/execute_command.sh $@
 
@@ -22,6 +19,9 @@ ensure-workspace: ensure-submodule
 	@$(SKIFF_SCRIPTS_DIR)/setup_workspace.sh
 
 ensure-sane: ensure-submodule ensure-workspace
+
+shell: ensure-sane ensure-workspace
+	@$(SKIFF_SCRIPTS_DIR)/bind_shell.sh
 
 verify-skiff-config:
 	@$(SKIFF_SCRIPTS_DIR)/verify_selected_config.sh
