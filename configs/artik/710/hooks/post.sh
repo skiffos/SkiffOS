@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-BLOB_DIR="${SKIFF_CURRENT_CONFIG_DIR}/resources/uboot"
+BLOB_DIR="${SKIFF_CURRENT_CONF_DIR}/resources/uboot"
 OUTPUT_DIR="${SKIFF_BUILDROOT_DIR}/output"
 UBOOT_DIR="${OUTPUT_DIR}/build/uboot-custom"
 IMAGES_DIR="${OUTPUT_DIR}/images"
@@ -29,11 +29,11 @@ tools/mkenvimage -s 16384 -o params_sd.bin default_envs_sd.txt
 
 echo "Generating FIP nonsecure image..."
 tools/fip_create/fip_create --dump --bl33 u-boot.bin fip-nonsecure.bin
-tools/nexell/SECURE_BINGEN -c ${BASE_MACH} -t 3rdboot -n ${S}/tools/nexell/nsih/raptor-64.txt -i ${B}/fip-nonsecure.bin -o ${B}/fip-nonsecure.img -l ${FIP_LOAD_ADDR} -e 0x00000000
+tools/nexell/SECURE_BINGEN -c ${BASE_MACH} -t 3rdboot -n ${UBOOT_DIR}/tools/nexell/nsih/raptor-64.txt -i fip-nonsecure.bin -o fip-nonsecure.img -l ${FIP_LOAD_ADDR} -e 0x00000000
 cp fip-nonsecure.bin ${IMAGES_DIR}/fip-nonsecure.bin
 
 echo "Generating device FIP image..."
-tools/fip_create/fip_create --dump --bl2 ${BLOB_DIR}/fip-loader-sd.img --bl31 ${BLOB_DIR}/fip-secure.img --bl32 ${BLOB_DIR}/fip-secure.bin --bl33 ${IMAGES_DIR}/u-boot.bin ${IMAGES_DIR}/fip.bin
+tools/fip_create/fip_create --dump --bl2 ${BLOB_DIR}/fip-loader-sd.img --bl31 ${BLOB_DIR}/fip-secure.img --bl33 ${IMAGES_DIR}/u-boot.bin ${IMAGES_DIR}/fip.bin
 
 echo "Generating single-file bootloader images..."
 dd if=/dev/zero ibs=1024 count=2050 of=${IMAGES_DIR}/singleimage.bin
