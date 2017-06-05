@@ -144,7 +144,7 @@ if [ -f $PERSIST_MNT/skiff/hostname ]; then
   NHOSTNAME=$(cat $PERSIST_MNT/skiff/hostname)
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
-  hostname $NHOSTNAME
+  hostname -F /etc/hostname
 else
   hostname > $PERSIST_MNT/skiff/hostname
 fi
