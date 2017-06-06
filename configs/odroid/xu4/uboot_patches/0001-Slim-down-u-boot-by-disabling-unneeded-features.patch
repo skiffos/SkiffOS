@@ -1,7 +1,7 @@
-From 4a16fef30e75c58bc749fc347c3d6a6b8b73ebee Mon Sep 17 00:00:00 2001
+From 07b278163ab010e1d5bb3fc20658d72b886fdf44 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Wed, 31 May 2017 14:58:08 -0700
-Subject: [PATCH] Slim down u-boot by disabling unneeded features
+Subject: [PATCH 1/2] Slim down u-boot by disabling unneeded features
 
 ---
  cmd/Makefile                        |  1 -
