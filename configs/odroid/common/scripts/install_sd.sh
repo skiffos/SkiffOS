@@ -96,13 +96,22 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
+enable_silent() {
+  if [ -f "$images_path/.disable-serial-console" ]; then
+    echo "Disabling serial console and enabling silent mode..."
+    sed -i -e "/^setenv condev/s/^/# /" -e "s/# setenv silent/setenv silent/" $1
+  fi
+}
+
 if [ -n "$boot_conf_enc" ]; then
   echo "Compiling boot.txt..."
   cp $boot_conf $boot_dir/boot.txt
+  enable_silent $boot_dir/boot.txt
   mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
 else
   echo "Copying boot.ini..."
   cp $boot_conf $boot_dir/boot.ini
+  enable_silent $boot_dir/boot.ini
 fi
 sync
 

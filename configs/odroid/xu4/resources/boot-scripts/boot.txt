@@ -1,3 +1,4 @@
+# setenv silent 1
 setenv condev "console=ttySAC2,115200n8"
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
