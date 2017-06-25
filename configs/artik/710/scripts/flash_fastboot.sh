@@ -40,12 +40,11 @@ $FASTBOOT flash 2ndboot ./sd_fuse/bl1-emmcboot.img
 $FASTBOOT flash fip-loader fip-loader-emmc.img
 $FASTBOOT flash fip-secure fip-secure.img
 $FASTBOOT flash fip-nonsecure fip-nonsecure.bin
+$FASTBOOT flash env params_emmc.bin
 $FASTBOOT flash boot boot.img
 $FASTBOOT flash modules modules.img
 $FASTBOOT flash rootfs rootfs.img
 $FASTBOOT flash persist persist.img
-$FASTBOOT flash env params_emmc.bin
-$FASTBOOT flash partmap ./sd_fuse/partmap_emmc.txt # The env seems to overwrite the partmap.
 $FASTBOOT reboot
 
 echo "Flashing complete!"

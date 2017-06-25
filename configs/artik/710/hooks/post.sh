@@ -16,7 +16,7 @@ BOOT_SIZE=150
 ROOTFS_SIZE=150
 PERSIST_INIT_SIZE=300
 MODULE_SIZE=32
-BOOT_USE_VFAT="yes" # set to yes if needed
+BOOT_USE_VFAT="" # set to yes if needed
 
 if [ ! -d "$UBOOT_DIR" ]; then
   echo "Uboot expected at $UBOOT_DIR but not found."
@@ -43,12 +43,17 @@ cp params_sd.bin params_emmc.bin ${IMAGES_DIR}/
 
 echo "Generating FIP nonsecure image..."
 tools/fip_create/fip_create --dump --bl33 u-boot.bin fip-nonsecure.bin
-tools/nexell/SECURE_BINGEN -c ${BASE_MACH} -t 3rdboot -n ${UBOOT_DIR}/tools/nexell/nsih/raptor-64.txt -i fip-nonsecure.bin -o fip-nonsecure.img -l ${FIP_LOAD_ADDR} -e 0x00000000
-cp fip-nonsecure.bin ${IMAGES_DIR}/fip-nonsecure.bin
+tools/nexell/SECURE_BINGEN -c ${BASE_MACH} \
+                           -t 3rdboot \
+                           -n ${UBOOT_DIR}/tools/nexell/nsih/raptor-64.txt \
+                           -i fip-nonsecure.bin -o fip-nonsecure.img \
+                           -l ${FIP_LOAD_ADDR} -e 0x00000000
 
-echo "Generating device FIP image..."
-tools/fip_create/fip_create --dump --bl2 ${BLOB_DIR}/fip-loader-sd.img --bl31 ${BLOB_DIR}/fip-secure.img --bl33 ${IMAGES_DIR}/u-boot.bin ${IMAGES_DIR}/fip.bin
+#echo "Generating device FIP image..."
+#tools/fip_create/fip_create --dump --bl2 ${BLOB_DIR}/fip-loader-sd.img --bl31 ${BLOB_DIR}/fip-secure.img --bl33 ${IMAGES_DIR}/u-boot.bin ${IMAGES_DIR}/fip.bin
+
 cp ${BLOB_DIR}/fip-secure.img \
+   ${BLOB_DIR}/fip-nonsecure.bin \
    ${BLOB_DIR}/fip-loader-emmc.img \
    ${IMAGES_DIR}
 
