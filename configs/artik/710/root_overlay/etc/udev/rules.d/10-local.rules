@@ -1,0 +1,1 @@
+#ACTION=="add", KERNEL=="hci0", RUN+="/etc/bluetooth/hciconf.sh"

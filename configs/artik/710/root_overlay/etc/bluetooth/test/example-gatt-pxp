@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+
+import dbus, threading, time, random
+try:
+  from gi.repository import GObject
+except ImportError:
+  import gobject as GObject
+import sys
+
+from dbus.mainloop.glib import DBusGMainLoop
+
+bus = None
+mainloop = None
+
+BLUEZ_SERVICE_NAME = 'org.bluez'
+DBUS_OM_IFACE =      'org.freedesktop.DBus.ObjectManager'
+DBUS_PROP_IFACE =    'org.freedesktop.DBus.Properties'
+BLUEZ_DEVICE    = 'org.bluez.Device1'
+
+GATT_SERVICE_IFACE = 'org.bluez.GattService1'
+GATT_CHRC_IFACE =    'org.bluez.GattCharacteristic1'
+
+LINK_LOSS_UUID = '00001803-0000-1000-8000-00805f9b34fb'
+IMMEDIATE_ALERT_UUID = '00001802-0000-1000-8000-00805f9b34fb'
+TX_POWER_UUID = '00001804-0000-1000-8000-00805f9b34fb'
+
+ALERT_LEVEL = '00002a06-0000-1000-8000-00805f9b34fb'
+TX_POWER_LEVEL = '00002a07-0000-1000-8000-00805f9b34fb'
+
+# The objects that we interact with
+pxp_service = None
+
+lls_level = None
+imme_level = None
+tx_power_level = None
+
+rand_num = 0
+alert_level = [0x0,0x1,0x2]
+
+
+def generic_error_cb(error):
+    print('D-Bus call failed: ' + str(error))
+    mainloop.quit()
+    
+def lls_level_val_cb(value):
+    print('Alert Level value : ' + str(int(value[0])))
+    time.sleep(2)
+    start_client()
+
+def lls_writed_val_cb():
+    print('Link Loss alert level : ' + str(alert_level[rand_num]))
+
+def ial_writed_val_cb():
+    print('Immediate alert level : ' + str(alert_level[rand_num]))
+    
+def tx_power_val_cb(value):
+    print('Tx power value : ' + str(int(value[0])))
+    
+def pxp_start_notify_cb():
+    print('PXP Measurement notifications enable')    
+
+
+def pxp_msrmt_changed_cb(iface, changed_props, invalidated_props):
+    if iface != BLUEZ_DEVICE:
+        return
+    if not len(changed_props):
+        return
+    value = changed_props.get('Connected', None)
+    if not value:
+        return
+
+    print('New PXP Measurement')
+
+    flags = value[0]
+    rest = 'Connected' if falgs else 'Disconnected'
+
+    print('\tPXP : ' + rest)
+
+def start_client():
+    # Read the Body Sensor Location value and print it asynchronously.
+    tx_power_level[0].ReadValue({}, reply_handler=tx_power_val_cb,
+       	                        error_handler=generic_error_cb,
+               	                dbus_interface=GATT_CHRC_IFACE)
+
+    global rand_num
+    rand_num = random.randrange(0,3)
+
+    lls_level[0].WriteValue(dbus.Array([dbus.Byte(alert_level[rand_num])]), {},
+                                reply_handler=lls_writed_val_cb,
+                                error_handler=generic_error_cb,
+                                dbus_interface=GATT_CHRC_IFACE)
+
+    lls_level[0].ReadValue({}, reply_handler=lls_level_val_cb,
+       	                        error_handler=generic_error_cb,
+               	                dbus_interface=GATT_CHRC_IFACE)
+    
+    rand_num = random.randrange(0,3)    
+
+    imme_level[0].WriteValue(dbus.Array([dbus.Byte(alert_level[rand_num])]), {},
+				reply_handler=ial_writed_val_cb,
+                                error_handler=generic_error_cb,
+                                dbus_interface=GATT_CHRC_IFACE)
+
+
+def process_chrc(chrc_path, UUID):
+    chrc = bus.get_object(BLUEZ_SERVICE_NAME, chrc_path)
+    chrc_props = chrc.GetAll(GATT_CHRC_IFACE,
+                             dbus_interface=DBUS_PROP_IFACE)
+
+    uuid = chrc_props['UUID']
+
+    if uuid == ALERT_LEVEL and UUID == LINK_LOSS_UUID:
+        print('link loss alert uuid')
+        global lls_level
+        lls_level = (chrc, chrc_props)
+    elif uuid == TX_POWER_LEVEL:
+        print('tx power uuid')
+        global tx_power_level
+        tx_power_level = (chrc, chrc_props)
+        tx_power_level[0].StartNotify(reply_handler=pxp_start_notify_cb,
+                               error_handler=generic_error_cb,
+                               dbus_interface=GATT_CHRC_IFACE)
+
+    elif uuid == ALERT_LEVEL and UUID == IMMEDIATE_ALERT_UUID:
+        print('immediate alert level uuid')
+        global imme_level
+        imme_level = (chrc, chrc_props)
+
+    else:
+        print('Unrecognized characteristic: ' + uuid)
+
+    return True
+
+def process_pxp_service(service_path, chrc_paths):
+    service = bus.get_object(BLUEZ_SERVICE_NAME, service_path)
+    service_props = service.GetAll(GATT_SERVICE_IFACE,
+                                   dbus_interface=DBUS_PROP_IFACE)
+
+    uuid = service_props['UUID']
+
+    if uuid == LINK_LOSS_UUID:
+    	print('Proximity Link Loss Service found: ' + service_path)
+
+    	# Process the characteristics.
+    	for chrc_path in chrc_paths:
+        	process_chrc(chrc_path, uuid)
+
+    	global pxp_service
+    	pxp_service = (service, service_props, service_path)
+
+    	return True
+
+    elif uuid == TX_POWER_UUID:
+        print('Proximity Tx Power Service found: ' + service_path)
+
+        # Process the characteristics.
+        for chrc_path in chrc_paths:
+                process_chrc(chrc_path, uuid)
+
+        return True
+ 
+    elif uuid == IMMEDIATE_ALERT_UUID:
+        print('Proximity Immediate alert Service found: ' + service_path)
+
+        # Process the characteristics.
+        for chrc_path in chrc_paths:
+                process_chrc(chrc_path, uuid)
+
+        return True
+
+    else:
+        return False
+
+    return True
+
+def interfaces_removed_cb(object_path, interfaces):
+    print('remvoe' + pxp_service[2])
+    print('interface' + interfaces)
+    print('object path' + object_path)
+
+    if object_path == pxp_service[2]:
+        print('Service was removed')
+        mainloop.quit()
+
+def main():
+    # Set up the main loop.
+    DBusGMainLoop(set_as_default=True)
+    global bus
+    bus = dbus.SystemBus()
+    global mainloop
+    mainloop = GObject.MainLoop()
+
+    om = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, '/'), DBUS_OM_IFACE)
+    om.connect_to_signal('PropertiesChanged', interfaces_removed_cb)
+
+    objects = om.GetManagedObjects()
+    chrcs = []
+
+    for path, interfaces in objects.items():
+        if GATT_CHRC_IFACE not in interfaces.keys():
+            continue
+        chrcs.append(path)
+
+    for path, interfaces in objects.items():
+        if GATT_SERVICE_IFACE not in interfaces.keys():
+            continue
+
+        chrc_paths = [d for d in chrcs if d.startswith(path + "/")]
+
+        process_pxp_service(path, chrc_paths)
+
+    if not pxp_service:
+        print('No PxP Service found')
+        sys.exit(1)
+
+    # Listen to PropertiesChanged signals from the PXP
+    # Device
+    pxp_msrmt_prop_iface = dbus.Interface(pxp_service[0], DBUS_PROP_IFACE)
+    pxp_msrmt_prop_iface.connect_to_signal("PropertiesChanged",
+           	                               pxp_msrmt_changed_cb)
+
+    start_client() 
+
+    mainloop.run()
+
+
+if __name__ == '__main__':
+    main()
+

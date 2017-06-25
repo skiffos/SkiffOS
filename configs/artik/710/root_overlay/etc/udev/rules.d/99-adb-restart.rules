@@ -1,0 +1,1 @@
+ACTION=="change", SUBSYSTEM=="udc", RUN+="/bin/sh -c '/bin/echo c0040000.dwc2otg > /sys/kernel/config/usb_gadget/g1/UDC'"

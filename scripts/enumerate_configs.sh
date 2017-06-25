@@ -2,8 +2,6 @@
 set -e
 . ../scripts/utils.sh
 
-echo -e "Discovered Skiff configs:"
-
 # Disable output from pushd/popd
 pushd () {
   command pushd "$@" > /dev/null
@@ -154,11 +152,10 @@ if [ -n "$SKIFF_CONFIG" ]; then
         SKIFF_BUILD_TARGET_OVERRIDE="$(cat $conf_path/metadata/buildtarget)"
       fi
       # Check if it has any commands
+      echo $conf_path
       if [ -f "$conf_path/metadata/commands" ] && [ -d "$conf_path/extensions" ]; then
-        cmdsuf=$(cat $conf_path/metadata/commands)
         cmd_list=()
         cmd_paths=()
-        var="$(cat $conf_path/metadata/commands)"
         while read line; do
           # line contains command Description is here
           cmdn=($(echo "$line" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
@@ -175,6 +172,8 @@ if [ -n "$SKIFF_CONFIG" ]; then
         echo ${cmd_list[@]}
         eval "export SKIFF_${conf_full}_COMMAND_LIST=\"${cmd_list[@]}\""
         eval "export SKIFF_${conf_full}_COMMAND_PATHS=\"${cmd_paths[@]}\""
+      else
+          echo "[no commands]"
       fi
       SKIFF_CONFIG_FULL+=("$conf_full")
       SKIFF_CONFIG_PATH_VAR+=("$path_var")

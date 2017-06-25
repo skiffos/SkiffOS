@@ -4,13 +4,20 @@ This document contains notes about the Artik series of boards and their support 
 
 ## Output Images
 
-These configs produce images compatible with the flashing process:
+There are two supported ways of flashing Skiff to a device:
 
- - https://developer.artik.io/documentation/developer-guide/update-image/updating-artik-image.html
+ 1. Intermediate flashing SD card.
+ 2. Fastboot flash
+ 
+## Fastboot Flash
 
-Theoretically the SD install process should be similar to odroids, and scripts will be written for this process eventually.
-
-TODO
-====
-
- - [ ] Handle FIP/Nexell compatible u-boot image step.
+```sh
+sudo fastboot flash partmap partmap-emmc.txt
+sudo fastboot flash 2ndboot bl1-emmcboot.img
+sudo fastboot flash fip-loader fip-loader-emmc.img
+sudo fastboot flash fip-secure fip-secure.img
+sudo fastboot flash fip-nonsecure fip-nonsecure.img
+sudo fastboot flash env params_emmc.bin
+sudo fastboot flash boot boot.img
+sudo fastboot flash modules modules.img
+```

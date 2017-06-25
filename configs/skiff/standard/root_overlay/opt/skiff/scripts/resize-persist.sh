@@ -22,7 +22,9 @@ echo "Disk size: $disk_size"
 
 if [ ! $(($disk_size-$p2_end)) -ge 10485760 ]; then
   echo "No need to resize physical, exiting."
-  resize2fs ${disk_part} || true
+  if ! resize2fs ${disk_part} ; then
+      echo "[ignored]"
+  fi
   exit 0
 fi
 
