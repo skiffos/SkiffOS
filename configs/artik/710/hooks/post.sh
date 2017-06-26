@@ -53,7 +53,7 @@ tools/nexell/SECURE_BINGEN -c ${BASE_MACH} \
 #tools/fip_create/fip_create --dump --bl2 ${BLOB_DIR}/fip-loader-sd.img --bl31 ${BLOB_DIR}/fip-secure.img --bl33 ${IMAGES_DIR}/u-boot.bin ${IMAGES_DIR}/fip.bin
 
 cp ${BLOB_DIR}/fip-secure.img \
-   ${BLOB_DIR}/fip-nonsecure.bin \
+   ./fip-nonsecure.img \
    ${BLOB_DIR}/fip-loader-emmc.img \
    ${IMAGES_DIR}
 
