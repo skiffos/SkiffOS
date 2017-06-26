@@ -11,13 +11,22 @@ There are two supported ways of flashing Skiff to a device:
  
 ## Fastboot Flash
 
-```sh
-sudo fastboot flash partmap partmap-emmc.txt
-sudo fastboot flash 2ndboot bl1-emmcboot.img
-sudo fastboot flash fip-loader fip-loader-emmc.img
-sudo fastboot flash fip-secure fip-secure.img
-sudo fastboot flash fip-nonsecure fip-nonsecure.img
-sudo fastboot flash env params_emmc.bin
-sudo fastboot flash boot boot.img
-sudo fastboot flash modules modules.img
+Build the image:
+
+```bash
+SKIFF_CONFIG=artik/710 make configure compile
 ```
+
+Then install it with fastboot:
+
+```bash
+make cmd/artik/710/fastboot
+```
+
+You will be guided through the process in the output of the command.
+
+## First Boot
+
+The first boot the system has to do two things that take quite a while:
+
+ - Resize the persist partition

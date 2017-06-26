@@ -1,0 +1,92 @@
+From f222dda4b4151bab6e660da2b2b4d09033fa0f2c Mon Sep 17 00:00:00 2001
+From: Johannes Berg <johannes.berg@intel.com>
+Date: Thu, 4 Feb 2016 13:31:18 +0100
+Subject: [PATCH 2/4] ipv4: add option to drop gratuitous ARP packets
+
+In certain 802.11 wireless deployments, there will be ARP proxies
+that use knowledge of the network to correctly answer requests.
+To prevent gratuitous ARP frames on the shared medium from being
+a problem, on such deployments wireless needs to drop them.
+
+Enable this by providing an option called "drop_gratuitous_arp".
+
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+ Documentation/networking/ip-sysctl.txt | 12 ++++++++++++
+ include/uapi/linux/ip.h                |  2 ++
+ net/ipv4/arp.c                         |  8 ++++++++
+ net/ipv4/devinet.c                     |  2 ++
+ 4 files changed, 24 insertions(+)
+
+diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+index f3deb0c..c4b6558 100644
+--- a/Documentation/networking/ip-sysctl.txt
++++ b/Documentation/networking/ip-sysctl.txt
+@@ -1208,6 +1208,18 @@ promote_secondaries - BOOLEAN
+ 	promote a corresponding secondary IP address instead of
+ 	removing all the corresponding secondary IP addresses.
+ 
++drop_unicast_in_l2_multicast - BOOLEAN
++	Drop any unicast IP packets that are received in link-layer
++	multicast (or broadcast) frames.
++	This behavior (for multicast) is actually a SHOULD in RFC
++	1122, but is disabled by default for compatibility reasons.
++	Default: off (0)
++
++drop_gratuitous_arp - BOOLEAN
++	Drop all gratuitous ARP frames, for example if there's a known
++	good ARP proxy on the network and such frames need not be used
++	(or in the case of 802.11, must not be used to prevent attacks.)
++	Default: off (0)
+ 
+ tag - INTEGER
+ 	Allows you to write a number, which can be used as required.
+diff --git a/include/uapi/linux/ip.h b/include/uapi/linux/ip.h
+index 08f894d..f291569 100644
+--- a/include/uapi/linux/ip.h
++++ b/include/uapi/linux/ip.h
+@@ -165,6 +165,8 @@ enum
+ 	IPV4_DEVCONF_IGMPV2_UNSOLICITED_REPORT_INTERVAL,
+ 	IPV4_DEVCONF_IGMPV3_UNSOLICITED_REPORT_INTERVAL,
+ 	IPV4_DEVCONF_IGNORE_ROUTES_WITH_LINKDOWN,
++	IPV4_DEVCONF_DROP_UNICAST_IN_L2_MULTICAST,
++	IPV4_DEVCONF_DROP_GRATUITOUS_ARP,
+ 	__IPV4_DEVCONF_MAX
+ };
+ 
+diff --git a/net/ipv4/arp.c b/net/ipv4/arp.c
+index 59b3e0e..c102eb5 100644
+--- a/net/ipv4/arp.c
++++ b/net/ipv4/arp.c
+@@ -735,6 +735,14 @@ static int arp_process(struct net *net, struct sock *sk, struct sk_buff *skb)
+ 	    (!IN_DEV_ROUTE_LOCALNET(in_dev) && ipv4_is_loopback(tip)))
+ 		goto out;
+ 
++ /*
++  *	For some 802.11 wireless deployments (and possibly other networks),
++  *	there will be an ARP proxy and gratuitous ARP frames are attacks
++  *	and thus should not be accepted.
++  */
++	if (sip == tip && IN_DEV_ORCONF(in_dev, DROP_GRATUITOUS_ARP))
++		goto out;
++
+ /*
+  *     Special case: We must set Frame Relay source Q.922 address
+  */
+diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
+index 0212591..7676098 100644
+--- a/net/ipv4/devinet.c
++++ b/net/ipv4/devinet.c
+@@ -2189,6 +2189,8 @@ static struct devinet_sysctl_table {
+ 					"igmpv3_unsolicited_report_interval"),
+ 		DEVINET_SYSCTL_RW_ENTRY(IGNORE_ROUTES_WITH_LINKDOWN,
+ 					"ignore_routes_with_linkdown"),
++		DEVINET_SYSCTL_RW_ENTRY(DROP_GRATUITOUS_ARP,
++					"drop_gratuitous_arp"),
+ 
+ 		DEVINET_SYSCTL_FLUSHING_ENTRY(NOXFRM, "disable_xfrm"),
+ 		DEVINET_SYSCTL_FLUSHING_ENTRY(NOPOLICY, "disable_policy"),
+-- 
+2.10.2
+

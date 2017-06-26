@@ -3,7 +3,6 @@ set -eo pipefail
 
 OUTPUT_DIR="${SKIFF_BUILDROOT_DIR}/output"
 IMAGES_DIR="${OUTPUT_DIR}/images"
-USE_SUDO=""
 FASTBOOT="fastboot"
 
 if [ ! -f "${IMAGES_DIR}/modules.img" ]; then
@@ -28,7 +27,7 @@ if [ -z "$FBDEV" ] || echo $FBDEV | grep -q "no permissions"; then
                 echo "Ok, not using sudo for now."
             else
                 echo "Will try with sudo, you may be prompted..."
-                FASTBOOT="sudo $FASTBOOT"
+                FASTBOOT="sudo \"PATH=$PATH\" $FASTBOOT"
             fi
         fi
     fi

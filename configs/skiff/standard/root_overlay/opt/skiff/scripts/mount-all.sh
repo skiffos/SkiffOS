@@ -139,14 +139,20 @@ else
 fi
 echo "Place etc overrides here." > $PERSIST_MNT/skiff/etc/readme
 
-if [ -f $PERSIST_MNT/skiff/hostname ]; then
+if [ -f $PERSIST_MNT/skiff/hostname ] && [ -n "$(cat ${PERSIST_MNT}/skiff/hostname)" ]; then
   OHOSTNAME=$(cat /etc/hostname)
+  if [ -z "$OHOSTNAME" ]; then
+      OHOSTNAME=skiff-unknown
+  fi
   NHOSTNAME=$(cat $PERSIST_MNT/skiff/hostname)
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
   hostname -F /etc/hostname
 else
   hostname > $PERSIST_MNT/skiff/hostname
+  if [ "$(hostname)" == "" ]; then
+      "skiff-unknown" > $PERSIST_MNT/skiff/hostname
+  fi
 fi
 
 systemctl daemon-reload

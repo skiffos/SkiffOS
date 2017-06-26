@@ -14,7 +14,7 @@ OBJCOPY=aarch64-linux-objcopy
 SKIP_BOOT_SIZE=4
 BOOT_SIZE=150
 ROOTFS_SIZE=150
-PERSIST_INIT_SIZE=300
+PERSIST_INIT_SIZE=100
 MODULE_SIZE=32
 BOOT_USE_VFAT="" # set to yes if needed
 
@@ -99,7 +99,5 @@ genext2fs -b $(( 1000 * ${ROOTFS_SIZE} )) -d ${IMAGES_DIR}/rootfs -o linux ${IMA
 e2label ${IMAGES_DIR}/rootfs.img rootfs
 
 echo "Building persist image..."
-mkdir -p ${IMAGES_DIR}/persist
 dd if=/dev/zero bs=1M count=$PERSIST_INIT_SIZE of=${IMAGES_DIR}/persist.img
-genext2fs -b $(( 1000 * ${PERSIST_INIT_SIZE} )) -d ${IMAGES_DIR}/persist -o linux ${IMAGES_DIR}/persist.img
-e2label ${IMAGES_DIR}/persist.img persist
+mkfs.ext4 -L "persist" ${IMAGES_DIR}/persist.img
