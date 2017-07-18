@@ -110,6 +110,7 @@ for confp in "${confpaths[@]}"; do
   if [ -d "$br_confp" ]; then
     for file in $(ls -v $br_confp); do
       # echo "Merging in config file $file"
+      printf "\n# Configuration from ${br_confp}\n" >> $br_conf
       $domerge $br_conf $br_confp/$file
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $br_conf
@@ -118,6 +119,7 @@ for confp in "${confpaths[@]}"; do
   if [ -d "$kern_confp" ]; then
     for file in $(ls -v $kern_confp); do
       echo "Merging in config file $file"
+      printf "\n# Configuration from ${kern_confp}\n" >> $kern_conf
       $domerge $kern_conf $kern_confp/$file
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $kern_conf
