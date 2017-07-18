@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_VERSION = v0.2.8
+SKIFF_CORE_VERSION = v0.3.0
 SKIFF_CORE_SITE = $(call github,paralin,skiff-core,$(SKIFF_CORE_VERSION))
 SKIFF_CORE_LICENSE = GPLv2+
 SKIFF_CORE_LICENSE_FILES = LICENSE
