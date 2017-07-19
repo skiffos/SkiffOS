@@ -1,6 +1,7 @@
 [Unit]
 Description=SkiffOS core setup
 Requires=docker.service
+After=docker.service
 Requires=skiff-init.service
 After=skiff-init.service
 

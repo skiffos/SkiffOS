@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eo pipefail
+# set -eo pipefail
 
 SYSTEMD_CONFD=/etc/systemd/system
 DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
@@ -155,9 +155,7 @@ else
 fi
 
 systemctl daemon-reload
-
 hostname $(cat /etc/hostname)
-hostnamectl set-hostname $(cat /etc/hostname)
 
 # Run any additional final setup scripts.
 for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
@@ -167,3 +165,6 @@ for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
         fi
     fi
 done
+
+# Probe udev to make sure any new kernel modules are picked up.
+systemctl restart --no-block systemd-udev-trigger.service || true

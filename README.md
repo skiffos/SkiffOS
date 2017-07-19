@@ -86,6 +86,8 @@ network={
 
 ### Static IP with Systemd Networkd
 
+**Note**: systemd-networkd is currently disabled in Skiff. If you have a need for it, please file an issue.
+
 If you chose, you may configure static IPs for network interfaces with `systemd-networkd` definition files instead of NetworkManager.
 
 To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/00-wlan0.network`

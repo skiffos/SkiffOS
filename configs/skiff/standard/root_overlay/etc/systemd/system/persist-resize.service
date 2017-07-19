@@ -1,7 +1,6 @@
 [Unit]
 Description=SkiffOS resize persist partition
 DefaultDependencies=no
-After=local-fs.target
 Before=sysinit.target
 
 [Service]
