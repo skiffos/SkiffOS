@@ -8,6 +8,7 @@ PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
 SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
 SKIP_JOURNAL_FLAG=/etc/skip-skiff-journal-mounts
+EXTRA_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.d
 
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
@@ -159,3 +160,12 @@ systemctl daemon-reload
 
 hostname $(cat /etc/hostname)
 hostnamectl set-hostname $(cat /etc/hostname)
+
+# Run any additional final setup scripts.
+for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
+    if [ -r $i ]; then
+        if ! $i ; then
+            echo "Script at $i failed! Ignoring."
+        fi
+    fi
+fi
