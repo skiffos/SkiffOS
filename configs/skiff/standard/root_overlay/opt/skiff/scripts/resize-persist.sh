@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+# set -eo pipefail
 
 PERSIST_DEV=$(blkid | grep -m 1 'LABEL="persist"' | cut -d: -f1)
 echo "Found persist at ${PERSIST_DEV}, performing filesystem check if necessary..."
