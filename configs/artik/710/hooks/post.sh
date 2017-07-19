@@ -74,28 +74,25 @@ if [ -n "$BOOT_USE_VFAT" ]; then
         ${IMAGES_DIR}/${BASE_MACH}-${BOARD_NAME}-*.dtb \
         ::
 else
-    if [ -d "{$IMAGES_DIR}/boot" ]; then
-        rm -rf ${IMAGES_DIR}/boot
+    if [ -d "{$IMAGES_DIR}/boot_part" ]; then
+        rm -rf ${IMAGES_DIR}/boot_part
     fi
-    mkdir -p ${IMAGES_DIR}/boot
+    mkdir -p ${IMAGES_DIR}/boot_part
     rsync -rv \
           ${IMAGES_DIR}/Image \
           ${IMAGES_DIR}/rootfs.cpio.uboot \
           ${IMAGES_DIR}/*.dtb \
-          ${IMAGES_DIR}/boot/
-    genext2fs -b $(( 1000 * ${BOOT_SIZE} )) -d ${IMAGES_DIR}/boot -o linux ${IMAGES_DIR}/boot.img
+          ${IMAGES_DIR}/boot_part/
+    genext2fs -b $(( 1000 * ${BOOT_SIZE} )) -d ${IMAGES_DIR}/boot_part -o linux ${IMAGES_DIR}/boot.img
 fi
 
 echo "Building rootfs image..."
-if [ -d "{$IMAGES_DIR}/rootfs" ]; then
-    rm -rf ${IMAGES_DIR}/rootfs
+if [ -d "{$IMAGES_DIR}/rootfs_part" ]; then
+    rm -rf ${IMAGES_DIR}/rootfs_part
 fi
-mkdir -p ${IMAGES_DIR}/rootfs ${IMAGES_DIR}/resources
-rsync -rv \
-      ${IMAGES_DIR}/resources/ \
-      ${IMAGES_DIR}/rootfs/resources/
+mkdir -p ${IMAGES_DIR}/rootfs_part
 dd if=/dev/zero bs=1M count=$ROOTFS_SIZE of=${IMAGES_DIR}/rootfs.img
-genext2fs -b $(( 1000 * ${ROOTFS_SIZE} )) -d ${IMAGES_DIR}/rootfs -o linux ${IMAGES_DIR}/rootfs.img
+genext2fs -b $(( 1000 * ${ROOTFS_SIZE} )) -d ${IMAGES_DIR}/rootfs_part -o linux ${IMAGES_DIR}/rootfs.img
 e2label ${IMAGES_DIR}/rootfs.img rootfs
 
 echo "Building persist image..."
