@@ -42,13 +42,11 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist 
 
   if ! [ -f $SKIP_JOURNAL_FLAG ]; then
     echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
-    systemctl stop systemd-journald || true
     if [ -d /var/log ]; then
      rm -rf /var/log || true
     fi
     ln -f -s $JOURNAL_PERSIST /var/log
     systemd-tmpfiles --create --prefix /var/log/journal || true
-    systemctl start --no-block systemd-journald
   fi
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
@@ -168,4 +166,4 @@ for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
             echo "Script at $i failed! Ignoring."
         fi
     fi
-fi
+done
