@@ -2,11 +2,10 @@
 Description=SkiffOS core setup
 Requires=docker.service
 After=docker.service
-Requires=skiff-init.service
-After=skiff-init.service
 
 [Service]
 Type=simple
 ExecStart=/opt/skiff/scripts/skiff-core.sh
 Restart=on-failure
 RestartSec=10s
+RemainAfterExit=yes
