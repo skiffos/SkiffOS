@@ -84,30 +84,6 @@ network={
 }
 ```
 
-### Static IP with Systemd Networkd
-
-**Note**: systemd-networkd is currently disabled in Skiff. If you have a need for it, please file an issue.
-
-If you chose, you may configure static IPs for network interfaces with `systemd-networkd` definition files instead of NetworkManager.
-
-To customize the network configuration for an interface, place a network file into the persist drive at `skiff/network` or add in one of your configs a file at `/etc/systemd/network/00-wlan0.network`
-
-The file should be prefixed with `00-`.
-
-For example, `00-wlan0.network`:
-
-```
-[Match]
-Name=wlan0
-
-[Network]
-Address=192.168.1.119/24
-Gateway=192.168.1.1
-DNS=8.8.8.8
-```
-
-At runtime you can use `networkctl` to get a status printout.
-
 ### Hostname
 
 You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your config packages by writing the desired hostname to `/etc/hostname`.
@@ -181,6 +157,36 @@ You can set the following env variables to control this process:
  - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
 
 These packages will be available in the Skiff system.
+
+## Supported Systems
+
+SkiffOS is based on Buildroot, which can compile operating systems for virtually any machine. Therefore, SkiffOS also works on nearly any architecture or board.
+
+Here are the boards/systems currently supported by Skiff:
+
+|     **Board**   | **Config Package**|     **Bootloader**   |   **Kernel**   |      **Notes**        |
+| --------------- | ----------------- | -------------------- | ---------------| ----------------------|
+| [Odroid XU4]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.37     |                       |
+| [Odroid U]      |   odroid/u        | ✔ U-Boot 2016.03 Src |   ✔ mainline   | Discontinued by HK    |
+| [Odroid C2]     |   odroid/c2       | ⚠ U-Boot 2015.01 Bin |   ✔ 3.14.x     |                       |
+| [Artik 710]     |   artik/710       | ✔ U-Boot 2016.01 Src |   ✔ 4.4.19     |    ⚠ Experimental     |
+| [Pi 3]          |   pi/3            |         N/A          |   ✔ 4.4.43     |       ⚠ Untested      |
+| [Pi 1]          |   pi/1            |         N/A          |   ✔ 4.9.21     |                       |
+| [Docker Img]    |   docker/standard |         N/A          |   N/A          | Run SkiffOS in Docker |
+| [OrangePi Lite] |   orangepi/lite   |         N/A          |   N/A          |      ⚠ Untested       |
+
+[Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
+[Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
+[Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
+[Docker Img]: ./docker
+[OrangePi Lite]: http://orangepi.com/orange-pi-lite
+[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Artik 710]: https://www.artik.io/modules/artik-710/
+
+Adding support for a board involves creating a Skiff configuration package for the board, as described above.
+
+If you have a board that is not yet supported by SkiffOS, please **open an issue,** and we will work with you to integrate and test the new platform.
 
 ## Support
 

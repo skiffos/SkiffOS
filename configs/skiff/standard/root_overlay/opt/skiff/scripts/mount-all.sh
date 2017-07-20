@@ -107,16 +107,6 @@ if ! mountpoint /etc/wpa_supplicant ; then
   mount -t overlay -o lowerdir=/etc/wpa_supplicant,upperdir=${PERSIST_MNT}/skiff/wifi,workdir=${wifi_workdir} overlay /etc/wpa_supplicant
 fi
 
-mkdir -p /etc/systemd/network
-if ! mountpoint /etc/systemd/network ; then
-  echo "Setting up overlay mount for systemd-networkd configs..."
-  mkdir -p $PERSIST_MNT/skiff/network
-  echo "Place systemd-networkd config files here." > $PERSIST_MNT/skiff/network/readme
-  network_workdir=${overlay_workdir}/systemd_network
-  mkdir -p $network_workdir
-  mount -t overlay -o lowerdir=/etc/systemd/network,upperdir=$PERSIST_MNT/skiff/network,workdir=$network_workdir overlay /etc/systemd/network
-fi
-
 mkdir -p /etc/NetworkManager/system-connections
 if ! mountpoint /etc/NetworkManager/system-connections ; then
   mkdir -p $PERSIST_MNT/skiff/connections
