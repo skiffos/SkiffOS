@@ -15,14 +15,31 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 SKIFF_PRE_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/pre
 SKIFF_POST_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/post
 
-if [ -z "$SKIFF_FORCE_RECONFIG" ]; then
-  if [ -f $SKIFF_FINAL_CONFIG_DIR/skiff_config ]; then
+# Determine if we should skip rebuilding the config.
+if (
+if [ -n "$SKIFF_FORCE_RECONFIG" ]; then
+    echo "${ACTION_COLOR}Rebuilding configuration as requested...${RESET_COLOR}"
+    exit 1
+fi
+if [ ! -f $SKIFF_FINAL_CONFIG_DIR/skiff_version ]; then
+    echo "${ACTION_COLOR}Old skiff version detected, rebuilding config.$RESET_COLOR"
+    exit 1
+fi
+OLD_SKIFF_VERSION=$(cat $SKIFF_FINAL_CONFIG_DIR/skiff_version)
+if [ "$OLD_SKIFF_VERSION" != "$SKIFF_VERSION" ]; then
+    echo "${ACTION_COLOR}Configuration was built with ${OLD_SKIFF_VERSION}, we have ${SKIFF_VERSION}, rebuilding config.${RESET_COLOR}"
+    exit 1
+fi
+if [ -f $SKIFF_FINAL_CONFIG_DIR/skiff_config ]; then
     exist_conf=$(cat $SKIFF_FINAL_CONFIG_DIR/skiff_config)
     if [ "$exist_conf" == "$SKIFF_CONFIG" ]; then
-      echo "${ACTION_COLOR}Skiff config matches $SKIFF_CONFIG, skipping config rebuild.$RESET_COLOR"
-      exit 0
+        echo "${ACTION_COLOR}Skiff config matches $SKIFF_CONFIG, skipping config rebuild.$RESET_COLOR"
+        exit 0
     fi
-  fi
+fi
+exit 1
+); then
+    exit 0
 fi
 
 echo "${ACTION_COLOR}Building effective kernel and buildroot configs...$RESET_COLOR"
@@ -48,6 +65,9 @@ echo "$SKIFF_CONFIG" > $SKIFF_FINAL_CONFIG_DIR/skiff_config
 if [ -n "$SKIFF_EXTRA_CONFIGS_PATH" ]; then
   echo "$SKIFF_EXTRA_CONFIGS_PATH" > $SKIFF_FINAL_CONFIG_DIR/skiff_extra_configs_path
 fi
+
+# Save the version
+echo "$SKIFF_VERSION" > $SKIFF_FINAL_CONFIG_DIR/skiff_version
 
 # Touch the initial files
 kern_dir=$SKIFF_FINAL_CONFIG_DIR/kernel
@@ -164,6 +184,8 @@ sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patches@g" $br_conf
 sed -i "s@REPLACEME_UBOOT_PATCHES@$uboot_patches@g" $br_conf
 sed -i "s@REPLACEME_ROOTFS_OVERLAY@$rootfs_overlays@g" $br_conf
 sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
+sed -i "s@REPLACEME_SKIFF_VERSION_COMMIT@$SKIFF_VERSION_COMMIT@g" $br_conf
+sed -i "s@REPLACEME_SKIFF_VERSION@$SKIFF_VERSION@g" $br_conf
 br_exts=$(join_by : "${br_exts[@]}")
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final

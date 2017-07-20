@@ -9,6 +9,6 @@ else
 fi
 
 cd ${BUILDROOT_DIR}/
-BR2_GRAPH_OUT=${BR2_GRAPH_OUT} make graph-build
+BR2_GRAPH_OUT=${BR2_GRAPH_OUT} make graph-size
 
-echo "Build time graphs are available in the graphs directory of your workspace."
+echo "Target size graphs are available in the graphs directory of your workspace."

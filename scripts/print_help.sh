@@ -6,6 +6,7 @@ echo -e "\e[7;49;31m"
 cat ../resources/text/logo.ascii
 echo -e "\e[0m"
 
+printf "\033[0;32mWelcome to SkiffOS ${SKIFF_VERSION}!\033[0m\n"
 echo ""
 printf "\033[0;34m✓ SKIFF_WORKSPACE is: $SKIFF_WORKSPACE\033[0m\n"
 if [ -n "$SKIFF_WARN_ABOUT_RECOVERED_CONFIG" ]; then

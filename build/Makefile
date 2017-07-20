@@ -38,10 +38,14 @@ cleanup-workspace:
 clean: ensure-submodule cleanup-workspace
 
 graph-build: ensure-sane verify-skiff-config maybe-build-configs
-	@echo "$$(tput smso)Building graphs...$$(tput sgr0)"
+	@echo "$$(tput smso)Building build-time graphs...$$(tput sgr0)"
 	@$(SKIFF_SCRIPTS_DIR)/graph_build_time.sh
 
-graph: graph-build
+graph-size: ensure-sane verify-skiff-config maybe-build-configs
+	@echo "$$(tput smso)Building target-size graphs...$$(tput sgr0)"
+	@$(SKIFF_SCRIPTS_DIR)/graph_size.sh
+
+graph: graph-build graph-size
 
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs

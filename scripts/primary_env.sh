@@ -5,6 +5,7 @@ export SKIFF_CONFIGS_DIR=${ROOT_DIR}/configs
 export SKIFF_RESOURCES_DIR=${ROOT_DIR}/resources
 export SKIFF_BASE_CONFIGS_DIR=${ROOT_DIR}/configs-base
 export SKIFF_SCRIPTS_DIR=${ROOT_DIR}/scripts
+source ./scripts/skiff_version.sh
 cd configs
 source ../scripts/check_workspace.sh
 source ../scripts/maybe_recover_skiff_config.sh
