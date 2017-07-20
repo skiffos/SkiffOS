@@ -37,6 +37,12 @@ cleanup-workspace:
 
 clean: ensure-submodule cleanup-workspace
 
+graph-build: ensure-sane verify-skiff-config maybe-build-configs
+	@echo "$$(tput smso)Building graphs...$$(tput sgr0)"
+	@$(SKIFF_SCRIPTS_DIR)/graph_build_time.sh
+
+graph: graph-build
+
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$$(tput smso)Kicking off Buildroot build...$$(tput sgr0)"
