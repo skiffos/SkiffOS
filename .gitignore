@@ -4,3 +4,4 @@ tmpmount/
 buildroot-work/
 *.org
 *.org_archive
+.#*

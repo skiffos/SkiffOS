@@ -34,18 +34,20 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist 
   mkdir -p $SSH_PERSIST
   if [ -f $DOCKER_SERVICE ]; then
     echo "Configuring Docker to use $DOCKER_PERSIST"
-    DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
+    DOCKER_EXECSTART+=" --data-root=\"$DOCKER_PERSIST\""
 
     echo "Configuring Docker to use systemd-journald"
     DOCKER_EXECSTART+=" --log-driver=journald"
   fi
 
-  if ! [ -f $SKIP_JOURNAL_FLAG ]; then
+  if [ ! -f $SKIP_JOURNAL_FLAG ] && ! mountpoint -q /var/log/journal ; then
     echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
-    if [ -d /var/log ]; then
-     rm -rf /var/log || true
+    if [ -d /var/log/journal ]; then
+     rm -rf /var/log/journal || true
     fi
-    ln -f -s $JOURNAL_PERSIST /var/log
+    mkdir -p /var/log/journal
+    mount --rbind ${JOURNAL_PERSIST} /var/log/journal
+    chmod 4755 /var/log/journal
     systemd-tmpfiles --create --prefix /var/log/journal || true
   fi
 

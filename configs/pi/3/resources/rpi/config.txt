@@ -1,0 +1,9 @@
+# This is the default Skiff config.txt.
+# You should customize it to your own needs.
+
+# Leave these set the same.
+kernel=zImage
+initramfs rootfs.cpio.gz
+
+# You can tweak these settings below.
+dtoverlay=pi3-miniuart-bt

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 mkknlimg=$(ls $BUILDROOT_DIR/output/build/linux-*/scripts/mkknlimg | head -n1)
 
 if [ $EUID != 0 ]; then
@@ -8,6 +7,7 @@ if [ $EUID != 0 ]; then
 fi
 
 set -e
+source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 if [ -z "$PI_SD" ]; then
   echo "Please set PI_SD and try again."
   exit 1
@@ -26,7 +26,6 @@ fi
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/zImage"
 cpio_path="${outp_path}/images/rootfs.cpio.gz"
-dtb_path="${outp_path}/images/bcm2710-rpi-3-b.dtb"
 firm_path="${outp_path}/images/rpi-firmware"
 
 if [ ! -f "$uimg_path" ]; then
@@ -84,7 +83,8 @@ rsync -rav --no-perms --no-owner --no-group $firm_path/ $boot_dir/
 sync
 
 echo "Copying rpi-firmware touchups..."
-cp $resources_path/cmdline.txt $resources_path/config.txt $boot_dir/
+cp $pi_config_txt $boot_dir/config.txt
+cp $pi_cmdline_txt $boot_dir/cmdline.txt
 sync
 
 if [ -d "$outp_path/images/rootfs_part" ]; then
@@ -99,8 +99,8 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
-echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/bcm2710-rpi-3-b.dtb
+echo "Copying device tree(s)..."
+rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/
 sync
 
 echo "Copying uInitrd..."

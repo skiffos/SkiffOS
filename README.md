@@ -172,8 +172,9 @@ Here are the boards/systems currently supported by Skiff:
 | [Artik 710]     |   artik/710       | ✔ U-Boot 2016.01 Src |   ✔ 4.4.19     |    ⚠ Experimental     |
 | [Pi 3]          |   pi/3            |         N/A          |   ✔ 4.4.43     |                       |
 | [Pi 1]          |   pi/1            |         N/A          |   ✔ 4.9.21     |       ⚠ Untested      |
-| [Docker Img]    |   docker/standard |         N/A          |   N/A          | Run SkiffOS in Docker |
-| [OrangePi Lite] |   orangepi/lite   |         N/A          |   N/A          |      ⚠ Untested       |
+| [Pi 0]          |   pi/0            |         N/A          |   ✔ 4.4.43-v7  |                       |
+| [Docker Img]    |   docker/standard |         N/A          |       N/A      | Run SkiffOS in Docker |
+| [OrangePi Lite] |   orangepi/lite   |         N/A          |       N/A      |      ⚠ Untested       |
 
 [Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
 [Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
@@ -182,6 +183,7 @@ Here are the boards/systems currently supported by Skiff:
 [OrangePi Lite]: http://orangepi.com/orange-pi-lite
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Artik 710]: https://www.artik.io/modules/artik-710/
 
 Adding support for a board involves creating a Skiff configuration package for the board, as described above.

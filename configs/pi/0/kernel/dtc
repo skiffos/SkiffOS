@@ -1,0 +1,2 @@
+CONFIG_OF=y
+CONFIG_DTC=y
