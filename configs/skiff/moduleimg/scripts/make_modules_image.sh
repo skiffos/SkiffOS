@@ -15,5 +15,6 @@ fi
 
 mkdir -p ${MODULES_DIR} ${ROOTFS_DIR} ${IMAGES_DIR}
 rsync -rv --remove-source-files ${TARGET_DIR}/usr/lib/modules/ ${MODULES_DIR}/
+rm -rf ${TARGET_DIR}/usr/lib/modules/ || true
 cp ${TARGET_DIR}/etc/skiff-release ${MODULES_DIR}/skiff-release
 mksquashfs ${MODULES_DIR} ${MODULES_IMG}
