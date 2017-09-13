@@ -1,6 +1,6 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/rpi-4.9.y/linux-rpi-4.9.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/41d3258f63227f079d0542bbbd58fd666a145e51/linux-rpi-4.9-41d3258.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_9=y
 
 BR2_PACKAGE_RPI_FIRMWARE=y

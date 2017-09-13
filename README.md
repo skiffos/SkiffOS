@@ -170,9 +170,9 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC1]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.47     |                       |
 | [Odroid C2]     |   odroid/c2       | ⚠ U-Boot 2015.01 Bin |   ✔ 3.14.x     |                       |
 | [Artik 710]     |   artik/710       | ✔ U-Boot 2016.01 Src |   ✔ 4.4.19     |    ⚠ Experimental     |
-| [Pi 3]          |   pi/3            |         N/A          |   ✔ 4.4.43     |                       |
-| [Pi 1]          |   pi/1            |         N/A          |   ✔ 4.9.21     |       ⚠ Untested      |
-| [Pi 0]          |   pi/0            |         N/A          |   ✔ 4.4.43-v7  |                       |
+| [Pi 3]          |   pi/3            |         N/A          |   ✔ 4.4.48     |                       |
+| [Pi 1]          |   pi/1            |         N/A          |   ✔ 4.9.48     |       ⚠ Untested      |
+| [Pi 0]          |   pi/0            |         N/A          |   ✔ 4.4.48     |                       |
 | [Docker Img]    |   docker/standard |         N/A          |       N/A      | Run SkiffOS in Docker |
 | [OrangePi Lite] |   orangepi/lite   |         N/A          |       N/A      |      ⚠ Untested       |
 | [Odroid XU3]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.47     |     ⚠ Discontinued    |
