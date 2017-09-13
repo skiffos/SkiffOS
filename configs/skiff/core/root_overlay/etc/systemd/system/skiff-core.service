@@ -7,5 +7,5 @@ After=docker.service
 Type=simple
 ExecStart=/opt/skiff/scripts/skiff-core.sh
 Restart=on-failure
-RestartSec=10s
+RestartSec=10
 RemainAfterExit=yes
