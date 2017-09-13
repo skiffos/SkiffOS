@@ -166,8 +166,8 @@ Here are the boards/systems currently supported by Skiff:
 
 |     **Board**   | **Config Package**|     **Bootloader**   |   **Kernel**   |      **Notes**        |
 | --------------- | ----------------- | -------------------- | ---------------| ----------------------|
-| [Odroid XU4]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.37     |                       |
-| [Odroid U]      |   odroid/u        | ✔ U-Boot 2016.03 Src |   ✔ mainline   | Discontinued by HK    |
+| [Odroid XU4]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.47     |                       |
+| [Odroid HC1]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.47     |                       |
 | [Odroid C2]     |   odroid/c2       | ⚠ U-Boot 2015.01 Bin |   ✔ 3.14.x     |                       |
 | [Artik 710]     |   artik/710       | ✔ U-Boot 2016.01 Src |   ✔ 4.4.19     |    ⚠ Experimental     |
 | [Pi 3]          |   pi/3            |         N/A          |   ✔ 4.4.43     |                       |
@@ -175,11 +175,15 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 0]          |   pi/0            |         N/A          |   ✔ 4.4.43-v7  |                       |
 | [Docker Img]    |   docker/standard |         N/A          |       N/A      | Run SkiffOS in Docker |
 | [OrangePi Lite] |   orangepi/lite   |         N/A          |       N/A      |      ⚠ Untested       |
+| [Odroid XU3]    |   odroid/xu4      | ✔ U-Boot 2017.03 Src |   ✔ 4.9.47     |     ⚠ Discontinued    |
+| [Odroid U]      |   odroid/u        | ✔ U-Boot 2016.03 Src |   ✔ mainline   |     ⚠ Discontinued    |
 
+[Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
 [Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
 [Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
 [Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
-[Docker Img]: ./docker
+[Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
+[Docker Img]: ./docker 
 [OrangePi Lite]: http://orangepi.com/orange-pi-lite
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
