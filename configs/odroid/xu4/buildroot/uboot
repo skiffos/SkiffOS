@@ -1,6 +1,7 @@
 #
 # Bootloaders
 #
+BR2_TARGET_UBOOT=y
 BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="https://github.com/hardkernel/u-boot/archive/odroidxu4-v2017.05/uboot-xu4-2017.05.tar.gz"
