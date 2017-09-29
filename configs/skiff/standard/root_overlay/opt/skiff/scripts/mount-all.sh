@@ -15,10 +15,21 @@ KEYS_PERSIST=$SKIFF_PERSIST/keys
 DOCKER_PERSIST=$SKIFF_PERSIST/docker
 SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
+SKIFF_RELEASE_FILE=/etc/skiff-release
 
 # Grab the default docker execstart
 if [ -f $DOCKER_SERVICE ]; then
   DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
+fi
+
+if [ -f $SKIFF_RELEASE_FILE ]; then
+    BUILD_DATE=$(cat /etc/skiff-release  | grep BUILD_DATE | cut -d\" -f2)
+    BUILD_DATE_UTC=$(date --utc --date="$BUILD_DATE" +%s)
+    CURRENT_DATE_UTC=$(date --utc +%s)
+    if (( $BUILD_DATE_UTC > $CURRENT_DATE_UTC )); then
+        echo "Build date of ${BUILD_DATE} is newer than internal clock of $(date). Bumping internal clock to build date."
+        date -s "$BUILD_DATE" || true
+    fi
 fi
 
 mkdir -p $SYSTEMD_CONFD
