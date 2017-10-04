@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_VERSION = v0.3.1
+SKIFF_CORE_VERSION = v0.3.2
 SKIFF_CORE_SITE = $(call github,paralin,skiff-core,$(SKIFF_CORE_VERSION))
 SKIFF_CORE_LICENSE = GPLv2+
 SKIFF_CORE_LICENSE_FILES = LICENSE
@@ -19,7 +19,7 @@ SKIFF_CORE_MAKE_ENV = $(HOST_GO_TARGET_ENV) \
 SKIFF_CORE_PKG = github.com/paralin/skiff-core
 
 SKIFF_CORE_GLDFLAGS = \
-	-X main.gitCommit=$(SKIFF_CORE_VERSION)
+	-X main.gitCommit="$(SKIFF_CORE_VERSION)"
 
 ifeq ($(BR2_STATIC_LIBS),y)
 SKIFF_CORE_GLDFLAGS += -extldflags '-static'
