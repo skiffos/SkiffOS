@@ -119,8 +119,8 @@ for confp in "${confpaths[@]}"; do
   br_extp=$confp/buildroot_ext
   if [ -d "$br_extp" ]; then
     if [ ! -f "$br_extp/external.mk" ] || \
-       [ ! -f "$br_extp/external.desc"] || \
-       [ ! -f "$br_extp/Config.in"]; then \
+       [ ! -f "$br_extp/external.desc" ] || \
+       [ ! -f "$br_extp/Config.in" ]; then \
       echo "Buildroot extension directory $br_extp invalid, see https://buildroot.org/downloads/manual/manual.html#outside-br-custom"
       exit 1
     else
