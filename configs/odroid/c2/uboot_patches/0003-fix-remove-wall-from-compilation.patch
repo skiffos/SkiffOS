@@ -1,0 +1,26 @@
+From 4849801b6e6d4d32d07b53a500356f4788924338 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Wed, 18 Oct 2017 19:58:05 -0400
+Subject: [PATCH 3/3] fix: remove -wall from compilation
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 2ef5db54db..2127ad7d29 100644
+--- a/Makefile
++++ b/Makefile
+@@ -587,7 +587,7 @@ include $(srctree)/scripts/Makefile.extrawarn
+ KBUILD_CPPFLAGS += $(KCPPFLAGS)
+ KBUILD_AFLAGS += $(KAFLAGS)
+ KBUILD_CFLAGS += $(KCFLAGS)
+-KBUILD_CFLAGS += -Werror
++# KBUILD_CFLAGS += -Werror
+ 
+ # Use UBOOTINCLUDE when you must reference the include/ directory.
+ # Needed to be compatible with the O= option
+-- 
+2.13.6
+

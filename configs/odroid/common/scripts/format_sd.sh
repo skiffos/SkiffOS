@@ -5,7 +5,7 @@ ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
 ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
 ubootimgc="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
-sd_fuse_scr="${BUILDROOT_DIR}/output/images/hk_sd_fuse/sd_fusing.sh"
+sd_fuse_scr="${ubootscripts}/sd_fusing.sh"
 
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
