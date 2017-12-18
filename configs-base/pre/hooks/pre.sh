@@ -14,3 +14,8 @@ mkdir -p ${TARGET_DIR}/etc
   echo "VERSION_FULL=\"SkiffOS version ${SKIFF_VERSION} (${USER}@$(hostname)) $(date)"; \
   ) > ${TARGET_DIR}/etc/skiff-release
 
+if [ ! -f ${TARGET_DIR}/etc/buildroot-release ]; then
+    cp ${TARGET_DIR}/etc/os-release ${TARGET_DIR}/etc/buildroot-release
+fi
+cp ${TARGET_DIR}/etc/skiff-release ${TARGET_DIR}/etc/os-release
+

@@ -19,4 +19,5 @@ rm -rf ${TARGET_DIR}/usr/lib/modules/* || true
 mkdir -p ${TARGET_DIR}/usr/lib/modules
 echo "Module image will be mounted here from rootfs partition." > ${TARGET_DIR}/usr/lib/modules/MOUNTPOINT
 cp ${TARGET_DIR}/etc/skiff-release ${MODULES_DIR}/skiff-release
+cp ${TARGET_DIR}/etc/buildroot-release ${MODULES_DIR}/buildroot-release
 mksquashfs ${MODULES_DIR} ${MODULES_IMG}
