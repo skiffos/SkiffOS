@@ -1,4 +1,6 @@
 #!/bin/bash
+set -eo pipefail
+
 errecho() {
   (>&2 echo $1)
 }

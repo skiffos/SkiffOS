@@ -1,5 +1,6 @@
 #!/bin/sh
-set -e
+set -eo pipefail
+
 . ../scripts/utils.sh
 
 # Disable output from pushd/popd
@@ -111,8 +112,9 @@ if [ -n "$SKIFF_CONFIG" ]; then
       path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
       conf_path="${!path_var}"
       if [ -z "$conf_path" ]; then
-        (>&2 echo " ! [$conf] Unknown path! $path_var not set. Ignored.")
-        continue
+        (>&2 echo " ! [$conf] Unknown path! $path_var not set.")
+        # continue
+        exit 1
       fi
       if [ ! -d "$conf_path" ]; then
         (>&2 echo " ! [$conf] Path $conf_path does not exist. Ignored.")
