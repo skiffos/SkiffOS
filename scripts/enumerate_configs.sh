@@ -5,10 +5,11 @@ set -eo pipefail
 
 # Disable output from pushd/popd
 pushd () {
-  command pushd "$@" > /dev/null
+  command pushd "$@" 2>&1 > /dev/null
 }
+
 popd () {
-  command popd "$@" > /dev/null
+  command popd "$@" 2>&1 > /dev/null
 }
 function joinStr { local IFS="$1"; shift; echo "$*"; }
 containsElement () {
@@ -40,10 +41,18 @@ while [ "$var" ] ;do
   #echo "> [$iter]"
 
   #packages will contain odroid/xu4\nodroid\xu3
-  pushd $iter
-  # packages=$(find . -mindepth 2 -maxdepth 2 -type d | sed -e 's#.\{2\}##' | tr '\n' ':')
-  packages=$(find . -mindepth 2 -maxdepth 2 -type d | sed -n 's#[^/]*/##p' | tr '\n' ':')
-  popd
+  if ! pushd $iter; then
+    (>&2
+      echo "! SKIFF_EXTRA_CONFIGS_PATH contains an inaccessible path:"
+      echo $iter
+      echo "This path will be ignored. Some packages may be unavailable."
+    )
+    packages=()
+  else
+    packages=$(find . -mindepth 2 -maxdepth 2 -type d | sed -n 's#[^/]*/##p' | tr '\n' ':')
+    popd
+  fi
+
 
   # iterate over packages
   while [ "$packages" ] ;do
