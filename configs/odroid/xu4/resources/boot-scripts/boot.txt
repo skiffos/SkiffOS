@@ -4,6 +4,10 @@ setenv condev "console=ttySAC2,115200n8"
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 
+setenv dtb_addr_r "0x42000000"
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x44000000"
+
 # Mac address configuration
 # setenv macaddr "00:1e:06:61:7a:39"
 # setenv macaddrconfig "smsc95xx.macaddr=${macaddr}"
@@ -140,15 +144,15 @@ setenv HPD "true"
 setenv hdmi_phy_control "HPD=${HPD} vout=${vout}"
 
 # Load kernel, initrd and dtb in that sequence
-fatload mmc 0:1 0x40008000 zImage
-fatload mmc 0:1 0x42000000 rootfs.cpio.uboot
-if test "${board_name}" = "xu4"; then fatload mmc 0:1 0x44000000 exynos5422-odroidxu4.dtb; setenv fdtloaded "true"; fi
-if test "${board_name}" = "xu3"; then fatload mmc 0:1 0x44000000 exynos5422-odroidxu3.dtb; setenv fdtloaded "true"; fi
-if test "${board_name}" = "xu3l"; then fatload mmc 0:1 0x44000000 exynos5422-odroidxu3-lite.dtb; setenv fdtloaded "true"; fi
+fatload mmc 0:1 ${kernel_addr_r} zImage
+fatload mmc 0:1 ${initramfs_addr_r} rootfs.cpio.uboot
+if test "${board_name}" = "xu4"; then fatload mmc 0:1 ${dtb_addr_r} exynos5422-odroidxu4.dtb; setenv fdtloaded "true"; fi
+if test "${board_name}" = "xu3"; then fatload mmc 0:1 ${dtb_addr_r} exynos5422-odroidxu3.dtb; setenv fdtloaded "true"; fi
+if test "${board_name}" = "xu3l"; then fatload mmc 0:1 ${dtb_addr_r} exynos5422-odroidxu3-lite.dtb; setenv fdtloaded "true"; fi
 #failsafe
-if test "${fdtloaded}" != "true"; then fatload mmc 0:1 0x44000000 exynos5422-odroidxu4.dtb; fi
+if test "${fdtloaded}" != "true"; then fatload mmc 0:1 ${dtb_addr_r} exynos5422-odroidxu4.dtb; fi
 
-fdt addr 0x44000000
+fdt addr ${dtb_addr_r}
 
 if test "${cecenable}" = "false"; then fdt rm /cec@101B0000; fi
 if test "${disable_vu7}" = "false"; then setenv hid_quirks "usbhid.quirks=0x0eef:0x0005:0x0004"; fi
@@ -158,4 +162,4 @@ if test "${external_watchdog}" = "true"; then setenv external_watchdog "external
 setenv bootargs "${bootmem} ${videoconfig} ${hdmi_phy_control} ${hud_quirks} ${macaddrconfig} ${external_watchdog} governor=${governor}"
 
 # Boot the board
-bootz 0x40008000 0x42000000 0x44000000
+bootz ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}
