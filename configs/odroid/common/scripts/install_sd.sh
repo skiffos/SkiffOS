@@ -116,7 +116,7 @@ fi
 sync
 
 echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group $dtb_path $boot_dir/
+rsync -rav --no-perms --no-owner --no-group ${images_path}/*.dtb $boot_dir/
 sync
 
 cleanup
