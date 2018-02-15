@@ -5,9 +5,9 @@ setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 
 # setenv dtb_addr_r "0x44000000"
-setenv dtb_addr_r "0x41000000"
+setenv dtb_addr_r "0x40991600"
 setenv kernel_addr_r "0x40008000"
-setenv initramfs_addr_r "0x41002600"
+setenv initramfs_addr_r "0x40E56000"
 
 # Mac address configuration
 # setenv macaddr "00:1e:06:61:7a:39"
