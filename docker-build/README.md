@@ -32,5 +32,8 @@ Enter the container:
 docker exec -it skiff-build sh
 
 $ cd ./skiff
-$ make configure compile
+$ make                             # observe status output
+$ SKIFF_CONFIG=pi/3 make configure # configure the system
+$ make                             # check status again
+$ make compile                     # build the system
 ```
