@@ -31,6 +31,6 @@ Enter the container:
 ```sh
 docker exec -it skiff-build sh
 
-$ cd ./buildroot
+$ cd ./skiff
 $ make configure compile
 ```
