@@ -43,6 +43,10 @@ $ make cmd/pi/3/install # tell skiff to install the os
 
 After you format a card, you do not need to do so again. You can call the install command as many times as you want to update the system. The persist partition is not touched in this step, so anything you save there, including Docker state and system configuration, will not be touched in the upgrade.
 
+Some operating systems are not compatible with the Skiff build system, due to the host not using glibc, or using some outdated or otherwise incompatible libraries for the fairly recent Skiff distribution.
+
+If you encounter any errors related to host-* packages, you should [build with Docker](./docker-build).
+
 ## Workspaces
 
 Workspaces allow you to configure and compile multiple systems in tandem.
@@ -97,6 +101,24 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
+
+## Performance Monitoring with Cadvisor
+
+Performance monitoring and benchmarking is easy with the cadvisor tool.
+
+The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 8080 on the device:
+
+```bash
+docker run \
+ --volume=/:/rootfs:ro \
+ --volume=/var/run:/var/run:rw \
+ --volume=/sys:/sys:ro \
+ --volume=/var/lib/docker/:/var/lib/docker:ro \
+ --publish=8080:8080 \
+ --detach=true \
+ --name=cadvisor \
+ braingamer/cadvisor-arm:latest
+```
 
 ## Skiff Core
 
