@@ -43,6 +43,8 @@ $ make cmd/pi/3/install # tell skiff to install the os
 
 After you format a card, you do not need to do so again. You can call the install command as many times as you want to update the system. The persist partition is not touched in this step, so anything you save there, including Docker state and system configuration, will not be touched in the upgrade.
 
+N.B. If you have issue related to your OS or configuration, you may [build Skiff using a docker container](./docker-build/README.md).
+
 ## Workspaces
 
 Workspaces allow you to configure and compile multiple systems in tandem.
