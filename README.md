@@ -98,6 +98,24 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `skiff/keys` from inside the persist partition
 
 
+## Performance Monitoring with Cadvisor
+
+Performance monitoring and benchmarking is easy with the cadvisor tool.
+
+The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 8080 on the device:
+
+```bash
+docker run \
+ --volume=/:/rootfs:ro \
+ --volume=/var/run:/var/run:rw \
+ --volume=/sys:/sys:ro \
+ --volume=/var/lib/docker/:/var/lib/docker:ro \
+ --publish=8080:8080 \
+ --detach=true \
+ --name=cadvisor \
+ braingamer/cadvisor-arm:latest
+```
+
 ## Skiff Core
 
 Users can work within a familiar, traditional, persistent OS environment if desired. This is called the "core" user within Skiff. If this feature is enabled:
