@@ -1,6 +1,6 @@
 # SkiffOS
 
-![](http://i.imgur.com/XqpQJEm.png)
+![](./resources/images/skiff.png)
 
 ## Introduction
 
