@@ -21,30 +21,35 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
 fi
 
 MKEXT4="mkfs.ext4 -F -O ^64bit"
-IMG=${ARTIK_SD}
 
 echo "Formatting device..."
-parted $IMG mklabel msdos
+parted $ARTIK_SD mklabel msdos
 
 echo "Making boot partition..."
-parted -s ${IMG} unit KiB mkpart primary fat32 ${IMAGE_ALIGNMENT} $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ALIGNMENT})
-parted -s ${IMG} set 1 boot on
+parted -s $ARTIK_SD unit KiB mkpart primary fat32 ${IMAGE_ALIGNMENT} $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ALIGNMENT})
+parted -s $ARTIK_SD set 1 boot on
 sleep 1
-mkfs.vfat -F 32 ${IMG}1
+
+ARTIK_SD_SFX=$ARTIK_SD
+if [ -b ${ARTIK_SD}p1 ]; then
+  ARTIK_SD_SFX=${ARTIK_SD}p
+fi
+
+mkfs.vfat -F 32 ${ARTIK_SD_SFX}1
 
 echo "Making rootfs partition..."
-parted -s ${IMG} -- unit KiB mkpart primary ext4 ${ROOTFS_PARTITION_START} ${ROOTFS_PARTITION_END}
+parted -s $ARTIK_SD -- unit KiB mkpart primary ext4 ${ROOTFS_PARTITION_START} ${ROOTFS_PARTITION_END}
 sleep 1
-$MKEXT4 -L "rootfs" ${ODROID_SD}2
+$MKEXT4 -L "rootfs" ${ARTIK_SD_SFX}2
 
 echo "Making persist partition..."
-parted -s ${IMG} -- unit KiB mkpart primary ext4 ${ROOTFS_PARTITION_END} -1s
+parted -s $ARTIK_SD -- unit KiB mkpart primary ext4 ${ROOTFS_PARTITION_END} -1s
 sleep 1
-$MKEXT4 -L "persist" ${ODROID_SD}3
+$MKEXT4 -L "persist" ${ARTIK_SD_SFX}3
 
 sync && sync
 sleep 1
 
 echo "Flashing u-boot..."
 cd $OUTPUT_DIR/images/sd_fuse
-./sd_fuse.sh ${IMG}
+./sd_fuse.sh $ARTIK_SD
