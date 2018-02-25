@@ -18,7 +18,7 @@ if [ ! -b "$PI_SD" ]; then
   exit 1
 fi
 
-PI_SD_SFX=${PI_SD}
+PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p
 fi

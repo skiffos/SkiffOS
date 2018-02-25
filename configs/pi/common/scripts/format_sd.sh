@@ -47,7 +47,7 @@ echo "Making boot partition..."
 parted -a optimal $PI_SD mkpart primary fat16 0% 300M
 sleep 1
 
-PI_SD_SFX=${PI_SD}
+PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p
 fi
@@ -56,7 +56,7 @@ mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
 parted $PI_SD set 1 boot on
 parted $PI_SD set 1 lba on
 sleep 1
-# mlabel -i ${PI_SD}1 ::boot
+# mlabel -i ${PI_SD_SFX}1 ::boot
 
 echo "Making rootfs partition..."
 parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
