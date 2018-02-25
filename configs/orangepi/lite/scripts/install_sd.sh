@@ -7,8 +7,8 @@ if [ $EUID != 0 ]; then
 fi
 
 set -e
-if [ -z "$ODROID_SD" ]; then
-  echo "Please set ODROID_SD and try again."
+if [ -z "$ORANGEPI_SD" ]; then
+  echo "Please set ORANGEPI_SD and try again."
   exit 1
 fi
 
@@ -17,8 +17,8 @@ if [ ! -f "$mkimage" ]; then
   exit 1
 fi
 
-if [ ! -b "$ODROID_SD" ]; then
-  echo "$ODROID_SD is not a block device or doesn't exist."
+if [ ! -b "$ORANGEPI_SD" ]; then
+  echo "$ORANGEPI_SD is not a block device or doesn't exist."
   exit 1
 fi
 
@@ -54,20 +54,25 @@ boot_dir="${WORK_DIR}/boot"
 rootfs_dir="${WORK_DIR}/rootfs"
 persist_dir="${WORK_DIR}/persist"
 
-mkdir -p $boot_dir
-echo "Mounting ${ODROID_SD}1 to $boot_dir..."
-mounts+=("$boot_dir")
-mount ${ODROID_SD}1 $boot_dir
+ORANGEPI_SD_SFX=$ORANGEPI_SD
+if [ -b ${ORANGEPI_SD}p1 ]; then
+  ORANGEPI_SD_SFX=${ORANGEPI_SD}p
+fi
 
-echo "Mounting ${ODROID_SD}2 to $rootfs_dir..."
+mkdir -p $boot_dir
+echo "Mounting ${ORANGEPI_SD_SFX}1 to $boot_dir..."
+mounts+=("$boot_dir")
+mount ${ORANGEPI_SD_SFX}1 $boot_dir
+
+echo "Mounting ${ORANGEPI_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-mount ${ODROID_SD}2 $rootfs_dir
+mount ${ORANGEPI_SD_SFX}2 $rootfs_dir
 
-echo "Mounting ${ODROID_SD}3 to $persist_dir..."
+echo "Mounting ${ORANGEPI_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-mount ${ODROID_SD}3 $persist_dir
+mount ${ORANGEPI_SD_SFX}3 $persist_dir
 
 echo "Copying zImage..."
 sync
