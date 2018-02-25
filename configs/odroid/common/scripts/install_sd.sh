@@ -60,20 +60,25 @@ boot_dir="${WORK_DIR}/boot"
 rootfs_dir="${WORK_DIR}/rootfs"
 persist_dir="${WORK_DIR}/persist"
 
-mkdir -p $boot_dir
-echo "Mounting ${ODROID_SD}1 to $boot_dir..."
-mounts+=("$boot_dir")
-mount ${ODROID_SD}1 $boot_dir
+ODROID_SD_SFX=$ODROID_SD
+if [ -b ${ODROID_SD}p1 ]; then
+  ODROID_SD_SFX=${ODROID_SD}p
+fi
 
-echo "Mounting ${ODROID_SD}2 to $rootfs_dir..."
+mkdir -p $boot_dir
+echo "Mounting ${ODROID_SD_SFX}1 to $boot_dir..."
+mounts+=("$boot_dir")
+mount ${ODROID_SD_SFX}1 $boot_dir
+
+echo "Mounting ${ODROID_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-mount ${ODROID_SD}2 $rootfs_dir
+mount ${ODROID_SD_SFX}2 $rootfs_dir
 
-echo "Mounting ${ODROID_SD}3 to $persist_dir..."
+echo "Mounting ${ODROID_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-mount ${ODROID_SD}3 $persist_dir
+mount ${ODROID_SD_SFX}3 $persist_dir
 
 echo "Copying kernel image..."
 sync
