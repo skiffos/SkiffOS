@@ -65,13 +65,19 @@ parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
 parted $ODROID_SD set 1 boot on
 parted $ODROID_SD set 1 lba on
 sleep 1
-mkfs.vfat -F 32 ${ODROID_SD}1
-fatlabel ${ODROID_SD}1 bootmmc
+
+ODROID_SD_SFX=$ODROID_SD
+if [ -b ${ODROID_SD}p1 ]; then
+  ODROID_SD_SFX=${ODROID_SD}p
+fi
+
+mkfs.vfat -F 32 ${ODROID_SD_SFX}1
+fatlabel ${ODROID_SD_SFX}1 bootmmc
 
 echo "Making storage partition..."
 parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 100%
 sleep 1
-$MKEXT4 -L "storage" ${ODROID_SD}2
+$MKEXT4 -L "storage" ${ODROID_SD_SFX}2
 
 sync && sync
 sleep 1
@@ -107,9 +113,9 @@ enable_silent() {
 boot_dir="${WORK_DIR}/boot"
 mkdir -p $boot_dir
 
-echo "Mounting ${ODROID_SD}1 to $boot_dir..."
+echo "Mounting ${ODROID_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-mount ${ODROID_SD}1 $boot_dir
+mount ${ODROID_SD_SFX}1 $boot_dir
 
 echo "Compiling boot.txt..."
 cp $boot_conf $boot_dir/boot.txt

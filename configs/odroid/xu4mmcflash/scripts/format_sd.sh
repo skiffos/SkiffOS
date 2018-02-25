@@ -51,16 +51,16 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
 fi
 
 echo "Flashing stager u-boot..."
-cat ${resources_path}/boot.bin.gz | gzip -d | dd of=${ODROID_SD}
+cat ${resources_path}/boot.bin.gz | gzip -d | dd of=$ODROID_SD
 sync && sync
 
 printf "Waiting for the OS to recognize the new partitions"
-if ! partprobe ${ODROID_SD} ; then
+if ! partprobe $ODROID_SD ; then
   echo "\nnote: your system does not have partprobe, this might time out"
 fi
 for ((i=0; i<20; i++)); do
   printf "."
-  if [ -b ${ODROID_SD}1 ]; then
+  if [ -b ${ODROID_SD}1 ] || [ -b ${ODROID_SD}p1 ]; then
     break
   fi
   sleep 1
@@ -71,9 +71,14 @@ if ((i==20)); then
   exit 1
 fi
 
+ODROID_SD_SFX=$ODROID_SD
+if [ -b ${ODROID_SD}p1 ]; then
+  ODROID_SD_SFX=${ODROID_SD}p
+fi
+
 echo "Wiping boot partition..."
-mkfs.vfat -F 32 ${ODROID_SD}1
-fatlabel ${ODROID_SD}1 BOOT
+mkfs.vfat -F 32 ${ODROID_SD_SFX}1
+fatlabel ${ODROID_SD_SFX}1 BOOT
 
 sync && sync
 
@@ -81,9 +86,9 @@ echo "Mounting boot partition..."
 boot_dir="${WORK_DIR}/boot"
 
 mkdir -p $boot_dir
-echo "Mounting ${ODROID_SD}1 to $boot_dir..."
+echo "Mounting ${ODROID_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-mount ${ODROID_SD}1 $boot_dir
+mount ${ODROID_SD_SFX}1 $boot_dir
 
 echo "Copying in flasher config..."
 rsync -rv $resources_path/flasher/ $boot_dir/
