@@ -1,0 +1,2 @@
+# RPI uses the .tar.gz model
+BR2_TARGET_ROOTFS_CPIO_UIMAGE=n
