@@ -101,16 +101,29 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
+## System Performance Monitoring with Glances
 
-## Performance Monitoring with Cadvisor
+System performance monitoring and benchmarking is easy with the glances tool.
 
-Performance monitoring and benchmarking is easy with the cadvisor tool.
+The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 61208 on the device (for the ARM architecture):
+
+```bash
+docker run \
+ --pid=host --net=host \
+ --privileged \
+ --detach=true \
+ --name=glances \
+ paralin/glances-arm:latest glances -w
+```
+
+## Container Performance Monitoring with Cadvisor
+
+System and container performance monitoring and benchmarking is easy with the cadvisor tool.
 
 The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 8080 on the device:
 
 ```bash
 docker run \
- --volume=/:/rootfs:ro \
  --volume=/var/run:/var/run:rw \
  --volume=/sys:/sys:ro \
  --volume=/var/lib/docker/:/var/lib/docker:ro \
