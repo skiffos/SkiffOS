@@ -46,5 +46,6 @@ p
 w
 EOF
 
-echo "Resized persist successfully."
+echo "Resized persist partition, resizing ext4 filesystem to partition."
+resize2fs ${disk_part}
 
