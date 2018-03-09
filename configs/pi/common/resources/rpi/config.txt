@@ -1,5 +1,7 @@
 # This is the default Skiff config.txt.
 # You should customize it to your own needs.
+# Create a Skiff config, and copy this file to:
+# my/config/resources/rpi/config.txt
 
 # Leave these set the same.
 kernel=zImage
