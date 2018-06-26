@@ -1,4 +1,6 @@
 # SkiffOS
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fparalin%2FSkiffOS.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fparalin%2FSkiffOS?ref=badge_shield)
+
 
 ![](./resources/images/skiff.png)
 
@@ -232,3 +234,7 @@ If you have a board that is not yet supported by SkiffOS, please **open an issue
 ## Support
 
 If you encounter issues or questions at any point when using Skiff, please file a [GitHub issue](https://github.com/paralin/SkiffOS/issues/new).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fparalin%2FSkiffOS.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fparalin%2FSkiffOS?ref=badge_large)
