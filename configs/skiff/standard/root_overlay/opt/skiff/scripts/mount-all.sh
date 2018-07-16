@@ -17,12 +17,6 @@ SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
 SKIFF_RELEASE_FILE=/etc/skiff-release
 
-# Fix for #52
-if [ ! -d /run/dbus ]; then
-    ln -fs /var/run/dbus/ /run/dbus
-    systemctl restart --no-block systemd-hostnamed
-fi
-
 # Grab the default docker execstart
 if [ -f $DOCKER_SERVICE ]; then
   DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
