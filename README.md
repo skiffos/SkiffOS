@@ -173,6 +173,7 @@ A configuration package is laid out into the following directories:
 │   └── pre.sh
 ├── kernel:         kernel configuration fragments
 ├── kernel_patches: kernel .patch files
+├── root_overlay:   root overlay files
 ├── metadata:       metadata files
 │   ├── commands
 │   ├── dependencies
