@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_BANANAPI_M1_PATH/package/bananapi-m1-firmware/Config.in"
