@@ -109,11 +109,13 @@ The below command can be executed after sshing to the "root" user to start the p
 
 ```bash
 docker run \
- --pid=host --net=host \
- --privileged \
- --detach=true \
- --name=glances \
- paralin/glances-arm:latest glances -w
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  --pid=host --net=host \
+  --restart=always \
+  --name=glances \
+  --detach=true \
+  --privileged \
+  paralin/glances-arm:latest glances -w
 ```
 
 ## Container Performance Monitoring with Cadvisor
