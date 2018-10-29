@@ -202,19 +202,21 @@ SkiffOS is based on Buildroot, which can compile operating systems for virtually
 
 Here are the boards/systems currently supported by Skiff:
 
-| **Board**       | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
-| --------------- | -----------------  | -------------------- | --------------- | ---------------------- |
-| [Odroid XU4]    | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
-| [Odroid HC1]    | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
-| [Odroid C2]     | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
-| [BananaPi M1]   | bananapi/m1        | ✔ U-Boot Src         | ✔ 4.13.7        |                        |
-| [Pi 3]          | pi/3               | N/A                  | ✔ 4.14.78       |                        |
-| [Pi 1]          | pi/1               | N/A                  | ✔ 4.14.78       | ⚠ Untested             |
-| [Pi 0]          | pi/0               | N/A                  | ✔ 4.14.78       |                        |
-| [Docker Img]    | docker/standard    | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [OrangePi Lite] | orangepi/lite      | N/A                  | N/A             | ⚠ Untested             |
-| [Odroid XU3]    | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        | ⚠ Discontinued         |
-| [Odroid U]      | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
+| **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
+| ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
+| [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
+| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
+| [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
+| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot Src         | ✔ 4.13.7        |                        |
+| [BananaPi M1+/Pro] | bananapi/m1-plus   | ✔ U-Boot Src         | ✔ 4.13.7        |                        |
+| [BananaPi M2+]     | bananapi/m2-plus   | ✔ U-Boot Src         | ✔ 4.13.7        | ⚠ Untested             |
+| [Pi 3]             | pi/3               | N/A                  | ✔ 4.14.78       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.14.78       | ⚠ Untested             |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.14.78       |                        |
+| [Docker Img]       | docker/standard    | N/A                  | N/A             | Run SkiffOS in Docker  |
+| [OrangePi Lite]    | orangepi/lite      | N/A                  | N/A             | ⚠ Untested             |
+| [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        | ⚠ Discontinued         |
+| [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
 [Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
 [Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
@@ -223,7 +225,9 @@ Here are the boards/systems currently supported by Skiff:
 [Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
 [Docker Img]: ./docker 
 [OrangePi Lite]: http://orangepi.com/orange-pi-lite
-[BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi
+[BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
+[BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
+[BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
