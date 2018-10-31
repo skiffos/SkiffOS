@@ -72,16 +72,25 @@ fatlabel ${PI_SD_SFX}1 boot
 
 echo "Making rootfs partition..."
 parted -a optimal $PI_SD mkpart primary ext4 410MiB 600MiB
-$MKEXT4 -L "rootfs" ${PI_SD_SFX}2
 
 echo "Making persist partition..."
 parted -a optimal $PI_SD -- mkpart primary ext4 600MiB "-1s"
-$MKEXT4 -L "persist" ${PI_SD_SFX}3
 
 sync && sync
 sleep 1
+
+partprobe $PI_SD || true # some systems do not have partprobe
+sleep 1
+
+echo "Building ext4 filesystem for rootfs..."
+$MKEXT4 -L "rootfs" ${PI_SD_SFX}2
+
+echo "Building ext4 filesystem for persist..."
+$MKEXT4 -L "persist" ${PI_SD_SFX}3
 
 echo "Flashing u-boot..."
 cd $ubootscripts
 dd if=$ubootimg of=${PI_SD} conv=fsync bs=1024 seek=8
 cd -
+
+echo "Done!"
