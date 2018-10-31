@@ -67,9 +67,6 @@ if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p
 fi
 
-mkfs.vfat -F 32 ${PI_SD_SFX}1
-fatlabel ${PI_SD_SFX}1 boot
-
 echo "Making rootfs partition..."
 parted -a optimal $PI_SD mkpart primary ext4 410MiB 600MiB
 
@@ -81,6 +78,10 @@ sleep 1
 
 partprobe $PI_SD || true # some systems do not have partprobe
 sleep 1
+
+echo "Building fat filesystem for boot..."
+mkfs.vfat -F 32 ${PI_SD_SFX}1
+fatlabel ${PI_SD_SFX}1 boot
 
 echo "Building ext4 filesystem for rootfs..."
 $MKEXT4 -L "rootfs" ${PI_SD_SFX}2
