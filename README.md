@@ -213,8 +213,9 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 3]             | pi/3               | N/A                  | ✔ 4.14.78       |                        |
 | [Pi 1]             | pi/1               | N/A                  | ✔ 4.14.78       | ⚠ Untested             |
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.14.78       |                        |
+| [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
+| [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Docker Img]       | docker/standard    | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [OrangePi Lite]    | orangepi/lite      | N/A                  | N/A             | ⚠ Untested             |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        | ⚠ Discontinued         |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
@@ -224,7 +225,8 @@ Here are the boards/systems currently supported by Skiff:
 [Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
 [Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
 [Docker Img]: ./docker 
-[OrangePi Lite]: http://orangepi.com/orange-pi-lite
+[OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
+[OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
 [BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
