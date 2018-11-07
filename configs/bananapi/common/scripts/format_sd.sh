@@ -54,6 +54,9 @@ MKEXT4="mkfs.ext4 -F -O ^64bit"
 set -x
 set -e
 
+echo "Zeroing out partition table..."
+dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
+
 echo "Formatting device..."
 parted $PI_SD mklabel msdos
 
