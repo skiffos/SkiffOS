@@ -1,0 +1,3 @@
+# Fix a boot issue, possibly due to big/little scheduler.
+# See https://github.com/hardkernel/linux/issues/337#issuecomment-447922535
+CONFIG_CGROUP_PIDS=n

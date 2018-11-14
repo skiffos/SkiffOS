@@ -293,8 +293,8 @@ Here are the boards/systems currently supported by Skiff:
 
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
-| [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
-| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        |                        |
+| [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       |                        |
+| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
 | [BananaPi M1]      | bananapi/m1        | ✔ U-Boot Src         | ✔ 4.13.7        |                        |
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot Src         | ✔ 4.13.7        |                        |
@@ -305,7 +305,7 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Docker Img]       | docker/standard    | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.9.61        | ⚠ Discontinued         |
+| [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       | ⚠ Discontinued         |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
 [Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127

@@ -1,0 +1,25 @@
+From ecebe320314300e71282bdf382e138c2691cd3bf Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sun, 9 Dec 2018 00:29:04 -0800
+Subject: [PATCH 2/2] Increase DMA coherent pool to 2M
+
+---
+ arch/arm/mm/dma-mapping.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index 0e1e56a50d75..33aa3016e63b 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -381,7 +381,7 @@ static void __dma_free_remap(void *cpu_addr, size_t size)
+ 			VM_ARM_DMA_CONSISTENT | VM_USERMAP);
+ }
+ 
+-#define DEFAULT_DMA_COHERENT_POOL_SIZE	SZ_256K
++#define DEFAULT_DMA_COHERENT_POOL_SIZE	SZ_2M
+ static struct gen_pool *atomic_pool;
+ 
+ static size_t atomic_pool_size = DEFAULT_DMA_COHERENT_POOL_SIZE;
+-- 
+2.18.1
+
