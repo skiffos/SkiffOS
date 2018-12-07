@@ -4,23 +4,38 @@
 
 ## Introduction
 
-Skiff is a extremely lightweight, minimal, in-memory operating system for embedded Linux devices. It is also an intuitive and modular configuration package manager for [Buildroot](http://buildroot.org). While any embedded system workflow can be implemented under Skiff, the default workflow is described below.
+Skiff is a extremely lightweight, minimal, in-memory operating system for
+embedded Linux devices. It is also an intuitive and modular configuration
+package manager for [Buildroot](http://buildroot.org). Theoretically, any Linux
+embedded system workflow can be replicated with Skiff configuration
+package sets.
 
-Skiff loads a small ~30MB image containing the Linux kernel and critical software (like networking/WiFi drivers) into RAM at boot-time, and never mounts the root filesystem. This allows the system to be powered off without a graceful shutdown with **no consequences** whatsoever. It offers **guaranteed boots and SSH reachability** which is ideal for embedded environments.
+Skiff loads a small ~30MB image containing the Linux kernel and critical
+software (like networking/WiFi drivers) into RAM at boot-time, and never mounts
+the root filesystem. This allows the system to be powered off without a graceful
+shutdown with **no consequences** whatsoever. It offers **guaranteed boots and
+SSH reachability** which is ideal for embedded environments.
 
-Skiff uses **docker** containers for user-space software. It can intelligently rebuild nearly any Docker image from the ground-up to support any CPU architecture. This allows for a highly modular and reliable system environment while retaining the **ease-of-use** and repeatability Docker containers offer.
+Skiff optionally uses **docker** or **flatpak** containers for user-space
+software. This allows for a highly modular and reliable system environment while
+retaining the **ease-of-use** and reliability containerized systems offer.
 
-Skiff optionally can rsync a filesystem overlay at boot time on top of the compiled image to allow for easy persistent tweaks to the file tree. This functionality is typically used to tweak the SSH or networking configuration.
+Persistent containers, images, and data is stored on a separate filesystem
+partition. The mission-critical system is then in-memory, while the persist
+partition can be repaired or remounted by the parent system automatically at any
+time necessary.
 
-Docker containers and images are stored in a separate persist filesystem partition. Thus, the mission-critical system is in-memory only, while the Docker partition can be repaired by the parent system automatically if necessary.
-
-This repository includes configurations supporting a variety of embedded platforms, including Raspberry Pi and ODROID boards.
+This repository includes configurations supporting a variety of embedded
+platforms, including Raspberry Pi and ODROID boards.
 
 ## Getting started
 
-Building a system with Skiff is easy! This example will build a basic OS for a Pi 3.
+Building a system with Skiff is easy! This example will build a basic OS for a
+Pi 3.
 
-You can type `make` at any time to see a status and help printout. Do this now, and look at the list of configuration packages. Select which ones you want, and set the comma-separated `SKIFF_CONFIG` variable:
+You can type `make` at any time to see a status and help printout. Do this now,
+and look at the list of configuration packages. Select which ones you want, and
+set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ make                             # observe status output
@@ -29,9 +44,11 @@ $ make                             # check status again
 $ make compile                     # build the system
 ```
 
-After you run `make configure` Skiff will remember what you selected in `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
+After you run `make configure` Skiff will remember what you selected in
+`SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
-Once the build is complete, it's time to flash the system to a SD card. You will need to switch to `sudo bash` for this on most systems.
+Once the build is complete, it's time to flash the system to a SD card. You will
+need to switch to `sudo bash` for this on most systems.
 
 ```sh
 $ sudo bash             # switch to root
@@ -41,11 +58,17 @@ $ make cmd/pi/3/format  # tell skiff to format the device
 $ make cmd/pi/3/install # tell skiff to install the os
 ```
 
-After you format a card, you do not need to do so again. You can call the install command as many times as you want to update the system. The persist partition is not touched in this step, so anything you save there, including Docker state and system configuration, will not be touched in the upgrade.
+After you format a card, you do not need to do so again. You can call the
+install command as many times as you want to update the system. The persist
+partition is not touched in this step, so anything you save there, including
+Docker state and system configuration, will not be touched in the upgrade.
 
-Some operating systems are not compatible with the Skiff build system, due to the host not using glibc, or using some outdated or otherwise incompatible libraries for the fairly recent Skiff distribution.
+Some operating systems are not compatible with the Skiff build system, due to
+the host not using glibc, or using some outdated or otherwise incompatible
+libraries for the fairly recent Skiff distribution.
 
-If you encounter any errors related to host-* packages, you should [build with Docker](./docker-build).
+If you encounter any errors related to host-* packages, you can try [building
+Skiff inside Docker](./docker-build).
 
 ## Workspaces
 
@@ -55,25 +78,34 @@ Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 
 ## System Configuration
 
-Below are some common configuration tasks that may be necessary when configuring a new Skiff system.
+Below are some common configuration tasks that may be necessary when configuring
+a new Skiff system.
 
 ### NetworkManager
 
 Skiff uses NetworkManager to manage network connections.
 
-Network configurations are loaded from `/etc/NetworkManager/system-connections` and from `skiff/connections` on the persist partition.
+Network configurations are loaded from `/etc/NetworkManager/system-connections`
+and from `skiff/connections` on the persist partition.
 
-The configuration file format for these connections is [documented here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html) with examples.
+The configuration file format for these connections is [documented
+here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html)
+with examples.
 
-You can use `nmcli` on the device to manage `NetworkManager`, and any connection definitions written by `nmcli device wifi connect` or similar will automatically be written to the persist partition and persisted to future boots.
+You can use `nmcli` on the device to manage `NetworkManager`, and any connection
+definitions written by `nmcli device wifi connect` or similar will automatically
+be written to the persist partition and persisted to future boots.
 
 ### WiFi with WPA Supplicant
 
-If you chose, you may configure WiFi using `wpa_supplicant` configs instead of `NetworkManager`.
+If you chose, you may configure WiFi using `wpa_supplicant` configs instead of
+`NetworkManager`.
 
-Skiff will load any wpa supplicant configs from the persist partition at `skiff/wifi`.
+Skiff will load any wpa supplicant configs from the persist partition at
+`skiff/wifi`.
 
-Here is an example file, `wpa_supplicant-wlan0.conf`. You can generate the entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
+Here is an example file, `wpa_supplicant-wlan0.conf`. You can generate the
+entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
 
 ```
 ctrl_interface=/var/run/wpa_supplicant
@@ -90,7 +122,9 @@ network={
 
 ### Hostname
 
-You can set the hostname by placing the desired hostname in the `skiff/hostname` file on the persist partition. You could also set this in one of your config packages by writing the desired hostname to `/etc/hostname`.
+You can set the hostname by placing the desired hostname in the `skiff/hostname`
+file on the persist partition. You could also set this in one of your config
+packages by writing the desired hostname to `/etc/hostname`.
 
 ### SSH Keys
 
@@ -101,11 +135,53 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
-## System Performance Monitoring with Glances
+## Example Workloads
+
+This section contains some example workloads you can use to get started. These
+examples are Docker based. You can add the **apps/flatpak** package to your
+build to enable experimental flatpak support.
+
+### System Tools with Alpine
+
+Alpine provides a lightweight environment with a package manager (apk) to
+install developer tools on-demand. This command will execute a persistent
+container named "work" which you can execute a shell inside to interact with.
+This workflow is similar to how Skiff Core drops SSH sessions into Docker
+containers as an optional feature.
+
+```bash
+# Replace arm32v6/alpine with alpine if on x86 or amd64 systems
+docker run \
+	--name=work -d \
+    --pid=host --uts=host --net=host \
+    --privileged \
+    -v /:/root-fs -v /dev:/dev \
+    --privileged \
+    arm32v6/alpine:edge \
+    bin/sleep 99999
+    
+# Execute a shell in the container.
+docker exec -it work sh
+```
+
+Some useful tools to try:
+
+ - htop: interactive process manager similar to top
+ - atop: shows CPU statistics and process information as well as summaries of
+   network interface load.
+ - bwm-ng: simple lightweight UI to show rx/tx and total bandwidth of all interfaces.
+ - bmon: detailed UI, shows all details of any network errors experienced and
+   current bandwidth on all interfaces.
+ - nload: shows incoming and outgoing network load.
+ - nethogs: shows what processes are using network traffic.
+
+### System Performance Monitoring with Glances
 
 System performance monitoring and benchmarking is easy with the glances tool.
 
-The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 61208 on the device (for the ARM architecture):
+The below command can be executed after sshing to the "root" user to start the
+performance monitoring UI on port 61208 on the device (for the ARM
+architecture):
 
 ```bash
 docker run \
@@ -118,7 +194,7 @@ docker run \
   paralin/glances-arm:latest glances -w
 ```
 
-## Container Performance Monitoring with Cadvisor
+### Container Performance Monitoring with Cadvisor
 
 System and container performance monitoring and benchmarking is easy with the cadvisor tool.
 
@@ -137,27 +213,39 @@ docker run \
 
 ## Skiff Core
 
-Users can work within a familiar, traditional, persistent OS environment if desired. This is called the "core" user within Skiff. If this feature is enabled:
+Users can work within a familiar, traditional, persistent OS environment if
+desired. This is called the "core" user within Skiff. If this feature is
+enabled:
 
  - On first boot, the system will build the **core** container image.
- - SSH connections to the **core** user are dropped into the Docker container seamlessly.
- - When building the container, the system automatically attempts to build an image compatible with the target.
+ - SSH connections to the **core** user are dropped into the Docker container
+   seamlessly.
+ - When building the container, the system automatically attempts to build an
+   image compatible with the target.
 
-This allows virtually any workflow to be migrated to Skiff with almost no effort. The config file structure is flexible, and allows for any number of containers, users, and images to be defined and built.
+This allows virtually any workflow to be migrated to Skiff with almost no
+effort. The config file structure is flexible, and allows for any number of
+containers, users, and images to be defined and built.
 
-You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG` list.
+You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG`
+list.
 
-To customize the core environment, edit the file at `skiff/core/config.yaml` on the persist partition. The default config will be placed there on first boot.
+To customize the core environment, edit the file at `skiff/core/config.yaml` on
+the persist partition. The default config will be placed there on first boot.
 
-The default config can be overridden with a file at `/opt/skiff/coreenv/defconfig.yaml`.
+The default config can be overridden with a file at
+`/opt/skiff/coreenv/defconfig.yaml`.
 
 ## Configuration Packages
 
-Skiff supports modular configuration packages. A configuration directory contains kernel configs, buildroot configs, system overlays, etc.
+Skiff supports modular configuration packages. A configuration directory
+contains kernel configs, buildroot configs, system overlays, etc.
 
-These packages are denoted as `namespace/name`. For example, an ODROID XU4 configuration would be `odroid/xu4`.
+These packages are denoted as `namespace/name`. For example, an ODROID XU4
+configuration would be `odroid/xu4`.
 
-Configuration package directories should have a depth of 2, where the first directory is the category name and the second is the package name.
+Configuration package directories should have a depth of 2, where the first
+directory is the category name and the second is the package name.
 
 ### Package Layout
 
@@ -198,7 +286,8 @@ These packages will be available in the Skiff system.
 
 ## Supported Systems
 
-SkiffOS is based on Buildroot, which can compile operating systems for virtually any machine. Therefore, SkiffOS also works on nearly any architecture or board.
+SkiffOS is based on Buildroot, which can compile operating systems for virtually
+any machine. Therefore, SkiffOS also works on nearly any architecture or board.
 
 Here are the boards/systems currently supported by Skiff:
 
@@ -234,10 +323,13 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 
-Adding support for a board involves creating a Skiff configuration package for the board, as described above.
+Adding support for a board involves creating a Skiff configuration package for
+the board, as described above.
 
-If you have a board that is not yet supported by SkiffOS, please **open an issue,** and we will work with you to integrate and test the new platform.
+If you have a board that is not yet supported by SkiffOS, please **open an
+issue,** and we will work with you to integrate and test the new platform.
 
 ## Support
 
-If you encounter issues or questions at any point when using Skiff, please file a [GitHub issue](https://github.com/paralin/SkiffOS/issues/new).
+If you encounter issues or questions at any point when using Skiff, please file
+a [GitHub issue](https://github.com/paralin/SkiffOS/issues/new).
