@@ -1,0 +1,13 @@
+setenv condev "console=ttyS0,115200"
+setenv bootargs "root=/dev/initrd rootwait ro ramdisk_size=100000 ${condev} earlyprintk no_console_suspend net.ifnames=0 elevator=noop"
+
+setenv dtb_addr_r "0x42000000"
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x44000000"
+
+mmc dev 0
+fatload mmc 0 ${initramfs_addr_r} rootfs.cpio.uboot
+fatload mmc 0 ${kernel_addr_r} zImage
+fatload mmc 0 ${dtb_addr_r} sun8i-a83t-bananapi-m3.dtb
+
+bootz ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}
