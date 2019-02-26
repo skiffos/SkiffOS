@@ -1,0 +1,2 @@
+# BR2_TARGET_UBOOT is not set
+BR2_TARGET_GRUB2=y
