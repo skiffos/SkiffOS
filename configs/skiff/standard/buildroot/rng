@@ -1,0 +1,2 @@
+# Entropy source for headless system
+BR2_PACKAGE_HAVEGED=y
