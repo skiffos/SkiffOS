@@ -338,7 +338,8 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.14.78       |                        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
-| [Docker Img]       | docker/standard    | N/A                  | N/A             | Run SkiffOS in Docker  |
+| [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 4.20.x        | Run SkiffOS in QEmu    |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       | ⚠ Discontinued         |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
@@ -357,6 +358,7 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[Qemu]: ./configs/virt/qemu
 
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above.
