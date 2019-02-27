@@ -31,9 +31,10 @@ if [ ! -f ${ROOTFS_DISK} ]; then
 fi
 
 qemu-system-x86_64 \
+  -nographic -serial mon:stdio \
 	-kernel bzImage \
 	-initrd rootfs.cpio.gz -m size=512 \
-	-append "nokaslr norandmaps console=tty root=/dev/ram0" \
+	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-net nic,model=virtio \
 	-net user \
