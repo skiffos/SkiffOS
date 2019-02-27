@@ -4,29 +4,35 @@
 
 ## Introduction
 
-Skiff is a extremely lightweight, minimal, in-memory operating system for
-embedded Linux devices. It is also an intuitive and modular configuration
-package manager for [Buildroot](http://buildroot.org). Theoretically, any Linux
-embedded system workflow can be replicated with Skiff configuration
-package sets.
+Skiff is a extremely lightweight, minimal, in-memory host operating system for
+embedded Linux devices, cloud VMs, mobile devices, and even desktop PCs. It is a
+modular configuration package manager for [Buildroot](http://buildroot.org).
+Theoretically, any Linux embedded system workflow can be replicated with Skiff
+configuration packages.
+
+The configuration layering system in Skiff allows for a consistent developer
+experience and application execution environment across any compute platform.
+The compact nature of the system creates a minimal attack surface for security.
 
 Skiff loads a small ~30MB image containing the Linux kernel and critical
 software (like networking/WiFi drivers) into RAM at boot-time, and never mounts
 the root filesystem. This allows the system to be powered off without a graceful
-shutdown with **no consequences** whatsoever. It offers **guaranteed boots and
-SSH reachability** which is ideal for embedded environments.
+shutdown with **no consequences**. It offers **guaranteed boots and SSH
+reachability** which is ideal for embedded and mission-critical environments.
 
-Skiff optionally uses **docker** or **flatpak** containers for user-space
-software. This allows for a highly modular and reliable system environment while
-retaining the **ease-of-use** and reliability containerized systems offer.
+Skiff optionally uses lightweight container-based **docker**, **flatpak**,
+**snapcraft**, **qemu/kvm/kata**, and other virtualization technologies for
+user-space software. This allows for a flexible and robust user-space
+environment while retaining the **ease-of-use** of a traditional system.
 
 Persistent containers, images, and data is stored on a separate filesystem
 partition. The mission-critical system is then in-memory, while the persist
-partition can be repaired or remounted by the parent system automatically at any
-time necessary.
+partition can be remounted and repaired by the parent system automatically at
+any time without interruption of the system.
 
 This repository includes configurations supporting a variety of embedded
-platforms, including Raspberry Pi and ODROID boards.
+platforms, including Raspberry Pi and ODROID boards. Skiff can also run inside a
+Docker container, a qemu system, as a usual x86_64 system, or a cloud VM.
 
 ## Getting started
 
@@ -204,6 +210,7 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]             | virt/qemu          | N/A                  | ✔ 4.20.x        | Run SkiffOS in QEmu    |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.20.x        |                        |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       | ⚠ Discontinued         |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
@@ -223,6 +230,7 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Qemu]: ./configs/virt/qemu
+[Intel x86/64]: ./configs/intel/x64
 
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above.
