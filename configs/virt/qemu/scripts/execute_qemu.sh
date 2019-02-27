@@ -37,5 +37,5 @@ qemu-system-x86_64 \
 	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-net nic,model=virtio \
-	-net user \
-	-cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
+	-net user #\
+	# -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
