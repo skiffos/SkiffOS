@@ -2,8 +2,6 @@
 # set -eo pipefail
 
 SYSTEMD_CONFD=/etc/systemd/system
-DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
-DOCKER_CONFD=/etc/systemd/system/docker.service.d
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
 SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
@@ -12,15 +10,9 @@ EXTRA_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.d
 
 SKIFF_PERSIST=$PERSIST_MNT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
-DOCKER_PERSIST=$SKIFF_PERSIST/docker
 SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
 SKIFF_RELEASE_FILE=/etc/skiff-release
-
-# Grab the default docker execstart
-if [ -f $DOCKER_SERVICE ]; then
-  DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
-fi
 
 if [ -f $SKIFF_RELEASE_FILE ]; then
     BUILD_DATE=$(cat /etc/skiff-release  | grep BUILD_DATE | cut -d\" -f2)
@@ -30,6 +22,15 @@ if [ -f $SKIFF_RELEASE_FILE ]; then
         echo "Build date of ${BUILD_DATE} is newer than internal clock of $(date). Bumping internal clock to build date."
         date -s "$BUILD_DATE" || true
     fi
+fi
+
+DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
+DOCKER_CONFD=/etc/systemd/system/docker.service.d
+DOCKER_PERSIST=$SKIFF_PERSIST/docker
+
+# Grab the default docker execstart
+if [ -f $DOCKER_SERVICE ]; then
+    DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
 fi
 
 mkdir -p $SYSTEMD_CONFD
