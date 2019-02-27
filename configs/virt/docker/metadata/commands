@@ -1,0 +1,3 @@
+buildimage Build a docker image from the output.
+run Start the docker container.
+exec Start a interactive shell in the docker container.

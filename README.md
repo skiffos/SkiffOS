@@ -76,13 +76,37 @@ Workspaces allow you to configure and compile multiple systems in tandem.
 
 Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 
-## Simulate with Qemu
+## Virtualization
+
+The virt/ packages are designed for running Skiff in various virtualized environments.
+
+### Qemu
 
 Here is a minimal working example of running Skiff in Qemu:
 
 ```sh
-$ SKIFF_CONFIG=intel/x64 make configure compile
-$ make cmd/intel/x64/qemu
+$ SKIFF_CONFIG=virt/qemu make configure compile
+$ make cmd/virt/qemu/run
+```
+
+### Docker
+
+Here is a minimal working example of running Skiff in Docker:
+
+```sh
+$ SKIFF_CONFIG=virt/docker make configure compile
+$ make cmd/virt/docker/buildimage
+$ make cmd/virt/docker/run
+```
+
+The build command compiles the image, and run executes it.
+
+You can execute a shell inside the container with:
+
+```sh
+$ make cmd/virt/docker/exec
+# alternatively
+$ docker exec -it skiff sh
 ```
 
 ## System Configuration

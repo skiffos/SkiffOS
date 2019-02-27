@@ -5,3 +5,4 @@ buildroot-work/
 *.org
 *.org_archive
 .#*
+*.swp

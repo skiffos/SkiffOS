@@ -1,8 +1,6 @@
 # BR2_arm is not set
 BR2_x86_64=y
-# BR2_x86_corei7 is not set
-# BR2_x86_atom=y
-BR2_x86_nocona=y
+BR2_x86_corei7=y
 BR2_OPTIMIZE_2=y
 
 # BR2_TOOLCHAIN_EXTERNAL is not set

@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 if docker rm -f skiff ; then
   sleep 3
 fi
 
+IMAGES_PATH="$BUILDROOT_DIR/output/images"
+ROOTFS_PATH=${IMAGES_PATH}/docker-rootfs
+PERSIST_PATH=${IMAGES_PATH}/docker-persist
+mkdir -p ${ROOTFS_PATH} ${PERSIST_PATH}
 docker run -d --name=skiff \
   --privileged \
   --cap-add=NET_ADMIN \
@@ -13,6 +17,6 @@ docker run -d --name=skiff \
   --tmpfs /run/lock \
   -t \
   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-  -v $(pwd)/rootfs:/mnt/rootfs \
-  -v $(pwd)/persist:/mnt/persist \
+  -v ${IMAGES_PATH}:/mnt/rootfs \
+  -v ${PERSIST_PATH}:/mnt/persist \
   paralin/skiffos
