@@ -76,6 +76,15 @@ Workspaces allow you to configure and compile multiple systems in tandem.
 
 Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
 
+## Simulate with Qemu
+
+Here is a minimal working example of running Skiff in Qemu:
+
+```sh
+$ SKIFF_CONFIG=intel/x64 make configure compile
+$ make cmd/intel/x64/qemu
+```
+
 ## System Configuration
 
 Below are some common configuration tasks that may be necessary when configuring
