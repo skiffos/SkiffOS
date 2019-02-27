@@ -33,9 +33,9 @@ fi
 qemu-system-x86_64 \
   -nographic -serial mon:stdio \
 	-kernel bzImage \
-	-initrd rootfs.cpio.gz -m size=512 \
+	-initrd rootfs.cpio.gz -m size=1024 \
 	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-net nic,model=virtio \
-	-net user #\
-	# -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
+	-net user
+	# Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic

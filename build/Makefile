@@ -9,6 +9,9 @@ env:
 cmd/%:
 	@$(SKIFF_SCRIPTS_DIR)/execute_command.sh $@
 
+br/%: ensure-sane verify-skiff-config maybe-build-configs
+	@$(SKIFF_SCRIPTS_DIR)/execute_buildroot_command.sh $@
+
 help:
 	@cd $(SKIFF_SCRIPTS_DIR) && $(SKIFF_SCRIPTS_DIR)/print_help.sh
 

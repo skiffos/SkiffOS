@@ -39,11 +39,12 @@ echo -e "\e[0;31m\033[1mCommands\e[0m"
 echo -e "\033[0;34mcompile\033[0m:   Configures and compiles the system."
 echo -e "\033[0;34mconfigure\033[0m: Force a re-configuration of the system."
 echo -e "\033[0;34mclean\033[0m:     Cleans the current workspace."
+echo -e "\033[0;34mbr/*\033[0m:      Execute a buildroot command, ex: br/menuconfig."
 echo -e "\033[0;34mgraph\033[0m:     Graph the completed build timing."
 
 # Iterate over configs in config chain and print available commands
 i=0
-confs=(${SKIFF_CONFIGS[@]})
+confs=( ${SKIFF_CONFIGS[@]} )
 for conf in "${confs[@]}"; do
   conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
   cmd_full_cmdlv="SKIFF_${conf_full}_COMMAND_LIST"
@@ -53,8 +54,8 @@ for conf in "${confs[@]}"; do
   fi
 
   cmd_full_cmdl=${!cmd_full_cmdlv}
-  cmd_cmdl=($cmd_full_cmdl)
-  cmd_full_cmdp=(${!cmd_full_cmdpt})
+  cmd_cmdl=( $cmd_full_cmdl )
+  cmd_full_cmdp=( ${!cmd_full_cmdpt} )
 
   # Print command header
   echo ""

@@ -41,6 +41,8 @@ set the comma-separated `SKIFF_CONFIG` variable:
 $ make                             # observe status output
 $ SKIFF_CONFIG=pi/3 make configure # configure the system
 $ make                             # check status again
+$ make br/menuconfig               # optionally explore config
+$ make br/linux-menuconfig         # optionally explore Linux config
 $ make compile                     # build the system
 ```
 
