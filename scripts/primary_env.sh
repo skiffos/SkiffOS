@@ -3,6 +3,8 @@ set -eo pipefail
 
 export ROOT_DIR=$(pwd)
 export SKIFF_CONFIGS_DIR=${ROOT_DIR}/configs
+export SKIFF_WORKSPACES_DIR=${ROOT_DIR}/workspaces
+export SKIFF_OVERRIDES_DIR=${ROOT_DIR}/overrides
 export SKIFF_RESOURCES_DIR=${ROOT_DIR}/resources
 export SKIFF_BASE_CONFIGS_DIR=${ROOT_DIR}/configs-base
 export SKIFF_SCRIPTS_DIR=${ROOT_DIR}/scripts

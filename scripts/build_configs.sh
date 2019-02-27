@@ -14,6 +14,8 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 # Also merges kernel defconfigs
 SKIFF_PRE_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/pre
 SKIFF_POST_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/post
+SKIFF_OVERRIDES_CONFIG_DIR=$SKIFF_OVERRIDES_DIR
+SKIFF_WS_OVERRIDES_CONFIG_DIR=$SKIFF_WS_OVERRIDES_DIR
 
 # Determine if we should skip rebuilding the config.
 if (
@@ -100,7 +102,8 @@ touch $br_conf
 # Add the post path
 cd $SKIFF_BRCONF_WORK_DIR
 echo "Config path: "
-SKIFF_CONFIG_PATH=("$SKIFF_PRE_CONFIG_DIR" "${SKIFF_CONFIG_PATH[@]}" "$SKIFF_POST_CONFIG_DIR")
+
+SKIFF_CONFIG_PATH=("$SKIFF_PRE_CONFIG_DIR" "${SKIFF_CONFIG_PATH[@]}" "$SKIFF_OVERRIDES_CONFIG_DIR" "$SKIFF_WS_OVERRIDES_CONFIG_DIR" "$SKIFF_POST_CONFIG_DIR")
 echo ${SKIFF_CONFIG_PATH[@]}
 domerge="$SKIFF_SCRIPTS_DIR/merge_config.sh -O $SKIFF_BRCONF_WORK_DIR -m -r"
 rootfs_overlays=()

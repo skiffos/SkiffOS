@@ -83,7 +83,22 @@ Skiff inside Docker](./docker-build).
 
 Workspaces allow you to configure and compile multiple systems in tandem.
 
-Set `SKIFF_WORKSPACE` to the name of the workspace you want to use.
+Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
+Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
+also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
+override settings for that particular workspace locally.
+
+## Local Overrides
+
+It's often useful to be able to adjust the buildroot, kernel, or other
+configurations locally during development without actually creating a new
+configuration layer. This can be easily done with the overrides system.
+
+The `overrides` directory, as well as the
+`overrides/workspaces/$SKIFF_WORKSPACE` directory, are automatically used as
+additional Skiff configuration packages. You can follow the Skiff configuration
+package format as defined below to override any of the settings in Buildroot or
+the Linux kernel, add extra Buildroot packages, add build hooks, etc.
 
 ## Virtualization
 
