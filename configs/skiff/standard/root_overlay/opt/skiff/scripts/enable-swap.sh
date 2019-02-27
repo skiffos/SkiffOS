@@ -18,6 +18,9 @@ fi
 SWAPFILE_PATH=$PERSIST_MNT/primary.swap
 # in mb
 SWAPFILE_SIZE=2000
+if [ -f /etc/skiff-swap.env ]; then
+    source /etc/skiff-swap.env
+fi
 
 if swapon -s | grep -q "${SWAPFILE_PATH}" ; then
     echo "$SWAPFILE_PATH is already initialized."

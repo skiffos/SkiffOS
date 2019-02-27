@@ -195,6 +195,13 @@ docker run \
     
 # Execute a shell in the container.
 docker exec -it work sh
+
+# Update the packages.
+apk upgrade --update
+
+# Add a package.
+apk add vim
+apk add alpine-sdk # adds compilers
 ```
 
 Some useful tools to try:
