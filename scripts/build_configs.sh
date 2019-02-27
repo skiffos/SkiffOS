@@ -89,7 +89,8 @@ post_build_script=$SKIFF_FINAL_CONFIG_DIR/post_build.sh
 echo "#!/bin/bash" > $bind_env_script
 echo "$bind_env" >> $bind_env_script
 echo "$bind_path_env" >> $bind_env_script
-printf "#!/bin/bash\nset -e\nsource $bind_env_script\ncd ${BUILDROOT_DIR}\n" > $post_build_script
+echo "export BUILDROOT_DIR=${BUILDROOT_DIR}" >> $bind_env_script
+printf "#!/bin/bash\nset -eo pipefail\nsource $bind_env_script\ncd ${BUILDROOT_DIR}\n" > $post_build_script
 cat $post_build_script > $pre_build_script
 chmod +x $post_build_script $pre_build_script
 

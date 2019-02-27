@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eo pipefail
 
 IMAGES_DIR=$BUILDROOT_DIR/output/images
 QEMU_DIR=${IMAGES_DIR}/qemu
