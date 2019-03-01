@@ -6,9 +6,9 @@
 
 Skiff is a extremely lightweight, minimal, in-memory host operating system for
 embedded Linux devices, cloud VMs, mobile devices, and even desktop PCs. It is a
-modular configuration package manager for [Buildroot](http://buildroot.org).
-Theoretically, any Linux embedded system workflow can be replicated with Skiff
-configuration packages.
+modular configuration package manager for [Buildroot](http://buildroot.org). Any
+Linux embedded system workflow can be replicated with Skiff configuration
+packages.
 
 The configuration layering system in Skiff allows for a consistent developer
 experience and application execution environment across any compute platform.
@@ -32,7 +32,7 @@ any time without interruption of the system.
 
 This repository includes configurations supporting a variety of embedded
 platforms, including Raspberry Pi and ODROID boards. Skiff can also run inside a
-Docker container, a qemu system, as a usual x86_64 system, or a cloud VM.
+Docker container, a qemu VM, as a typical x86_64 system, or a cloud VM.
 
 ## Getting started
 
