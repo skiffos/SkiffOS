@@ -6,3 +6,19 @@ export SKIFF_CONFIG_METADATA_SUBDIR=metadata
 export SKIFF_CONFIG_METADATA_DESCRIPTION=description
 export SKIFF_CONFIG_METADATA_NOLIST=unlisted
 export SKIFF_CONFIG_METADATA_UNIQUEGROUP=uniquegroup
+
+# Fixups
+force_arr() {
+    if [ -n "${!1}" ] ; then
+        if ! [[ "$(declare -p $1 2>/dev/null)" =~ "declare -a" ]]; then
+            eval "export $1=( \${$1} )"
+        fi
+    fi
+}
+force_arr SKIFF_CONFIG_PATH
+force_arr SKIFF_CONFIGS
+#if [ -n "$SKIFF_CONFIG_PATH" ]; then
+#    if ! [[ "$(declare -p SKIFF_CONFIG_PATH 2>/dev/null)" =~ "declare -a" ]]; then
+#        SKIFF_CONFIG_PATH=( ${SKIFF_CONFIG_PATH} )
+#    fi
+#fi

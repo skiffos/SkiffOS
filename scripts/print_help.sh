@@ -1,28 +1,30 @@
 #!/bin/bash
 
+source ../scripts/utils.sh
 echo -e "\e[7;49;31m"
 cat ../resources/text/logo.ascii
 echo -e "\e[0m"
 
 printf "\033[0;32mWelcome to SkiffOS ${SKIFF_VERSION}!\033[0m\n"
 echo ""
-printf "\033[0;34m✓ SKIFF_WORKSPACE is: $SKIFF_WORKSPACE\033[0m\n"
+printf "\033[0;34m ✓ SKIFF_WORKSPACE is: $SKIFF_WORKSPACE\033[0m\n"
 if [ -n "$SKIFF_WARN_ABOUT_RECOVERED_CONFIG" ]; then
-  printf "\033[0;34m✓ Previous config recovered: $SKIFF_CONFIG\033[0m\n"
+  printf "\033[0;34m ✓ Previous config recovered\033[0m\n"
 fi
 if ERR=$(../scripts/verify_selected_config.sh 2>&1); then
-  printf "\033[0;34m✓ Selected config chain:\033[0m\n"
-  i=0
+  printf "\033[0;34m ✓ Selected config chain:\033[0m\n"
+  ci=0
   for conf in "${SKIFF_CONFIGS[@]}"; do
-    conf_path=${SKIFF_CONFIG_PATH[i]}
-    path_to_descrip="$conf_path/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION"
-    printf "  $conf"
+    conf_path=${SKIFF_CONFIG_PATH[ci]}
+    ci=$(($ci + 1))
+    path_to_descrip="${conf_path}/${SKIFF_CONFIG_METADATA_SUBDIR}/${SKIFF_CONFIG_METADATA_DESCRIPTION}"
+    # printf "     \033[0;34m$conf\033[0m"
+    printf "     "
+    descrip=""
     if [ -f "$path_to_descrip" ]; then
-      printf ": $(cat $path_to_descrip)\n"
-    else
-      printf "\n"
+        descrip=$(cat $path_to_descrip)
     fi
-    i+=1
+    printf '\e[107m\033[0;45m%s\033[0m\e[49m\t %s\n' "$conf" "$descrip" | expand -t 22
   done
 else
   printf "\033[1;49;31m✖ $ERR\033[0m\n"

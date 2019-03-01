@@ -99,7 +99,11 @@ if [ -n "$SKIFF_CONFIG" ]; then
     REQUIRES_REEVAL=false
     echo "Selected config chain (from SKIFF_CONFIG):"
     # Split SKIFF_CONFIG into configs, by converting comma to space
-    export SKIFF_CONFIG=$(echo "$SKIFF_CONFIG" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " ")
+    export SKIFF_CONFIG=$(
+        echo "$SKIFF_CONFIG" |\
+            sed 's/^ *//;s/ *$//' |\
+            sed 's/,/ /g' |\
+            tr -s " ")
     # Iterate over it
     SKIFF_CONFIGS=($SKIFF_CONFIG)
     SKIFF_CONFIG_FULL=()
@@ -129,8 +133,6 @@ if [ -n "$SKIFF_CONFIG" ]; then
         (>&2 echo " ! [$conf] Path $conf_path does not exist. Ignored.")
         continue
       fi
-      eval "SKIFF_${conf_full}_COMMAND_LIST=()"
-      eval "SKIFF_${conf_full}_COMMAND_PATHS=()"
       # Check if it has any dependencies
       if [ -f "$conf_path/metadata/dependencies" ]; then
         depsuf=$(cat $conf_path/metadata/dependencies)
@@ -154,7 +156,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
             REQUIRES_REEVAL=true
           fi
         done
-        if $invpack; then
+        if $invpack ; then
           continue
         fi
       fi
@@ -168,23 +170,24 @@ if [ -n "$SKIFF_CONFIG" ]; then
         cmd_list=()
         cmd_paths=()
         while read line; do
-          # line contains command Description is here
-          cmdn=($(echo "$line" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
-          if (( ${#cmdn[@]} < 2 )); then
-            continue
-          fi
-          cmdname="${cmdn[0]}"
-          descrip="${cmdn[@]:1}"
-          cmdname_full=$(echo "$cmdname" | tr '[:lower:]' '[:upper:]' | sed -e 's#-#_#g')
-          export SKIFF_${conf_full}_COMMAND_${cmdname_full}_DESCRIP="$descrip"
-          cmd_list+=("$cmdname")
-          cmd_paths+=("$conf_path/extensions/")
-        done <$conf_path/metadata/commands
-        echo ${cmd_list[@]}
-        eval "export SKIFF_${conf_full}_COMMAND_LIST=\"${cmd_list[@]}\""
-        eval "export SKIFF_${conf_full}_COMMAND_PATHS=\"${cmd_paths[@]}\""
-      else
-          echo "[no commands]"
+            # line contains command Description is here
+            cmdn=($(echo "$line" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
+            if (( ${#cmdn[@]} < 2 )); then
+                continue
+            fi
+            cmdname="${cmdn[0]}"
+            descrip="${cmdn[@]:1}"
+            cmdname_full=$(echo "$cmdname" | tr '[:lower:]' '[:upper:]' | sed -e 's#-#_#g')
+            cmd_list+=("$cmdname")
+            cmd_paths+=("$conf_path/extensions/")
+            eval "export SKIFF_${conf_full}_COMMAND_${cmdname_full}_DESCRIP=\${descrip}"
+            printf -v "SKIFF_${conf_full}_COMMAND_LIST" '%s' "${cmd_list[*]}"
+            printf -v "SKIFF_${conf_full}_COMMAND_PATHS" '%s' "${cmd_paths[*]}"
+            #export cmd_list=${cmd_list[@]}
+            #export cmd_paths=${cmd_paths[@]}
+        done < <(cat $conf_path/metadata/commands)
+        eval "export SKIFF_${conf_full}_COMMAND_LIST=\"\${SKIFF_${conf_full}_COMMAND_LIST}\""
+        eval "export SKIFF_${conf_full}_COMMAND_PATHS=\"\${SKIFF_${conf_full}_COMMAND_PATHS}\""
       fi
       SKIFF_CONFIG_FULL+=("$conf_full")
       SKIFF_CONFIG_PATH_VAR+=("$path_var")
@@ -204,12 +207,6 @@ if [ -n "$SKIFF_CONFIG" ]; then
     unset SKIFF_CONFIG_PATH
     export SKIFF_CONFIG_PATH="$tmp"
     export SKIFF_CONFIG=$(joinStr , ${SKIFF_CONFIGS[@]})
-    tmp="${SKIFF_COMMAND_LIST[@]}"
-    unset SKIFF_COMMAND_LIST
-    export SKIFF_COMMAND_LIST="$tmp"
-    tmp="${SKIFF_COMMAND_PATH[@]}"
-    unset SKIFF_COMMAND_PATH
-    export SKIFF_COMMAND_PATH="$tmp"
     if $REQUIRES_REEVAL; then
       echo "Re-evaluating configs due to dep change:"
     fi
@@ -220,3 +217,4 @@ fi
 # now we have all the env set up
 export SKIFF_HAS_ENUMERATED_CONFIGS="yes"
 export SKIFF_BUILD_TARGET_OVERRIDE
+
