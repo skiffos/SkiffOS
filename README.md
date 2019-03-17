@@ -55,6 +55,12 @@ $ make compile                     # build the system
 After you run `make configure` Skiff will remember what you selected in
 `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
+You can also enable Docker or other packages in the target:
+
+```sh
+SKIFF_CONFIG=pi/3,apps/docker
+```
+
 Once the build is complete, it's time to flash the system to a SD card. You will
 need to switch to `sudo bash` for this on most systems.
 
