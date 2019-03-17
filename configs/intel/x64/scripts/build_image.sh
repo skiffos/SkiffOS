@@ -9,8 +9,9 @@ GENIMAGE_PRE_CFG=${SKIFF_CURRENT_CONF_DIR}/resources/pre-genimage.cfg
 GENIMAGE_CFG=${SKIFF_CURRENT_CONF_DIR}/resources/sys-genimage.cfg
 GENIMAGE_TMP=${SYS_IMAGE_DIR}/genimage.tmp
 
-mkdir -p ${SYS_IMAGE_DIR}
+mkdir -p ${SYS_IMAGE_DIR} ${IMAGES_DIR}/rootfs_part
 cd ${IMAGES_DIR}
+rm -rf ${GENIMAGE_TMP}
 if [ ! -f ${RESOURCES_DISK} ]; then
 	echo "Building resources image..."
 	rsync -rav ${IMAGES_DIR}/rootfs.cpio.gz ${IMAGES_DIR}/rootfs_part/rootfs.cpio.gz

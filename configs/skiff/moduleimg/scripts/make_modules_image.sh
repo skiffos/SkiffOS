@@ -13,7 +13,7 @@ if [ -f ${MODULES_IMG} ]; then
   rm ${MODULES_IMG}
 fi
 
-mkdir -p ${MODULES_DIR} ${ROOTFS_DIR} ${IMAGES_DIR}
+mkdir -p ${MODULES_DIR} ${ROOTFS_DIR}
 rsync -rv --remove-source-files ${TARGET_DIR}/usr/lib/modules/ ${MODULES_DIR}/
 rm -rf ${TARGET_DIR}/usr/lib/modules/* || true
 mkdir -p ${TARGET_DIR}/usr/lib/modules
