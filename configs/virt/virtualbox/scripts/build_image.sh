@@ -7,6 +7,6 @@ ROOTFS_DISK=${SYS_IMAGE_DIR}/image-rootfs.img
 
 qemu-img convert \
 	-f raw \
-       	-O vmdk \
+ 	-O vmdk \
 	${ROOTFS_DISK} ${SYS_IMAGE_DIR}/image-rootfs.vmdk
 
