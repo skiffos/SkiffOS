@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 RSYNC_CMD="rsync -rav --no-perms --no-owner --no-group --delete "
 IMAGE_NAME=paralin/skiffos

@@ -5,8 +5,9 @@ if docker rm -f skiff ; then
 fi
 
 IMAGES_PATH="$BUILDROOT_DIR/output/images"
+WORKING_PATH="$BUILDROOT_DIR/output/docker-run"
 ROOTFS_PATH=${IMAGES_PATH}/docker-rootfs
-PERSIST_PATH=${IMAGES_PATH}/docker-persist
+PERSIST_PATH=${WORKING_PATH}/docker-persist
 mkdir -p ${ROOTFS_PATH} ${PERSIST_PATH}
 docker run -d --name=skiff \
   --privileged \
