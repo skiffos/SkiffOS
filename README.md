@@ -34,6 +34,29 @@ This repository includes configurations supporting a variety of embedded
 platforms, including Raspberry Pi and ODROID boards. Skiff can also run inside a
 Docker container, a qemu VM, as a typical x86_64 system, or a cloud VM.
 
+## Demo: Run in Docker
+
+You can now demo Skiff with a single command!
+
+```sh
+# Execute the latest Skiff release with Docker.
+docker run -d --name=skiff \
+  --privileged \
+  --cap-add=NET_ADMIN \
+  --security-opt seccomp=unconfined \
+  --stop-signal=SIGRTMIN+3 \
+  --tmpfs /run \
+  --tmpfs /run/lock \
+  -t \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+  -v $(pwd)/skiff-persist:/mnt/persist \
+  paralin/skiffos:latest
+# Run a shell in the container.
+docker exec -it skiff sh
+```
+
+This will download and execute Skiff in a container.
+
 ## Getting started
 
 Building a system with Skiff is easy! This example will build a basic OS for a
@@ -202,9 +225,13 @@ Here are the boards/systems currently supported by Skiff:
 
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
-| [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       |                        |
-| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       |                        |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 4.20.x        | Run SkiffOS in QEmu    |
+| [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.20.x        |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
+| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.107      |                        |
+| [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.107      | ⚠ Discontinued         |
+| [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.107      |                        |
 | [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        |                        |
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        | ⚠ Untested             |
@@ -212,12 +239,8 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.32       |                        |
 | [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.32       | ⚠ Untested             |
 | [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.32       |                        |
-| [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Untested             |
-| [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Untested             |
-| [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]             | virt/qemu          | N/A                  | ✔ 4.20.x        | Run SkiffOS in QEmu    |
-| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.20.x        |                        |
-| [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2017.03 Src | ✔ 4.14.78       | ⚠ Discontinued         |
+| [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
+| [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 
 [Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
