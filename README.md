@@ -236,9 +236,9 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 4.20.7        |                        |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.32       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.32       | ⚠ Untested             |
-| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.32       |                        |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.34       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.34       | ⚠ Untested             |
+| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.34       |                        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
