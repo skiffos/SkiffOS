@@ -1,0 +1,71 @@
+From 491367493f2a6d9f9f4f9222b4e7eb480d76fe5f Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Wed, 24 Apr 2019 12:17:42 -0700
+Subject: [PATCH] Disable PIDs cgroup to fix boot
+
+The PIDs cgroup breaks the boot on the odroid xu4.
+
+Disabling it with a patch so that downstream packages don't need to remove it.
+---
+ include/linux/cgroup_subsys.h |  4 ----
+ init/Kconfig                  | 16 ----------------
+ kernel/cgroup/Makefile        |  1 -
+ 3 files changed, 21 deletions(-)
+
+diff --git a/include/linux/cgroup_subsys.h b/include/linux/cgroup_subsys.h
+index acb77dcff3b4..599840712092 100644
+--- a/include/linux/cgroup_subsys.h
++++ b/include/linux/cgroup_subsys.h
+@@ -53,10 +53,6 @@ SUBSYS(net_prio)
+ SUBSYS(hugetlb)
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_CGROUP_PIDS)
+-SUBSYS(pids)
+-#endif
+-
+ #if IS_ENABLED(CONFIG_CGROUP_RDMA)
+ SUBSYS(rdma)
+ #endif
+diff --git a/init/Kconfig b/init/Kconfig
+index 46075327c165..e72432c16424 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -754,22 +754,6 @@ config RT_GROUP_SCHED
+ 
+ endif #CGROUP_SCHED
+ 
+-config CGROUP_PIDS
+-	bool "PIDs controller"
+-	help
+-	  Provides enforcement of process number limits in the scope of a
+-	  cgroup. Any attempt to fork more processes than is allowed in the
+-	  cgroup will fail. PIDs are fundamentally a global resource because it
+-	  is fairly trivial to reach PID exhaustion before you reach even a
+-	  conservative kmemcg limit. As a result, it is possible to grind a
+-	  system to halt without being limited by other cgroup policies. The
+-	  PIDs controller is designed to stop this from happening.
+-
+-	  It should be noted that organisational operations (such as attaching
+-	  to a cgroup hierarchy will *not* be blocked by the PIDs controller),
+-	  since the PIDs limit only affects a process's ability to fork, not to
+-	  attach to a cgroup.
+-
+ config CGROUP_RDMA
+ 	bool "RDMA controller"
+ 	help
+diff --git a/kernel/cgroup/Makefile b/kernel/cgroup/Makefile
+index ae448f7632cc..bc3918171166 100644
+--- a/kernel/cgroup/Makefile
++++ b/kernel/cgroup/Makefile
+@@ -2,7 +2,6 @@
+ obj-y := cgroup.o namespace.o cgroup-v1.o
+ 
+ obj-$(CONFIG_CGROUP_FREEZER) += freezer.o
+-obj-$(CONFIG_CGROUP_PIDS) += pids.o
+ obj-$(CONFIG_CGROUP_RDMA) += rdma.o
+ obj-$(CONFIG_CPUSETS) += cpuset.o
+ obj-$(CONFIG_CGROUP_DEBUG) += debug.o
+-- 
+2.21.0
+
