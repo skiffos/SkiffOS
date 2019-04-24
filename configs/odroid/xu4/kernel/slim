@@ -2,6 +2,6 @@
 # Modules are lazy-loaded asynchronously by Skiff.
 
 CONFIG_RC_CORE=m
-CONFIG_MEDIA_SUPPORT=m
-CONFIG_SOUND=m
+# CONFIG_MEDIA_SUPPORT=m
+# CONFIG_SOUND=m
 CONFIG_IIO=m
