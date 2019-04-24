@@ -88,11 +88,11 @@ mkfs.vfat -F 32 ${ODROID_SD_SFX}1
 fatlabel ${ODROID_SD_SFX}1 boot
 
 echo "Making rootfs partition..."
-parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 500MiB
+parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
 $MKEXT4 -L "rootfs" ${ODROID_SD_SFX}2
 
 echo "Making persist partition..."
-parted -a optimal $ODROID_SD -- mkpart primary ext4 500MiB "-1s"
+parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "-1s"
 $MKEXT4 -L "persist" ${ODROID_SD_SFX}3
 
 sync && sync
