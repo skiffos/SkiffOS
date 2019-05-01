@@ -225,9 +225,9 @@ Here are the boards/systems currently supported by Skiff:
 
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
-| [Qemu]             | virt/qemu          | N/A                  | ✔ 4.20.x        | Run SkiffOS in QEmu    |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.0.10        | Run SkiffOS in QEmu    |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.20.x        |                        |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.0.10        |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
 | [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.111      |                        |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.111      | ⚠ Discontinued         |
