@@ -1,0 +1,36 @@
+From d420b3ab7c3b4e5dc1d7d5e6ca81713e70f56683 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sun, 2 Dec 2018 14:18:07 -0800
+Subject: [PATCH 2/3] sun7i-a20-bananapi-m1-plus: enable uart3, uart7
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
+index e2bfe0058830..6b228ee5cab9 100644
+--- a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
++++ b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
+@@ -244,6 +244,18 @@
+ 	status = "okay";
+ };
+ 
++&uart3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart3_ph_pins>;
++	status = "okay";
++};
++
++&uart7 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart7_pi_pins>;
++	status = "okay";
++};
++
+ &usb_otg {
+ 	dr_mode = "otg";
+ 	status = "okay";
+-- 
+2.21.0
+
