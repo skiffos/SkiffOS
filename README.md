@@ -232,13 +232,13 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.111      |                        |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.111      | ⚠ Discontinued         |
 | [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.111      |                        |
-| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.1.15      |                        |
-| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.1.15      |                        |
-| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.1.15      | ⚠ Untested             |
-| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.1.15      |                        |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.37       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.37       | ⚠ Untested             |
-| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.37       |                        |
+| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.1.15        |                        |
+| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.1.15        |                        |
+| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.1.15        | ⚠ Untested             |
+| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.1.15        |                        |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.63       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.63       | ⚠ Untested             |
+| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.63       |                        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
