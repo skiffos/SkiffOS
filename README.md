@@ -414,6 +414,8 @@ docker run \
 
 ## Skiff Core
 
+[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
+
 Users can work within a familiar, traditional, persistent OS environment if
 desired. This is called the "core" user within Skiff. If this feature is
 enabled:
