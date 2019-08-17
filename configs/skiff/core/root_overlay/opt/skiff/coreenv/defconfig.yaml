@@ -1,0 +1,35 @@
+# Documented at https://github.com/paralin/skiff-core
+images:
+  skiff/core:latest:
+    build:
+      source: /opt/skiff/coreenv/user
+containers: # can add unlimited containers
+  skiff_core: # can be anything!
+    image: skiff/core:latest
+    tty: false # causes setctty error
+    disableInit: true
+    workingDirectory: /home/core
+    mounts:
+    - /dev:/dev
+    - /lib/modules:/lib/modules
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    - /mnt:/mnt
+    privileged: true
+    capAdd:
+    - ALL
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    securityOpt:
+    - seccomp=unconfined
+    tmpFs:
+      /run: rw,noexec,nosuid,size=65536k
+      /run/lock: rw,noexec,nosuid,size=65536k
+users: # can add unlimited users 
+  core:
+    container: skiff_core
+    containerUser: core
+    containerShell:
+    - "/bin/bash"
+    auth:
+      copyRootKeys: true

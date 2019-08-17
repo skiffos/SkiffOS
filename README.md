@@ -53,6 +53,8 @@ docker run -d --name=skiff \
   paralin/skiffos:latest
 # Run a shell in the container.
 docker exec -it skiff sh
+# Inside the container, switch to "Skiff core"
+su - core
 ```
 
 This will download and execute Skiff in a container.
@@ -329,11 +331,53 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
+## Skiff Core
+
+[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
+
+Users can work within a familiar, traditional, persistent OS environment if
+desired. This is called the "core" user within Skiff. If this feature is
+enabled:
+
+ - On first boot, the system will build the **core** container image.
+ - The correct base image for the architecture is selected.
+ - The default image contains Ubuntu bionic and systemd.
+ - SSH connections to the **core** user are dropped into the Docker container
+
+This allows virtually any workflow to be migrated to Skiff. The config file
+structure is flexible, and allows for any number of containers, users, and
+images to be defined and built.
+
+To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
+list.
+
+To customize the core environment, edit the file at `skiff/core/config.yaml` on
+the persist partition. The default config will be placed there on first boot.
+
+The default config can be overridden with a file at
+`/opt/skiff/coreenv/defconfig.yaml`.
+
+### Install Docker
+
+You can install Docker inside the core environment, and systemd is running, so
+you can enable it to correctly auto-start when you first connect.
+
+```bash
+ssh core@my-skiff-host
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo systemctl enable --now docker
+sudo docker ps
+```
+
+This is "docker inside docker!"
+
 ## Example Workloads
 
 This section contains some example workloads you can use to get started. These
-examples are Docker based. You can add the **apps/flatpak** package to your
-build to enable experimental flatpak support.
+examples are Docker based. 
 
 ### System Tools with Alpine
 
@@ -411,33 +455,6 @@ docker run \
  --name=cadvisor \
  braingamer/cadvisor-arm:latest
 ```
-
-## Skiff Core
-
-[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
-
-Users can work within a familiar, traditional, persistent OS environment if
-desired. This is called the "core" user within Skiff. If this feature is
-enabled:
-
- - On first boot, the system will build the **core** container image.
- - SSH connections to the **core** user are dropped into the Docker container
-   seamlessly.
- - When building the container, the system automatically attempts to build an
-   image compatible with the target.
-
-This allows virtually any workflow to be migrated to Skiff with almost no
-effort. The config file structure is flexible, and allows for any number of
-containers, users, and images to be defined and built.
-
-You may enable this by adding the config `skiff/core` to your `SKIFF_CONFIG`
-list.
-
-To customize the core environment, edit the file at `skiff/core/config.yaml` on
-the persist partition. The default config will be placed there on first boot.
-
-The default config can be overridden with a file at
-`/opt/skiff/coreenv/defconfig.yaml`.
 
 ## Support
 
