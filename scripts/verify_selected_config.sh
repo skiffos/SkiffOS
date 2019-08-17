@@ -11,6 +11,6 @@ if [ -z "$SKIFF_HAS_ENUMERATED_CONFIGS" ]; then
 fi
 
 if [ -z "$SKIFF_CONFIG" ]; then
-  errecho "Set SKIFF_CONFIG, for example: odroid/xu4,time/chrony"
+  errecho "Set SKIFF_CONFIG, for example: odroid/xu4,apps/docker"
   exit 1
 fi
