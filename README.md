@@ -238,11 +238,11 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
-| Pi All (omni)      | pi/omni            | N/A                  | ✔ 4.19.63       | Target all Pi boards   |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.63       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.63       | ⚠ Untested             |
-| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.63       |                        |
-| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.63       |                        |
+| Pi All (omni)      | pi/omni            | N/A                  | ✔ 4.19.66       | Target all Pi boards   |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.66       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.66       | ⚠ Untested             |
+| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.66       |                        |
+| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.66       |                        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
