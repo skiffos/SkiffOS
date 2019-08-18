@@ -21,6 +21,7 @@ RUN apt-get update && \
   curl \
   htop \
   nano \
+  less \
   net-tools \
   apt-transport-https \
   software-properties-common \

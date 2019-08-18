@@ -102,16 +102,16 @@ install command as many times as you want to update the system. The persist
 partition is not touched in this step, so anything you save there, including
 Docker state and system configuration, will not be touched in the upgrade.
 
-Some operating systems are not compatible with the Skiff build system, due to
-the host not using glibc, or using some outdated or otherwise incompatible
-libraries for the fairly recent Skiff distribution.
-
 Skiff configurations are evaluated in the order they are specified. An example
 configuration might look like:
 
 ```sh
 SKIFF_CONFIG=pi/3,apps/kodi make configure compile
 ```
+
+Some operating systems are not compatible with the Skiff build system, due to
+the host not using glibc, or using some outdated or otherwise incompatible
+libraries for the fairly recent Skiff distribution.
 
 If you encounter any errors related to host-* packages, you can try [building
 Skiff inside Docker](./docker-build).
