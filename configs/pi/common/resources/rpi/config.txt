@@ -9,3 +9,7 @@ initramfs rootfs.cpio.gz
 
 # You can tweak these settings below.
 dtoverlay=pi3-miniuart-bt
+
+# GPU memory
+gpu_mem=128
+
