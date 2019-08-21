@@ -1,0 +1,6 @@
+config BR2_PACKAGE_BANANAPI_M1_FIRMWARE
+	bool "bananapi-m1-firmware"
+	help
+	  Bananapi M1 extra firmware. 
+
+	  https://github.com/paralin/BPI-Mainline-bsp

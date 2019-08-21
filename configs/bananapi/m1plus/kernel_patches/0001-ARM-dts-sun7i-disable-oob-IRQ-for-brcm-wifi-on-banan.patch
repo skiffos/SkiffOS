@@ -1,0 +1,53 @@
+From 1d5a703690386c5ba01ecfcd27464d17afefd3a1 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 15 Feb 2019 23:42:18 -0800
+Subject: [PATCH] ARM: dts: sun7i: disable oob IRQ for brcm wifi on bananapi m1
+ plus
+
+Apply the modification to the m1 plus as well.
+
+With an unmodified 4.17 kernel both boards intermittently would come up
+with non working wifi with the following errors:
+
+ brcmfmac: brcmf_sdio_bus_rxctl: resumed on timeout
+ brcmfmac: brcmf_bus_started: failed: -110
+ brcmfmac: brcmf_attach: dongle is not responding: err=-110
+ brcmfmac: brcmf_sdio_firmware_callback: brcmf_attach failed
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ .../boot/dts/sun7i-a20-bananapi-m1-plus.dts    | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
+index 763cb03033c4..48b59263f57d 100644
+--- a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
++++ b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
+@@ -202,10 +202,20 @@
+ 
+ 	brcmf: wifi@1 {
+ 		reg = <1>;
+-		compatible = "brcm,bcm4329-fmac";
+-		interrupt-parent = <&pio>;
+-		interrupts = <7 15 IRQ_TYPE_LEVEL_LOW>;
+-		interrupt-names = "host-wake";
++    compatible = "brcm,bcm4329-fmac";
++		/*
++		 * OOB interrupt support is broken ATM, often the first irq
++		 * does not get seen resulting in the drv probe failing with:
++		 *
++		 * brcmfmac: brcmf_sdio_bus_rxctl: resumed on timeout
++		 * brcmfmac: brcmf_bus_started: failed: -110
++		 * brcmfmac: brcmf_attach: dongle is not responding: err=-110
++		 * brcmfmac: brcmf_sdio_firmware_callback: brcmf_attach failed
++		 *
++		 * interrupt-parent = <&pio>;
++		 * interrupts = <7 15 IRQ_TYPE_LEVEL_LOW>;
++		 * interrupt-names = "host-wake";
++		 */
+ 	};
+ };
+ 
+-- 
+2.19.2
+
