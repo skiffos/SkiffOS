@@ -1,8 +1,8 @@
-From 6fa7cabe8c241a5f20d04ea85be2db212d446fa7 Mon Sep 17 00:00:00 2001
+From 1d5a703690386c5ba01ecfcd27464d17afefd3a1 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Fri, 15 Feb 2019 23:42:18 -0800
-Subject: [PATCH 3/3] ARM: dts: sun7i: disable oob IRQ for brcm wifi on
- bananapi m1 plus
+Subject: [PATCH] ARM: dts: sun7i: disable oob IRQ for brcm wifi on bananapi m1
+ plus
 
 Apply the modification to the m1 plus as well.
 
@@ -20,10 +20,10 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
-index 6b228ee5cab9..e40a83073090 100644
+index 763cb03033c4..48b59263f57d 100644
 --- a/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
 +++ b/arch/arm/boot/dts/sun7i-a20-bananapi-m1-plus.dts
-@@ -190,10 +190,20 @@
+@@ -202,10 +202,20 @@
  
  	brcmf: wifi@1 {
  		reg = <1>;
@@ -49,5 +49,5 @@ index 6b228ee5cab9..e40a83073090 100644
  };
  
 -- 
-2.21.0
+2.19.2
 
