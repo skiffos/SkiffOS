@@ -1,5 +1,0 @@
-BR2_LINUX_KERNEL_DEFCONFIG="bcm2709"
-BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="bcm2708-rpi-b bcm2708-rpi-b-plus bcm2708-rpi-cm bcm2708-rpi-zero bcm2708-rpi-zero-w bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2710-rpi-cm3 bcm2711-rpi-4-b bcm2835-rpi-a bcm2835-rpi-a-plus bcm2835-rpi-b bcm2835-rpi-b-plus bcm2835-rpi-b-rev2 bcm2835-rpi-cm1-io1 bcm2835-rpi-zero bcm2835-rpi-zero-w bcm2836-rpi-2-b bcm2837-rpi-3-b bcm2837-rpi-3-b-plus bcm2838-rpi-4-b"
-
-

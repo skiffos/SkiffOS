@@ -238,10 +238,8 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
-| Pi All (omni)      | pi/omni            | N/A                  | ✔ 4.19.66       | Target all Pi boards   |
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.66       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.66       | ⚠ Untested             |
-| [Pi 3]             | pi/3               | N/A                  | ✔ 4.19.66       |                        |
+| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.66       |                        |
 | [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.66       |                        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
@@ -259,7 +257,7 @@ Here are the boards/systems currently supported by Skiff:
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
-[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
