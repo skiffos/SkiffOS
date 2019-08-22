@@ -4,35 +4,31 @@
 
 ## Introduction
 
-Skiff is a extremely lightweight, minimal, in-memory host operating system for
-embedded Linux devices, cloud VMs, mobile devices, and even desktop PCs. It is a
-modular configuration package manager for [Buildroot](http://buildroot.org). Any
-Linux embedded system workflow can be replicated with Skiff configuration
-packages.
+Skiff is a lightweight cross-compiled Linux OS focusing on creating a consistent
+and reproducible environment across any compute architecture.
 
-The configuration layering system in Skiff allows for a consistent developer
-experience and application execution environment across any compute platform.
-The compact nature of the system creates a minimal attack surface for security.
+Skiff loads a small ~30MB image containing the kernel and core system into RAM
+at boot-time. This ensures that the system will always boot up into a consistent
+state, ideal for embedded and mission-critical environments. Sudden failure of
+the storage drive does not break the system, as the core OS runs from memory.
 
-Skiff loads a small ~30MB image containing the Linux kernel and critical
-software (like networking/WiFi drivers) into RAM at boot-time, and never mounts
-the root filesystem. This allows the system to be powered off without a graceful
-shutdown with **no consequences**. It offers **guaranteed boots and SSH
-reachability** which is ideal for embedded and mission-critical environments.
+As a modular configuration package manager for the industry-standard
+[Buildroot](http://buildroot.org) embedded Linux tool, Skiff allows for a
+consistent developer experience and application execution environment across any
+compute platform. The compact nature of the system creates a minimal attack
+surface for security.
 
-Skiff optionally uses lightweight container-based **docker**, **flatpak**,
-**snapcraft**, **qemu/kvm/kata**, and other virtualization technologies for
-user-space software. This allows for a flexible and robust user-space
-environment while retaining the **ease-of-use** of a traditional system.
-
-Persistent containers, images, and data is stored on a separate filesystem
-partition. The mission-critical system is then in-memory, while the persist
-partition can be remounted and repaired by the parent system automatically at
-any time without interruption of the system.
+The "skiff/core" layer brings in the Docker container system, and introduces a
+user which is backed by a container. When logging into this user, the session is
+executed inside a container with a familiar operating system, such as Ubuntu.
+This decouples the core OS (kernel, init manager, container manager) from the
+userspace, allowing the userspace container to become portable between machines.
 
 This repository includes configurations supporting a variety of embedded
 platforms, including Raspberry Pi and ODROID boards. Skiff can also run inside a
-Docker container, a qemu VM, as a typical x86_64 system, or a cloud VM.
+Docker container, a qemu VM, as a typical x86_64 system, or a cloud VM. It's
+easy to add support for new boards and architectures, and the OS can be fully
+customized with Skiff's configuration package system.
 
 ## Demo: Run in Docker
 
