@@ -13,3 +13,30 @@ dtoverlay=pi3-miniuart-bt
 # GPU memory
 gpu_mem=128
 
+# Optional: enable GPIO features
+# Uncomment to enable.
+# dtparam=i2c_arm=on
+# dtparam=spi=on
+# dtparam=i2s=on
+
+# Add module parameters to the end of the dtoverlay line,
+# e.g. dtoverlay=lirc-rpi,gpio_in_pin=16,gpio_in_pull=high
+# dtoverlay=lirc-rpi
+
+# w1-gpio
+# If you require the external pullup
+# dtoverlay=w1-gpio-pullup,gpiopin=x,pullup=y
+# otherwise
+# dtoverlay=w1-gpio-pullup,gpiopin=x
+# (where x and y are gpios).
+
+# Audio card
+# dtoverlay=hifiberry-dac
+# dtoverlay=hifiberry-dacplus
+# dtoverlay=hifiberry-digi
+# dtoverlay=iqaudio-dac
+# dtoverlay=iqaudio-dacplus
+
+# Heartbeat LED
+# dtparam=act_led_trigger=heartbeat
+
