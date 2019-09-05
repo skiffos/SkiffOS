@@ -77,6 +77,11 @@ kern_conf=$kern_dir/config
 mkdir -p $kern_dir
 touch $kern_conf
 
+uboot_dir=$SKIFF_FINAL_CONFIG_DIR/uboot
+uboot_conf=$uboot_dir/config
+mkdir -p $uboot_dir
+touch $uboot_conf
+
 users_conf=$SKIFF_FINAL_CONFIG_DIR/users
 touch $users_conf
 
@@ -116,6 +121,7 @@ for confp in "${confpaths[@]}"; do
   echo "Merging Skiff config at $confp"
   br_confp=$confp/buildroot
   kern_confp=$confp/kernel
+  uboot_confp=$confp/uboot
   kern_patchp=$confp/kernel_patches
   uboot_patchp=$confp/uboot_patches
   rootfsp=$confp/root_overlay
@@ -148,6 +154,15 @@ for confp in "${confpaths[@]}"; do
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $kern_conf
     done
+  fi
+  if [ -d "$uboot_confp" ]; then
+      for file in $(ls -v $uboot_confp); do
+          echo "Merging in u-boot config file $file"
+          printf "\n# Configuration from ${uboot_confp}/${file}\n" >> $uboot_conf
+          $domerge $uboot_conf $uboot_confp/$file
+          sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
+          mv .config $uboot_conf
+      done
   fi
   if [ -d "$rootfsp" ]; then
     echo "Adding root overlay directory..."
@@ -185,6 +200,7 @@ uboot_patches=${uboot_patches[@]}
 # Touch up the buildroot
 sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
 sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patches@g" $br_conf
+sed -i "s@REPLACEME_UBOOT_FRAGMENTS@$uboot_conf@g" $br_conf
 sed -i "s@REPLACEME_UBOOT_PATCHES@$uboot_patches@g" $br_conf
 sed -i "s@REPLACEME_ROOTFS_OVERLAY@$rootfs_overlays@g" $br_conf
 sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf

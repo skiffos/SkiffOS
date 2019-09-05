@@ -187,6 +187,7 @@ A configuration package is laid out into the following directories:
 │   └── unlisted
 ├── resources:     files used by the configuration package
 ├── scripts:       any scripts used by the extensions
+├── uboot:         u-boot configuration fragments
 └── uboot_patches: u-boot .patch files
 ```
 
