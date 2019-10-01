@@ -238,6 +238,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.73       |                        |
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.73       |                        |
 | [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.73       |                        |
+| [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.74       | ⚠ Community tested     |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
@@ -258,6 +259,7 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
 [Qemu]: ./configs/virt/qemu
 [Intel x86/64]: ./configs/intel/x64
 
