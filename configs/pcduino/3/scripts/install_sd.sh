@@ -16,8 +16,7 @@ if [ ! -b "$PCDUINO_SD" ]; then
   exit 1
 fi
 
-outp_path=$BUILDROOT_DIR/output
-images_path=$outp_path/images
+images_path=$BUILDROOT_DIR/output/images
 zimg_path=$images_path/zImage
 uinit_path=$images_path/rootfs.cpio.uboot
 dtb_path=$(find "$images_path/" -name '*.dtb' -print -quit)
@@ -80,19 +79,19 @@ rsync -rav --no-perms --no-owner --no-group "$zimg_path" "$boot_dir/"
 echo "Copying uInitrd..."
 rsync -rav --no-perms --no-owner --no-group "$uinit_path" "$boot_dir/rootfs.cpio.uboot"
 
-if [ -d "$outp_path/images/rootfs_part" ]; then
+if [ -d "$images_path/rootfs_part" ]; then
   echo "Copying rootfs_part..."
-  rsync -rav --no-perms --no-owner --no-group "$outp_path/images/rootfs_part/" "$rootfs_dir/"
+  rsync -rav --no-perms --no-owner --no-group "$images_path/rootfs_part/" "$rootfs_dir/"
 fi
 
-if [ -d "$outp_path/images/persist_part" ]; then
+if [ -d "$images_path/persist_part" ]; then
   echo "Copying persist_part..."
-  rsync -rav --no-perms --no-owner --no-group "$outp_path/images/persist_part/" "$persist_dir/"
+  rsync -rav --no-perms --no-owner --no-group "$images_path/persist_part/" "$persist_dir/"
 fi
 
-echo "Compiling boot.cmd..."
-cp "$boot_conf" "$boot_dir/boot.cmd"
-mkimage -A arm -C none -T script -d "$boot_dir/boot.cmd" "$boot_dir/boot.scr"
+echo "Compiling $(basename "$boot_conf")..."
+cp "$boot_conf" "$boot_dir/"
+mkimage -A arm -C none -T script -d "$boot_dir/$(basename "$boot_conf")" "$boot_dir/boot.scr"
 
 echo "Copying device tree..."
 rsync -rav --no-perms --no-owner --no-group $images_path/*.dtb "$boot_dir/"
