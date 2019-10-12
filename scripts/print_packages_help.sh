@@ -27,7 +27,7 @@ while read -r line; do
   fi
 
   echo ""
-done <<< "$(env | $SKIFF_FILTER_ENVS)"
+done <<< "$(env | sort | $SKIFF_FILTER_ENVS)"
 if [ -z "$CONFIG_FOUND" ]; then
   echo "No configurations found!"
 fi
