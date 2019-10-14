@@ -40,7 +40,7 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   fi
 fi
 
-MKEXT4="mkfs.ext4 -F -O ^64bit"
+MKEXT4="mkfs.ext4 -F -O ^64bit,^metadata_csum,resize_inode,sparse_super"
 
 echo "Formatting device..."
 parted "$PCDUINO_SD" mklabel msdos
