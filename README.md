@@ -236,6 +236,7 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.73       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.73       | ⚠ Untested             |
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.73       |                        |
 | [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.73       |                        |
 | [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.74       | ⚠ Community tested     |
