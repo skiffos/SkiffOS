@@ -1,0 +1,29 @@
+Vagrant.configure(2) do |config|
+  config.vagrant.plugins = "vagrant-disksize"
+
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+  end
+
+  config.disksize.size = "20GB"
+
+  config.vm.synced_folder "..", "/vagrant"
+
+  config.vm.provision "shell", inline: $script, privileged: false
+
+  config.vm.provision "shell", run: "always" do |s|
+    s.inline = "sudo mount -B ~/workspaces /vagrant/workspaces"
+    s.privileged = false
+  end
+
+  config.ssh.extra_args = ["-t", "cd /vagrant; bash -l"]
+end
+
+$script = <<SCRIPT
+sudo apt update
+sudo apt install -y cmake g++ make mtools python unzip
+
+install -D -m 644 /vagrant/workspaces/.gitignore ~/workspaces/.gitignore
+SCRIPT
