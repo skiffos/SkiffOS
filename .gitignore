@@ -6,3 +6,5 @@ buildroot-work/
 *.org_archive
 .#*
 *.swp
+.vagrant/
+*.log
