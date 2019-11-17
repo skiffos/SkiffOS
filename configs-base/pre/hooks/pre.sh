@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TARGET_DIR=${SKIFF_BUILDROOT_DIR}/output/target
+IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/output/images
 
 mkdir -p ${TARGET_DIR}/etc
 ( \
@@ -19,4 +20,5 @@ if [ ! -f ${TARGET_DIR}/etc/buildroot-release ]; then
     cp ${TARGET_DIR}/etc/os-release ${TARGET_DIR}/etc/buildroot-release
 fi
 cp ${TARGET_DIR}/etc/skiff-release ${TARGET_DIR}/etc/os-release
+cp ${TARGET_DIR}/etc/skiff-release ${IMAGES_DIR}/skiff-release
 
