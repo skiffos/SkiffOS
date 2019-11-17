@@ -8,7 +8,8 @@ Type=simple
 ExecStart=/opt/skiff/scripts/skiff-core.sh
 Restart=on-failure
 RestartSec=5
-StartLimitInterval=0
+StartLimitBurst=2
+StartLimitInterval=30
 
 
 
