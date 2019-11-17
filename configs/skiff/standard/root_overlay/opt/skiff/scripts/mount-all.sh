@@ -1,11 +1,13 @@
 #!/bin/sh
-# set -eo pipefail
 
+PERSIST_DEVICE="LABEL=persist"
+ROOTFS_DEVICE="LABEL=rootfs"
 SYSTEMD_CONFD=/etc/systemd/system
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
 SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
 SKIP_JOURNAL_FLAG=/etc/skip-skiff-journal-mounts
+PRE_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.pre.d
 EXTRA_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.d
 
 SKIFF_PERSIST=$PERSIST_MNT/skiff
@@ -33,11 +35,19 @@ if [ -f $DOCKER_SERVICE ]; then
     DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
 fi
 
+# Run any additional pre setup scripts.
+# We source these to allow overriding the above variables.
+for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
+    if [ -r $i ]; then
+        source $i
+    fi
+done
+
 mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
-if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_DEVICE $PERSIST_MNT; then
   echo "Persist drive is at $PERSIST_MNT"
   mkdir -p $PERSIST_MNT/internal
   mkdir -p $SKIFF_PERSIST
@@ -77,15 +87,15 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount LABEL=persist 
     mount --rbind $PERSIST_MNT /root/persist || true
   fi
 else
-  echo "Unable to find drive with label \"persist\"! You will quickly run out of memory."
+  echo "Unable to find drive ${PERSIST_DEVICE}!"
   mkdir -p /var/log/journal
 fi
 
 mkdir -p $ROOTFS_MNT
-if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount -o ro LABEL=rootfs $ROOTFS_MNT; then
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount -o ro $ROOTFS_DEVICE $ROOTFS_MNT; then
   echo "Rootfs drive at $PERSIST_MNT"
 else
-  echo "Unable to find drive with label \"rootfs\"!"
+  echo "Unable to find drive ${ROOTFS_DEVICE}!"
 fi
 
 if [ -f $DOCKER_SERVICE ]; then
