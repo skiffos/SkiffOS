@@ -1,0 +1,10 @@
+config BR2_PACKAGE_BROADCOM_STA
+	bool "broadcom-sta"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Broadcom-sta is the wl kernel module for Broadcom wireless cards.
+
+	  https://github.com/antoineco/broadcom-wl
+
+comment "broadcom-sta needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
