@@ -14,7 +14,7 @@ define MBPFAN_BUILD_CMDS
 endef
 
 define MBPFAN_INSTALL_TARGET_CMDS
-	$(INSTALL) -m 0755 $(@D)/bin/mbpfan $(TARGET_DIR)/usr/bin/mbpfan
+	$(INSTALL) -m 0755 $(@D)/bin/mbpfan $(TARGET_DIR)/usr/sbin/mbpfan
 endef
 
 define MBPFAN_INSTALL_INIT_SYSTEMD
