@@ -1,16 +1,18 @@
-148  ag from [...ralin/Documents/synrobo/skiff/]: ################################################################################
+################################################################################
 #
 # mbpfan
 #
 ################################################################################
 
-MBPFAN_VERSION = 2.2.0
+MBPFAN_VERSION = 2.2.1
 MBPFAN_SITE = $(call github,linux-on-mac,mbpfan,v$(MBPFAN_VERSION))
 MBPFAN_LICENSE = GPL-3.0+
 MBPFAN_LICENSE_FILES = COPYING
 
 define MBPFAN_BUILD_CMDS
-	$(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D) all
+	$(TARGET_MAKE_ENV) CFLAGS="$(TARGET_CFLAGS)" \
+		LDFLAGS="$(TARGET_LDFLAGS)" \
+		$(MAKE) CC="$(TARGET_CC)" -C $(@D)
 endef
 
 define MBPFAN_INSTALL_TARGET_CMDS
