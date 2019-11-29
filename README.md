@@ -239,10 +239,10 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.74       | ⚠ Community tested     |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.73       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.73       | ⚠ Untested             |
-| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.73       |                        |
-| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.73       |                        |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.86       |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.86       | ⚠ Untested             |
+| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.86       |                        |
+| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.86       |                        |
 
 [Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
 [Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
