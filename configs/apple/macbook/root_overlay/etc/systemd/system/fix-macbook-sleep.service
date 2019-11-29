@@ -1,0 +1,9 @@
+[Unit]
+Description=Fix XHC1 sleep trigger on MacBook
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "echo XHC1 > /proc/acpi/wakeup"
+
+[Install]
+WantedBy=multi-user.target
