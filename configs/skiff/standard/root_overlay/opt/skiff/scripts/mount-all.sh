@@ -2,6 +2,8 @@
 
 PERSIST_DEVICE="LABEL=persist"
 ROOTFS_DEVICE="LABEL=rootfs"
+PERSIST_SUBDIR=/
+ROOTFS_SUBDIR=/
 SYSTEMD_CONFD=/etc/systemd/system
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
@@ -10,7 +12,16 @@ SKIP_JOURNAL_FLAG=/etc/skip-skiff-journal-mounts
 PRE_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.pre.d
 EXTRA_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.d
 
-SKIFF_PERSIST=$PERSIST_MNT/skiff
+# Run any additional pre setup scripts.
+# We source these to allow overriding the above variables.
+for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
+    if [ -r $i ]; then
+        source $i
+    fi
+done
+
+PERSIST_ROOT=$PERSIST_MNT/$PERSIST_SUBDIR
+SKIFF_PERSIST=$PERSIST_ROOT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
 SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
@@ -35,21 +46,13 @@ if [ -f $DOCKER_SERVICE ]; then
     DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
 fi
 
-# Run any additional pre setup scripts.
-# We source these to allow overriding the above variables.
-for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
-    if [ -r $i ]; then
-        source $i
-    fi
-done
-
 mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_DEVICE $PERSIST_MNT; then
-  echo "Persist drive is at $PERSIST_MNT"
-  mkdir -p $PERSIST_MNT/internal
+  echo "Persist drive is at $PERSIST_MNT path $PERSIST_ROOT"
+  mkdir -p $PERSIST_ROOT/internal
   mkdir -p $SKIFF_PERSIST
   mkdir -p $DOCKER_PERSIST
   mkdir -p $JOURNAL_PERSIST
@@ -84,7 +87,7 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_DEVIC
   fi
   mkdir -p /root/persist
   if ! mountpoint -q /root/persist; then
-    mount --rbind $PERSIST_MNT /root/persist || true
+    mount --rbind $PERSIST_ROOT /root/persist || true
   fi
 else
   echo "Unable to find drive ${PERSIST_DEVICE}!"
@@ -93,7 +96,7 @@ fi
 
 mkdir -p $ROOTFS_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount -o ro $ROOTFS_DEVICE $ROOTFS_MNT; then
-  echo "Rootfs drive at $PERSIST_MNT"
+  echo "Rootfs drive at $ROOTFS_MNT"
 else
   echo "Unable to find drive ${ROOTFS_DEVICE}!"
 fi
@@ -121,50 +124,50 @@ chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
 
 mkdir -p /etc/wpa_supplicant
-overlay_workdir=${PERSIST_MNT}/skiff-overlays
+overlay_workdir=${PERSIST_ROOT}/skiff-overlays
 if ! mountpoint /etc/wpa_supplicant ; then
   echo "Setting up overlay mount for wpa_supplicant..."
-  mkdir -p $PERSIST_MNT/skiff/wifi
-  echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_MNT/skiff/wifi/readme
+  mkdir -p $PERSIST_ROOT/skiff/wifi
+  echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_ROOT/skiff/wifi/readme
   wifi_workdir=${overlay_workdir}/wpa_supplicant
   mkdir -p $wifi_workdir
-  mount -t overlay -o lowerdir=/etc/wpa_supplicant,upperdir=${PERSIST_MNT}/skiff/wifi,workdir=${wifi_workdir} overlay /etc/wpa_supplicant
+  mount -t overlay -o lowerdir=/etc/wpa_supplicant,upperdir=${PERSIST_ROOT}/skiff/wifi,workdir=${wifi_workdir} overlay /etc/wpa_supplicant
 fi
 
 mkdir -p /etc/NetworkManager/system-connections
 if ! mountpoint /etc/NetworkManager/system-connections ; then
-  mkdir -p $PERSIST_MNT/skiff/connections
-  echo "# Place NetworkManager keyfile configs here." > $PERSIST_MNT/skiff/connections/readme
+  mkdir -p $PERSIST_ROOT/skiff/connections
+  echo "# Place NetworkManager keyfile configs here." > $PERSIST_ROOT/skiff/connections/readme
   mkdir -p /etc/NetworkManager/system-connections
   connections_workdir=${overlay_workdir}/nm_connections
   mkdir -p $connections_workdir
-  mount -t overlay -o lowerdir=/etc/NetworkManager/system-connections,upperdir=${PERSIST_MNT}/skiff/connections,workdir=$connections_workdir overlay /etc/NetworkManager/system-connections
+  mount -t overlay -o lowerdir=/etc/NetworkManager/system-connections,upperdir=${PERSIST_ROOT}/skiff/connections,workdir=$connections_workdir overlay /etc/NetworkManager/system-connections
 fi
 chmod 0755 /etc/NetworkManager
 chmod 0644 /etc/NetworkManager/NetworkManager.conf
 chmod -R 0600 /etc/NetworkManager/system-connections
 chown -R root:root /etc/NetworkManager/system-connections
 
-if [ -d $PERSIST_MNT/skiff/etc ]; then
-  rsync -rav $PERSIST_MNT/skiff/etc/ /etc/
+if [ -d $PERSIST_ROOT/skiff/etc ]; then
+  rsync -rav $PERSIST_ROOT/skiff/etc/ /etc/
 else
-  mkdir -p $PERSIST_MNT/skiff/etc/
+  mkdir -p $PERSIST_ROOT/skiff/etc/
 fi
-echo "Place etc overrides here." > $PERSIST_MNT/skiff/etc/readme
+echo "Place etc overrides here." > $PERSIST_ROOT/skiff/etc/readme
 
-if [ -f $PERSIST_MNT/skiff/hostname ] && [ -n "$(cat ${PERSIST_MNT}/skiff/hostname)" ]; then
+if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/hostname)" ]; then
   OHOSTNAME=$(cat /etc/hostname)
   if [ -z "$OHOSTNAME" ]; then
       OHOSTNAME=skiff-unknown
   fi
-  NHOSTNAME=$(cat $PERSIST_MNT/skiff/hostname)
+  NHOSTNAME=$(cat $PERSIST_ROOT/skiff/hostname)
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
   hostname -F /etc/hostname
 else
-  hostname > $PERSIST_MNT/skiff/hostname
+  hostname > $PERSIST_ROOT/skiff/hostname
   if [ "$(hostname)" == "" ]; then
-      "skiff-unknown" > $PERSIST_MNT/skiff/hostname
+      "skiff-unknown" > $PERSIST_ROOT/skiff/hostname
   fi
 fi
 
