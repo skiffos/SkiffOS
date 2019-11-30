@@ -2,14 +2,12 @@
 Description=SkiffOS core setup
 Requires=docker.service
 After=docker.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
 ExecStart=/opt/skiff/scripts/skiff-core.sh
 Restart=on-failure
-RestartSec=5
-StartLimitBurst=2
-StartLimitInterval=30
-
+RestartSec=10
 
 
