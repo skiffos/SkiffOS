@@ -1,0 +1,3 @@
+CONFIG_SOUND=y
+CONFIG_SND=m
+
