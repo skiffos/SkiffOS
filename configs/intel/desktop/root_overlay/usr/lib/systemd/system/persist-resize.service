@@ -1,0 +1,10 @@
+; Note: we disable this on a desktop setup.
+[Unit]
+Description=SkiffOS resize persist partition (disabled)
+DefaultDependencies=no
+Before=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/skiff/scripts/resize-persist.sh
+RemainAfterExit=true
