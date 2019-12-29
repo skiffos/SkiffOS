@@ -27,6 +27,8 @@ SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
 SKIFF_RELEASE_FILE=/etc/skiff-release
 
+overlay_workdir=${PERSIST_ROOT}/skiff-overlays
+
 if [ -f $SKIFF_RELEASE_FILE ]; then
     BUILD_DATE=$(cat /etc/skiff-release  | grep BUILD_DATE | cut -d\" -f2)
     BUILD_DATE_UTC=$(date --utc --date="$BUILD_DATE" +%s)
@@ -122,17 +124,6 @@ fi
 rm -rf /tmp/skiff_ssh_keys
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/authorized_keys
-
-mkdir -p /etc/wpa_supplicant
-overlay_workdir=${PERSIST_ROOT}/skiff-overlays
-if ! mountpoint /etc/wpa_supplicant ; then
-  echo "Setting up overlay mount for wpa_supplicant..."
-  mkdir -p $PERSIST_ROOT/skiff/wifi
-  echo "Place wpa-supplicant-wlan0.conf or similar here." > $PERSIST_ROOT/skiff/wifi/readme
-  wifi_workdir=${overlay_workdir}/wpa_supplicant
-  mkdir -p $wifi_workdir
-  mount -t overlay -o lowerdir=/etc/wpa_supplicant,upperdir=${PERSIST_ROOT}/skiff/wifi,workdir=${wifi_workdir} overlay /etc/wpa_supplicant
-fi
 
 mkdir -p /etc/NetworkManager/system-connections
 if ! mountpoint /etc/NetworkManager/system-connections ; then

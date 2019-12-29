@@ -293,30 +293,6 @@ You can use `nmcli` on the device to manage `NetworkManager`, and any connection
 definitions written by `nmcli device wifi connect` or similar will automatically
 be written to the persist partition and persisted to future boots.
 
-### WiFi with WPA Supplicant
-
-If you chose, you may configure WiFi using `wpa_supplicant` configs instead of
-`NetworkManager`.
-
-Skiff will load any wpa supplicant configs from the persist partition at
-`skiff/wifi`.
-
-Here is an example file, `wpa_supplicant-wlan0.conf`. You can generate the
-entries using `wpa_passphrase MyNetwork MyNetworkPassword`:
-
-```
-ctrl_interface=/var/run/wpa_supplicant
-eapol_version=1
-ap_scan=1
-fast_reauth=1
-
-# Put networks here.
-network={
-  ssid="Example_Network"
-  psk=1b1069f468f6f7b2492c659802676074c3e69026e79c4d64f2c6d3d5a0ae1866
-}
-```
-
 ### Hostname
 
 You can set the hostname by placing the desired hostname in the `skiff/hostname`
