@@ -225,12 +225,13 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.2.9         | Run SkiffOS in QEmu    |
-| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
-| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
-| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         | ⚠ Untested             |
-| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.2.9         |                        |
-| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.2.9         |                        |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.4.8         | Run SkiffOS in QEmu    |
+| [Apple Macbook]    | apple/macbook      | Grub                 | ✔ 5.4.8         |                        |
+| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         |                        |
+| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         |                        |
+| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         | ⚠ Untested             |
+| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         |                        |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.4.8         |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
 | [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.133      |                        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
