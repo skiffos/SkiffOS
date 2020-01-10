@@ -226,7 +226,7 @@ Here are the boards/systems currently supported by Skiff:
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]             | virt/qemu          | N/A                  | ✔ 5.4.8         | Run SkiffOS in QEmu    |
-| [Apple Macbook]    | apple/macbook      | Grub                 | ✔ 5.4.8         |                        |
+| [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 5.4.8         |                        |
 | [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         |                        |
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.8         | ⚠ Untested             |
@@ -245,25 +245,26 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.86       |                        |
 | [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.86       |                        |
 
-[Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
-[Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
-[Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
-[Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
-[Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
-[Docker Img]: ./docker 
-[OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
-[OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
-[BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
+[BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
-[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
-[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
-[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
-[Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
-[PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
-[Qemu]: ./configs/virt/qemu
+[Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
+[Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
+[Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
+[Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
+[Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
+[Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
+[OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
+[OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
+[PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
+[Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[rEFInd]: https://www.rodsbooks.com/refind/
+[Qemu]: ./configs/virt/qemu
 
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above.
