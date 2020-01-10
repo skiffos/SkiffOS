@@ -240,6 +240,7 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.97       |                        |
+| [PcEngines APU2]   | pcengines/apu2     | ✔ CoreBoot           | ✔ 4.19.97       |                        |
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.93       |                        |
 | [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.93       | ⚠ Untested             |
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.93       |                        |
