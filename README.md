@@ -239,7 +239,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.133      |                        |
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
-| [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.74       | ⚠ Community tested     |
+| [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.94       |                        |
 | [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.86       |                        |
 | [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.86       | ⚠ Untested             |
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.86       |                        |
