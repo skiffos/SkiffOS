@@ -245,6 +245,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.86       |                        |
 | [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.86       |                        |
 
+[Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
