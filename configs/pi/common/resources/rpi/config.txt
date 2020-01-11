@@ -44,3 +44,4 @@ gpu_mem=128
 # Note: this sets a permanent overclock canary bit on the Pi.
 # over_voltage=4
 # force_turbo=1
+
