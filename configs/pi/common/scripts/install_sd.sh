@@ -48,7 +48,7 @@ function cleanup {
 sync || true
 for mount in "${mounts[@]}"; do
   echo "Unmounting ${mount}..."
-  umount $mount || true
+  sudo umount $mount || true
 done
 mounts=()
 if [ -d "$WORK_DIR" ]; then
@@ -64,17 +64,17 @@ persist_dir="${WORK_DIR}/persist"
 mkdir -p $boot_dir
 echo "Mounting ${PI_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-mount ${PI_SD_SFX}1 $boot_dir
+sudo mount ${PI_SD_SFX}1 $boot_dir
 
 echo "Mounting ${PI_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-mount ${PI_SD_SFX}2 $rootfs_dir
+sudo mount ${PI_SD_SFX}2 $rootfs_dir
 
 echo "Mounting ${PI_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-mount ${PI_SD_SFX}3 $persist_dir
+sudo mount ${PI_SD_SFX}3 $persist_dir
 
 echo "Marking and copying kernel..."
 
