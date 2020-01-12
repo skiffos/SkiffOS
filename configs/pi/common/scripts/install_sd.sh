@@ -39,7 +39,10 @@ if [ ! -f "$mkknlimg" ]; then
 fi
 
 mounts=()
-WORK_DIR=`mktemp -d -p "$DIR"`
+MOUNTS_DIR=${outp_path}/mounts
+mkdir -p ${MOUNTS_DIR}
+WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
+
 # deletes the temp directory
 function cleanup {
 sync || true
