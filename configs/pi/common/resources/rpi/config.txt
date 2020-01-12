@@ -40,3 +40,7 @@ gpu_mem=128
 # Heartbeat LED
 # dtparam=act_led_trigger=heartbeat
 
+# Allow the board to draw additional voltage.
+# Note: this sets a permanent overclock canary bit on the Pi.
+# over_voltage=4
+# force_turbo=1
