@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_DIR=${SKIFF_BUILDROOT_DIR}/output/target/
+TARGET_DIR=${SKIFF_BUILDROOT_DIR}/target/
 TARGET_COREENV_DIR=$TARGET_DIR/opt/skiff/coreenv
 
 echo "Copying coreenv base..."
