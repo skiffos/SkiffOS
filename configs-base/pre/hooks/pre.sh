@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TARGET_DIR=${SKIFF_BUILDROOT_DIR}/output/target
-IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/output/images
+TARGET_DIR=${SKIFF_BUILDROOT_DIR}/target
+IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/images
 
 mkdir -p ${TARGET_DIR}/etc
 ( \
