@@ -47,7 +47,7 @@ function cleanup {
 sync || true
 for mount in "${mounts[@]}"; do
   echo "Unmounting ${mount}..."
-  umount $mount || true
+  sudo umount $mount || true
 done
 mounts=()
 if [ -d "$WORK_DIR" ]; then
@@ -68,17 +68,17 @@ fi
 mkdir -p $boot_dir
 echo "Mounting ${ODROID_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-mount ${ODROID_SD_SFX}1 $boot_dir
+sudo mount ${ODROID_SD_SFX}1 $boot_dir
 
 echo "Mounting ${ODROID_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-mount ${ODROID_SD_SFX}2 $rootfs_dir
+sudo mount ${ODROID_SD_SFX}2 $rootfs_dir
 
 echo "Mounting ${ODROID_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-mount ${ODROID_SD_SFX}3 $persist_dir
+sudo mount ${ODROID_SD_SFX}3 $persist_dir
 
 echo "Copying kernel image..."
 sync
