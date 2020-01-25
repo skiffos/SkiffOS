@@ -227,8 +227,8 @@ Here are the boards/systems currently supported by Skiff:
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]             | virt/qemu          | N/A                  | ✔ 5.4.13        | Run SkiffOS in QEmu    |
 | [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 5.4.13        |                        |
-| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.4.13        |                        |
-| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.13        |                        |
+| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 4.19.97       |                        |
+| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 4.19.97       |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.4.13        | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.4.13        |                        |
 | [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.4.13        |                        |
