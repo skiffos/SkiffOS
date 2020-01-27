@@ -253,16 +253,17 @@ Here are the boards/systems currently supported by Skiff:
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
 [Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
-[Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
-[Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
+[Odroid C2]: https://www.hardkernel.com/shop/odroid-c2/
+[Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
+[Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 [Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
-[Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
-[Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
+[Odroid XU3]: https://www.hardkernel.com/shop/odroid-xu3/
+[Odroid XU4]: https://www.hardkernel.com/shop/odroid-xu4-special-price/
 [OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
 [OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
 [PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
-[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 [rEFInd]: https://www.rodsbooks.com/refind/
