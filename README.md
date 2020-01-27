@@ -233,7 +233,7 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 4.19.104      |                        |
 | [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.19.104      |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
-| [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.133      |                        |
+| [Odroid HC1/HC2]   | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      | ⚠ Discontinued         |
 | [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
@@ -253,11 +253,11 @@ Here are the boards/systems currently supported by Skiff:
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
 [Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
-[Odroid C2]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G145457216438
-[Odroid HC1]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G150229074080
-[Odroid U]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G138745696275
-[Odroid XU3]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G140448267127
-[Odroid XU4]: http://www.hardkernel.com/main/products/prdt_info.php?g_code=G143452239825
+[Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
+[Odroid HC1/HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
+[Odroid U]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
+[Odroid XU3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
+[Odroid XU4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
 [OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
 [OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
 [PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
