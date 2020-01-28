@@ -263,6 +263,7 @@ Here are the boards/systems currently supported by Skiff:
 [OrangePi Lite]: http://linux-sunxi.org/Xunlong_Orange_Pi_One_%26_Lite
 [OrangePi Zero]: http://linux-sunxi.org/Xunlong_Orange_Pi_Zero
 [PcDuino 3]: https://linux-sunxi.org/LinkSprite_pcDuino3
+[PcEngines APU2]: https://www.pcengines.ch/apu2.htm
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
