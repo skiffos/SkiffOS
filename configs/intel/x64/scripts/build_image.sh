@@ -10,7 +10,7 @@ GENIMAGE_CFG=${SKIFF_CURRENT_CONF_DIR}/resources/sys-genimage.cfg
 GENIMAGE_TMP=${SYS_IMAGE_DIR}/genimage.tmp
 
 
-if [ ! -f ${SYS_IMAGE_DIR}/bzImage ]; then
+if [ ! -f ${IMAGES_DIR}/bzImage ]; then
   echo "No bzImage found, skipping image build."
   exit 0
 fi
