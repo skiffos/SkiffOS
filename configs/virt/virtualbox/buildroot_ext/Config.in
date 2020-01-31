@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_VIRT_VIRTUALBOX_PATH/package/virtualbox-guest/Config.in"

@@ -1,0 +1,15 @@
+https://bugs.gentoo.org/482986
+
+Patch by Nenad Peric (nenad.peric@sbb.rs)
+
+--- VirtualBox-4.2.18/configure
++++ VirtualBox-4.2.18/configure
+@@ -2007,7 +2007,7 @@
+         else
+           cnf_append "VBOX_GSOAP_CXX_SOURCES" ""
+         fi
+-        cnf_append "VBOX_GSOAP_CXX_LIBS"    "`strip_l "$GSOAP_CXX_LIBS"`"
++        cnf_append "VBOX_GSOAP_CXX_LIBS"    "`strip_l "$GSOAP_CXX_LIBS"` z"
+         gsoap_version=`pkg-config gsoapssl++ --modversion`
+         log_success "found version $gsoap_version"
+         return

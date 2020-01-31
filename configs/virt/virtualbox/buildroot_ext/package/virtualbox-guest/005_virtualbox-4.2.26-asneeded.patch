@@ -1,0 +1,11 @@
+--- VirtualBox-4.2.26/Config.kmk
++++ VirtualBox-4.2.26/Config.kmk
+@@ -4672,7 +4672,7 @@
+ TEMPLATE_VBoxBldProg_LDFLAGS.amd64       = -m64
+ TEMPLATE_VBoxBldProg_LDFLAGS.sparc64     = -m64
+  ifeq ($(KBUILD_HOST),linux)
+-TEMPLATE_VBoxBldProg_LIBS                = pthread m rt dl
++TEMPLATE_VBoxBldProg_LIBS                = pthread m rt dl crypt
+  else ifeq ($(KBUILD_HOST),os2)
+ TEMPLATE_VBoxBldProg_TOOL                = GXX3OMF
+ TEMPLATE_VBoxBldProg_LIBS                = socket iconv
