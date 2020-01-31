@@ -1,0 +1,12 @@
+https://bugs.gentoo.org/588794
+
+--- a/include/VBox/VBoxGL2D.h
++++ b/include/VBox/VBoxGL2D.h
+@@ -28,6 +28,7 @@
+ #define __VBoxGLSupportInfo_h__
+ 
+ #include <iprt/types.h>
++#include <GL/gl.h>
+ 
+ typedef char GLchar;
+ 

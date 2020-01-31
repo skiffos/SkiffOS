@@ -1,0 +1,29 @@
+--- VirtualBox-6.0.0_BETA2/src/libs/xpcom18a4/python/src/ErrorUtils.cpp
++++ VirtualBox-6.0.0_BETA2/src/libs/xpcom18a4/python/src/ErrorUtils.cpp
+@@ -55,7 +55,7 @@
+ #endif
+ #include "nspr.h" // PR_fprintf
+ 
+-static char *PyTraceback_AsString(PyObject *exc_tb);
++static const char *PyTraceback_AsString(PyObject *exc_tb);
+ 
+ // The internal helper that actually moves the
+ // formatted string to the target!
+@@ -358,7 +358,7 @@
+ */
+ #define TRACEBACK_FETCH_ERROR(what) {errMsg = what; goto done;}
+ 
+-char *PyTraceback_AsString(PyObject *exc_tb)
++const char *PyTraceback_AsString(PyObject *exc_tb)
+ {
+ 	const char *errMsg = NULL; /* holds a local error message */
+ 	char *result = NULL; /* a valid, allocated result. */
+@@ -438,7 +438,7 @@
+ 
+ 	{ // a temp scope so I can use temp locals.
+ #if PY_MAJOR_VERSION <= 2
+-	char *tempResult = PyString_AsString(obResult);
++	const char *tempResult = PyString_AsString(obResult);
+ #else
+     /* PyUnicode_AsUTF8() is const char * as of Python 3.7, char * earlier. */
+ 	const char *tempResult = (const char *)PyUnicode_AsUTF8(obResult);

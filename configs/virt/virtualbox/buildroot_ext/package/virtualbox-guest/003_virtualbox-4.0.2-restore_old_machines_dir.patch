@@ -1,0 +1,12 @@
+--- VirtualBox-4.0.2_OSE/src/VBox/Main/src-server/SystemPropertiesImpl.cpp
++++ VirtualBox-4.0.2_OSE/src/VBox/Main/src-server/SystemPropertiesImpl.cpp
+@@ -1035,7 +1035,8 @@
+         // new default with VirtualBox 4.0: "$HOME/VirtualBox VMs"
+         HRESULT rc = getUserHomeDirectory(path);
+         if (FAILED(rc)) return rc;
+-        path += RTPATH_SLASH_STR "VirtualBox VMs";
++        path += RTPATH_SLASH_STR ".VirtualBox";
++        path += RTPATH_SLASH_STR "Machines";
+     }
+ 
+     if (!RTPathStartsWithRoot(path.c_str()))
