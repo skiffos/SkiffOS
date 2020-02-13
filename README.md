@@ -57,8 +57,7 @@ This will download and execute Skiff in a container.
 
 ## Getting started
 
-Building a system with Skiff is easy! This example will build a basic OS for a
-Pi 3.
+Building a system with Skiff is easy! This example will build a OS for a Pi 3.
 
 You can type `make` at any time to see a status and help printout. Do this now,
 and look at the list of configuration packages. Select which ones you want, and
@@ -66,20 +65,23 @@ set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ make                             # observe status output
-$ SKIFF_CONFIG=pi/3 make configure # configure the system
-$ make                             # check status again
-$ make br/menuconfig               # optionally explore config
-$ make br/linux-menuconfig         # optionally explore Linux config
+$ export SKIFF_CONFIG=skiff/systemd,pi/3
+$ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
 After you run `make configure` Skiff will remember what you selected in
 `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
+```sh
+$ make br/menuconfig               # optionally explore config
+$ make br/linux-menuconfig         # optionally explore Linux config
+```
+
 You can also enable Docker or other packages in the target:
 
 ```sh
-SKIFF_CONFIG=pi/3,apps/docker
+SKIFF_CONFIG=skiff/systemd,pi/3,apps/docker
 ```
 
 Once the build is complete, it's time to flash the system to a SD card. You will
@@ -277,14 +279,14 @@ the board, as described above.
 If you have a board that is not yet supported by SkiffOS, please **open an
 issue,** and we will work with you to integrate and test the new platform.
 
-## System Configuration
+## Systemd
 
-Below are some common configuration tasks that may be necessary when configuring
-a new Skiff system.
+If the **skiff/systemd** package is included, the Skiff initialization scripts
+are included and the system can be configured as described below.
 
 ### NetworkManager
 
-Skiff uses NetworkManager to manage network connections.
+Skiff can use NetworkManager to manage network connections.
 
 Network configurations are loaded from `/etc/NetworkManager/system-connections`
 and from `skiff/connections` on the persist partition.
@@ -322,7 +324,7 @@ enabled:
 
  - On first boot, the system will build the **core** container image.
  - The correct base image for the architecture is selected.
- - The default image contains Ubuntu bionic and systemd.
+ - The default image contains Ubuntu and systemd.
  - SSH connections to the **core** user are dropped into the Docker container
 
 This allows virtually any workflow to be migrated to Skiff. The config file
