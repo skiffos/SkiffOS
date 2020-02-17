@@ -6,6 +6,11 @@ fi
 
 set -e
 
+if [ -z "$SKIFF_PARTITION" ]; then
+    echo "Please set SKIFF_PARTITION and try again."
+    exit 1
+fi
+
 if [ ! -b "$SKIFF_PARTITION" ]; then
   echo "$SKIFF_PARTITION is not a block device or doesn't exist."
   exit 1
