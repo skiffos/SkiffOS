@@ -240,10 +240,11 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
 | [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.95       |                        |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.93       |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.93       | ⚠ Untested             |
-| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.93       |                        |
-| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.93       |                        |
+| [PcEngines APU2]   | pcengines/apu2     | ✔ CoreBoot           | ✔ 4.19.102      |                        |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.102      |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.102      | ⚠ Untested             |
+| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.102      |                        |
+| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.102      |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
