@@ -57,8 +57,7 @@ This will download and execute Skiff in a container.
 
 ## Getting started
 
-Building a system with Skiff is easy! This example will build a basic OS for a
-Pi 3.
+Building a system with Skiff is easy! This example will build a OS for a Pi 3.
 
 You can type `make` at any time to see a status and help printout. Do this now,
 and look at the list of configuration packages. Select which ones you want, and
@@ -66,15 +65,18 @@ set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ make                             # observe status output
-$ SKIFF_CONFIG=pi/3 make configure # configure the system
-$ make                             # check status again
-$ make br/menuconfig               # optionally explore config
-$ make br/linux-menuconfig         # optionally explore Linux config
+$ export SKIFF_CONFIG=skiff/systemd,pi/3
+$ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
 After you run `make configure` Skiff will remember what you selected in
 `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
+
+```sh
+$ make br/menuconfig               # optionally explore config
+$ make br/linux-menuconfig         # optionally explore Linux config
+```
 
 You can also enable Docker or other packages in the target:
 
@@ -346,7 +348,7 @@ enabled:
 
  - On first boot, the system will build the **core** container image.
  - The correct base image for the architecture is selected.
- - The default image contains Ubuntu bionic and systemd.
+ - The default image contains Ubuntu and systemd.
  - SSH connections to the **core** user are dropped into the Docker container
 
 This allows virtually any workflow to be migrated to Skiff. The config file
