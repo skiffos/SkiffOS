@@ -1,0 +1,34 @@
+From 915d0c12636cdb9b04d2473bbf28f07a08a61367 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 4 Jan 2020 02:09:34 -0800
+Subject: [PATCH] build vboxnetflt and vboxnetadp
+
+---
+ Makefile | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 18466b4..9e856ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -29,15 +29,8 @@ ifneq ($(KERNELRELEASE),)
+ # or inside a kernel source tree.
+ 
+ obj-m = vboxdrv/
+-ifneq ($(wildcard $(CURDIR)/vboxnetflt/Makefile),)
+- obj-m += vboxnetflt/
+-endif
+-ifneq ($(wildcard $(CURDIR)/vboxnetadp/Makefile),)
+- obj-m += vboxnetadp/
+-endif
+-ifneq ($(wildcard $(CURDIR)/vboxpci/Makefile),)
+- obj-m += vboxpci/
+-endif
++obj-m += vboxnetflt/
++obj-m += vboxnetadp/
+ 
+ else # ! KERNELRELEASE
+ 
+-- 
+2.24.1
+
