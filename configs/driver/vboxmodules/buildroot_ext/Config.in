@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_DRIVER_VBOXMODULES_PATH/package/virtualbox-modules/Config.in"
