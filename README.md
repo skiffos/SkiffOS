@@ -227,27 +227,27 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.5.4         | Run SkiffOS in QEmu    |
-| [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 5.5.4         |                        |
-| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 4.19.97       |                        |
-| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 4.19.97       |                        |
-| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.5.4         | ⚠ Untested             |
-| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.5.4         |                        |
-| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.5.4         |                        |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 4.19.108      | Run SkiffOS in QEmu    |
+| [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 4.19.108      |                        |
+| [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 4.19.108      |                        |
+| [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 4.19.108      |                        |
+| [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 4.19.108      | ⚠ Untested             |
+| [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 4.19.108      |                        |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 4.19.108      |                        |
 | [Odroid C2]        | odroid/c2          | ⚠ U-Boot 2015.01 Bin | ✔ 3.14.79       |                        |
 | [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
 | [Odroid HC2]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
-| [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ Linux CIP     | ⚠ Discontinued         |
+| [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ mainline      | ⚠ Discontinued         |
 | [Odroid XU3]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      | ⚠ Discontinued         |
 | [Odroid XU4]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
-| [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.17.15       | ⚠ Needs testing        |
-| [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Needs testing        |
-| [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.5.4         |                        |
-| [PcEngines APU2]   | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.5.4         |                        |
-| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.106      |                        |
-| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.106      | ⚠ Untested             |
-| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.106      |                        |
-| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.106      |                        |
+| [OrangePi Lite]    | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 4.19.108      | ⚠ Untested             |
+| [OrangePi Zero]    | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.19.108      | ⚠ Untested             |
+| [PcDuino 3]        | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 4.19.95       |                        |
+| [PcEngines APU2]   | pcengines/apu2     | ✔ CoreBoot           | ✔ 4.19.108      |                        |
+| [Pi 0]             | pi/0               | N/A                  | ✔ 4.19.108      |                        |
+| [Pi 1]             | pi/1               | N/A                  | ✔ 4.19.108      |                        |
+| [Pi 3] (and 1/2)   | pi/3               | N/A                  | ✔ 4.19.108      |                        |
+| [Pi 4]             | pi/4               | N/A                  | ✔ 4.19.108      |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
