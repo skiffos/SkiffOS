@@ -1,1 +1,0 @@
-BR2_ROOTFS_POST_BUILD_SCRIPT="SKIFF_CONFIG_ROOT/scripts/copy_uboot_bin.sh"
