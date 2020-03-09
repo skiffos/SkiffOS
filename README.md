@@ -227,13 +227,13 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**          | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------    | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]       | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.5.4         | Run SkiffOS in QEmu    |
-| [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 5.5.4         |                        |
+| [Qemu]             | virt/qemu          | N/A                  | ✔ 5.5.8         | Run SkiffOS in QEmu    |
+| [Apple Macbook]    | apple/macbook      | [rEFInd]             | ✔ 5.5.8         |                        |
 | [BananaPi M1]      | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.5.8         |                        |
 | [BananaPi M1+/Pro] | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.5.8         |                        |
 | [BananaPi M2+]     | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.5.8         | ⚠ Untested             |
 | [BananaPi M3]      | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.5.8         |                        |
-| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.5.4         |                        |
+| [Intel x86/64]     | intel/x64          | Grub                 | ✔ 5.5.8         |                        |
 | [Odroid HC1]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
 | [Odroid HC2]       | odroid/xu4         | ✔ U-Boot 2019.04 Src | ✔ 4.14.165      |                        |
 | [Odroid U]         | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ Linux CIP     | ⚠ Discontinued         |
