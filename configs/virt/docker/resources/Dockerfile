@@ -14,6 +14,7 @@ RUN find /etc/systemd/system \
          -or -name '*ntpd*' \
          -or -name '*resolved*' \
          -or -name '*udev*' \
+         -or -name '*rdisc*' \
          -or -name '*freedesktop*' \
          -or -name '*persist-resize*' \
          -or -name '*NetworkManager*' \
