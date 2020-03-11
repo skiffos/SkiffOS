@@ -8,7 +8,7 @@ ADD rootfs.tar /
 
 USER root
 RUN find /etc/systemd/system \
-         /lib/systemd/system \
+         /usr/lib/systemd/system \
          \( -path '*.wants/*' \
          -name '*swapon*' \
          -or -name '*ntpd*' \
@@ -31,4 +31,4 @@ RUN systemctl set-default multi-user.target && \
 COPY fstab /etc/fstab
 
 VOLUME [ "/sys/fs/cgroup", "/mnt/persist", "/mnt/rootfs" ]
-ENTRYPOINT ["/lib/systemd/systemd"]
+ENTRYPOINT ["/usr/lib/systemd/systemd"]
