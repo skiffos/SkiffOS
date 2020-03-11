@@ -63,6 +63,9 @@ echo "Mounting ${SKIFF_PARTITION} to $mount_dir..."
 mounts+=("$mount_dir")
 sudo mount ${SKIFF_PARTITION} $mount_dir
 
+echo "Making boot directory..."
+mkdir -p ${boot_dir}
+
 echo "Copying kernel..."
 rsync -rav --no-perms --no-owner --no-group $uimg_path $boot_dir/bzImage-skiff-${skiff_release}
 sync
