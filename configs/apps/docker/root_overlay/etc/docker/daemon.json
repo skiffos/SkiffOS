@@ -1,3 +1,6 @@
 {
+    "exec-opts": [
+        "native.cgroupdriver=systemd"
+    ],
     "experimental": true
 }
