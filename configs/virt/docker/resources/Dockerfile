@@ -16,9 +16,9 @@ RUN find /etc/systemd/system \
          -or -name '*udev*' \
          -or -name '*freedesktop*' \
          -or -name '*persist-resize*' \
+         -or -name '*NetworkManager*' \
          -or -name '*remount-fs*' \
          -or -name '*getty*' \
-         -or -name '*systemd-sysctl*' \
          -or -name '*.mount' \
          -or -name '*remote-fs*' \) \
          -exec echo \{} \; \
