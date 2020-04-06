@@ -5,6 +5,7 @@ IMAGES_DIR=$BUILDROOT_DIR/output/images
 QEMU_DIR=${IMAGES_DIR}/qemu
 ROOTFS_IMAGE=${QEMU_DIR}/qemu-image.img
 ROOTFS_DISK=${QEMU_DIR}/qemu-persist.qcow2
+SHARED_DIR=${QEMU_DIR}/qemu-shared
 GENIMAGE_CFG=${SKIFF_CURRENT_CONF_DIR}/resources/qemu-genimage.cfg
 GENIMAGE_TMP=${QEMU_DIR}/genimage.tmp
 
@@ -31,12 +32,14 @@ if [ ! -f ${ROOTFS_DISK} ]; then
     qemu-img convert -f raw -O qcow2 ${ROOTFS_IMAGE} ${ROOTFS_DISK}
 fi
 
+mkdir -p ${SHARED_DIR}
 qemu-system-x86_64 \
   -nographic -serial mon:stdio \
 	-kernel bzImage \
 	-initrd rootfs.cpio.gz -m size=1024 \
-	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0" \
+	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
 	-drive file=${ROOTFS_DISK},if=virtio \
+  -virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \
 	-net nic,model=virtio \
 	-net user
 	# Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
