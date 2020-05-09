@@ -57,6 +57,8 @@ if [ ! -f "$skiff_release_path" ]; then
     exit 1
 fi
 skiff_release=$(cat $skiff_release_path | grep "VERSION=" | cut -d= -f2)
+# add -1 to the end of the release to avoid refind problems
+skiff_release="${skiff_release}-1"
 
 mkdir -p $mount_dir
 echo "Mounting ${SKIFF_PARTITION} to $mount_dir..."
@@ -82,8 +84,9 @@ if [ -d "$outp_path/images/persist_part" ]; then
   sync
 fi
 
-echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/initrd-skiff-${skiff_release}
+echo "Copying initrd..."
+initrd_filename=initrd-skiff-${skiff_release}
+rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/${initrd_filename}
 sync
 
 if [ ! -f "$boot_dir/refind_linux.conf" ]; then
