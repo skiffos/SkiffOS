@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Restores network controller functionality after wakeup from
+# hibernation
+#
+# BCM43602 WiFi network controller
+
+if [ "$2" = "hibernate" ]; then
+    case "$1" in
+        pre)
+            if lsmod | grep -q brcmfmac; then
+                rmmod brcmfmac
+            fi
+            ;;
+        post)
+            modprobe brcmfmac
+            ;;
+    esac
+fi
+
