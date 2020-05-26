@@ -5,7 +5,7 @@ if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
 
-if ! parted -h > /dev/null; then
+if ! sudo parted -h > /dev/null; then
   echo "Please install 'parted' and try again."
   exit 1
 fi
@@ -72,12 +72,12 @@ set -x
 set -e
 
 echo "Formatting device..."
-parted $ODROID_SD mklabel msdos
+sudo parted $ODROID_SD mklabel msdos
 
 echo "Making boot partition..."
-parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
-parted $ODROID_SD set 1 boot on
-parted $ODROID_SD set 1 lba on
+sudo parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
+sudo parted $ODROID_SD set 1 boot on
+sudo parted $ODROID_SD set 1 lba on
 
 ODROID_SD_SFX=$ODROID_SD
 if [ -b ${ODROID_SD}p1 ]; then
@@ -88,11 +88,11 @@ mkfs.vfat -F 32 ${ODROID_SD_SFX}1
 fatlabel ${ODROID_SD_SFX}1 boot
 
 echo "Making rootfs partition..."
-parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
+sudo parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
 $MKEXT4 -L "rootfs" ${ODROID_SD_SFX}2
 
 echo "Making persist partition..."
-parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "-1s"
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "-1s"
 $MKEXT4 -L "persist" ${ODROID_SD_SFX}3
 
 sync && sync
