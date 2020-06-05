@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-VIRTUALBOX_MODULES_VERSION = 6.1.6
+VIRTUALBOX_MODULES_VERSION = 6.1.8
 VIRTUALBOX_MODULES_SITE = https://dev.gentoo.org/~polynomial-c/virtualbox
 VIRTUALBOX_MODULES_SOURCE = vbox-kernel-module-src-$(VIRTUALBOX_MODULES_VERSION).tar.xz
 VIRTUALBOX_MODULES_LICENSE = GPL-2
