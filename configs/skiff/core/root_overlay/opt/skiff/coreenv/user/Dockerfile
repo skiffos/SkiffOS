@@ -40,6 +40,7 @@ RUN \
   --gecos "Core" \
   --shell /bin/bash \
   --disabled-password && \
+  adduser core audio && \
   adduser core sudo && \
   adduser core root && \
   adduser core dialout && \
