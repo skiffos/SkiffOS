@@ -5,7 +5,7 @@ if [ $EUID != 0 ]; then
 fi
 
 set -e
-if ! parted -h > /dev/null; then
+if ! sudo parted -h > /dev/null; then
   echo "Please install 'parted' and try again."
   exit 1
 fi
@@ -40,11 +40,11 @@ set -x
 set -e
 
 echo "Formatting device..."
-parted $PI_SD mklabel msdos
+sudo parted $PI_SD mklabel msdos
 sleep 1
 
 echo "Making boot partition..."
-parted -a optimal $PI_SD mkpart primary fat16 0% 300M
+sudo parted -a optimal $PI_SD mkpart primary fat16 0% 300M
 sleep 1
 
 PI_SD_SFX=$PI_SD
@@ -53,17 +53,17 @@ if [ -b ${PI_SD}p1 ]; then
 fi
 
 mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
-parted $PI_SD set 1 boot on
-parted $PI_SD set 1 lba on
+sudo parted $PI_SD set 1 boot on
+sudo parted $PI_SD set 1 lba on
 sleep 1
 # mlabel -i ${PI_SD_SFX}1 ::boot
 
 echo "Making rootfs partition..."
-parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
+sudo parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
 sleep 1
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Making persist partition..."
-parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
 sleep 1
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
