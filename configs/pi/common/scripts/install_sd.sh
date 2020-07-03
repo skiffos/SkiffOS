@@ -29,6 +29,10 @@ cpio_path="${outp_path}/images/rootfs.cpio.gz"
 firm_path="${outp_path}/images/rpi-firmware"
 
 if [ ! -f "$uimg_path" ]; then
+  uimg_path="${outp_path}/images/Image"
+fi
+
+if [ ! -f "$uimg_path" ]; then
   echo "zImage not found, make sure Buildroot is done compiling."
   exit 1
 fi
