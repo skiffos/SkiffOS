@@ -1,0 +1,4 @@
+# Use rngd instead of haveged.
+BR2_PACKAGE_HAVEGED=n
+BR2_PACKAGE_RNG_TOOLS=y
+
