@@ -2,6 +2,7 @@
 # You should customize it to your own needs.
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
+# Note: this version is for the pi/4, with 64 bit kernel
 
 # Leave these set the same.
 kernel=zImage
@@ -45,9 +46,5 @@ gpu_mem=128
 # over_voltage=4
 # force_turbo=1
 
-# fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
-dtoverlay=miniuart-bt
-
-[pi4]
-dtoverlay=v3d-kms-vc4
-
+# enable 64bits support
+arm_64bit=1
