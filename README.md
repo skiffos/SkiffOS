@@ -224,6 +224,7 @@ any machine. Therefore, SkiffOS also works on nearly any architecture or board.
 
 Here are the boards/systems currently supported by Skiff:
 
+
 | **Board**           | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------     | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]        | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
@@ -244,10 +245,10 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Zero]     | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 4.17.15       | ⚠ Untested             |
 | [PcDuino 3]         | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.6.19        |                        |
 | [PcEngines APU2]    | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.6.19        |                        |
-| [Pi 0]              | pi/0               | N/A                  | ✔ 4.19.127      |                        |
-| [Pi 1]              | pi/1               | N/A                  | ✔ 4.19.127      |                        |
-| [Pi 3] (and 1/2)    | pi/3               | N/A                  | ✔ 4.19.127      |                        |
-| [Pi 4]              | pi/4               | N/A                  | ✔ 4.19.127      |                        |
+| [Pi 0]              | pi/0               | N/A                  | ✔ 5.4.51        |                        |
+| [Pi 1]              | pi/1               | N/A                  | ✔ 5.4.51        |                        |
+| [Pi 3] (and 1/2)    | pi/3               | N/A                  | ✔ 5.4.51        |                        |
+| [Pi 4]              | pi/4               | N/A                  | ✔ 5.4.51        |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
