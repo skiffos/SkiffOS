@@ -1,24 +1,21 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality.
+
 # This is the default Skiff config.txt.
 # You should customize it to your own needs.
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
-# Note: this version is for the pi/4, with 64 bit kernel
 
-# Leave these set the same.
 kernel=zImage
 initramfs rootfs.cpio.gz
 
-# You can tweak these settings below.
-# dtoverlay=miniuart-bt
-
-# GPU memory
-gpu_mem=128
-
-# Optional: enable GPIO features
-# Uncomment to enable.
-# dtparam=i2c_arm=on
-# dtparam=spi=on
+# Enable GPIO features
+dtparam=i2c_arm=on
+dtparam=spi=on
 # dtparam=i2s=on
+
+# enable_uart=1
 
 # Add module parameters to the end of the dtoverlay line,
 # e.g. dtoverlay=lirc-rpi,gpio_in_pin=16,gpio_in_pull=high
@@ -32,6 +29,7 @@ gpu_mem=128
 # (where x and y are gpios).
 
 # Audio card
+dtparam=audio=on
 # dtoverlay=hifiberry-dac
 # dtoverlay=hifiberry-dacplus
 # dtoverlay=hifiberry-digi
@@ -44,7 +42,27 @@ gpu_mem=128
 # Allow the board to draw additional voltage.
 # Note: this sets a permanent overclock canary bit on the Pi.
 # over_voltage=4
+
+# Forces the CPU to run at maximum clock speed (expect heat)
 # force_turbo=1
+
+# Forces CPU to run in turbo for initial seconds
+# initial_turbo=45
+
+[pi4]
+# dtoverlay=vc4-kms-v3d-pi4
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+[all]
+enable_uart=1
+disable_overscan=1
+hdmi_drive=2
+gpu_mem=128
 
 # enable 64bits support
 arm_64bit=1
+
+# skiff extension files (todo)
+# include skiff-boardcfg.txt
+# include skiff-usercfg.txt
