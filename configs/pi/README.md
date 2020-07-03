@@ -53,6 +53,23 @@ References:
  - https://wiki.gentoo.org/wiki/Raspberry_Pi_VC4
  - https://github.com/raspberrypi/linux/issues/2315#issuecomment-383132350
 
+## Overclocking
+
+You will want to follow the upstream guidance on overclocking: 
+
+https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
+
+Add the following snippet at the end of config.txt for a quick start. WARNING!
+This will set a permanent bit on your Pi which will mark it as having been
+overclocked. This will most-likely void the warranty.
+
+```
+over_voltage=4
+force_turbo=1
+max_usb_current=1
+```
+
+
 ## TODO config sections and universal config package
 
 The config.txt file supports conditional sections:
