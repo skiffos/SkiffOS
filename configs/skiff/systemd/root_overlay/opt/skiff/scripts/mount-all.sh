@@ -154,7 +154,9 @@ if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/host
   NHOSTNAME=$(cat $PERSIST_ROOT/skiff/hostname)
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
-  hostname -F /etc/hostname
+
+  hostname -F /etc/hostname                     # change transient hostname
+  hostnamectl set-hostname "$NHOSTNAME" || true # change permanent hostname
 else
   hostname > $PERSIST_ROOT/skiff/hostname
   if [ "$(hostname)" == "" ]; then
