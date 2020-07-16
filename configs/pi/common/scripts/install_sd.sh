@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mkknlimg=$(ls $BUILDROOT_DIR/output/build/linux-*/scripts/mkknlimg | head -n1)
-
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
@@ -34,11 +32,6 @@ fi
 
 if [ ! -f "$uimg_path" ]; then
   echo "zImage not found, make sure Buildroot is done compiling."
-  exit 1
-fi
-
-if [ ! -f "$mkknlimg" ]; then
-  echo "mkknlimg not found, make sure Buildroot is done compiling."
   exit 1
 fi
 
@@ -80,9 +73,8 @@ mkdir -p $persist_dir
 mounts+=("$persist_dir")
 sudo mount ${PI_SD_SFX}3 $persist_dir
 
-echo "Marking and copying kernel..."
-
-$mkknlimg $uimg_path $boot_dir/zImage
+echo "Copying kernel..."
+rsync -v $uimg_path $boot_dir/zImage
 sync
 
 echo "Copying rpi-firmware..."
