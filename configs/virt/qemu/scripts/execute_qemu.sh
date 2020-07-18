@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eo pipefail
 
-IMAGES_DIR=$BUILDROOT_DIR/output/images
+IMAGES_DIR=$BUILDROOT_DIR/images
 QEMU_DIR=${IMAGES_DIR}/qemu
 ROOTFS_IMAGE=${QEMU_DIR}/qemu-image.img
 ROOTFS_DISK=${QEMU_DIR}/qemu-persist.qcow2
