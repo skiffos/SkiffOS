@@ -224,7 +224,6 @@ any machine. Therefore, SkiffOS also works on nearly any architecture or board.
 
 Here are the boards/systems currently supported by Skiff:
 
-
 | **Board**           | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------     | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]        | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
