@@ -1,0 +1,12 @@
+{
+  "experimental": true,
+  "exec-opts": [
+    "native.cgroupdriver=systemd"
+  ],
+  "runtimes": {
+    "nvidia": {
+      "runtimeArgs": [],
+      "path": "/usr/bin/nvidia-container-runtime"
+    }
+  }
+}
