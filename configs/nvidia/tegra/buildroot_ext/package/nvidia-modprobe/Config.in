@@ -1,0 +1,12 @@
+config BR2_PACKAGE_NVIDIA_MODPROBE
+	bool "nvidia-modprobe"
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_TOOLCHAIN_USES_GLIBC
+	help
+	  nvidia-modprobe package adds a utility and headers for
+	  probing the NVIDIA hardware at runtime.
+
+	  https://github.com/NVIDIA/nvidia-modprobe
+
+comment "nvidia-modprobe needs a glibc toolchain w/ threads"
+	depends on !BR2_TOOLCHAIN_HAS_THREADS || !BR2_TOOLCHAN_USES_GLIBC

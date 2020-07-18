@@ -1,0 +1,18 @@
+config BR2_PACKAGE_NVIDIA_CONTAINER_TOOLKIT
+	bool "nvidia-container-toolkit"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_TOOLCHAIN_USES_GLIBC # fexecve
+	select BR2_PACKAGE_LIBNVIDIA_CONTAINER
+	select BR2_PACKAGE_NVIDIA_CONTAINER_RUNTIME
+	help
+	  NVIDIA Container Toolkit is a OCI-spec hook for
+	  support for mounting GPUs into containers.
+
+	  https://github.com/NVIDIA/nvidia-container-toolkit
+
+comment "nvidia-container-toolkit needs a glibc toolchain w/ threads"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS && \
+		BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on !BR2_TOOLCHAIN_HAS_THREADS || !BR2_TOOLCHAN_USES_GLIBC
