@@ -11,6 +11,27 @@ References:
  
 Currently only tested on the TX2. Issue reports welcome.
 
+## Getting Started
+
+Set the comma-separated `SKIFF_CONFIG` variable:
+
+```sh
+$ export SKIFF_CONFIG=nvidia/jetsontx2
+$ make configure                   # configure the system
+$ make compile                     # build the system
+```
+
+Once the build is complete, it's time to flash the system via USB. You will need
+to switch to `sudo bash` for this on most systems.
+
+```sh
+$ sudo bash             # switch to root
+# follow the "Flashing" process described below.
+$ SKIFF_NVIDIA_USB_FLASH=confirm make cmd/nvidia/tegra/flashusb
+```
+
+The board will boot up into Skiff.
+
 ## Board Compatibility
 
 There are specific packages tuned to each model.
@@ -89,3 +110,17 @@ and "initrd" files.
 It's possible to flash only u-boot by modifying the flash.sh script, and a
 target for this will be added to Skiff later on.
 
+## Known Issues
+
+There are the following known issues:
+
+ - Skiff tegra4linux core image has the following issues:
+   - kde is black-screen after sign in
+   - lxde works fine
+   - chromium-browser works, has acceleration, but YouTube won't play
+   - vlc segfaults
+   - mplayer works but is laggy
+   - gstreamer works (and is accelerated)
+
+The full desktop experience is not quite possible with the l4t based container,
+but we are getting there.
