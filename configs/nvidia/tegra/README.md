@@ -42,29 +42,6 @@ There are specific packages tuned to each model.
 
 [Jetson TX2]: https://elinux.org/Jetson_TX2
 
-## Bootup Process
-
-The TX2 and recent boards boot from the internal eMMC, at mmcblk0p1. The Jetson
-Nano can boot to a SD card.
-
-A "secure boot" process is used, with multiple bootloaders:
-
- - BootROM -> MB1 (TrustZone)
- - MB2/BPMP -> (Non-Trustzone)
- - Cboot (uses Little Kernel)
- - Uboot
- - Kernel
- 
-Uboot is flashed to the mmcblk0p1 emmc partition. Skiff compiles u-boot properly
-for the boards, however it's not necessary to flash u-boot to begin using it.
-There are scripts included designed to "upgrade** a factory-flashed TX2 Ubuntu
-system to use Skiff, by overwriting the contents of the rootfs partition.
-
-A script is included to flash u-boot if desired.
-
-Cboot could be compiled from source, and the source is available from the
-official sources, however, Skiff does not (yet) compile cboot.
-
 ## Flashing
 
 Flashing to the internal eMMC is done by booting to the official recovery mode,
@@ -109,6 +86,29 @@ and "initrd" files.
 
 It's possible to flash only u-boot by modifying the flash.sh script, and a
 target for this will be added to Skiff later on.
+
+## Bootup Process
+
+The TX2 and recent boards boot from the internal eMMC, at mmcblk0p1. The Jetson
+Nano can boot to a SD card.
+
+A "secure boot" process is used, with multiple bootloaders:
+
+ - BootROM -> MB1 (TrustZone)
+ - MB2/BPMP -> (Non-Trustzone)
+ - Cboot (uses Little Kernel)
+ - Uboot
+ - Kernel
+ 
+Uboot is flashed to the mmcblk0p1 emmc partition. Skiff compiles u-boot properly
+for the boards, however it's not necessary to flash u-boot to begin using it.
+There are scripts included designed to "upgrade** a factory-flashed TX2 Ubuntu
+system to use Skiff, by overwriting the contents of the rootfs partition.
+
+A script is included to flash u-boot if desired.
+
+Cboot could be compiled from source, and the source is available from the
+official sources, however, Skiff does not (yet) compile cboot.
 
 ## Known Issues
 
