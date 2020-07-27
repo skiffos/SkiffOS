@@ -64,7 +64,7 @@ The recovery mode of the Jetson is used to flash Skiff. Entering recovery:
 You may also be able to enter recovery by SSHing to the default system (username
 nvidia password nvidia) and entering `sudo reboot --force forced-recovery`.
 
-Skiff uses the Tegra for Linux package to flash over USB (flash.sh). The T4L
+Skiff uses the Tegra for Linux package to flash over USB (flash.sh). The L4T
 packages are licensed under the NVIDIA Customer Software License. Skiff will
 download the linux4tegra package to your build workspace, and exposes the
 contained scripts as Makefile targets.
@@ -124,3 +124,13 @@ There are the following known issues:
 
 The full desktop experience is not quite possible with the l4t based container,
 but we are getting there.
+
+# License Acknowledgment
+
+The NVIDIA Linux4Tegra packages are licensed under the NVIDIA Customer Software
+License. Skiff does not directly redistribute any parts of the toolkit, but will
+download it as a Buildroot package from the NVIDIA servers as part of the build
+process. The appropriate licenses can be viewed by triggering the Buildroot
+"legal" build step. It is the responsibility of the end user / developer to be
+aware of these terms and follow them accordingly.
+
