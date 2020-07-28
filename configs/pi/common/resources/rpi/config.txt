@@ -8,7 +8,9 @@ kernel=zImage
 initramfs rootfs.cpio.gz
 
 # You can tweak these settings below.
-dtoverlay=pi3-miniuart-bt
+
+# fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
+dtoverlay=miniuart-bt
 
 # GPU memory
 gpu_mem=128
@@ -46,9 +48,6 @@ gpu_mem=128
 
 # Forces the CPU to run at maximum clock speed (expect heat)
 # force_turbo=1
-
-# fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
-dtoverlay=miniuart-bt
 
 [pi4]
 dtoverlay=v3d-kms-vc4
