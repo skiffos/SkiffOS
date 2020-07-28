@@ -9,7 +9,7 @@ kernel=zImage
 initramfs rootfs.cpio.gz
 
 # You can tweak these settings below.
-dtoverlay=miniuart-bt
+# dtoverlay=miniuart-bt
 
 # GPU memory
 gpu_mem=128

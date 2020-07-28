@@ -10,7 +10,7 @@ initramfs rootfs.cpio.gz
 # You can tweak these settings below.
 
 # fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
-dtoverlay=miniuart-bt
+# dtoverlay=miniuart-bt
 
 # GPU memory
 gpu_mem=128
