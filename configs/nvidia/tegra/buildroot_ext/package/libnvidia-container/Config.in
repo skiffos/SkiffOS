@@ -15,4 +15,4 @@ config BR2_PACKAGE_LIBNVIDIA_CONTAINER
 
 comment "libnvidia-container needs a shared glibc toolchain w/ threads"
 	depends on !BR2_TOOLCHAIN_HAS_THREADS || !BR2_TOOLCHAN_USES_GLIBC || \
-  	!BR2_SHARED_LIBS
+		!BR2_SHARED_LIBS

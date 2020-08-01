@@ -4,4 +4,3 @@ config BR2_PACKAGE_LINUX4TEGRA
 	  NVIDIA Linux4Tegra utilities and binaries.
 
 	  https://developer.nvidia.com/embedded/linux-tegra-archive
-

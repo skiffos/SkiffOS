@@ -1,7 +1,7 @@
-From 7303319462939c499b77237a3cdcd0605d852daa Mon Sep 17 00:00:00 2001
+From 6752d8d5e315eb3f061498a9c35558f90f9600e2 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 18 Jul 2020 15:26:22 -0700
-Subject: [PATCH 2/2] Remove dependency handling from Makefile
+Subject: [PATCH] Remove dependency handling from Makefile
 
 Buildroot will handle this for the makefile.
 
