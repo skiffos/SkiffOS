@@ -1,7 +1,7 @@
-From 990d7285cab51c5054d7a55c8c8a4b3369a35c02 Mon Sep 17 00:00:00 2001
+From bd633a208446c86e11097e3cd3b019a086738ae3 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sun, 19 Jul 2020 09:56:42 -0700
-Subject: [PATCH 1/2] Build fixes from vowstar portage overlay
+Subject: [PATCH] Build fixes from vowstar portage overlay
 
 This commit brings in build fixes written by @vowstar in the overlay:
 
