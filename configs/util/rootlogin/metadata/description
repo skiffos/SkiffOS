@@ -1,1 +1,1 @@
-Enables login on root user with default password "skiff".
+Enables login with root user on serial getty w/o password (insecure unless VM).

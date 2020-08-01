@@ -28,3 +28,7 @@ qemu-system-x86_64 \
 ```
 
 Within the `workspaces/myworkspace/images` directory.
+
+Note: the default qemu configuration is adjusted slightly such that "root" will
+sign in without a password prompt on the serial console.
+
