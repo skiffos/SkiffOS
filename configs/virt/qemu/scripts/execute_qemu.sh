@@ -2,7 +2,7 @@
 set -eo pipefail
 
 IMAGES_DIR=$BUILDROOT_DIR/images
-QEMU_DIR=${IMAGES_DIR}/qemu
+QEMU_DIR=${BUILDROOT_DIR}/qemu-exec
 ROOTFS_IMAGE=${QEMU_DIR}/qemu-image.img
 ROOTFS_DISK=${QEMU_DIR}/qemu-persist.qcow2
 SHARED_DIR=${QEMU_DIR}/qemu-shared
@@ -39,7 +39,7 @@ qemu-system-x86_64 \
 	-initrd rootfs.cpio.gz -m size=1024 \
 	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
 	-drive file=${ROOTFS_DISK},if=virtio \
-  -virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \
+	-virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \
 	-net nic,model=virtio \
 	-net user
 	# Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
