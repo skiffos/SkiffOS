@@ -1,7 +1,0 @@
-config BR2_PACKAGE_MBPFAN
-	bool "mbpfan"
-	depends on BR2_USE_MMU
-	help
-	  mbpfan is a utility which controls the macbook pro fans.
-
-	  https://github.com/linux-on-mac/mbpfan
