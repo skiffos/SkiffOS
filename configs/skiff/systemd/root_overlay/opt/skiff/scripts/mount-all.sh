@@ -129,6 +129,8 @@ mkdir -p /etc/NetworkManager/system-connections
 if ! mountpoint /etc/NetworkManager/system-connections ; then
   mkdir -p $PERSIST_ROOT/skiff/connections
   echo "# Place NetworkManager keyfile configs here." > $PERSIST_ROOT/skiff/connections/readme
+  # chmod all files to 0600 or NetworkManager will not read them.
+  chmod 600 ${PERSIST_ROOT}/skiff/connections/*
   mkdir -p /etc/NetworkManager/system-connections
   connections_workdir=${overlay_workdir}/nm_connections
   mkdir -p $connections_workdir
