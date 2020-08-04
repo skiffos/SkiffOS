@@ -1,0 +1,16 @@
+# gofast: Use latest binutils 2.34.x
+BR2_BINUTILS_VERSION_2_34_X=y
+
+# gofast: Use latest GCC version 10.x
+BR2_GCC_VERSION_10_X=y
+
+# -Ofast enables -O3 and riskier optimization flags
+BR2_OPTIMIZE_FAST=y
+
+# LTO increases compile time for code size decrease
+BR2_GCC_ENABLE_LTO=y
+
+# after benchmarks: graphite?
+
+# note: ensure that your board has the correct mtune flags set
+# note: ensure this package comes /after/ the board package.
