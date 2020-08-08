@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-NVIDIA_CONTAINER_TOOLKIT_VERSION = 1.2.0
+NVIDIA_CONTAINER_TOOLKIT_VERSION = 1.2.1
 NVIDIA_CONTAINER_TOOLKIT_SITE = $(call github,NVIDIA,nvidia-container-toolkit,v$(NVIDIA_CONTAINER_TOOLKIT_VERSION))
 
 NVIDIA_CONTAINER_TOOLKIT_LICENSE = Apache-2.0
