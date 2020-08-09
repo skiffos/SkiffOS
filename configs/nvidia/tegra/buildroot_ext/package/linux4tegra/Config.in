@@ -1,6 +1,0 @@
-config BR2_PACKAGE_LINUX4TEGRA
-	bool "linux4tegra"
-	help
-	  NVIDIA Linux4Tegra utilities and binaries.
-
-	  https://developer.nvidia.com/embedded/linux-tegra-archive
