@@ -1,6 +1,1 @@
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/libnvidia-container/Config.in"
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/linux4tegra/Config.in"
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/nvidia-container-runtime/Config.in"
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/nvidia-container-toolkit/Config.in"
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/nvidia-modprobe/Config.in"
 source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/skiff-core-linux4tegra/Config.in"
