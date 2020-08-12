@@ -14,3 +14,5 @@ BR2_GCC_ENABLE_LTO=y
 
 # note: ensure that your board has the correct mtune flags set
 # note: ensure this package comes /after/ the board package.
+BR2_TARGET_OPTIMIZATION="-fno-fast-math"
+
