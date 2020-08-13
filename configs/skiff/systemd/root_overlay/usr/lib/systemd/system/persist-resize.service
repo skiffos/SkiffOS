@@ -2,8 +2,10 @@
 Description=SkiffOS resize persist partition
 DefaultDependencies=no
 Before=sysinit.target
-Requires=dev-disk-by\x2dlabel-persist.device
-After=dev-disk-by\x2dlabel-persist.device
+
+# TODO: dynamically source partition name
+#Requires=dev-disk-by\x2dlabel-persist.device
+#After=dev-disk-by\x2dlabel-persist.device
 
 [Service]
 Type=oneshot
