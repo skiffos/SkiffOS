@@ -1,9 +1,20 @@
 #!/bin/bash
 # set -eo pipefail
 
-PERSIST_DEV=/dev/disk/by-label/persist
+PRE_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.pre.d
+# Run any additional pre setup scripts.
+# We source these to allow overriding the above variables.
+for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
+    if [ -r $i ]; then
+        source $i
+    fi
+done
+
+PERSIST_DEV=$(blkid | grep $PERSIST_DEVICE | head -n1 | cut -d: -f1)
+# PERSIST_DEV=/dev/disk/by-label/persist
 if [ ! -b $PERSIST_DEV ]; then
     echo "Cannot find persist device, skipping check."
+    echo "PERSIST_DEVICE=${PERSIST_DEVICE}"
     exit 0
 fi
 PERSIST_DEV=$(readlink -f $PERSIST_DEV)
