@@ -1,0 +1,27 @@
+config BR2_PACKAGE_ARGONONED
+	bool "argononed"
+	depends on !BR2_PACKAGE_PYTHON # python3
+	depends on !BR2_STATIC_LIBS # rpi-userland
+	depends on BR2_arm || BR2_aarch64 # rpi-userland
+	depends on BR2_INSTALL_LIBSTDCPP # rpi-userland
+	depends on BR2_PACKAGE_BUSYBOX_SHOW_OTHERS # i2c-tools
+	depends on BR2_TOOLCHAIN_HAS_THREADS # rpi-userland libffi
+	select BR2_PACKAGE_HAS_LIBEGL # rpi-userland
+	select BR2_PACKAGE_HAS_LIBGLES # rpi-userland
+	select BR2_PACKAGE_HAS_LIBOPENMAX # rpi-userland
+	select BR2_PACKAGE_HAS_LIBOPENVG # rpi-userland
+	select BR2_PACKAGE_I2C_TOOLS
+	select BR2_PACKAGE_LIBFFI
+	select BR2_PACKAGE_LM_SENSORS
+	select BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_RPI_GPIO
+	select BR2_PACKAGE_RPI_USERLAND
+	help
+	  argononed is a daemon to control the Argon One case fans.
+
+	  https://www.argon40.com/argon-one-raspberry-pi-4-case.html
+
+comment "argononed needs rpi-userland and threads to work"
+	depends on BR2_arm || BR2_aarch64
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || \
+		BR2_STATIC_LIBS

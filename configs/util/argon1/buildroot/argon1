@@ -1,0 +1,2 @@
+# util/argon1: argononed fan controller
+BR2_PACKAGE_ARGONONED=y
