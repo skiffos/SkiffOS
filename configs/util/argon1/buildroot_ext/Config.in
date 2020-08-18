@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_UTIL_ARGON1_PATH/package/argononed/Config.in"
+

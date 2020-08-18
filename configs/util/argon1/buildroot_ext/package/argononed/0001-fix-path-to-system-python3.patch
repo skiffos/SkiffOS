@@ -1,0 +1,23 @@
+From 4fa12616f05f51569762373ed15a72042cca0d7f Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Tue, 18 Aug 2020 12:41:12 -0700
+Subject: [PATCH] fix: path to system python3
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ argononed.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/argononed.py b/argononed.py
+index eb9e6a2..6da3d8c 100755
+--- a/argononed.py
++++ b/argononed.py
+@@ -1,4 +1,4 @@
+-#!/opt/argonone/bin/python3
++#!/bin/python3
+ # -*- coding: utf-8 -*-
+ # -*- mode: Python; tab-width: 4; indent-tabs-mode: nil; -*-
+ # PEP 8, PEP 263.
+-- 
+2.28.0
+

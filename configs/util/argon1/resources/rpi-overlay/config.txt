@@ -1,0 +1,5 @@
+# argon one case overrides
+dtparam=i2c_arm=on,i2c_arm_baudrate=32000
+dtparam=i2s=on
+dtparam=i2c_baudrate=32000
+
