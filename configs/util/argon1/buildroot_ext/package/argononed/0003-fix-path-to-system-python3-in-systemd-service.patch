@@ -1,0 +1,25 @@
+From e9260b4aa5822850d81e37731e3aa753096cca4e Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Thu, 20 Aug 2020 16:32:34 -0700
+Subject: [PATCH] fix: path to system python3 in systemd service
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ argononed.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/argononed.service b/argononed.service
+index d726b4b..caaeac4 100755
+--- a/argononed.service
++++ b/argononed.service
+@@ -5,6 +5,6 @@ After=multi-user.target
+ Type=simple
+ Restart=always
+ RemainAfterExit=true
+-ExecStart=/opt/argonone/bin/python3 /opt/argonone/bin/argononed.py
++ExecStart=/opt/argonone/bin/argononed.py
+ [Install]
+ WantedBy=multi-user.target
+-- 
+2.28.0
+
