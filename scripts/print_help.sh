@@ -30,19 +30,24 @@ else
   printf "\033[1;49;31m✖ $ERR\033[0m\n"
 fi
 
-echo ""
+echo
 echo -e "\e[0;31m\033[1mConfigurations\e[0m"
 echo -e "Set SKIFF_CONFIG to one or more of the following (comma separated):"
 cd ../configs/ && ../scripts/print_packages_help.sh
 cd - > /dev/null
-echo ""
+echo
 
-echo -e "\e[0;31m\033[1mCommands\e[0m"
-echo -e "\033[0;34mcompile\033[0m:   Configures and compiles the system."
-echo -e "\033[0;34mconfigure\033[0m: Force a re-configuration of the system."
-echo -e "\033[0;34mclean\033[0m:     Cleans the current workspace."
-echo -e "\033[0;34mbr/*\033[0m:      Execute a buildroot command, ex: br/menuconfig."
-echo -e "\033[0;34mgraph\033[0m:     Graph the completed build timing."
+echo -e "\e[0;31m\033[1mBuild Commands\e[0m"
+echo -e "\033[0;34mconfigure\033[0m:  Force a re-configuration of the system."
+echo -e "\033[0;34mcompile\033[0m:    Configures and compiles the system."
+echo -e "\033[0;34mclean\033[0m:      Cleans the current workspace."
+echo
+
+echo -e "\e[0;31m\033[1mUtility Commands\e[0m"
+echo -e "\033[0;34mcheck\033[0m:      Configures and checks the current workspace."
+echo -e "\033[0;34mgraph\033[0m:      Graph the completed build timing."
+echo -e "\033[0;34mlegal-info\033[0m: Legal information."
+echo -e "\033[0;34mbr/*\033[0m:       Execute a buildroot command, ex: br/menuconfig."
 
 # Iterate over configs in config chain and print available commands
 i=0

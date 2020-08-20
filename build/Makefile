@@ -32,6 +32,9 @@ verify-skiff-config:
 maybe-build-configs:
 	@$(SKIFF_SCRIPTS_DIR)/build_configs.sh
 
+check-package-buildroot-ext:
+	@$(SKIFF_SCRIPTS_DIR)/check_package_buildroot_ext.sh
+
 configure: ensure-sane
 	@SKIFF_FORCE_RECONFIG=true $(SKIFF_SCRIPTS_DIR)/build_configs.sh
 
@@ -50,8 +53,21 @@ graph-size: ensure-sane verify-skiff-config maybe-build-configs
 
 graph: graph-build graph-size
 
+legal-info: ensure-sane verify-skiff-config maybe-build-configs
+	@echo "$$(tput smso)Preparing legal info...$$(tput sgr0)"
+	cd $$BUILDROOT_DIR && make legal-info
+
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$$(tput smso)Kicking off Buildroot build...$$(tput sgr0)"
 	cd $$BUILDROOT_DIR && make $(SKIFF_BUILD_TARGET_OVERRIDE)
 	@echo "$$(tput smso)Compilation complete!$$(tput sgr0)"
+
+# Check
+check: ensure-sane verify-skiff-config maybe-build-configs check-package-buildroot-ext
+	@echo "$$(tput smso)Downloading and hashing all sources...$$(tput sgr0)"
+	cd $$BUILDROOT_DIR && make source
+	@echo "$$(tput smso)Building legal information...$$(tput sgr0)"
+	cd $$BUILDROOT_DIR && make legal-info
+	@echo "$$(tput smso)Checks complete.$$(tput sgr0)"
+
