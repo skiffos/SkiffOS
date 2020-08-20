@@ -16,6 +16,7 @@ help:
 	@cd $(SKIFF_SCRIPTS_DIR) && $(SKIFF_SCRIPTS_DIR)/print_help.sh
 
 ensure-submodule:
+	@git config core.hooksPath .githooks || echo "Failed to register Git Hooks."
 	@$(SKIFF_SCRIPTS_DIR)/ensure_submodule.sh
 
 ensure-workspace: ensure-submodule
@@ -32,7 +33,7 @@ verify-skiff-config:
 maybe-build-configs:
 	@$(SKIFF_SCRIPTS_DIR)/build_configs.sh
 
-check-package-buildroot-ext:
+check-package-buildroot-ext: ensure-submodule
 	@$(SKIFF_SCRIPTS_DIR)/check_package_buildroot_ext.sh
 
 configure: ensure-sane
