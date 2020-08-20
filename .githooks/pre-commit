@@ -38,7 +38,7 @@ EOF
 fi
 
 # If there are whitespace errors, print the offending file names and fail.
-git diff-index --check --cached $against -- || exit $?
+# git diff-index --check --cached $against -- || exit $?
 
 if make --version && gcc --version && python3 --version; then
     echo "Running pre-commit checks..."
