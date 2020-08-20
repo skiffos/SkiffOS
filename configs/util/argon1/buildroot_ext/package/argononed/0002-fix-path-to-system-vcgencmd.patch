@@ -1,0 +1,24 @@
+From 8d19ea1d6a83dc617598d8f2d19ebff35d1bfd17 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Thu, 20 Aug 2020 15:57:34 -0700
+Subject: [PATCH] fix: path to system vcgencmd
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ argononed.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/argononed.py b/argononed.py
+index 6da3d8c..46d2dca 100755
+--- a/argononed.py
++++ b/argononed.py
+@@ -93,7 +93,7 @@ def temp_check():
+     address = 0x1a
+     prevblock = 0
+     while True:
+-        temp = os.popen("/opt/vc/bin/vcgencmd measure_temp").readline()
++        temp = os.popen("/bin/vcgencmd measure_temp").readline()
+         temp = temp.replace("temp=", "")
+         val = float(temp.replace("'C", ""))
+         block = get_fanspeed(val, fanconfig)
+2.28.0
