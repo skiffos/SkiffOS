@@ -1,0 +1,29 @@
+From 4c98804462c3c042a32f8002a55c7e3539b59a1c Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Mon, 31 Aug 2020 19:13:42 -0700
+Subject: [PATCH] exynos5422: odroidxu3: mark mmc0 as non-removable to disable
+ hotplug
+
+Prevents spamming of frequency-change log messages when attempting to detect
+hot-plug of eMMC.
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi b/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
+index eb82d34ceec8..05e5a20e5179 100755
+--- a/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
++++ b/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
+@@ -147,6 +147,7 @@
+ 	status = "okay";
+ 	mmc-pwrseq = <&emmc_pwrseq>;
+ 	card-detect-delay = <200>;
++  non-removable;
+ 	samsung,dw-mshc-ciu-div = <3>;
+ 	samsung,dw-mshc-sdr-timing = <0 4>;
+ 	samsung,dw-mshc-ddr-timing = <0 2>;
+-- 
+2.28.0
+
