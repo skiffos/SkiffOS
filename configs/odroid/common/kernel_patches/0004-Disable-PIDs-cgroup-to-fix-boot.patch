@@ -1,4 +1,4 @@
-From 491367493f2a6d9f9f4f9222b4e7eb480d76fe5f Mon Sep 17 00:00:00 2001
+From 1175a8d827e854ca884eb5aede139c975d96278b Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Wed, 24 Apr 2019 12:17:42 -0700
 Subject: [PATCH] Disable PIDs cgroup to fix boot
@@ -67,5 +67,5 @@ index ae448f7632cc..bc3918171166 100644
  obj-$(CONFIG_CPUSETS) += cpuset.o
  obj-$(CONFIG_CGROUP_DEBUG) += debug.o
 -- 
-2.21.0
+2.28.0
 
