@@ -7,8 +7,19 @@
 Skiff is a lightweight cross-compiled Linux OS focusing on creating a consistent
 and reproducible environment across any compute architecture.
 
-Skiff loads a small ~30MB image containing the kernel and core system into RAM
-at boot-time. This ensures that the system will always boot up into a consistent
+Skiff boots to a minimal GNU/Linux system environment operating fully from RAM,
+which is optimized for containerization. Storage is mounted for persisting data
+such as container contents/images, logs, and configuration.
+
+The "skiff/core" layer adds a tool which will automate setup and operation of
+containerized enviornments for users on the system. Connecting through SSH to
+the "core" user will appear identical to connecting to the container directly.
+
+
+## Skiff vs. booting directly to the userspace
+
+Skiff loads a small image containing the kernel and core system into RAM at
+boot-time. This ensures that the system will always boot up into a consistent
 state, ideal for embedded and mission-critical environments. Sudden failure of
 the storage drive does not break the system, as the core OS runs from memory.
 
@@ -18,17 +29,23 @@ consistent developer experience and application execution environment across any
 compute platform. The compact nature of the system creates a minimal attack
 surface for security.
 
-The "skiff/core" layer brings in the Docker container system, and introduces a
-user which is backed by a container. When logging into this user, the session is
-executed inside a container with a familiar operating system, such as Ubuntu.
-This decouples the core OS (kernel, init manager, container manager) from the
-userspace, allowing the userspace container to become portable between machines.
+Skiff decouples the core OS (kernel, bootup process, virtualization) from the
+userspace. This is optimal for containerized host systems as the Skiff portion
+can be updated independently from the userspace and easily rolled back. The
+environments inside the containers can be upgraded without fear of bricking the
+boot-up process. Because the system upgrade becomes an atomic operation, testing
+and quality assurance can be greatly accelerated.
 
-This repository includes configurations supporting a variety of embedded
-platforms, including Raspberry Pi and ODROID boards. Skiff can also run inside a
-Docker container, a qemu VM, as a typical x86_64 system, or a cloud VM. It's
-easy to add support for new boards and architectures, and the OS can be fully
-customized with Skiff's configuration package system.
+Traditionally, vendors will supply pre-installed GNU/Linux distributions on
+embedded development boards. Variance in these images creates a significant pain
+point in embedded Linux development, and the practice of "imaging" an entire
+drive is a significant time bottleneck and inhibitor of proper backup practices.
+Finally, there's no clear way to keep multiple development devices in sync or
+maintaining the same configuration changes with the traditional approach.
+
+This repository includes configurations supporting build targets ranging from
+small platforms such as Raspberry Pi and ODROID boards to large server farms or
+virtualized environments. Skiff can also run inside a Docker container.
 
 ## Demo: Run in Docker
 
@@ -46,7 +63,7 @@ docker run -d --name=skiff \
   -t \
   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
   -v $(pwd)/skiff-persist:/mnt/persist \
-  paralin/skiffos:latest
+  skiffos/skiffos:latest
 # Run a shell in the container.
 docker exec -it skiff sh
 # Inside the container, switch to "Skiff core"
@@ -326,11 +343,16 @@ enabled:
  - On first boot, the system will build the **core** container image.
  - The correct base image for the architecture is selected.
  - The default image contains Ubuntu and systemd.
- - SSH connections to the **core** user are dropped into the Docker container
+ - SSH connections to the **core** user are dropped into the Docker container.
+ - SSH connections are limited to public keys only (on default).
+ - Unlimited containers, users, or images can be specified in YAML config.
 
 This allows virtually any workflow to be migrated to Skiff. The config file
 structure is flexible, and allows for any number of containers, users, and
 images to be defined and built.
+
+Any existing GNU/Linux system with compatibility with the running kernel version
+can be loaded as a Docker image with the `docker import` command.
 
 To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
 list.
@@ -341,7 +363,7 @@ the persist partition. The default config will be placed there on first boot.
 The default config can be overridden with a file at
 `/opt/skiff/coreenv/defconfig.yaml`.
 
-### Install Docker
+### Install Docker inside Core
 
 You can install Docker inside the core environment, and systemd is running, so
 you can enable it to correctly auto-start when you first connect.
@@ -358,12 +380,10 @@ sudo docker ps
 
 This is "docker inside docker!"
 
-## Example Workloads
+## System Tools with Alpine
 
-This section contains some example workloads you can use to get started. These
-examples are Docker based. 
-
-### System Tools with Alpine
+Note: with Skiff Core - `SKIFF_CONFIG=skiff/core` - you can run "su - core" to
+switch into the containerized environment (with the default configs).
 
 Alpine provides a lightweight environment with a package manager (apk) to
 install developer tools on-demand. This command will execute a persistent
@@ -404,43 +424,9 @@ Some useful tools to try:
  - nload: shows incoming and outgoing network load.
  - nethogs: shows what processes are using network traffic.
 
-### System Performance Monitoring with Glances
-
-System performance monitoring and benchmarking is easy with the glances tool.
-
-The below command can be executed after sshing to the "root" user to start the
-performance monitoring UI on port 61208 on the device (for the ARM
-architecture):
-
-```bash
-docker run \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  --pid=host --net=host \
-  --restart=always \
-  --name=glances \
-  --detach=true \
-  --privileged \
-  paralin/glances-arm:latest glances -w
-```
-
-### Container Performance Monitoring with Cadvisor
-
-System and container performance monitoring and benchmarking is easy with the cadvisor tool.
-
-The below command can be executed after sshing to the "root" user to start the performance monitoring UI on port 8080 on the device:
-
-```bash
-docker run \
- --volume=/var/run:/var/run:rw \
- --volume=/sys:/sys:ro \
- --volume=/var/lib/docker/:/var/lib/docker:ro \
- --publish=8080:8080 \
- --detach=true \
- --name=cadvisor \
- braingamer/cadvisor-arm:latest
-```
 
 ## Support
 
 If you encounter issues or questions at any point when using Skiff, please file
-a [GitHub issue](https://github.com/paralin/SkiffOS/issues/new).
+a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new).
+
