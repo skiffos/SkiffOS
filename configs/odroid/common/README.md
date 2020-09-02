@@ -49,6 +49,20 @@ tested by the developers unless otherwise noted.
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
 [hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 
+## SD Card Compatibility
+
+The current SD cards used / tested by developers are:
+
+ - PNY Turbo Performance 16GB High Speed MicroSDHC Class 10 UHS-1
+ - SanDisk 128GB Extreme MicroSDXC UHS-I 
+ - SanDisk 64GB Ultra MicroSDXC UHS-I
+
+The current cards that are known to **NOT** work are:
+
+ - Intenso MicroSDXC Card, UHS-I, 64 GB
+
+Some SD cards may not be compatible with the Odroid kernel.
+
 ## Bootup Process
 
 All Odroid boards use u-boot. U-boot is flashed to the beginning of the SD card,
