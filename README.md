@@ -11,41 +11,13 @@ Skiff boots to a minimal GNU/Linux system environment operating fully from RAM,
 which is optimized for containerization. Storage is mounted for persisting data
 such as container contents/images, logs, and configuration.
 
-The "skiff/core" layer adds a tool which will automate setup and operation of
-containerized enviornments for users on the system. Connecting through SSH to
-the "core" user will appear identical to connecting to the container directly.
-
-
-## Skiff vs. booting directly to the userspace
-
-Skiff loads a small image containing the kernel and core system into RAM at
-boot-time. This ensures that the system will always boot up into a consistent
-state, ideal for embedded and mission-critical environments. Sudden failure of
-the storage drive does not break the system, as the core OS runs from memory.
-
-As a modular configuration package manager for the industry-standard
-[Buildroot](http://buildroot.org) embedded Linux tool, Skiff allows for a
-consistent developer experience and application execution environment across any
-compute platform. The compact nature of the system creates a minimal attack
-surface for security.
-
-Skiff decouples the core OS (kernel, bootup process, virtualization) from the
-userspace. This is optimal for containerized host systems as the Skiff portion
-can be updated independently from the userspace and easily rolled back. The
-environments inside the containers can be upgraded without fear of bricking the
-boot-up process. Because the system upgrade becomes an atomic operation, testing
-and quality assurance can be greatly accelerated.
-
-Traditionally, vendors will supply pre-installed GNU/Linux distributions on
-embedded development boards. Variance in these images creates a significant pain
-point in embedded Linux development, and the practice of "imaging" an entire
-drive is a significant time bottleneck and inhibitor of proper backup practices.
-Finally, there's no clear way to keep multiple development devices in sync or
-maintaining the same configuration changes with the traditional approach.
-
 This repository includes configurations supporting build targets ranging from
 small platforms such as Raspberry Pi and ODROID boards to large server farms or
 virtualized environments. Skiff can also run inside a Docker container.
+
+The "skiff/core" layer adds a tool which will automate setup and operation of
+containerized enviornments for users on the system. Connecting through SSH to
+the "core" user will appear identical to connecting to the container directly.
 
 ## Demo: Run in Docker
 
@@ -74,7 +46,7 @@ This will download and execute Skiff in a container.
 
 ## Getting started
 
-Building a system with Skiff is easy! This example will build a OS for a Pi 3.
+Building a system with Skiff is easy! This example will build a OS for a Pi4 64bit.
 
 You can type `make` at any time to see a status and help printout. Do this now,
 and look at the list of configuration packages. Select which ones you want, and
@@ -82,7 +54,7 @@ set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ make                             # observe status output
-$ export SKIFF_CONFIG=skiff/systemd,pi/3
+$ export SKIFF_CONFIG=pi/4x64,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -98,7 +70,7 @@ $ make br/linux-menuconfig         # optionally explore Linux config
 You can also enable Docker or other packages in the target:
 
 ```sh
-SKIFF_CONFIG=skiff/systemd,pi/3,apps/docker
+SKIFF_CONFIG=pi/4x64,apps/docker,skiff/core
 ```
 
 Once the build is complete, it's time to flash the system to a SD card. You will
@@ -107,9 +79,9 @@ need to switch to `sudo bash` for this on most systems.
 ```sh
 $ sudo bash             # switch to root
 $ blkid                 # look for your SD card's device file
-$ export PI_SD=/dev/sda # make sure this is right!
-$ make cmd/pi/3/format  # tell skiff to format the device
-$ make cmd/pi/3/install # tell skiff to install the os
+$ export PI_SD=/dev/sdz # make sure this is right!
+$ make cmd/pi/common/format  # tell skiff to format the device
+$ make cmd/pi/common/install # tell skiff to install the os
 ```
 
 After you format a card, you do not need to do so again. You can call the
@@ -121,59 +93,16 @@ Skiff configurations are evaluated in the order they are specified. An example
 configuration might look like:
 
 ```sh
-SKIFF_CONFIG=pi/3,apps/kodi make configure compile
+SKIFF_CONFIG=pi/4,apps/ttyd make configure compile
 ```
 
 Some operating systems are not compatible with the Skiff build system, due to
 the host not using glibc, or using some outdated or otherwise incompatible
-libraries for the fairly recent Skiff distribution.
+libraries for the fairly recent Skiff distribution. If you encounter any errors
+related to host-* packages, you can try [building Skiff inside
+Docker](./docker-build).
 
-If you encounter any errors related to host-* packages, you can try [building
-Skiff inside Docker](./docker-build).
-
-## Workspaces
-
-Workspaces allow you to configure and compile multiple systems in tandem.
-
-Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
-Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
-also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
-override settings for that particular workspace locally.
-
-## Virtualization
-
-The virt/ packages are designed for running Skiff in various virtualized environments.
-
-### Qemu
-
-Here is a minimal working example of running Skiff in Qemu:
-
-```sh
-$ SKIFF_CONFIG=virt/qemu make configure compile
-$ make cmd/virt/qemu/run
-```
-
-### Docker
-
-Here is a minimal working example of running Skiff in Docker:
-
-```sh
-$ SKIFF_CONFIG=virt/docker make configure compile
-$ make cmd/virt/docker/buildimage
-$ make cmd/virt/docker/run
-```
-
-The build command compiles the image, and run executes it.
-
-You can execute a shell inside the container with:
-
-```sh
-$ make cmd/virt/docker/exec
-# alternatively
-$ docker exec -it skiff sh
-```
-
-## Configuration Packages
+## Configuration Packages/Layers
 
 Skiff supports modular configuration packages. A configuration directory
 contains kernel configs, buildroot configs, system overlays, etc.
@@ -233,6 +162,46 @@ The `overrides` directory, as well as the
 additional Skiff configuration packages. You can follow the Skiff configuration
 package format as defined below to override any of the settings in Buildroot or
 the Linux kernel, add extra Buildroot packages, add build hooks, etc.
+
+## Skiff Core
+
+[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
+
+Users can work within a familiar, traditional, persistent OS environment if
+desired. This is called the "core" user within Skiff. If this feature is
+enabled:
+
+ - On first boot, the system will build the **core** container image.
+ - The correct base image for the architecture is selected.
+ - The default image contains Ubuntu and systemd.
+ - SSH connections to the **core** user are dropped into the Docker container.
+ - SSH connections are limited to public keys only (on default).
+ - Unlimited containers, users, or images can be specified in YAML config.
+
+This allows virtually any workflow to be migrated to Skiff. The config file
+structure is flexible, and allows for any number of containers, users, and
+images to be defined and built.
+
+Any existing GNU/Linux system with compatibility with the running kernel version
+can be loaded as a Docker image with the `docker import` command.
+
+To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
+list.
+
+To customize the core environment, edit the file at `skiff/core/config.yaml` on
+the persist partition. The default config will be placed there on first boot.
+
+The default config can be overridden with a file at
+`/opt/skiff/coreenv/defconfig.yaml`.
+
+## Workspaces
+
+Workspaces allow you to configure and compile multiple systems in tandem.
+
+Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
+Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
+also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
+override settings for that particular workspace locally.
 
 ## Supported Systems
 
@@ -297,14 +266,48 @@ the board, as described above.
 If you have a board that is not yet supported by SkiffOS, please **open an
 issue,** and we will work with you to integrate and test the new platform.
 
+## Virtualization
+
+The virt/ packages are designed for running Skiff in various virtualized environments.
+
+### Qemu
+
+Here is a minimal working example of running Skiff in Qemu:
+
+```sh
+$ SKIFF_CONFIG=virt/qemu make configure compile
+$ make cmd/virt/qemu/run
+```
+
+### Docker
+
+Here is a minimal working example of running Skiff in Docker:
+
+```sh
+$ SKIFF_CONFIG=virt/docker make configure compile
+$ make cmd/virt/docker/buildimage
+$ make cmd/virt/docker/run
+```
+
+The build command compiles the image, and run executes it.
+
+You can execute a shell inside the container with:
+
+```sh
+$ make cmd/virt/docker/exec
+# alternatively
+$ docker exec -it skiff sh
+```
+
 ## Systemd
 
 If the **skiff/systemd** package is included, the Skiff initialization scripts
-are included and the system can be configured as described below.
+are included and the system can be configured as described below. Note: systemd
+is pulled in by **apps/docker** and **skiff/core** automatically.
 
 ### NetworkManager
 
-Skiff can use NetworkManager to manage network connections.
+Skiff uses NetworkManager to manage network connections.
 
 Network configurations are loaded from `/etc/NetworkManager/system-connections`
 and from `skiff/connections` on the persist partition.
@@ -331,54 +334,6 @@ It takes SSH public key files (`*.pub`) from these locations:
 
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
-
-## Skiff Core
-
-[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
-
-Users can work within a familiar, traditional, persistent OS environment if
-desired. This is called the "core" user within Skiff. If this feature is
-enabled:
-
- - On first boot, the system will build the **core** container image.
- - The correct base image for the architecture is selected.
- - The default image contains Ubuntu and systemd.
- - SSH connections to the **core** user are dropped into the Docker container.
- - SSH connections are limited to public keys only (on default).
- - Unlimited containers, users, or images can be specified in YAML config.
-
-This allows virtually any workflow to be migrated to Skiff. The config file
-structure is flexible, and allows for any number of containers, users, and
-images to be defined and built.
-
-Any existing GNU/Linux system with compatibility with the running kernel version
-can be loaded as a Docker image with the `docker import` command.
-
-To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
-list.
-
-To customize the core environment, edit the file at `skiff/core/config.yaml` on
-the persist partition. The default config will be placed there on first boot.
-
-The default config can be overridden with a file at
-`/opt/skiff/coreenv/defconfig.yaml`.
-
-### Install Docker inside Core
-
-You can install Docker inside the core environment, and systemd is running, so
-you can enable it to correctly auto-start when you first connect.
-
-```bash
-ssh core@my-skiff-host
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-sudo systemctl enable --now docker
-sudo docker ps
-```
-
-This is "docker inside docker!"
 
 ## System Tools with Alpine
 
@@ -424,6 +379,33 @@ Some useful tools to try:
  - nload: shows incoming and outgoing network load.
  - nethogs: shows what processes are using network traffic.
 
+
+## Skiff vs. booting directly to the userspace
+
+Skiff loads a small image containing the kernel and core system into RAM at
+boot-time. This ensures that the system will always boot up into a consistent
+state, ideal for embedded and mission-critical environments. Sudden failure of
+the storage drive does not break the system, as the core OS runs from memory.
+
+As a modular configuration package manager for the industry-standard
+[Buildroot](http://buildroot.org) embedded Linux tool, Skiff allows for a
+consistent developer experience and application execution environment across any
+compute platform. The compact nature of the system creates a minimal attack
+surface for security.
+
+Skiff decouples the core OS (kernel, bootup process, virtualization) from the
+userspace. This is optimal for containerized host systems as the Skiff portion
+can be updated independently from the userspace and easily rolled back. The
+environments inside the containers can be upgraded without fear of bricking the
+boot-up process. Because the system upgrade becomes an atomic operation, testing
+and quality assurance can be greatly accelerated.
+
+Traditionally, vendors will supply pre-installed GNU/Linux distributions on
+embedded development boards. Variance in these images creates a significant pain
+point in embedded Linux development, and the practice of "imaging" an entire
+drive is a significant time bottleneck and inhibitor of proper backup practices.
+Finally, there's no clear way to keep multiple development devices in sync or
+maintaining the same configuration changes with the traditional approach.
 
 ## Support
 

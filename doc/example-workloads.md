@@ -42,3 +42,20 @@ docker run \
  --name=cadvisor \
  braingamer/cadvisor-arm:latest
 ```
+
+### Install Docker inside Core
+
+You can install Docker inside the core environment, and systemd is running, so
+you can enable it to correctly auto-start when you first connect.
+
+```bash
+ssh core@my-skiff-host
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo systemctl enable --now docker
+sudo docker ps
+```
+
+This is "docker inside docker!"
