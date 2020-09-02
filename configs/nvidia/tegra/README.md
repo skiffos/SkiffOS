@@ -105,8 +105,6 @@ for the boards, however it's not necessary to flash u-boot to begin using it.
 There are scripts included designed to "upgrade** a factory-flashed TX2 Ubuntu
 system to use Skiff, by overwriting the contents of the rootfs partition.
 
-A script is included to flash u-boot if desired.
-
 Cboot could be compiled from source, and the source is available from the
 official sources, however, Skiff does not (yet) compile cboot.
 
