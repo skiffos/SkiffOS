@@ -14,6 +14,8 @@ containers: # can add unlimited containers
     - /lib/modules:/lib/modules
     - /sys/fs/cgroup:/sys/fs/cgroup:ro
     - /mnt:/mnt
+    - /run/udev:/run/udev
+    - /etc/resolv.conf:/etc/resolv.conf:ro
     privileged: true
     capAdd:
     - ALL
