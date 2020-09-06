@@ -1,14 +1,15 @@
 # ODROID
 
-This configuration package `odroid/common` contains common configurations for
-the Odroid series of boards by HardKernel.
+The configuration package `odroid/common` contains common configurations for the
+Odroid series of boards by HardKernel. There are specific packages for each
+board/series.
 
 ## Getting Started
 
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=odroid/xu4
+$ export SKIFF_CONFIG=odroid/xu
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -19,8 +20,8 @@ need to `sudo bash` for this on most systems.
 ```sh
 $ sudo bash             # switch to root
 $ export ODROID_SD=/dev/sdz # make sure this is right! (usually sdb)
-$ make cmd/pi/common/format  # tell skiff to format the device
-$ make cmd/pi/common/install # tell skiff to install the os
+$ make cmd/odroid/common/format  # tell skiff to format the device
+$ make cmd/odroid/common/install # tell skiff to install the os
 ```
 
 You only need to run the `format` step once. It will create the partition table
@@ -40,14 +41,18 @@ tested by the developers unless otherwise noted.
 
 | **Board**       | **Config Package** | Status   |
 | --------------- | -----------------  | -------- |
-| [u]             | odroid/u           | Untested |
-| [xu3]           | odroid/xu4         |          |
-| [xu4] (+ xu4q)  | odroid/xu4         |          |
-| [hc2]           | odroid/xu4         |          |
+| [u] + u2        | odroid/u           | Untested |
+| [xu3]           | odroid/xu          |          |
+| [xu4] (+ xu4q)  | odroid/xu          |          |
+| [hc2]           | odroid/xu          |          |
+| [n2]            | odroid/c4          |          |
+| [c4]            | odroid/c4          |          |
 
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
 [hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
+[n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
+[c4]: https://www.hardkernel.com/shop/odroid-c4/
 
 ## SD Card Compatibility
 
@@ -78,4 +83,17 @@ There are the following known issues:
  - Desktop environments / video rendering / MALI not tested yet.
 
 The full desktop experience is not tested yet.
+
+## Acknowledgments
+
+(As of September, 2020):
+
+Thank you to [armbian] and [tobetter] (and others) for patching / testing the
+Linux kernel for the Odroid (meson and meson64) series of boards. The kernel
+patches for the n2 and c4 are derived by computing the difference between
+tobetter's latest version and the armbian version. Many configuration specifics
+are referenced from the armbian repo.
+
+[armbian]: https://github.com/armbian/build
+[tobetter]: https://github.com/tobetter/linux
 
