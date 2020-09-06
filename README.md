@@ -146,6 +146,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.6         |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
+| [Odroid C4]          | odroid/c4          | ✔ U-Boot 2020.10 Src | ✔ tb-5.8.6      |                        |
 | [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ latest        | ⚠ Discontinued         |
 | [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
@@ -171,7 +172,7 @@ Here are the boards/systems currently supported by Skiff:
 [Intel x86/64]: ./configs/intel/x64
 [NVIDIA Jetson Nano]: ./configs/jetson
 [NVIDIA Jetson TX2]: ./configs/jetson
-[Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
+[Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
 [Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 [Odroid U]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3

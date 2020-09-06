@@ -1,0 +1,26 @@
+From f847af661b126e53708f5f1169a8eec933ad4f17 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sun, 6 Sep 2020 15:51:59 -0700
+Subject: [PATCH] arm: enable dt overlays support
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/arm/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 80702c23d3..e5eaea354b 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -799,6 +799,8 @@ config ARCH_OMAP2PLUS
+ 
+ config ARCH_MESON
+ 	bool "Amlogic Meson"
++	select OF_LIBFDT
++	select OF_LIBFDT_OVERLAY
+ 	imply DISTRO_DEFAULTS
+ 	imply DM_RNG
+ 	help
+-- 
+2.29.2
+

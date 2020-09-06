@@ -26,15 +26,20 @@ if [ ! -b "$ODROID_SD" ]; then
 fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-ubootimg="$BUILDROOT_DIR/output/images/u-boot.bin"
+ubootimg="$BUILDROOT_DIR/output/images/u-boot-signed.bin.sd.bin"
+ubootimga="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
-ubootimgc="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
+ubootimgc="$BUILDROOT_DIR/output/images/u-boot.bin"
 ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
 sd_fuse_scr="${ubootscripts}/sd_fusing.sh"
 
 if [ ! -f "$sd_fuse_scr" ]; then
   echo "Cannot find $sd_fuse_scr, make sure Buildroot is compiled."
   exit 1
+fi
+
+if [ ! -f "$ubootimg" ]; then
+  ubootimg=$ubootimga
 fi
 
 if [ ! -f "$ubootimg" ]; then
