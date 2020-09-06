@@ -1,0 +1,3 @@
+# use out-of-tree module
+CONFIG_RTL8821AU=n
+CONFIG_RTL8812AU=n

@@ -1,0 +1,6 @@
+config BR2_PACKAGE_AMLOGIC_BOOT_FIP
+	bool "amlogic-boot-fip"
+	help
+	  Amlogic boot fip blobs.
+
+	  https://gitlab.com/LibreELEC/amlogic-boot-fip
