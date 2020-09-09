@@ -9,11 +9,13 @@ ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], laptops ([Apple
 MacBook], PineBook), Containers, or [Cloud VMs].
 
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
-[Cloud VM]: https://imgur.com/a/PXCYnjT
+[Cloud VMs]: https://imgur.com/a/PXCYnjT
 [Desktop PCs]: https://linux-hardware.org/?probe=4c1dbd1f66
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
 [Odroid]: https://linux-hardware.org/?probe=7f6a71b553
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
+
+![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
 
 [Buildroot], an industry-adopted embedded GNU/Linux cross-compiler tool,
 produces a build optimized & tuned for the underlying compute hardware or
