@@ -4,24 +4,41 @@
 
 ## Introduction
 
-Skiff is a lightweight cross-compiled Linux OS focusing on creating a consistent
-and reproducible environment across any compute architecture.
+Skiff compiles a lightweight operating system for any Linux-compatible computer,
+ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], laptops ([Apple
+MacBook], PineBook), Containers, or [Cloud VMs].
 
-Skiff boots to a minimal GNU/Linux system environment operating fully from RAM,
-which is optimized for containerization. Storage is mounted for persisting data
-such as container contents/images, logs, and configuration.
+[Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
+[Cloud VM]: https://imgur.com/a/PXCYnjT
+[Desktop PCs]: https://linux-hardware.org/?probe=4c1dbd1f66
+[NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
+[Odroid]: https://linux-hardware.org/?probe=7f6a71b553
+[RPi]: https://linux-hardware.org/?probe=c3d8362f28
 
-This repository includes configurations supporting build targets ranging from
-small platforms such as Raspberry Pi and ODROID boards to large server farms or
-virtualized environments. Skiff can also run inside a Docker container.
+[Buildroot], an industry-adopted embedded GNU/Linux cross-compiler tool,
+produces a build optimized & tuned for the underlying compute hardware or
+virtualization environment. The target operating system can contain
+containerization or virtualization tools, which mount persistent storage.
 
-The "skiff/core" layer adds a tool which will automate setup and operation of
-containerized enviornments for users on the system. Connecting through SSH to
-the "core" user will appear identical to connecting to the container directly.
+[Buildroot]: https://buildroot.org
+
+There are three release channels: *next*, *master* / *main*, and *stable*.
+
+Skiff can be upgraded or downgraded (rolled back) independently from the
+persistent storage partition. This allows for easy OTA, and significant
+improvements in confidence when upgrading system components: never worry about
+an interrupted "apt-get" breaking your system again!
+
+With the "skiff/core" layer, containers, images, and users can be configured
+with an easy to understand YAML syntax. SSH connections to the machine are
+automatically routed to the correct container per-user, and rsync / scp still
+works as expected. The container image can be compiled on-demand, which adds the
+opportunity for hardware-specific tweaks or setup on first boot.
 
 ## Demo: Run in Docker
 
-You can now demo Skiff with a single command!
+You can now demo Skiff in a Docker container. It requires some additional flags
+(for now) to allow running systemd as the container init:
 
 ```sh
 # Execute the latest Skiff release with Docker.
@@ -36,8 +53,10 @@ docker run -d --name=skiff \
   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
   -v $(pwd)/skiff-persist:/mnt/persist \
   skiffos/skiffos:latest
+
 # Run a shell in the container.
 docker exec -it skiff sh
+
 # Inside the container, switch to "Skiff core"
 su - core
 ```
@@ -102,107 +121,6 @@ libraries for the fairly recent Skiff distribution. If you encounter any errors
 related to host-* packages, you can try [building Skiff inside
 Docker](./docker-build).
 
-## Configuration Packages/Layers
-
-Skiff supports modular configuration packages. A configuration directory
-contains kernel configs, buildroot configs, system overlays, etc.
-
-These packages are denoted as `namespace/name`. For example, an ODROID XU4
-configuration would be `odroid/xu4`.
-
-Configuration package directories should have a depth of 2, where the first
-directory is the category name and the second is the package name.
-
-### Package Layout
-
-A configuration package is laid out into the following directories:
-
-```
-├── buildroot:      buildroot configuration fragments
-├── buildroot_ext:  buildroot extensions (extra packages)
-├── extensions:     extra commands to add to the build system
-│   └── Makefile
-├── hooks:          scripts hooking pre/post build steps
-│   ├── post.sh
-│   └── pre.sh
-├── kernel:         kernel configuration fragments
-├── kernel_patches: kernel .patch files
-├── root_overlay:   root overlay files
-├── metadata:       metadata files
-│   ├── commands
-│   ├── dependencies
-│   ├── description
-│   └── unlisted
-├── resources:     files used by the configuration package
-├── scripts:       any scripts used by the extensions
-├── uboot:         u-boot configuration fragments
-└── uboot_patches: u-boot .patch files
-```
-
-All files are optional.
-
-### Out-of-tree configuration packages
-
-You can set the following env variables to control this process:
-
- - `SKIFF_CONFIG_PATH_ODROID_XU4`: Set the path for the ODROID_XU4 config package. You can set this to add new packages or override old ones.
- - `SKIFF_EXTRA_CONFIGS_PATH`: Colon separated list of paths to look for config packages.
- - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
-
-These packages will be available in the Skiff system.
-
-### Local Overrides
-
-It's often useful to be able to adjust the buildroot, kernel, or other
-configurations locally during development without actually creating a new
-configuration layer. This can be easily done with the overrides system.
-
-The `overrides` directory, as well as the
-`overrides/workspaces/$SKIFF_WORKSPACE` directory, are automatically used as
-additional Skiff configuration packages. You can follow the Skiff configuration
-package format as defined below to override any of the settings in Buildroot or
-the Linux kernel, add extra Buildroot packages, add build hooks, etc.
-
-## Skiff Core
-
-[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
-
-Users can work within a familiar, traditional, persistent OS environment if
-desired. This is called the "core" user within Skiff. If this feature is
-enabled:
-
- - On first boot, the system will build the **core** container image.
- - The correct base image for the architecture is selected.
- - The default image contains Ubuntu and systemd.
- - SSH connections to the **core** user are dropped into the Docker container.
- - SSH connections are limited to public keys only (on default).
- - Unlimited containers, users, or images can be specified in YAML config.
-
-This allows virtually any workflow to be migrated to Skiff. The config file
-structure is flexible, and allows for any number of containers, users, and
-images to be defined and built.
-
-Any existing GNU/Linux system with compatibility with the running kernel version
-can be loaded as a Docker image with the `docker import` command.
-
-To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
-list.
-
-To customize the core environment, edit the file at `skiff/core/config.yaml` on
-the persist partition. The default config will be placed there on first boot.
-
-The default config can be overridden with a file at
-`/opt/skiff/coreenv/defconfig.yaml`.
-
-## Workspaces
-
-Workspaces allow you to configure and compile multiple systems in tandem.
-
-Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
-Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
-also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
-override settings for that particular workspace locally.
-
 ## Supported Systems
 
 SkiffOS is based on Buildroot, which can compile operating systems for virtually
@@ -265,6 +183,107 @@ the board, as described above.
 
 If you have a board that is not yet supported by SkiffOS, please **open an
 issue,** and we will work with you to integrate and test the new platform.
+
+## Configuration Packages/Layers
+
+Skiff supports modular configuration packages. A configuration directory
+contains kernel configs, buildroot configs, system overlays, etc.
+
+These packages are denoted as `namespace/name`. For example, an ODROID XU4
+configuration would be `odroid/xu`.
+
+Configuration package directories should have a depth of 2, where the first
+directory is the category name and the second is the package name.
+
+### Package Layout
+
+A configuration package is laid out into the following directories:
+
+```
+├── buildroot:      buildroot configuration fragments
+├── buildroot_ext:  buildroot extensions (extra packages)
+├── extensions:     extra commands to add to the build system
+│   └── Makefile
+├── hooks:          scripts hooking pre/post build steps
+│   ├── post.sh
+│   └── pre.sh
+├── kernel:         kernel configuration fragments
+├── kernel_patches: kernel .patch files
+├── root_overlay:   root overlay files
+├── metadata:       metadata files
+│   ├── commands
+│   ├── dependencies
+│   ├── description
+│   └── unlisted
+├── resources:     files used by the configuration package
+├── scripts:       any scripts used by the extensions
+├── uboot:         u-boot configuration fragments
+└── uboot_patches: u-boot .patch files
+```
+
+All files are optional.
+
+### Out-of-tree configuration packages
+
+You can set the following env variables to control this process:
+
+ - `SKIFF_CONFIG_PATH_ODROID_XU`: Set the path for the ODROID_XU config package. You can set this to add new packages or override old ones.
+ - `SKIFF_EXTRA_CONFIGS_PATH`: Colon separated list of paths to look for config packages.
+ - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
+
+These packages will be available in the Skiff system.
+
+### Local Overrides
+
+It's often useful to be able to adjust the buildroot, kernel, or other
+configurations locally during development without actually creating a new
+configuration layer. This can be easily done with the overrides system.
+
+The `overrides` directory, as well as the
+`overrides/workspaces/$SKIFF_WORKSPACE` directory, are automatically used as
+additional Skiff configuration packages. You can follow the Skiff configuration
+package format as defined below to override any of the settings in Buildroot or
+the Linux kernel, add extra Buildroot packages, add build hooks, etc.
+
+## Skiff Core
+
+[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
+
+Users can work within a familiar, traditional, persistent OS environment if
+desired. This is called the "core" user within Skiff. If this feature is
+enabled:
+
+ - On first boot, the system will build the **core** container image.
+ - The correct base image for the architecture is selected.
+ - The default image contains Ubuntu and systemd.
+ - SSH connections to the **core** user are dropped into the Docker container.
+ - SSH connections are limited to public keys only (on default).
+ - Unlimited containers, users, or images can be specified in YAML config.
+
+This allows virtually any workflow to be migrated to Skiff. The config file
+structure is flexible, and allows for any number of containers, users, and
+images to be defined and built.
+
+Any existing GNU/Linux system with compatibility with the running kernel version
+can be loaded as a Docker image with the `docker import` command.
+
+To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
+list.
+
+To customize the core environment, edit the file at `skiff/core/config.yaml` on
+the persist partition. The default config will be placed there on first boot.
+
+The default config can be overridden with a file at
+`/opt/skiff/coreenv/defconfig.yaml`.
+
+## Workspaces
+
+Workspaces allow you to configure and compile multiple systems in tandem.
+
+Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
+Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
+also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
+override settings for that particular workspace locally.
 
 ## Virtualization
 
@@ -347,14 +366,13 @@ This workflow is similar to how Skiff Core drops SSH sessions into Docker
 containers as an optional feature.
 
 ```bash
-# Replace arm32v6/alpine with alpine if on x86 or amd64 systems
 docker run \
 	--name=work -d \
     --pid=host --uts=host --net=host \
     --privileged \
     -v /:/root-fs -v /dev:/dev \
     --privileged \
-    arm32v6/alpine:edge \
+    alpine:edge \
     bin/sleep 99999
     
 # Execute a shell in the container.
