@@ -10,7 +10,7 @@ MacBook], PineBook), Containers, or [Cloud VMs].
 
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
-[Desktop PCs]: https://linux-hardware.org/?probe=4c1dbd1f66
+[Desktop PCs]: https://linux-hardware.org/?probe=01913b80b3
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
 [Odroid]: https://linux-hardware.org/?probe=7f6a71b553
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
