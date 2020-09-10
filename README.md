@@ -15,7 +15,7 @@ MacBook], PineBook), Containers, or [Cloud VMs].
 [Odroid]: https://linux-hardware.org/?probe=7f6a71b553
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 
-![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=stable)
 
 [Buildroot], an industry-adopted embedded GNU/Linux cross-compiler tool,
 produces a build optimized & tuned for the underlying compute hardware or
