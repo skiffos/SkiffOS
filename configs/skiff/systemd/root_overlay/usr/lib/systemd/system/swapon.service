@@ -4,5 +4,5 @@ Requires=skiff-init.service
 After=skiff-init.service
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/opt/skiff/scripts/enable-swap.sh
