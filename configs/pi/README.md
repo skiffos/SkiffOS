@@ -4,23 +4,22 @@ These configurations target the Raspberry Pi family of boards.
 
 ## Board Compatibility
 
-There are specific packages tuned to each Pi model. However, certain packages
-are forwards or backwards compatible.
+There are specific packages tuned to each Pi model.
 
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
 | [Pi 0]          | pi/0               |
-| [Pi 1]          | pi/1 or pi/3       |
+| [Pi 1]          | pi/1               |
 | [Pi 2]          | pi/3               |
-| [Pi 3]          | pi/3 or pi/4       |
-| [Pi 4]          | pi/4 or pi/3       |
-| [Pi 4] - 64 bit | pi/4x64            |
+| [Pi 3]          | pi/3               |
+| [Pi 4]          | pi/4x64 or pi/4    |
+| [Pi 4] - 32bit  | pi/4x32            |
 
-[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
-[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
-[Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
-[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
+[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 
 ## Note: config.txt
 
@@ -70,7 +69,7 @@ max_usb_current=1
 ```
 
 
-## TODO config sections and universal config package
+## Config.txt Conditional Sections
 
 The config.txt file supports conditional sections:
 
@@ -81,7 +80,4 @@ The config.txt file supports conditional sections:
  - `[pi4]`:	Model 4B
  - `[pi0]`:	Zero, Zero W, Zero WH
  - `[pi0w]`:	Zero W, Zero WH
-
-Skiff could have a "universal" pi/all configuration which targets all major
-boards with conditional loading of the uimage depending on 32bit or 64bit OS.
 
