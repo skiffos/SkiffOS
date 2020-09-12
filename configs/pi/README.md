@@ -4,23 +4,22 @@ These configurations target the Raspberry Pi family of boards.
 
 ## Board Compatibility
 
-There are specific packages tuned to each Pi model. However, certain packages
-are forwards or backwards compatible.
+There are specific packages tuned to each Pi model.
 
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
 | [Pi 0]          | pi/0               |
-| [Pi 1]          | pi/1 or pi/3       |
+| [Pi 1]          | pi/1               |
 | [Pi 2]          | pi/3               |
-| [Pi 3]          | pi/3 or pi/4       |
-| [Pi 4]          | pi/4 or pi/3       |
-| [Pi 4] - 64 bit | pi/4x64            |
+| [Pi 3]          | pi/3               |
+| [Pi 4]          | pi/4x64 or pi/4    |
+| [Pi 4] - 32bit  | pi/4x32            |
 
-[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
-[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
-[Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
-[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
+[Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
+[Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+[Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 
 ## Note: config.txt
 
@@ -69,3 +68,14 @@ force_turbo=1
 max_usb_current=1
 ```
 
+## Config.txt Conditional Sections
+
+The config.txt file supports conditional sections:
+
+ - `[pi1]`:	Model A, Model B, Compute Module
+ - `[pi2]`:	Model 2B (BCM2836- or BCM2837-based)
+ - `[pi3]`:	Model 3B, Model 3B+, Model 3A+, Compute Module 3
+ - `[pi3+]`:	Model 3A+, Model 3B+
+ - `[pi4]`:	Model 4B
+ - `[pi0]`:	Zero, Zero W, Zero WH
+ - `[pi0w]`:	Zero W, Zero WH
