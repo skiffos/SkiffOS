@@ -10,9 +10,9 @@ MacBook], PineBook), Containers, or [Cloud VMs].
 
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
-[Desktop PCs]: https://linux-hardware.org/?probe=01913b80b3
+[Desktop PCs]: https://linux-hardware.org/?probe=267ab5de51
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
-[Odroid]: https://linux-hardware.org/?probe=7f6a71b553
+[Odroid]: https://linux-hardware.org/?probe=927be03a24
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 
 ![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=stable)
