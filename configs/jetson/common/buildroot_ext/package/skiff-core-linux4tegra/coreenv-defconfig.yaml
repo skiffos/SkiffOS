@@ -16,7 +16,6 @@ containers:
       - /mnt/persist/nvidia-docker:/var/lib/docker
       - /mnt:/mnt
       - /run/udev:/run/udev
-      - /mnt/persist/skiff/core/ecryptfs:/home/.ecryptfs
     privileged: true
     restartPolicy: "always"
     securityOpt:
