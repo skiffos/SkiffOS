@@ -5,8 +5,9 @@
 ## Introduction
 
 Skiff compiles a lightweight operating system for any Linux-compatible computer,
-ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], laptops ([Apple
-MacBook], PineBook), Containers, or [Cloud VMs].
+ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], laptops (i.e.
+[Apple MacBook]), Containers, or [Cloud VMs]. The OS runs from memory, and
+containers are used for user environments.
 
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
@@ -17,14 +18,13 @@ MacBook], PineBook), Containers, or [Cloud VMs].
 
 ![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
 
-[Buildroot], an industry-adopted embedded GNU/Linux cross-compiler tool,
+[Buildroot] - an industry-adopted embedded GNU/Linux cross-compiler tool -
 produces a build optimized & tuned for the underlying compute hardware or
-virtualization environment. The target operating system can contain
-containerization or virtualization tools, which mount persistent storage.
+virtualization environment.
 
 [Buildroot]: https://buildroot.org
 
-There are three release channels: *next*, *master* / *main*, and *stable*.
+There are three release channels: **next**, **master**, and **stable**.
 
 Skiff can be upgraded or downgraded (rolled back) independently from the
 persistent storage partition. This allows for easy OTA, and significant
