@@ -32,6 +32,12 @@ $ SKIFF_NVIDIA_USB_FLASH=confirm make cmd/nvidia/tegra/flashusb
 
 The board will boot up into Skiff.
 
+Note: the "flashusb" recovery mode flashing approach will overwrite the
+"persist" data as well. This is a limitation of the flashing process and
+partition layout on the internal emmc. Read "flashing" below for info. The best
+approach for OTA update is to replace the "image" and "rootfs.cpio.gz" and
+"modules.squashfs" (if skiff/moduleimg is used) files on the running system.
+
 ## Board Compatibility
 
 There are specific packages tuned to each model.
@@ -82,7 +88,11 @@ persist + boot-up partition mmcblk0p1. This may overwrite your existing work so
 use it for initial setup only.
 
 After Skiff is installed, the system can be OTA updated by replacing the "Image"
-and "initrd" files.
+and "initrd" files. The flash script will overwrite the entire persist
+partition. This is due to a limitation in the flashing process: the jetson
+internal EMMC partition layout has a single "app" partition. The recovery mode
+is used to flash a ext4 image to that partition containing the system files.
+Partial flashing would need separate partitions to work correctly.
 
 It's possible to flash only u-boot by modifying the flash.sh script, and a
 target for this will be added to Skiff later on.
@@ -102,7 +112,7 @@ A "secure boot" process is used, with multiple bootloaders:
  
 Uboot is flashed to the mmcblk0p1 emmc partition. Skiff compiles u-boot properly
 for the boards, however it's not necessary to flash u-boot to begin using it.
-There are scripts included designed to "upgrade** a factory-flashed TX2 Ubuntu
+There are scripts included designed to "upgrade" a factory-flashed TX2 Ubuntu
 system to use Skiff, by overwriting the contents of the rootfs partition.
 
 Cboot could be compiled from source, and the source is available from the
