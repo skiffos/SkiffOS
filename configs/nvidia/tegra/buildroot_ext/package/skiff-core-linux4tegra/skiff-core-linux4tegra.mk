@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_LINUX4TEGRA_DEPENDENCIES = skiff-core
+SKIFF_CORE_LINUX4TEGRA_DEPENDENCIES = skiff-core skiff-core-defconfig
 
 define SKIFF_CORE_LINUX4TEGRA_INSTALL_COREENV
 	mkdir -p $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-linux4tegra
@@ -14,6 +14,6 @@ define SKIFF_CORE_LINUX4TEGRA_INSTALL_COREENV
 	touch $(TARGET_DIR)/opt/skiff/coreenv/.overridden
 endef
 
-SKIFF_CORE_LINUX4TEGRA_FINALIZE_HOOKS += SKIFF_CORE_LINUX4TEGRA_INSTALL_COREENV
+SKIFF_CORE_LINUX4TEGRA_POST_INSTALL_TARGET_HOOKS += SKIFF_CORE_LINUX4TEGRA_INSTALL_COREENV
 
 $(eval $(generic-package))

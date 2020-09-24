@@ -15,7 +15,7 @@ config BR2_PACKAGE_SKIFF_CORE
 	  on embedded systems. It allows users to work inside familiar environments
 	  in a modular and easy to configure way.
 
-	  https://github.com/paralin/skiff-core
+	  https://github.com/skiffos/skiff-core
 
 comment "skiff-core needs a glibc or musl toolchain w/ threads"
 	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS

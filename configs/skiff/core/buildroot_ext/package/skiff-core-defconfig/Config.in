@@ -1,5 +1,5 @@
-config BR2_PACKAGE_SKIFF_CORE_LINUX4TEGRA
-	bool "skiff-core-linux4tegra"
+config BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
+	bool "skiff-core-defconfig"
 	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
 	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
 	depends on BR2_TOOLCHAIN_HAS_THREADS
@@ -11,13 +11,12 @@ config BR2_PACKAGE_SKIFF_CORE_LINUX4TEGRA
 	select BR2_PACKAGE_IPTABLES # skiff-core
 	select BR2_PACKAGE_SQLITE # skiff-core
 	select BR2_PACKAGE_SKIFF_CORE
-	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	help
-	  Skiff Core environment defconfig for NVIDIA Jetson.
+	  Skiff Core environment default config.
 
 	  https://github.com/skiffos/skiff-core
 
-comment "skiff-core-linux4tegra needs a glibc toolchain w/ threads"
+comment "skiff-core-defconfig needs a glibc toolchain w/ threads"
 	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
 	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
 	depends on !BR2_TOOLCHAIN_HAS_THREADS || !BR2_TOOLCHAIN_USES_GLIBC
