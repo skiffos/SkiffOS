@@ -1,4 +1,4 @@
-# Documented at https://github.com/paralin/skiff-core
+# Documented at https://github.com/skiffos/skiff-core
 images:
   skiff/core:latest:
     build:

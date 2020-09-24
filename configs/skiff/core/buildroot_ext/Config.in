@@ -1,1 +1,2 @@
 source "$BR2_EXTERNAL_SKIFF_CORE_PATH/package/skiff-core/Config.in"
+source "$BR2_EXTERNAL_SKIFF_CORE_PATH/package/skiff-core-defconfig/Config.in"
