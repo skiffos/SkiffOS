@@ -52,7 +52,7 @@ mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
 # echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
-if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_DEVICE $PERSIST_MNT; then
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_MNT_FLAGS $PERSIST_DEVICE $PERSIST_MNT; then
   echo "Persist drive is at $PERSIST_MNT path $PERSIST_ROOT"
   mkdir -p $PERSIST_ROOT/internal
   mkdir -p $SKIFF_PERSIST
@@ -97,7 +97,10 @@ else
 fi
 
 mkdir -p $ROOTFS_MNT
-if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount -o ro $ROOTFS_DEVICE $ROOTFS_MNT; then
+if [ -z "$ROOTFS_MNT_FLAGS" ]; then
+    ROOTFS_MNT_FLAGS="-o ro"
+fi
+if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount $ROOTFS_MNT_FLAGS $ROOTFS_DEVICE $ROOTFS_MNT; then
   echo "Rootfs drive at $ROOTFS_MNT"
 else
   echo "Unable to find drive ${ROOTFS_DEVICE}!"
