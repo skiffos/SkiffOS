@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723cs/Config.in"
+source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723bt-firmware/Config.in"

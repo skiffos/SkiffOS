@@ -1,0 +1,62 @@
+# Set the boot state LEDs.
+gpio set 98
+gpio set 114
+
+# Select boot device
+if test ${mmc_bootdev} -eq 0 ; then
+  echo "Booting from SD";
+  setenv bootdev 0;
+else
+  echo "Booting from eMMC";
+  setenv bootdev 2;
+fi;
+
+# U-Boot Parameters
+setenv initrd_high "0xffffffff"
+setenv fdt_high "0xffffffff"
+
+# setenv silent 1
+setenv condev "console=tty0 console=ttyS0,115200n8 earlycon=uart,mmio32,0x01c28000"
+setenv verify 0
+setenv bootlogo "false"
+
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x46000000"
+setenv dtb_addr_r "0x44000000"
+
+#---------------------------------
+# Boots from memory.
+# --------------------------------
+setenv bootmem "root=/dev/ram0 ro ramdisk_size=100000"
+
+# base kernel config options
+setenv baseconfig "fsck.repair=yes consoleblank=0 no_console_suspend cma=256M splash plymouth.ignore-serial-consoles"
+
+# CPU Governor Selection
+# Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# External watchdog board enable
+setenv external_watchdog "false"
+# debounce time set to 3 ~ 10 sec, default 3 sec
+setenv external_watchdog_debounce "3"
+
+# Load kernel, initrd and dtb in that sequence
+fatload mmc ${mmc_bootdev}:1 ${kernel_addr_r} Image
+fatload mmc ${mmc_bootdev}:1 ${initramfs_addr_r} rootfs.cpio.uboot
+fatload mmc ${mmc_bootdev}:1 ${dtb_addr_r} sun50i-a64-pinephone-1.2.dtb
+
+gpio set 115
+fdt addr ${dtb_addr_r}
+fdt resize
+
+if test "${external_watchdog}" = "true"; then setenv external_watchdog "external_watchdog=${external_watchdog} external_watchdog_debounce=${external_watchdog_debounce}"; fi                                       
+# final boot args
+setenv bootargs "${bootmem} ${condev} ${baseconfig} ${external_watchdog} governor=${governor}"
+
+# change LED
+gpio set 116
+gpio clear 98
+
+# Boot the board
+booti ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}

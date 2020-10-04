@@ -1,0 +1,8 @@
+config BR2_PACKAGE_RTL8723BT_FIRMWARE
+	bool "rtl8723bt-firmware"
+	help
+	  This package provides binary firmware files (closed blobs)
+	  for rtl8723bt cards.
+
+	  https://github.com/paralin/rtl8723bt-firmware
+
