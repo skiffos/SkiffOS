@@ -1,0 +1,11 @@
+comment "rtl8723cs needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
+
+config BR2_PACKAGE_RTL8723CS
+	bool "rtl8723cs"
+	depends on BR2_LINUX_KERNEL
+	select BR2_PACKAGE_RTL8723BT_FIRMWARE
+	help
+	  rtl8723cs wifi driver
+
+	  https://github.com/paralin/rtl8723cs
