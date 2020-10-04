@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_PINEPHONE_NEON_PATH/package/skiff-core-pinephone-neon/Config.in"

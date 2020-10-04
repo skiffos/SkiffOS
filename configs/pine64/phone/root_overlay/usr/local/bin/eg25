@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# megi's new new modem driver
+if [ "$1" == "up" ]; then
+	echo 1 > /sys/class/modem-power/modem-power/device/powered
+	while [ "`cat /sys/class/modem-power/modem-power/device/powered`" == "0" ]; do
+		echo -n "."
+		sleep 1
+	done
+	echo "done."
+elif [ "$1" == "down" ]; then
+	echo 0 > /sys/class/modem-power/modem-power/device/powered
+	echo -n "Waiting for modem to shutdown"
+	while [ "`cat /sys/class/modem-power/modem-power/device/powered`" == "1" ]; do
+		echo -n "."
+		sleep 1
+	done
+	echo "done."
+fi
+
+if [ "$1" == "up" ]; then
+	echo "Running AT commands"
+
+	# Enable Ring Indicator GPIO wakeup
+	echo "AT+QCFG=\"risignaltype\",\"physical\"" | /usr/local/bin/atinout - /dev/ttyUSB2 -
+
+	# Set URC port (Unsolicited Result Code)
+	echo "AT+QURCCFG=\"urcport\",\"usbat\"" | /usr/local/bin/atinout - /dev/ttyUSB2 -
+
+	# Configure AutoSelect, Enable VoLTE, Reset Modem
+	echo "AT+QMBNCFG=\"AutoSel\",1" | atinout - /dev/ttyUSB2 -
+	echo "AT+QCFG=\"ims\",1" | atinout - /dev/ttyUSB2 -
+	echo 'AT+CFUN=1,1' | atinout - /dev/ttyUSB2 -
+
+	# Enable modem to enter sleep mode
+	echo "AT+QSCLK=1" | /usr/local/bin/atinout - /dev/ttyUSB2 -
+fi
+

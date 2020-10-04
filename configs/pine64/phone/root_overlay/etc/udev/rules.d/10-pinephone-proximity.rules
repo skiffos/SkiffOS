@@ -1,0 +1,2 @@
+# iio-sensor-proxy
+ACTION=="add", SUBSYSTEM=="iio", TEST=="in_proximity_raw", ENV{PROXIMITY_NEAR_LEVEL}="250"
