@@ -157,6 +157,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 1]              | pi/1               | N/A                  | ✔ 5.4.65        |                        |
 | [Pi 3] (and 1/2)    | pi/3               | N/A                  | ✔ 5.4.65        |                        |
 | [Pi 4]              | pi/4               | N/A                  | ✔ 5.4.65        |                        |
+| [PinePhone]         | pine64/phone       | ✔ U-Boot Mainline    | ✔ 5.8.0         |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
@@ -180,6 +181,7 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[PinePhone]: https://www.pine64.org/pinephone/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
 

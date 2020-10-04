@@ -1,0 +1,16 @@
+[Unit]
+Description=PinePhone EG25 Modem Startup & Shutdown
+Documentation=http://
+After=syslog.target
+Before=ModemManager.service
+Wants=ModemManager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/eg25 up
+RemainAfterExit=true
+ExecStop=/usr/local/bin/eg25 down
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
