@@ -85,6 +85,6 @@ sleep 1
 echo "Flashing u-boot..."
 
 echo "u-boot fusing"
-dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
+dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=8 bs=1024 ${SD_FUSE_DD_ARGS}
 
 cd -
