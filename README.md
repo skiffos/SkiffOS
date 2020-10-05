@@ -1,5 +1,3 @@
-# SkiffOS
-
 ![](./resources/images/skiff.png)
 
 ## Introduction
