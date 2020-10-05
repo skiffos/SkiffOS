@@ -1,0 +1,42 @@
+containers:
+  core:
+    image: skiffos/skiff-core-gentoo:latest
+    tty: true
+    disableInit: true
+    workingDirectory: /home/core
+    mounts:
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+      - /mnt/persist/core-docker:/var/lib/docker
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/skiff/core/repos/gentoo:/var/db/repos/gentoo
+      - /mnt/persist/skiff/core/repos/distfiles:/var/cache/distfiles
+      - /mnt/persist/skiff/core/repos/binpkgs:/var/cache/binpkgs
+      - /mnt/persist/skiff/core/repos/portage-build:/var/tmp/portage
+      - /mnt/persist/skiff/core/repos/linux:/usr/src
+    privileged: true
+    restartPolicy: "always"
+    dns:
+      - "8.8.8.8"
+      - "8.8.4.4"
+    capAdd:
+      - ALL
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    securityOpt:
+      - seccomp=unconfined
+users:
+  core:
+    container: core
+    containerUser: core
+    containerShell:
+      - "/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+  skiffos/skiff-core-gentoo:latest:
+    build:
+      source: /opt/skiff/coreenv/skiff-core-gentoo
+      squash: true
