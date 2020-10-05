@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Skiff compiles a lightweight operating system for any Linux-compatible computer,
+Skiff compiles a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
 [Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs].
 
@@ -11,6 +11,7 @@ This brings unparalleled boot-up reliability and easy OTA updates. The
 cross-compiled system is identical across any underlying compute platform.
 Device support and additional features are organized into configuration layers.
 
+[any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
 [Desktop PCs]: https://linux-hardware.org/?probe=267ab5de51
