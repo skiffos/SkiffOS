@@ -54,7 +54,7 @@ RUN \
   eselect profile set "default/linux/amd64/17.1/systemd" && \
   emerge --oneshot --nodeps portage && \
   emerge --oneshot --with-bdeps=y --update portage && \
-  (emerge -uDU --with-bdeps=y --autounmask-write --autounmask-backtrack=y @world) && \
+  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
   (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
   rm -rf /var/cache/distfiles/* /etc/xdg/autostart/* /var/db/repos/gentoo
 
