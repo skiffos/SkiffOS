@@ -11,8 +11,11 @@ while read -r line; do
   # line contains THING=value
   varname=$(echo "$line" | cut -d= -f1)
   ppath=$(echo "$line" | cut -d= -f2)
-  confpackfull=$(echo "$varname" | rev | cut -d_ -f -2 | rev)
-  packname=$(echo "$confpackfull" | tr '[:upper:]' '[:lower:]' | sed "s#_#/#g")
+  varnamesuffix=$(echo "$varname" | sed -e "s/^$SKIFF_PACKAGE_ENV_PREFIX//")
+  # confpackfull=$(echo "$varname" | rev | cut -d_ -f -3 | rev)
+  # packname=$(echo "$confpackfull" | tr '[:upper:]' '[:lower:]' | sed "s#_#/#g")
+  varnamen="${SKIFF_PACKAGE_NAME_ENV_PREFIX}${varnamesuffix}"
+  packname="${!varnamen}"
 
   descripp="$ppath/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_DESCRIPTION"
   nolist="$ppath/$SKIFF_CONFIG_METADATA_SUBDIR/$SKIFF_CONFIG_METADATA_NOLIST"

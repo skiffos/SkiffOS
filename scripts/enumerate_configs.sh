@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eo pipefail
 
 . ../scripts/utils.sh
@@ -18,12 +18,11 @@ containsElement () {
   return 1
 }
 
-SKIFF_MAGIC_PREFIX="${SKIFF_PACKAGE_ENV_PREFIX}"
-
 # Converts odroid/xu4 to SKIFF_CONFIG_PATH_ODROID_XU4
 path_to_var () {
-  partb=$(echo $1 | tr '[:lower:]' '[:upper:]' | sed "s#/#_#")
-  echo "${SKIFF_MAGIC_PREFIX}${partb}"
+  parta=$(echo $1)
+  partb=$(echo $2 | tr '[:lower:]' '[:upper:]' | sed "s#/#_#")
+  echo "${parta}${partb}"
 }
 
 SKIFF_CONFIGS_PATH="$(pwd)"
@@ -59,11 +58,12 @@ while [ "$var" ] ;do
     pack=${packages%%:*}
     # Pack contains odroid/xu4
     # First check for invalid chars
-    if [[ "$pack" =~ [^a-zA-Z0-9/\\] ]]; then
+    if [[ "$pack" =~ [^a-zA-Z0-9/\\_] ]]; then
       echo "! [$pack] (ignored, invalid characters)"
     else
       # convert it to a var
-      confvarn=$(path_to_var "$pack")
+      confvarn=$(path_to_var "${SKIFF_PACKAGE_ENV_PREFIX}" "$pack")
+      confnamevarn=$(path_to_var "${SKIFF_PACKAGE_NAME_ENV_PREFIX}" "$pack")
 
       # confvarn contains SKIFF_CONFIG_PATH_ODROID_XU4
       # set it if not already set
@@ -76,6 +76,7 @@ while [ "$var" ] ;do
       if [ -z "${!confvarn}" ]; then
         echo " > [$pack] [$conffp]"
         export ${confvarn}="$conffp"
+        export ${confnamevarn}="$pack"
       else
         echo " ! [$pack] [$iter] (duplicate, ignored)"
       fi
@@ -112,7 +113,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
     SKIFF_CONFIGS_FINAL=()
     for conf in "${SKIFF_CONFIGS[@]}"; do
       # Filter it to make sure it's actually valid
-      if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
+      if [ -z "$(echo $conf | grep '^[[:alnum:]]\{1,100\}/.*$')" ]; then
         (>&2 echo " ! [$conf] Invalid config, should be category/name. Ignored.")
         continue
       fi
@@ -122,7 +123,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
         continue
       fi
       conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
-      path_var="${SKIFF_MAGIC_PREFIX}${conf_full}"
+      path_var="${SKIFF_PACKAGE_ENV_PREFIX}${conf_full}"
       conf_path="${!path_var}"
       if [ -z "$conf_path" ]; then
         (>&2 echo " ! [$conf] Unknown path! $path_var not set.")
