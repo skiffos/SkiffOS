@@ -53,7 +53,7 @@ $RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
 if [ -f ${WS}/zImage ]; then
   $RS ${WS}/zImage $SSHSTR:/mnt/boot/zImage
 else
-  $RS ${WS}/Image $SSHSTR:/mnt/boot/zImage
+  $RS ${WS}/Image $SSHSTR:/mnt/boot/Image
 fi
 $RS ${WS}/*.dtb $SSHSTR:/mnt/boot/
 if [ -d ${WS}/rpi-firmware ]; then
