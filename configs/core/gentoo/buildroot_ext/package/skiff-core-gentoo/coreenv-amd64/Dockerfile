@@ -10,13 +10,6 @@ ARG DIST="http://distfiles.gentoo.org/releases/amd64/autobuilds"
 # ARG STAGE3PATH="stage3-amd64-systemd-20200722T214503Z.tar.xz"
 ARG SIGNING_KEY="0xBB572E0E2D182910"
 
-# for arm64
-# ARG ARCH=arm64
-# ARG MICROARCH=arm64
-# ARG DIST="http://distfiles.gentoo.org/experimental/arm/${ARCH}"
-# ARG SIGNING_KEY="13EBBDBEDE7A12775DFDB1BABB572E0E2D182910"
-# ARG STAGE3PATH=stage3-arm64-20200609.tar.bz2
-
 ENV GENTOO_ARCH ${ARCH}
 
 RUN echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${DIST}" \
@@ -50,25 +43,20 @@ ENV LC_ALL C.UTF-8
 ENV container docker
 
 COPY ./make.conf ./package.accept_keywords /etc/portage/
-RUN emerge-webrsync
+COPY ./package.use /etc/portage/package.use/01-standard
+COPY ./world /var/lib/portage/world
 
 # pass 1: base build env
+# pass 2: update packages
+# be failure tolerant here. we can deal with it later.
 RUN \
+  emerge-webrsync && \
   eselect profile set "default/linux/amd64/17.1/systemd" && \
   emerge --oneshot --nodeps portage && \
-  emerge --oneshot --with-bdeps=y --update portage
-
-# pass 2: update packages
-COPY ./package.use /etc/portage/package.use/01-standard
-RUN \
+  emerge --oneshot --with-bdeps=y --update portage && \
   (emerge -uDU --with-bdeps=y --autounmask-write --autounmask-backtrack=y @world) && \
-  emerge --autounmask-write sudo app-portage/gentoolkit && \
-  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/*
-
-COPY ./world /var/lib/portage/world
-# be failure tolerant here. we can deal with it later.
-RUN (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
-  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/*
+  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
+  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/* /var/db/repos/gentoo
 
 # Create the user which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
