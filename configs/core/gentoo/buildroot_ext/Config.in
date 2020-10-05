@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_GENTOO_PATH/package/skiff-core-gentoo/Config.in"
