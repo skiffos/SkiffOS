@@ -1,4 +1,3 @@
-app-admin/lastpass-cli
 app-admin/sudo
 app-arch/p7zip
 app-arch/unrar
@@ -6,8 +5,10 @@ app-editors/emacs
 app-editors/vim
 app-emulation/docker
 app-emulation/qemu
+app-eselect/eselect-repository
 app-misc/jq
 app-misc/screen
+app-misc/tmux
 app-portage/cpuid2cpuflags
 app-portage/eix
 app-portage/gentoolkit
@@ -21,9 +22,6 @@ dev-libs/libconfig
 dev-libs/protobuf
 dev-python/pip
 dev-python/virtualenv
-dev-tex/latexmk
-dev-texlive/texlive-latexextra
-dev-texlive/texlive-latexrecommended
 dev-util/cmake
 dev-util/cppunit
 dev-vcs/bfg
@@ -36,7 +34,6 @@ media-fonts/croscorefonts
 media-fonts/liberation-fonts
 media-gfx/feh
 media-gfx/gif2png
-media-gfx/graphviz
 media-gfx/imagemagick
 media-gfx/pstoedit
 media-gfx/xdot
@@ -75,6 +72,7 @@ sys-block/ms-sys
 sys-devel/gcc
 sys-devel/gdb
 sys-fs/dosfstools
+sys-fs/ecryptfs-utils
 sys-fs/fuse
 sys-libs/timezone-data
 sys-libs/zlib
@@ -84,8 +82,7 @@ sys-process/htop
 sys-process/lsof
 virtual/ffmpeg
 virtual/ssh
-www-client/firefox
-www-client/google-chrome
+www-client/chromium
 x11-apps/setxkbmap
 x11-apps/xbacklight
 x11-apps/xclock
