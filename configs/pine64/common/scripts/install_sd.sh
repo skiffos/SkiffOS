@@ -21,7 +21,7 @@ images_path="${outp_path}/images"
 
 img_path="${images_path}/Image"
 zimg_path="${images_path}/zImage"
-uinit_path="${images_path}/rootfs.cpio.uboot"
+uinit_path="${images_path}/rootfs.cpio.gz"
 dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
 
 source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
