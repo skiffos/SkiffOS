@@ -67,6 +67,7 @@ RUN systemctl set-default graphical.target && \
          -or -name '*systemd-sysctl*' \
          -or -name '*.mount' \
          -or -name '*remote-fs*' \) \
+         -or -name '*rngd*' \) \
          -exec echo \{} \; \
          -exec rm \{} \;
 
