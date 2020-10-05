@@ -2,9 +2,7 @@ FROM alpine:3.11 as builder
 
 WORKDIR /gentoo
 
-# ARG ARCH=amd64
 ARG ARCH=arm64
-# ARG MICROARCH=amd64
 ARG MICROARCH=arm64
 ARG SUFFIX
 # ARG DIST="https://ftp-osl.osuosl.org/pub/gentoo/releases/${ARCH}/autobuilds"
@@ -35,35 +33,23 @@ FROM stage3
 # setup environment
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-ENV TERM xterm
 ENV container docker
 
-#COPY ./repos.conf /usr/share/portage/config/repos.conf
-COPY ./make.conf /etc/portage/
-RUN (rm -rf /usr/gentoo /var/cache/distfiles /var/cache/binpkgs || true) && emerge-webrsync
+COPY ./make.conf ./package.accept_keywords /etc/portage/
+COPY ./package.use /etc/portage/package.use/01-standard
+COPY ./world /var/lib/portage/world
 
 # pass 1: base build env
-COPY ./make.conf ./package.accept_keywords ./package.license /etc/portage/
-RUN \
-  emerge --oneshot --nodeps portage && \
-  emerge --oneshot --with-bdeps=y --update portage
-
 # pass 2: update packages
-COPY ./package.use /etc/portage/package.use/01-standard
+# be failure tolerant here. we can deal with it later.
 RUN \
-  (emerge -uDU --with-bdeps=y --autounmask-write --autounmask-backtrack=y @world || true) && \
-  (emerge --autounmask-write sudo app-portage/gentoolkit || true) && \
-  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/*
-
-RUN (emerge -uDU --with-bdeps=y --autounmask-write --keep-going @world || true) && \
-    (emerge --autounmask-write \
-      sudo app-portage/gentoolkit dev-vcs/git app-portage/repoman || true) && \
-    rm -rf /var/cache/distfiles/* /etc/xdg/autostart/*
-
-COPY ./world /var/lib/portage/world
-RUN (emerge -uDU --with-bdeps=y --keep-going --autounmask-write @world || true); \
-  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/*; \
-  (rm -rf /var/db/repos/gentoo || true)
+  emerge-webrsync && \
+  eselect profile set "default/linux/arm64/17.0/systemd" && \
+  emerge --oneshot --nodeps portage && \
+  emerge --oneshot --with-bdeps=y --update portage && \
+  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
+  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
+  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/* /var/db/repos/gentoo
 
 # Create the user which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
