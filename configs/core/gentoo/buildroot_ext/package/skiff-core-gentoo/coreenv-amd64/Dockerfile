@@ -63,7 +63,6 @@ RUN \
 RUN groupadd sudo && \
   useradd \
   -G audio,dialout,sudo \
-  # -s /bin/bash \
   core && \
   mkdir -p /home/core/ && \
   chown core:core /home/core && \
