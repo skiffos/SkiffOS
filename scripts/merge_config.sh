@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #  merge_config.sh - Takes a list of config fragment values, and merges
 #  them one by one. Provides warnings on overridden values, and specified
 #  values that did not make it to the resulting .config file (due to missed
