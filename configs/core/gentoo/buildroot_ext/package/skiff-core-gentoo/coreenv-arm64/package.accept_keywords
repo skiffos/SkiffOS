@@ -32,3 +32,26 @@ net-libs/libosmo-dsp ~amd64
 dev-libs/nss ~amd64
 media-libs/libvpx ~amd64
 media-libs/libwebp ~amd64
+www-client/chromium ~arm
+media-video/ffmpeg ~arm
+dev-util/gn ~arm
+virtual/jre ~arm
+virtual/jdk ~arm
+dev-java/openjdk-bin ~arm
+sys-apps/baselayout-java ~arm
+dev-libs/libffi-compat ~arm
+
+# autounmasked
+
+# required by dev-java/openjdk-bin-8.265_p01::gentoo
+# required by virtual/jdk-1.8.0-r5::gentoo
+# required by virtual/jre-1.8.0-r3::gentoo
+# required by www-client/chromium-87.0.4278.0::paralin
+# required by chromium (argument)
+=dev-java/java-config-2.3.1 ~arm
+# required by dev-java/openjdk-bin-8.265_p01::gentoo
+# required by virtual/jdk-1.8.0-r5::gentoo
+# required by virtual/jre-1.8.0-r3::gentoo
+# required by www-client/chromium-87.0.4278.0::paralin
+# required by chromium (argument)
+=app-eselect/eselect-java-0.4.2 ~arm
