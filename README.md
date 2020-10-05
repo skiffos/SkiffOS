@@ -4,7 +4,7 @@
 
 Skiff compiles a lightweight operating system for any Linux-compatible computer,
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
-[Apple MacBook]), Phones ([PinePhone]), Containers, or [Cloud VMs].
+[Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs].
 
 Skiff builds a minimal system to host containers while running fully from RAM.
 This brings unparalleled boot-up reliability and easy OTA updates. The
@@ -16,7 +16,7 @@ Device support and additional features are organized into configuration layers.
 [Desktop PCs]: https://linux-hardware.org/?probe=267ab5de51
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
 [Odroid]: https://linux-hardware.org/?probe=927be03a24
-[PinePhone]: https://linux-hardware.org/?probe=329e6f9308
+[Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 
 ![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=stable)
