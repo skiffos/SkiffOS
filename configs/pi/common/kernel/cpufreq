@@ -1,0 +1,4 @@
+# schedutil may cause issues
+# https://github.com/raspberrypi/firmware/issues/1431
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
