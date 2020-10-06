@@ -74,7 +74,7 @@ mounts+=("$persist_dir")
 sudo mount ${PI_SD_SFX}3 $persist_dir
 
 echo "Copying kernel..."
-rsync -v $uimg_path $boot_dir/zImage
+rsync -v $uimg_path $boot_dir/
 sync
 
 echo "Copying rpi-firmware..."
