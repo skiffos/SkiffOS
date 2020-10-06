@@ -10,6 +10,11 @@
 kernel=Image
 initramfs rootfs.cpio.gz
 
+# We always use the same names, the real used variant is selected by
+# BR2_PACKAGE_RPI_FIRMWARE_{DEFAULT,X,CD} choice
+start_file=start.elf
+fixup_file=fixup.dat
+
 # Enable GPIO features
 dtparam=i2c_arm=on
 dtparam=spi=on

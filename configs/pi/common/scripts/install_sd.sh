@@ -16,6 +16,8 @@ if [ ! -b "$PI_SD" ]; then
   exit 1
 fi
 
+echo "Using configuration at $pi_config_txt"
+
 PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p

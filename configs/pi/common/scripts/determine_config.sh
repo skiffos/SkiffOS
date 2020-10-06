@@ -3,13 +3,15 @@
 pi_config_txt=""
 pi_cmdline_txt=""
 config_paths=( ${SKIFF_CONFIG_PATH} )
-for (( idx=${#config_paths[@]}-1 ; idx>=0 ; idx-- )) ; do
-  conf_i_res="${config_paths[idx]}/resources/rpi"
-  if [ ! -d $conf_i_res ]; then
-    continue
+# for (( idx=${#config_paths[@]}-1 ; idx>=0 ; idx-- )) ; do
+for confp in "${config_paths[@]}"; do
+  conf_i_res="${confp}/resources/rpi"
+  if [ -f $conf_i_res/config.txt ]; then
+      pi_config_txt="$conf_i_res/config.txt"
   fi
-  pi_config_txt="$conf_i_res/config.txt"
-  pi_cmdline_txt="$conf_i_res/cmdline.txt"
+  if [ -f $conf_i_res/cmdline.txt ]; then
+      pi_cmdline_txt="$conf_i_res/cmdline.txt"
+  fi
 done
 
 if [ -z "$pi_config_txt" ]; then
