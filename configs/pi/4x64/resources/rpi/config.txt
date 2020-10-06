@@ -7,7 +7,7 @@
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
 
-kernel=zImage
+kernel=Image
 initramfs rootfs.cpio.gz
 
 # Enable GPIO features
