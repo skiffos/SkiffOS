@@ -1,6 +1,8 @@
 containers:
   core:
     image: skiffos/skiff-core-gentoo:latest
+    entrypoint: /lib/systemd/systemd
+    stopSignal: RTMIN+3
     tty: true
     disableInit: true
     workingDirectory: /home/core
