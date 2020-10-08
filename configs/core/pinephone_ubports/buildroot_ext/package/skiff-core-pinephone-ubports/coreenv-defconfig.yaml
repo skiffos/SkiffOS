@@ -6,7 +6,7 @@ containers:
     dns:
       - "8.8.8.8"
       - "8.8.4.4"
-    entrypoint: /lib/systemd/systemd
+    entrypoint: ["/lib/systemd/systemd"]
     hostIPC: true
     hostUTS: true
     hostNetwork: true
