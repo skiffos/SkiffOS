@@ -6,6 +6,7 @@ containers:
     dns:
       - "8.8.8.8"
       - "8.8.4.4"
+    entrypoint: /lib/systemd/systemd
     hostIPC: true
     hostUTS: true
     hostNetwork: true
@@ -21,6 +22,7 @@ containers:
     securityOpt:
       - seccomp=unconfined
     startAfterCreate: true
+    stopSignal: RTMIN+3
     tty: true
     workingDirectory: /home/core
 users:
