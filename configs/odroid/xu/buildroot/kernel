@@ -8,7 +8,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # BR2_LINUX_KERNEL_DEFCONFIG="odroidxu4"
 
 # tobetter odroid-5.8.y branch
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/c1d2c14b492cae835c56c4a830082812c258f4aa/linux-odroidxu4-5.8.10-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/eb0d3b53039a1902ebe03d3664b83cecd943724e/linux-odroidxu4-5.8.12-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_8=y
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
 
