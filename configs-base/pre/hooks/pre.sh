@@ -21,4 +21,5 @@ if [ ! -f ${TARGET_DIR}/etc/buildroot-release ]; then
 fi
 cp ${TARGET_DIR}/etc/skiff-release ${TARGET_DIR}/etc/os-release
 cp ${TARGET_DIR}/etc/skiff-release ${IMAGES_DIR}/skiff-release
+sed -i '/BUILD_CONFIG/d' ${TARGET_DIR}/etc/os-release
 
