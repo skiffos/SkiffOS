@@ -144,7 +144,7 @@ Here are the boards/systems currently supported by Skiff:
 | [BananaPi M2+]      | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.8.14        | ⚠ Untested             |
 | [BananaPi M3]       | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.8.14        |                        |
 | [Intel x86/64]      | intel/x64          | Grub                 | ✔ 5.8.14        |                        |
-| [NVIDIA Jetson TX2] | nvidia/jetsontx2   | ✔ U-Boot Src         | ✔ 4.9.140       | Linux4Tegra 32.4.3     |
+| [NVIDIA Jetson TX2] | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.3     |
 | [Odroid U]          | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ Linux CIP     | ⚠ Untested             |
 | [Odroid HC1]        | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
 | [Odroid HC2]        | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
@@ -168,7 +168,7 @@ Here are the boards/systems currently supported by Skiff:
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
 [Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
-[NVIDIA Jetson TX2]: ./configs/nvidia/tegra
+[NVIDIA Jetson TX2]: ./configs/jetson
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
 [Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
