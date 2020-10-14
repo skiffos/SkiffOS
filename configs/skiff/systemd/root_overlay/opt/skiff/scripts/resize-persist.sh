@@ -10,7 +10,7 @@ for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
     fi
 done
 
-PERSIST_DEV=$(blkid | grep $PERSIST_DEVICE | head -n1 | cut -d: -f1)
+PERSIST_DEV=$(blkid | grep ${PERSIST_DEVICE}: | head -n1 | cut -d: -f1)
 # PERSIST_DEV=/dev/disk/by-label/persist
 if [ ! -b $PERSIST_DEV ]; then
     echo "Cannot find persist device, skipping check."
@@ -38,9 +38,9 @@ echo "Disk detected at ${disk}."
 part_num=$DEVMINOR
 echo "Partition number detected as $part_num"
 disk_part=$PERSIST_DEV
-p2_start=$(fdisk -l $disk -o "DEVICE,START" | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
+p2_start=$(fdisk -l $disk -o "DEVICE,START" | grep -w $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
 echo "Partition start: $p2_start"
-p2_end=$(fdisk -l $disk -o "DEVICE,END" | grep $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
+p2_end=$(fdisk -l $disk -o "DEVICE,END" | grep -w $disk_part | awk '{print $2}' | tr -d '[[:space:]]')
 echo "Partition end: $p2_end"
 disk_size=$(blockdev --getsize $disk)
 echo "Disk size: $disk_size"
@@ -53,9 +53,12 @@ if [ ! $(( $disk_size - $p2_end )) -ge 10485760 ]; then
   exit 0
 fi
 
-p2_new_end=$((disk_size-10))
 
 echo "Resizing $disk_part from $p2_end to $p2_new_end"
+
+# p2_new_end=$((disk_size-10))
+# allow fdisk to select the endpoint by sending -10
+# $p2_new_end
 
 set +e
 fdisk $disk <<EOF
@@ -66,7 +69,10 @@ n
 p
 $part_num
 $p2_start
-$p2_new_end
+-10
+N
+
+
 p
 w
 EOF
