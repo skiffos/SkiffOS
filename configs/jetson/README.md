@@ -1,15 +1,18 @@
 # NVIDIA Linux for Tegra (L4T)
 
-This configuration package `nvidia/jetson` configures Buildroot to produce a BSP
-image for the Jetson TX1, TX2, AGX Xavier, or Nano boards.
+This configuration package configures Buildroot to produce a BSP image for the
+Jetson TX1, TX2, AGX Xavier, or Nano boards.
+
+There are specific configurations for each board, see "Board Compatibility."
 
 References:
 
  - https://elinux.org/Jetson
  - https://github.com/madisongh/meta-tegra
  - https://developer.nvidia.com/embedded/linux-tegra
+ - https://developer.nvidia.com/embedded/faq#jetson-part-numbers
  
-Currently only tested on the TX2. Issue reports welcome.
+Currently tested on the TX2 and Nano. Issue reports welcome.
 
 ## Getting Started
 
@@ -27,7 +30,7 @@ to switch to `sudo bash` for this on most systems.
 ```sh
 $ sudo bash             # switch to root
 # follow the "Flashing" process described below.
-$ SKIFF_NVIDIA_USB_FLASH=confirm make cmd/nvidia/tegra/flashusb
+$ SKIFF_NVIDIA_USB_FLASH=confirm make cmd/jetson/common/flashusb
 ```
 
 The board will boot up into Skiff.
@@ -44,8 +47,10 @@ There are specific packages tuned to each model.
 
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
-| [Jetson TX2]    | nvidia/jetsontx2   |
+| [Jetson Nano]   | jetson/nano        |
+| [Jetson TX2]    | jetson/tx2         |
 
+[Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [Jetson TX2]: https://elinux.org/Jetson_TX2
 
 ## Flashing
@@ -118,20 +123,35 @@ system to use Skiff, by overwriting the contents of the rootfs partition.
 Cboot could be compiled from source, and the source is available from the
 official sources, however, Skiff does not (yet) compile cboot.
 
-## Known Issues
+## Core Image
 
-There are the following known issues:
+The nvidia boards come with a Skiff Core configuration which installs the
+JetPack debs inside the container. This brings in support for the NVIDIA JetPack
+features, even inside the Core docker container, automatically.
 
- - Skiff tegra4linux core image has the following issues:
-   - kde is black-screen after sign in
-   - lxde works fine
-   - chromium-browser works, has acceleration, but YouTube won't play
-   - vlc segfaults
-   - mplayer works but is laggy
-   - gstreamer works (and is accelerated)
+## Partition Layout
 
-The full desktop experience is not quite possible with the l4t based container,
-but we are getting there.
+The required partition layout is somewhat complex and does not provide an
+opportunity for separate "persist" and "boot" partitions as typically used by
+other Skiff boards:
+
+ - **APP**: at mmcblk0p1: contains the main system read-write filesystem.
+ - **TBC**: TegraBoot CPU-side binary.
+ - **RP1**: Bootloader DTB binary.
+ - **EBT**: CBoot, the final boot stage CPU bootloader binary.
+ - **WB0**: Warm boot binary.
+ - **BPF**: SC7 entry firmware.
+ - **BPF-DTB**: Reserved for future use by BPMP DTB binary; can't remove.
+ - **FX**: Reserved for fuse bypass; removeable.
+ - **TOS**: Required. Contains TOS binary.
+ - **DTB**: Contains kernel DTB binary.
+ - **LNX**: Contains U-Boot, which loads and launches the kernel.
+ - **EKS**: Contains "the encrypted keys".
+ - **BMP**: Contains BMP images for splash screen display during boot.
+ - **RP4**: Contains XUSB module’s firmware file, making XUSB a true USB 3.0 host.
+ - **GPT**: Contains secondary GPT of the sdcard device.
+
+Unfortunately, the complex parti
 
 # License Acknowledgment
 

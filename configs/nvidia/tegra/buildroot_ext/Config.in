@@ -1,1 +1,0 @@
-source "$BR2_EXTERNAL_NVIDIA_TEGRA_PATH/package/skiff-core-linux4tegra/Config.in"
