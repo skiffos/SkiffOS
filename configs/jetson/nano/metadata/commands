@@ -1,0 +1,2 @@
+format Formats NVIDIA_SD with partitions and bootloader.
+install Installs a Skiff release to the formatted NVIDIA_SD.

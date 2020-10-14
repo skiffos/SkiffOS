@@ -19,7 +19,7 @@ Currently tested on the TX2 and Nano. Issue reports welcome.
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=nvidia/jetsontx2
+$ export SKIFF_CONFIG=jetson/tx2
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -30,7 +30,6 @@ to switch to `sudo bash` for this on most systems.
 ```sh
 $ sudo bash             # switch to root
 # follow the "Flashing" process described below.
-$ SKIFF_NVIDIA_USB_FLASH=confirm make cmd/jetson/common/flashusb
 ```
 
 The board will boot up into Skiff.
@@ -40,6 +39,12 @@ Note: the "flashusb" recovery mode flashing approach will overwrite the
 partition layout on the internal emmc. Read "flashing" below for info. The best
 approach for OTA update is to replace the "image" and "rootfs.cpio.gz" and
 "modules.squashfs" (if skiff/moduleimg is used) files on the running system.
+
+Note: the Jetson Nano uses a custom u-boot script, similar to other Skiff
+boards, and has a separate "format" and "install" script. This allows users to
+update Skiff independently of the bootloader and partition layout and other
+persistent data. The "install" step will not overwrite any persistent data in
+the "persist" partition.
 
 ## Board Compatibility
 
@@ -53,7 +58,9 @@ There are specific packages tuned to each model.
 [Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [Jetson TX2]: https://elinux.org/Jetson_TX2
 
-## Flashing
+## TX2: Flashing via USB
+
+Note: this section applies to the Jetson TX2 only.
 
 Flashing to the internal eMMC is done by booting to the official recovery mode,
 and flashing the system from there. The default factory-flashed TX2 is suitable.
@@ -85,7 +92,7 @@ To flash over USB:
 ```
 export SKIFF_WORKSPACE=myworkspace
 export SKIFF_NVIDIA_USB_FLASH="true"
-make cmd/nvidia/tegratx2/usbflash
+make cmd/jetson/tx2/flashusb
 ```
 
 This will run the `flash.sh` script from L4T, and will setup the kernel, u-boot,
@@ -101,6 +108,31 @@ Partial flashing would need separate partitions to work correctly.
 
 It's possible to flash only u-boot by modifying the flash.sh script, and a
 target for this will be added to Skiff later on.
+
+## Nano: Flashing SD Card
+
+Note: this section applies to the Jetson Nano only.
+
+The Jetson Nano boots to a SD card:
+
+```
+sudo bash
+export SKIFF_WORKSPACE=myworkspace
+# Set to the sd card - i.e. /dev/sdb
+export NVIDIA_SD=/dev/sdX
+# Format the SD card with partition layout + u-boot
+make cmd/jetson/nano/format
+# Install the latest Skiff release files to the card
+make cmd/jetson/nano/install
+```
+
+The flashing process should look similar to [this
+output](https://asciinema.org/a/V9wuudXPxC0nnImCjkFfmRWy4).
+
+Note: updating Skiff requires running the "install" command (not the "format").
+This will not overwrite any persistent data stored on the "persist" partition,
+and will only replace files in the /boot directory. The "format" command creates
+the initial system partition layout and installs u-boot and other firmware.
 
 ## Bootup Process
 
