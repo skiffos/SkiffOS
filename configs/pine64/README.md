@@ -18,9 +18,11 @@ There are specific packages tuned to each model.
 | --------------- | -----------------  |
 | [PineBook]      | pine64/book        |
 | [PinePhone]     | pine64/phone       |
+| [RockPro64]     | pine64/rockpro64   |
 
 [PineBook]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[PinePro64]: https://www.pine64.org/rockpro64/
 
 # Flashing
 
