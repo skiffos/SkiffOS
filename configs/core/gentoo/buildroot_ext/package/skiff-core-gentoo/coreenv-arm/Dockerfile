@@ -43,8 +43,8 @@ COPY ./world /var/lib/portage/world
 # pass 1: base build env
 # pass 2: update packages
 # be failure tolerant here. we can deal with it later.
+RUN emerge-webrsync
 RUN \
-  emerge-webrsync && \
   eselect profile set "default/linux/arm/17.0/systemd" && \
   emerge --oneshot --nodeps portage && \
   emerge --oneshot --with-bdeps=y --update portage && \
