@@ -1,0 +1,8 @@
+config BR2_PACKAGE_AP6256_FIRMWARE
+	bool "ap6256-firmware"
+	help
+	  This package provides binary firmware files (closed blobs)
+	  for ap6256 cards.
+
+	  https://github.com/paralin/ap6256-firmware
+

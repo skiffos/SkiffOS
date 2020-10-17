@@ -108,15 +108,14 @@ enable_silent() {
   fi
 }
 
-if [ -n "$boot_conf_enc" ]; then
-  echo "Compiling boot.txt..."
-  cp $boot_conf $boot_dir/boot.txt
-  enable_silent $boot_dir/boot.txt
-  mkimage -A arm -C none -T script -n 'Skiff Odroid' -d $boot_dir/boot.txt $boot_dir/boot.scr
+if [ -n "$boot_conf_extlinux" ]; then
+    mkdir -p $boot_dir/boot/extlinux/
+    cp $boot_conf_extlinux $boot_dir/boot/extlinux/extlinux.conf
 else
-  echo "Copying boot.ini..."
-  cp $boot_conf $boot_dir/boot.ini
-  enable_silent $boot_dir/boot.ini
+    echo "Compiling boot.txt..."
+    cp $boot_conf $boot_dir/boot.txt
+    enable_silent $boot_dir/boot.txt
+    mkimage -A arm -C none -T script -n 'SkiffOS' -d $boot_dir/boot.txt $boot_dir/boot.scr
 fi
 sync
 

@@ -161,6 +161,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.75        |                        |
 | [Pi 3] (and 1/2)     | pi/3               | N/A                  | ✔ 5.4.75        |                        |
 | [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.75        |                        |
+| [PineBook Pro]       | pine64/book        | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
 | Pine64               | pine64/common      | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ 5.8.0         |                        |
 
@@ -188,6 +189,7 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu

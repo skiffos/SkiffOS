@@ -1,0 +1,55 @@
+From 4b11a4444983c997addc5c581da1ec287f27fa47 Mon Sep 17 00:00:00 2001
+From: dhivael <dhivael.git@eno.space>
+Date: Sat, 11 Jan 2020 15:04:04 +0100
+Subject: [PATCH 4/5] rockchip: move usb0 after mmc1 in default boot order
+
+now that we support booting from USB we should prefer USB boot over eMMC
+boot. we still try to boot from SD cards first.
+---
+ include/configs/rockchip-common.h | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/include/configs/rockchip-common.h b/include/configs/rockchip-common.h
+index 6610f95b7b9..d743ebe83e6 100644
+--- a/include/configs/rockchip-common.h
++++ b/include/configs/rockchip-common.h
+@@ -16,11 +16,10 @@
+ 
+ /* First try to boot from SD (index 0), then eMMC (index 1) */
+ #if CONFIG_IS_ENABLED(CMD_MMC)
+-	#define BOOT_TARGET_MMC(func) \
+-		func(MMC, mmc, 1) \
+-		func(MMC, mmc, 0)
++	#define BOOT_TARGET_MMC(func, idx) \
++		func(MMC, mmc, idx)
+ #else
+-	#define BOOT_TARGET_MMC(func)
++	#define BOOT_TARGET_MMC(func, idx)
+ #endif
+ 
+ #if CONFIG_IS_ENABLED(CMD_NVME)
+@@ -55,16 +54,18 @@
+ 
+ #ifdef CONFIG_ROCKCHIP_RK3399
+ #define BOOT_TARGET_DEVICES(func) \
+-	BOOT_TARGET_MMC(func) \
+-	BOOT_TARGET_NVME(func) \
++	BOOT_TARGET_MMC(func, 1) \
+ 	BOOT_TARGET_USB(func) \
++	BOOT_TARGET_NVME(func) \
++	BOOT_TARGET_MMC(func, 0) \
+ 	BOOT_TARGET_PXE(func) \
+ 	BOOT_TARGET_DHCP(func) \
+ 	BOOT_TARGET_SF(func)
+ #else
+ #define BOOT_TARGET_DEVICES(func) \
+-	BOOT_TARGET_MMC(func) \
++	BOOT_TARGET_MMC(func, 1) \
+ 	BOOT_TARGET_USB(func) \
++	BOOT_TARGET_MMC(func, 0) \
+ 	BOOT_TARGET_PXE(func) \
+ 	BOOT_TARGET_DHCP(func)
+ #endif
+-- 
+2.25.3
+
