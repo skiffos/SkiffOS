@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RK3399_FIRMWARE_BLOBS
+	bool "rk3399 firmware blobs"
+	help
+	  Binary blobs for rk3399 bl31
+
+	  https://gitlab.com/skiffos/rk3399-firmware-blobs

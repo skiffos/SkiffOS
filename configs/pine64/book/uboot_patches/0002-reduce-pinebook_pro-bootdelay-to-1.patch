@@ -1,0 +1,25 @@
+From f44bd5bb5fefea8404489c3e14f8537300fa3fb6 Mon Sep 17 00:00:00 2001
+From: dhivael <dhivael.git@eno.space>
+Date: Sat, 11 Jan 2020 15:12:34 +0100
+Subject: [PATCH 2/5] reduce pinebook_pro bootdelay to 1
+
+---
+ configs/pinebook-pro-rk3399_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/pinebook-pro-rk3399_defconfig b/configs/pinebook-pro-rk3399_defconfig
+index 18b2d74253b..297cc5f17a5 100644
+--- a/configs/pinebook-pro-rk3399_defconfig
++++ b/configs/pinebook-pro-rk3399_defconfig
+@@ -10,7 +10,7 @@ CONFIG_DEBUG_UART_CLOCK=24000000
+ CONFIG_SPL_SPI_FLASH_SUPPORT=y
+ CONFIG_SPL_SPI_SUPPORT=y
+ CONFIG_DEBUG_UART=y
+-CONFIG_BOOTDELAY=3
++CONFIG_BOOTDELAY=1
+ CONFIG_DEFAULT_FDT_FILE="rockchip/rk3399-pinebook-pro.dtb"
+ CONFIG_MISC_INIT_R=y
+ CONFIG_DISPLAY_BOARDINFO_LATE=y
+-- 
+2.25.3
+

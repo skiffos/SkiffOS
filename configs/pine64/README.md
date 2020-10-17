@@ -16,8 +16,10 @@ There are specific packages tuned to each model.
 
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
+| [PineBook]      | pine64/book        |
 | [PinePhone]     | pine64/phone       |
 
+[PineBook]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
 
 # Flashing

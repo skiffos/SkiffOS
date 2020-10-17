@@ -1,0 +1,29 @@
+From dd52b971005271d615e63f4f946a0ee9331925bc Mon Sep 17 00:00:00 2001
+From: dhivael <dhivael.git@eno.space>
+Date: Sat, 11 Jan 2020 15:04:04 +0100
+Subject: [PATCH 3/5] rockchip: move mmc1 before mmc0 in default boot order
+
+on pinebooks mmc1 is the external card, which should take boot priority
+over the internal emmc even if the emmc is bootable.
+---
+ include/configs/rockchip-common.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/configs/rockchip-common.h b/include/configs/rockchip-common.h
+index 0b9e24d1db4..6610f95b7b9 100644
+--- a/include/configs/rockchip-common.h
++++ b/include/configs/rockchip-common.h
+@@ -17,8 +17,8 @@
+ /* First try to boot from SD (index 0), then eMMC (index 1) */
+ #if CONFIG_IS_ENABLED(CMD_MMC)
+ 	#define BOOT_TARGET_MMC(func) \
+-		func(MMC, mmc, 0) \
+-		func(MMC, mmc, 1)
++		func(MMC, mmc, 1) \
++		func(MMC, mmc, 0)
+ #else
+ 	#define BOOT_TARGET_MMC(func)
+ #endif
+-- 
+2.25.3
+

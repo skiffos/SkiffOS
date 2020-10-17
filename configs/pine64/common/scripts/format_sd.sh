@@ -28,9 +28,16 @@ fi
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootimg2="$BUILDROOT_DIR/output/images/u-boot.itb"
+idbloader=""
 
 if [ ! -f "$ubootimg" ]; then
     ubootimg=$ubootimg2
+fi
+
+rk3399fw="$BUILDROOT_DIR/output/images/rk3399-firmware-blobs"
+if [ -d $rk3399fw ]; then
+    ubootimg=$rk3399fw/u-boot.itb
+    idbloader=$rk3399fw/idbloader.img
 fi
 
 if [ ! -f "$ubootimg" ]; then
@@ -90,6 +97,12 @@ sleep 1
 echo "Flashing u-boot..."
 
 echo "u-boot fusing"
-dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=8 bs=1024 ${SD_FUSE_DD_ARGS}
+if [ -n "$idbloader" ]; then
+    # idbloader for rk3399 machines
+    dd iflag=dsync oflag=dsync if=$idbloader of=$PINE64_SD seek=64 ${SD_FUSE_DD_ARGS}
+    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=16384 ${SD_FUSE_DD_ARGS}
+else
+    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=8 bs=1024 ${SD_FUSE_DD_ARGS}
+fi
 
 cd -
