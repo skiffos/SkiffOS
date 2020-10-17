@@ -17,8 +17,10 @@ There are specific packages tuned to each model.
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
 | [PinePhone]     | pine64/phone       |
+| [RockPro64]     | pine64/rockpro64   |
 
 [PinePhone]: https://www.pine64.org/pinephone/
+[PinePro64]: https://www.pine64.org/rockpro64/
 
 # Flashing
 
