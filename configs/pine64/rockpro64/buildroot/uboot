@@ -1,0 +1,6 @@
+# Disabled due to compiler incompatibility:
+# BR2_TARGET_UBOOT_USE_DEFCONFIG=y
+# BR2_TARGET_UBOOT_BOARD_DEFCONFIG="rockpro64-rk3399"
+
+BR2_TARGET_UBOOT=n
+
