@@ -10,6 +10,5 @@ roottar="${IMAGES_PATH}/rootfs.tar"
 cd ${IMAGES_PATH}
 cp \
 	${SKIFF_CURRENT_CONF_DIR}/resources/Dockerfile \
-	${SKIFF_CURRENT_CONF_DIR}/resources/fstab \
        	${IMAGES_PATH}/
 docker build -f Dockerfile -t "${IMAGE_NAME}:${IMAGE_TAG}" .
