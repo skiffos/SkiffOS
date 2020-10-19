@@ -20,4 +20,4 @@ docker run -d --name=skiff \
   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
   -v ${IMAGES_PATH}:/mnt/rootfs \
   -v ${PERSIST_PATH}:/mnt/persist \
-  paralin/skiffos
+  skiffos/skiffos
