@@ -2,7 +2,7 @@
 set -ex
 
 RSYNC_CMD="rsync -rav --no-perms --no-owner --no-group --delete "
-IMAGE_NAME=paralin/skiffos
+IMAGE_NAME=skiffos/skiffos
 IMAGE_TAG=latest
 IMAGES_PATH="$BUILDROOT_DIR/output/images"
 roottar="${IMAGES_PATH}/rootfs.tar"
