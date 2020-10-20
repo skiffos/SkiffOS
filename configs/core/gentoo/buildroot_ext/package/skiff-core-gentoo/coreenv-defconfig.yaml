@@ -41,4 +41,3 @@ images:
   skiffos/skiff-core-gentoo:latest:
     build:
       source: /opt/skiff/coreenv/skiff-core-gentoo
-      squash: true
