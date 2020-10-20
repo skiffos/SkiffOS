@@ -35,4 +35,3 @@ images:
   skiffos/skiff-core-linux4tegra:latest:
     build:
       source: /opt/skiff/coreenv/skiff-core-linux4tegra
-      squash: true
