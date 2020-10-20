@@ -37,4 +37,3 @@ images:
   skiffos/skiff-core-pinephone-neon:latest:
     build:
       source: /opt/skiff/coreenv/skiff-core-pinephone-neon
-      squash: true
