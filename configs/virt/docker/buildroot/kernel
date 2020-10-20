@@ -1,1 +1,6 @@
 BR2_LINUX_KERNEL=n
+
+# The kernel headers must be a version less than or equal to the kernel of the
+# target Docker Engine host machine.
+BR2_KERNEL_HEADERS_4_9=y
+
