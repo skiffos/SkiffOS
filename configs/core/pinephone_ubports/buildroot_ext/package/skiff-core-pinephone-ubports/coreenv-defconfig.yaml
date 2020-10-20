@@ -37,4 +37,3 @@ images:
   skiffos/skiff-core-pinephone-ubports:latest:
     build:
       source: /opt/skiff/coreenv/skiff-core-pinephone-ubports
-      squash: true
