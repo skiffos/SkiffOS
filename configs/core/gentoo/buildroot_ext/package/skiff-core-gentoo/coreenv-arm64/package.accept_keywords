@@ -1,3 +1,4 @@
+sys-devel/gcc ~arm64
 app-emulation/virtualbox ~arm64
 app-emulation/virtualbox-modules ~arm64
 dev-lang/go ~arm64
