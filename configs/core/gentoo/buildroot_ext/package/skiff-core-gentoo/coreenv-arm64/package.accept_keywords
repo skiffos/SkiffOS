@@ -1,57 +1,44 @@
-app-emulation/virtualbox ~amd64
-app-emulation/virtualbox-modules ~amd64
-dev-lang/go ~amd64
-dev-vcs/git ~amd64
-net-mail/notmuch ~amd64
-app-editors/emacs ~amd64
-net-im/discord-bin ~amd64
-media-sound/spotify ~amd64
-media-fonts/courier-prime ~amd64
-net-wireless/bluez-tools ~amd64
-dev-util/patchelf ~amd64
-www-client/google-chrome ~amd64
-www-client/google-chrome-beta ~amd64
-www-client/google-chrome-unstable ~amd64
-sys-apps/qdirstat ~amd64
-x11-wm/xpra ~amd64
-net-wireless/blueman ~amd64
-net-wireless/bluez ~amd64
-media-sound/pulseaudio-modules-bt ~amd64
-app-text/pandoc ~amd64
-www-client/firefox ~amd64
-net-wireless/gqrx ~amd64
-net-wireless/gnuradio ~amd64
-net-wireless/gr-osmosdr ~amd64
-net-wireless/inspectrum ~amd64
-net-libs/liquid-dsp ~amd64
-net-libs/libhackrf ~amd64
-net-wireless/hackrf-tools ~amd64
-net-wireless/ubertooth ~amd64
-net-wireless/gr-iqbal ~amd64
-net-libs/libosmo-dsp ~amd64
-dev-libs/nss ~amd64
-media-libs/libvpx ~amd64
-media-libs/libwebp ~amd64
-www-client/chromium ~arm
-media-video/ffmpeg ~arm
-dev-util/gn ~arm
-virtual/jre ~arm
-virtual/jdk ~arm
-dev-java/openjdk-bin ~arm
-sys-apps/baselayout-java ~arm
-dev-libs/libffi-compat ~arm
+app-emulation/virtualbox ~arm64
+app-emulation/virtualbox-modules ~arm64
+dev-lang/go ~arm64
+dev-vcs/git ~arm64
+net-mail/notmuch ~arm64
+app-editors/emacs ~arm64
+net-im/discord-bin ~arm64
+media-sound/spotify ~arm64
+media-fonts/courier-prime ~arm64
+net-wireless/bluez-tools ~arm64
+dev-util/patchelf ~arm64
+www-client/google-chrome ~arm64
+www-client/google-chrome-beta ~arm64
+www-client/google-chrome-unstable ~arm64
+sys-apps/qdirstat ~arm64
+x11-wm/xpra ~arm64
+net-wireless/blueman ~arm64
+net-wireless/bluez ~arm64
+media-sound/pulseaudio-modules-bt ~arm64
+app-text/pandoc ~arm64
+www-client/firefox ~arm64
+net-wireless/gqrx ~arm64
+net-wireless/gnuradio ~arm64
+net-wireless/gr-osmosdr ~arm64
+net-wireless/inspectrum ~arm64
+net-libs/liquid-dsp ~arm64
+net-libs/libhackrf ~arm64
+net-wireless/hackrf-tools ~arm64
+net-wireless/ubertooth ~arm64
+net-wireless/gr-iqbal ~arm64
+net-libs/libosmo-dsp ~arm64
+dev-libs/nss ~arm64
+media-libs/libvpx ~arm64
+media-libs/libwebp ~arm64
+www-client/chromium ~arm64
+media-video/ffmpeg ~arm64
+dev-util/gn ~arm64
+virtual/jre ~arm64
+virtual/jdk ~arm64
+dev-java/openjdk-bin ~arm64
+sys-apps/baselayout-java ~arm64
+dev-libs/libffi-compat ~arm64
 
 # autounmasked
-
-# required by dev-java/openjdk-bin-8.265_p01::gentoo
-# required by virtual/jdk-1.8.0-r5::gentoo
-# required by virtual/jre-1.8.0-r3::gentoo
-# required by www-client/chromium-87.0.4278.0::paralin
-# required by chromium (argument)
-=dev-java/java-config-2.3.1 ~arm
-# required by dev-java/openjdk-bin-8.265_p01::gentoo
-# required by virtual/jdk-1.8.0-r5::gentoo
-# required by virtual/jre-1.8.0-r3::gentoo
-# required by www-client/chromium-87.0.4278.0::paralin
-# required by chromium (argument)
-=app-eselect/eselect-java-0.4.2 ~arm
