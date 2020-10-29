@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_PINEPHONE_NIXOS_PATH/package/skiff-core-pinephone-nixos/Config.in"
