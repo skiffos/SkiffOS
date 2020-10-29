@@ -31,7 +31,7 @@ nix-build \
     -I mobile-nixos-configuration=$(pwd)/configuration.nix \
     -I mobile-nixos=$HOME/nix-path/mobile-nixos \
     -I nixpkgs=$HOME/nix-path/nixpkgs \
-    -A build.rootfs \
+    -A config.system.build.toplevel \
     --argstr device pine64-pinephone \
     '<mobile-nixos>'
 
