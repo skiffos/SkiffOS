@@ -1,0 +1,37 @@
+containers:
+  core:
+    capAdd:
+      - ALL
+    disableInit: true
+    dns:
+      - "8.8.8.8"
+      - "8.8.4.4"
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    image: skiffos/skiff-core-nixos:latest
+    mounts:
+      - /dev:/dev
+      - /lib/modules:/lib/modules:ro
+      - /run/udev:/run/udev
+      - /mnt:/mnt
+    privileged: true
+    restartPolicy: "always"
+    securityOpt:
+      - seccomp=unconfined
+    startAfterCreate: true
+    stopSignal: RTMIN+3
+    tty: false
+    workingDirectory: /home/core
+users:
+  core:
+    container: core
+    containerUser: core
+    containerShell:
+      - "/run/current-system/sw/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+  skiffos/skiff-core-nixos:latest:
+    build:
+      source: /opt/skiff/coreenv/skiff-core-nixos
