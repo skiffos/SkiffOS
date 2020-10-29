@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_NIXOS_PATH/package/skiff-core-nixos/Config.in"

@@ -1,0 +1,2 @@
+name: CORE_NIXOS
+desc: Contains the NixOS-based Skiff Core.
