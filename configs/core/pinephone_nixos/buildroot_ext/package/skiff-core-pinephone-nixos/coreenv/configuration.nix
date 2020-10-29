@@ -4,6 +4,8 @@
   imports = [
     <nixpkgs/nixos/modules/virtualisation/docker-image.nix>
     <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
+    (import <mobile-nixos/lib/configuration.nix> { device = "pine64-pinephone"; })
+    <mobile-nixos/examples/hello/configuration.nix>
     ./hardware-configuration.nix
   ];
 
