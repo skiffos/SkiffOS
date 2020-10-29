@@ -17,7 +17,7 @@ RUN echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${
  && STAGE3PATH="stage3-arm64-20200609.tar.bz2" \
  && echo "STAGE3PATH:" $STAGE3PATH \
  && STAGE3="$(basename ${STAGE3PATH})" \
- && wget "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS" \
+ && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS" \
  && tar xpf "${STAGE3}" --xattrs-include='*.*' --numeric-owner \
  && ( sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' etc/rc.conf 2>/dev/null || true ) \
  && rm ${STAGE3}.DIGESTS ${STAGE3}.CONTENTS.gz ${STAGE3}
