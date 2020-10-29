@@ -49,7 +49,9 @@ if [ -f ${WS}/rootfs.cpio.uboot ]; then
 else
     $RS ${WS}/rootfs.cpio.gz $SSHSTR:/mnt/boot/rootfs.cpio.gz
 fi
-$RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
+if [ -d ${WS}/rootfs_part ]; then
+    $RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
+fi
 if [ -f ${WS}/zImage ]; then
   $RS ${WS}/zImage $SSHSTR:/mnt/boot/zImage
 else
