@@ -22,7 +22,7 @@ containers:
     startAfterCreate: true
     stopSignal: RTMIN+3
     tty: false
-    workingDirectory: /home/core
+    workingDirectory: /
 users:
   core:
     container: core
