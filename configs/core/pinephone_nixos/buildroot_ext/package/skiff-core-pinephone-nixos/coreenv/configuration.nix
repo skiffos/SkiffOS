@@ -40,16 +40,17 @@
   environment.systemPackages = with pkgs; [
     bashInteractive
     cacert
-    nix
-    tree
-    wget
-    git
-    gnupg
     curl
-    tmux
+    git
     gnumake
+    gnupg
+    htop
+    nix
+    tmux
+    tree
     unzip
     vim
+    wget
   ];           
 
   nixpkgs.config = {
