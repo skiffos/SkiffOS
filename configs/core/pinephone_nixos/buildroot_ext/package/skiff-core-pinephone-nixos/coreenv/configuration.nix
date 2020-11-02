@@ -7,6 +7,7 @@
     (import <mobile-nixos/lib/configuration.nix> { device = "pine64-pinephone"; })
     # <mobile-nixos/examples/demo/configuration.nix>
     <mobile-nixos/examples/hello/configuration.nix>
+    # <mobile-nixos/examples/demo/configuration.nix>
     ./hardware-configuration.nix
   ];
 
@@ -18,7 +19,7 @@
   networking.firewall.enable = false;
   networking.interfaces.eth0.useDHCP = false;
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
-  networking.networkmanager.enable = false;
+  networking.networkmanager.enable = lib.mkForce false;
   networking.resolvconf.dnsExtensionMechanism = false;
   networking.useDHCP = false;
   networking.wireless.enable = false;
