@@ -10,12 +10,17 @@ for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
     fi
 done
 
+if [ -n "$PERSIST_RESIZE_DEVICE" ]; then
+    PERSIST_DEVICE=$PERSIST_RESIZE_DEVICE
+fi
+
 if [ -n "$PERSIST_DEVICE" ]; then
     PERSIST_DEV=$(blkid | grep ${PERSIST_DEVICE}: | head -n1 | cut -d: -f1)
-else
+fi
+if [ -z "$PERSIST_DEV" ]; then
     PERSIST_DEV=/dev/disk/by-label/persist
 fi
-if [ ! -b $PERSIST_DEV ]; then
+if [ ! -b "$PERSIST_DEV" ]; then
     echo "Cannot find persist device, skipping check."
     echo "PERSIST_DEVICE=${PERSIST_DEVICE}"
     echo "PERSIST_DEV=${PERSIST_DEV}"
