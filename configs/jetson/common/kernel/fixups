@@ -1,0 +1,4 @@
+# Building the following as modules causes errors.
+CONFIG_USB_CONFIGFS=y
+CONFIG_USB_GADGET=y
+CONFIG_USB_TEGRA_XUDC=y
