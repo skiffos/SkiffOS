@@ -183,7 +183,16 @@ other Skiff boards:
  - **RP4**: Contains XUSB module’s firmware file, making XUSB a true USB 3.0 host.
  - **GPT**: Contains secondary GPT of the sdcard device.
 
-Unfortunately, the complex parti
+Unfortunately, the complex partition layout is unavoidable, but the Skiff
+install and OTA scripts are careful to handle it properly.
+
+## Remaining Work
+
+The Jetson TX2 and Nano currently do not make use of the deferred modules
+loading via skiff/moduleimg package. This is because the "rootfs" portion is not
+included in the target for the Tx2, and the Jetson TX2 does not yet make use of
+a initramfs-based system (it uses a standard ext4 rootfs). This also makes it
+difficult to OTA the TX2 (the nano supports the initramfs boot).
 
 # License Acknowledgment
 

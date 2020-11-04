@@ -65,26 +65,24 @@ fi
 }
 trap cleanup EXIT
 
-boot_dir="${WORK_DIR}/boot"
-
 # nvidia has everything in one partition
-#rootfs_dir="${WORK_DIR}/rootfs"
-#persist_dir="${WORK_DIR}/persist"
-rootfs_dir=$boot_dir
-persist_dir=$boot_dir
+persist_dir="${WORK_DIR}/app"
+rootfs_dir=$boot_dir/rootfs
+boot_dir=$persist_dir/boot
 
 mkdir -p $boot_dir
-echo "Mounting ${NVIDIA_SD_SFX}1 (APP partition) to $boot_dir..."
-mounts+=("$boot_dir")
-sudo mount ${NVIDIA_SD_SFX}1 $boot_dir
+echo "Mounting ${NVIDIA_SD_SFX}1 (APP partition) to $persist_dir..."
+mounts+=("$persist_dir")
+sudo mount ${NVIDIA_SD_SFX}1 $persist_dir
 
 echo "Copying kernel..."
-mkdir -p ${boot_dir}/boot
-rsync -v $uimg_path $boot_dir/boot/
+mkdir -p ${boot_dir}/
+rsync -v $uimg_path $boot_dir/
 sync
 
 if [ -d "$outp_path/images/rootfs_part" ]; then
   echo "Copying rootfs_part..."
+  mkdir -p ${rootfs_dir}
   rsync -rav --no-perms --no-owner --no-group $outp_path/images/rootfs_part/ $rootfs_dir/
   sync
 fi
@@ -96,29 +94,27 @@ if [ -d "$outp_path/images/persist_part" ]; then
 fi
 
 echo "Copying device tree(s)..."
-rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/boot/
-# rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/boot/dtb/
+rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/
 sync
 
 echo "Copying initrd..."
-rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/boot/
+rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/
 sync
-
 
 if [ -n "$boot_conf_enc" ]; then
     echo "Compiling boot.txt..."
-    cp $boot_conf $boot_dir/boot/boot.txt
-    enable_silent $boot_dir/boot/boot.txt
-    if [ -d ${boot_dir}/boot/extlinux ]; then
-        rm -rf ${boot_dir}/boot/extlinux || true
+    cp $boot_conf $boot_dir/boot.txt
+    enable_silent $boot_dir/boot.txt
+    if [ -d ${boot_dir}/extlinux ]; then
+        rm -rf ${boot_dir}/extlinux || true
     fi
-    mkimage -A arm -C none -T script -n 'SkiffOS' -d $boot_dir/boot/boot.txt $boot_dir/boot/boot.scr
+    mkimage -A arm -C none -T script -n 'SkiffOS' -d $boot_dir/boot.txt $boot_dir/boot.scr
 elif [ -d $nvidia_extlinux_dir ]; then
     echo "Copying extlinux config..."
-    if [ -f ${boot_dir}/boot/boot.scr ]; then
-        rm -f ${boot_dir}/boot/boot.scr ${boot_dir}/boot/boot.txt || true
+    if [ -f ${boot_dir}/boot.scr ]; then
+        rm -f ${boot_dir}/boot.scr ${boot_dir}/boot.txt || true
     fi
-    rsync -rav --no-perms --no-owner --no-group $nvidia_extlinux_dir/ $boot_dir/boot/extlinux/
+    rsync -rav --no-perms --no-owner --no-group $nvidia_extlinux_dir/ $boot_dir/extlinux/
 fi
 sync
 

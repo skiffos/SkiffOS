@@ -25,7 +25,7 @@ if [ -z "$nvidia_config_sh" ]; then
     exit 1
 fi
 
-if [ ! -f $boot_conf] && [ ! -d "$nvidia_extlinux_dir" ]; then
+if [ ! -f $boot_conf ] && [ ! -d "$nvidia_extlinux_dir" ]; then
     echo "Unable to find extlinux dir or boot.txt in skiff configs."
     exit 1
 fi
