@@ -137,7 +137,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
       # Check if it has any dependencies
       if [ -f "$conf_path/metadata/dependencies" ]; then
         depsuf=$(cat $conf_path/metadata/dependencies)
-        if [[ "$depsuf" =~ [^\,\ a-zA-Z0-9/\\] ]]; then
+        if [[ "$depsuf" =~ [^\,\ a-zA-Z0-9_/\\] ]]; then
           (>&2 echo " ! [$conf] Invalid dependencies: $depsuf")
           continue
         fi
