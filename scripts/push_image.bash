@@ -28,17 +28,23 @@ if [ ! -d $WS ]; then
 fi
 
 echo "Ensuring mountpoints..."
-ssh $SSHSTR 'bash -s' <<EOF
+ssh $SSHSTR 'bash -s' <<'EOF'
 set -eo pipefail
 sync
 if ! mountpoint -q /mnt/boot ; then
+  source /opt/skiff/scripts/mount-all.pre.d/*.sh || true
   mkdir -p /mnt/boot
-  if [ -b /dev/mmcblk0p1 ]; then
+  if [ -n "$BOOT_DEVICE" ]; then
+    mount $BOOT_DEVICE $BOOT_MNT_FLAGS /mnt/boot
+  elif [ -b /dev/disk/by-label/BOOT ]; then
+    mount LABEL="BOOT" /mnt/boot
+  elif [ -b /dev/mmcblk0p1 ]; then
     mount /dev/mmcblk0p1 /mnt/boot
   elif [ -b /dev/mmcblk1p1 ]; then
     mount /dev/mmcblk1p1 /mnt/boot
   else
-    mount LABEL="BOOT" /mnt/boot
+    echo "Unable to determine boot device."
+    exit 1
   fi
 fi
 sync
