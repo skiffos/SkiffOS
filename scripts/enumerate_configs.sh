@@ -145,7 +145,7 @@ if [ -n "$SKIFF_CONFIG" ]; then
         depsn=($(echo "$depsuf" | sed 's/^ *//;s/ *$//' | sed 's/,/ /g' | tr -s " "))
         for depconf in "${depsn[@]}"; do
           # Filter it to make sure it's actually valid
-          if [ -z "$(echo $depconf | grep '^[[:alnum:]]\{1,100\}/[[:alnum:]]\{1,100\}$')" ]; then
+          if [ -z "$(echo $depconf | grep '^[[:alnum:]]\{1,100\}/.*$')" ]; then
             echo " ! [$conf] Invalid dependency: $depconf"
             invpack=true
             continue
