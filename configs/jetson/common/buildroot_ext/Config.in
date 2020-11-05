@@ -1,1 +1,2 @@
+source "$BR2_EXTERNAL_JETSON_COMMON_PATH/package/linux4tegra/Config.in"
 source "$BR2_EXTERNAL_JETSON_COMMON_PATH/package/skiff-core-linux4tegra/Config.in"
