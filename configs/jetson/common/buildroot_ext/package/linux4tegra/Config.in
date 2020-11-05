@@ -1,0 +1,28 @@
+config BR2_PACKAGE_LINUX4TEGRA
+	bool "linux4tegra"
+	help
+	  NVIDIA Linux4Tegra utilities and binaries.
+
+	  https://developer.nvidia.com/embedded/linux-tegra-archive
+
+if BR2_PACKAGE_LINUX4TEGRA
+
+choice
+	prompt "Platform"
+	default BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T186REF
+	help
+	  Select the platform variant for linux4tegra.
+
+config BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T186REF
+	bool "t186ref"
+	help
+	  Jetson AGX Xavier, Xavier NX, or TX2
+
+config BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T210REF
+	bool "t210ref"
+	help
+	  Jetson Nano or Jetson TX1
+
+endchoice
+
+endif # if BR2_PACKAGE_LINUX4TEGRA

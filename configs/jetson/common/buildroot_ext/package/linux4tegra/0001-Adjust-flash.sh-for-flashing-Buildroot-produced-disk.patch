@@ -1,0 +1,58 @@
+From fbd0d35995a23351d4b50ed0b814442a6873ded2 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 17 Jul 2020 13:58:43 -0700
+Subject: [PATCH] Adjust flash.sh for flashing Buildroot-produced disk image
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ flash.sh | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/flash.sh b/flash.sh
+index 38c0cbb..c27b41b 100755
+--- a/flash.sh
++++ b/flash.sh
+@@ -1339,9 +1339,10 @@ elif [ "${target_rootdev}" == "internal" ] || \
+ 		usage allunknown 1;
+ 	fi
+ 
+-	cmdline+="root=PARTUUID=${rootfsuuid} rw rootwait rootfstype=ext4 "
++	# cmdline+="root=PARTUUID=${rootfsuuid} rw rootwait rootfstype=ext4 "
++	cmdline+="root=/dev/${target_rootdev} rw rootwait"
+ else
+-	cmdline+="root=/dev/${target_rootdev} rw rootwait rootfstype=ext4 "
++	cmdline+="root=/dev/${target_rootdev} rw rootwait"
+ fi;
+ 
+ if [ "${CMDLINE_ADD}" != "" ]; then
+@@ -1512,11 +1513,7 @@ if [ "${write_image_name}" != "" ]; then
+ 	fi
+ fi
+ 
+-if [ "${INITRD_IN_BOOTIMG}" = "yes" ]; then
+-	ramdisk=initrd;
+-else
+-	ramdisk="/dev/null"
+-fi
++ramdisk="/dev/null"
+ echo -n "Making Boot image... ";
+ MKBOOTARG+="--kernel ${kernel_image} ";
+ MKBOOTARG+="--ramdisk ${ramdisk} ";
+@@ -1977,8 +1974,12 @@ if [ "${reuse_systemimg}" = "true" ] || [ "${skip_systemimg}" = "true" ]; then
+ elif [ "${rootdev_type}" = "internal" ]; then
+ 	APP_TAG+="-e s/APPFILE/${localsysfile}/ ";
+ 	if [ "${target_partname}" = "" -o "${target_partname}" = "APP" ]; then
+-		build_fsimg "$localsysfile" "$fillpat" \
+-		    "$rootfssize" "$rootfs_type" "$rootfs_dir" "$cmdline";
++    echo "Skipping image build and setting target_partfile to INITRD."
++    # target_partfile=${INITRD}
++    # cp ${INITRD} ./system.img
++    ln -fs ${INITRD} ./system.img
++		#build_fsimg "$localsysfile" "$fillpat" \
++		#    "$rootfssize" "$rootfs_type" "$rootfs_dir" "$cmdline";
+ 	fi;
+ elif [ "${rootdev_type}" = "network" -o "${rootdev_type}" = "external" ]; then
+ 	APP_TAG+="-e s/APPFILE/${localsysfile}/ ";
+-- 
+2.27.0
+
