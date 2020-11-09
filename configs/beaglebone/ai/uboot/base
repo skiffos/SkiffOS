@@ -1,0 +1,2 @@
+CONFIG_OF_LIST="am5729-beagleboneai"
+CONFIG_DEFAULT_DEVICE_TREE="am5729-beagleboneai"

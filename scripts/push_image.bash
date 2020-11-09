@@ -67,6 +67,9 @@ elif [ -f ${WS}/rootfs.cpio.lz4 ]; then
 elif [ -f ${WS}/rootfs.cpio.gz ]; then
     $RS ${WS}/rootfs.cpio.gz $SSHSTR:/mnt/boot/rootfs.cpio.gz
 fi
+if [ -f ${WS}/skiff-init.img ]; then
+    $RS ${WS}/skiff-init.img $SSHSTR:/mnt/boot/skiff-init.img
+fi
 if [ -d ${WS}/rootfs_part ]; then
     $RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
 fi
