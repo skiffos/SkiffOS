@@ -1,0 +1,2 @@
+# Closed source blobs for odroid c2
+BR2_PACKAGE_ODROIDC2_UBOOT_BLOBS=y

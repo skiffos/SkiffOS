@@ -1,0 +1,6 @@
+config BR2_PACKAGE_ODROIDC2_UBOOT_BLOBS
+	bool "odroidc2-uboot-blobs"
+	help
+	  Odroid c2 closed-source u-boot blobs.
+
+	  https://gitlab.com/armbian/odroidc2-blobs
