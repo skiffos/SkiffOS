@@ -93,12 +93,13 @@ fi
 if [ -n "$BOOT_DEVICE_MKDIR" ]; then
     mkdir -p ${BOOT_DEVICE} || echo "Unable to mkdir for boot rbind."
 fi
-mkdir -p ${BOOT_MNT}
-if [ -f $SKIP_MOUNT_FLAG ] || \
-       [ -z "$MOUNT_BOOT_DEVICE" ] || \
-       mountpoint -q $BOOT_MNT || \
-       mount $BOOT_MNT_FLAGS $BOOT_DEVICE $BOOT_MNT; then
-    echo "Boot device is at ${BOOT_MNT}."
+if [ -n "${MOUNT_BOOT_DEVICE}" ]; then
+    mkdir -p ${BOOT_MNT}
+    if [ -f $SKIP_MOUNT_FLAG ] || \
+        mountpoint -q $BOOT_MNT || \
+        mount $BOOT_MNT_FLAGS $BOOT_DEVICE $BOOT_MNT; then
+        echo "Boot device is at ${BOOT_MNT}."
+    fi
 fi
 
 # Mount rootfs.

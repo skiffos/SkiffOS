@@ -151,6 +151,9 @@ Here are the boards/systems currently supported:
 | [BananaPi M2]        | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ⚠ Obsolete    |
 | [BananaPi M2+]       | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.4       |               |
 | [BananaPi M3]        | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ✔ Tested      |
+| [BeagleBone AI]      | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
+| [BeagleBone Black]   | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
+| [BeagleBoard X15]    | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [Wandboard]          | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.17.4       |               |
 | [Intel x86/64]       | [intel/x64]           | ✔ Grub           | ✔ 5.17.4       | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
@@ -186,6 +189,9 @@ Here are the boards/systems currently supported:
 [BananaPi M2]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
+[BeagleBone AI]: http://beagleboard.org/ai
+[BeagleBone Black]: http://beagleboard.org/black
+[BeagleBoard X15]: http://beagleboard.org/x15
 [Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
 [NVIDIA Jetson Nano]: ./configs/jetson
@@ -225,6 +231,9 @@ Here are the boards/systems currently supported:
 [bananapi/m1plus]: ./configs/bananapi/m1plus
 [bananapi/m2plus]: ./configs/bananapi/m2plus
 [bananapi/m3]: ./configs/bananapi/m3
+[beaglebone/ai]: ./configs/beaglebone
+[beaglebone/black]: ./configs/beaglebone
+[beaglebone/x15]: ./configs/beaglebone
 [freescale/wandboard]: ./configs/freescale/wandboard
 [intel/x64]: ./configs/intel/x64
 [jetson/nano]: ./configs/jetson/nano

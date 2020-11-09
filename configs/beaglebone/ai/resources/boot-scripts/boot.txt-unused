@@ -1,0 +1,37 @@
+echo "SkiffOS U-Boot for BeagleBone AI loaded from ${devtype} ${devnum}"
+
+# setenv silent 1
+setenv verify 0
+setenv bootlogo "false"
+
+# setenv devtype "mmc"
+# setenv devnum "0"
+
+setenv kernel_addr_r "0x82080000"
+setenv ramdisk_addr_r "0x88080000"
+setenv fdt_addr_r "0x88000000"
+
+setenv condev "console=ttyS0,115200n8"
+
+# use /init script to deferred mount /
+setenv bootmem "root=/dev/mmcblk0p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
+
+# base kernel config options
+setenv baseconfig "fsck.repair=yes net.ifnames=0 coherent_pool=1M rng_core.default_quality=100 loglevel=7"
+
+# CPU Governor Selection
+# Available governors: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# final boot args
+setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
+
+# Load kernel and dtb
+echo "Loading zImage..."
+fatload ${devtype} ${devnum}:1 ${kernel_addr_r} /zImage
+
+echo "Loading am5729-beagleboneai.dtb..."
+fatload ${devtype} ${devnum}:1 ${fdt_addr_r} /am5729-beagleboneai.dtb
+
+# Boot the board
+bootz ${kernel_addr_r} - ${fdt_addr_r}

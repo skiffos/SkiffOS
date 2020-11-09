@@ -15,7 +15,6 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_HOST_DIRS
 	string "list of host bind mounts"
-	default ""
 	help
 	  space separated list of /source-path:/target-path pairs
 
@@ -28,6 +27,26 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_CHROOT_TARGET
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_INIT_PROC
 	string "init process to run"
 	default "/lib/systemd/systemd"
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_PATH
+	string "override the path to the rootfs squashfs"
+	help
+	  Overrides the default /boot/rootfs.squashfs
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_WAIT_EXISTS
+	string "wait for a path to exist"
+	help
+	  Waits for the given path to exist before starting.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT
+	string "mount /mnt/boot before the rootfs squashfs"
+	help
+	  Mounts the given device at /mnt/boot if set.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_FSTYPE
+	string "set the fstype for the /mnt/boot mount"
+	help
+	  Overrides the default value of vfat for /mnt/boot
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_PROC
 	bool "mount /proc in the target fs"
@@ -62,6 +81,11 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	default y
 	help
 	  Mounts / into the chroot system at /mnt/persist
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_BOOT
+	bool "inherit / to /mnt/boot from the root fs"
+	help
+	  Mounts / into the chroot system at /mnt/boot
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_MAKE_SHARED
 	bool "ensure that the / mount is shared"
