@@ -39,14 +39,14 @@ usually only happen between major Skiff/Buildroot releases if so.
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**       | **Config Package** | Status   |
-| --------------- | -----------------  | -------- |
-| [u] + u2        | odroid/u           | Untested |
-| [xu3]           | odroid/xu          |          |
-| [xu4] (+ xu4q)  | odroid/xu          |          |
-| [hc2]           | odroid/xu          |          |
-| [n2]            | odroid/c4          |          |
-| [c4]            | odroid/c4          |          |
+| **Board**       | **Config Package** | Status       |
+| --------------- | -----------------  | --------     |
+| [u] + u2        | odroid/u           | Discontinued |
+| [xu3]           | odroid/xu          |              |
+| [xu4] (+ xu4q)  | odroid/xu          |              |
+| [hc2]           | odroid/xu          |              |
+| [n2]            | odroid/c4          | Reboot issue |
+| [c4]            | odroid/c4          | Reboot issue |
 
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
