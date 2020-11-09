@@ -1,0 +1,32 @@
+From 30edc7f0aa2f04f27e4c9dd0ff01b05438886c91 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sun, 6 Sep 2020 15:52:59 -0700
+Subject: [PATCH] meson64: support old boot scripts
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ include/configs/meson64.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/include/configs/meson64.h b/include/configs/meson64.h
+index c895a24eca..3af243f5b5 100644
+--- a/include/configs/meson64.h
++++ b/include/configs/meson64.h
+@@ -79,10 +79,14 @@
+ 	"stdout=" STDOUT_CFG "\0" \
+ 	"stderr=" STDOUT_CFG "\0" \
+ 	"fdt_addr_r=0x08008000\0" \
++	"dtb_mem_addr=0x01000000\0" \
+ 	"scriptaddr=0x08000000\0" \
+ 	"kernel_addr_r=0x08080000\0" \
+ 	"pxefile_addr_r=0x01080000\0" \
++	"loadaddr=0x01080000\0" \
+ 	"ramdisk_addr_r=0x13000000\0" \
++	"initrd_start=0x13000000\0" \
++	"bloader=ext4load mmc 0:1\0" \
+ 	"fdtfile=amlogic/" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
+ 	BOOTENV
+ #endif
+-- 
+2.29.2
+
