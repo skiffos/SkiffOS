@@ -146,7 +146,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.6         |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
-| [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ Linux CIP     | ⚠ Untested             |
+| [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ latest        | ⚠ Discontinued         |
 | [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     |                        |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.12     | ⚠ Discontinued         |
