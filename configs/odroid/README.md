@@ -42,7 +42,7 @@ tested by the developers unless otherwise noted.
 | **Board**       | **Config Package** | Status         |
 | --------------- | -----------------  | --------       |
 | [u] + u2        | odroid/u           | Ethernet Issue |
-| [c2]            | odroid/c2          | Ethernet Issue |
+| [c2]            | odroid/c2          |                |
 | [xu3]           | odroid/xu          |                |
 | [xu4] (+ xu4q)  | odroid/xu          |                |
 | [hc2]           | odroid/xu          |                |
