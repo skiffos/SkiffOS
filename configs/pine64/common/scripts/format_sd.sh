@@ -27,6 +27,11 @@ fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
+ubootimg2="$BUILDROOT_DIR/output/images/u-boot.itb"
+
+if [ ! -f "$ubootimg" ]; then
+    ubootimg=$ubootimg2
+fi
 
 if [ ! -f "$ubootimg" ]; then
   echo "can't find u-boot image at $ubootimg"
