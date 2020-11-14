@@ -1,0 +1,41 @@
+echo "Booting from SD";
+setenv bootdev 0;
+
+# U-Boot Parameters
+setenv initrd_high "0xffffffff"
+setenv fdt_high "0xffffffff"
+
+# setenv silent 1
+setenv condev "console=tty0 console=ttyS0,115200n8"
+setenv verify 0
+setenv bootlogo "false"
+
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x46000000"
+setenv dtb_addr_r "0x44000000"
+
+#---------------------------------
+# Boots from memory.
+# --------------------------------
+setenv bootmem "root=/dev/ram0 ro ramdisk_size=100000"
+
+# base kernel config options
+setenv baseconfig "fsck.repair=yes consoleblank=0 no_console_suspend cma=256M splash plymouth.ignore-serial-consoles"
+
+# CPU Governor Selection
+# Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# Load kernel, initrd and dtb in that sequence
+fatload mmc ${mmc_bootdev}:1 ${kernel_addr_r} Image
+fatload mmc ${mmc_bootdev}:1 ${initramfs_addr_r} rootfs.cpio.uboot
+fatload mmc ${mmc_bootdev}:1 ${dtb_addr_r} sun50i-a64-pine64.dtb
+
+fdt addr ${dtb_addr_r}
+fdt resize
+
+# final boot args
+setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
+
+# Boot the board
+booti ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}

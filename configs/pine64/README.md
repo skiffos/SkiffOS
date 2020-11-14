@@ -16,9 +16,11 @@ There are specific packages tuned to each model.
 
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
+| [H64]           | pine64/h64         |
 | [PineBook]      | pine64/book        |
 | [PinePhone]     | pine64/phone       |
 
+[H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
 
