@@ -39,15 +39,6 @@ dd if=u-boot.itb of=/dev/mmcblk0 seek=16384 oflag=dsync,notrunc
 This will allow the system to boot from the SD card with higher priority than
 the internal emmc, if found containing a valid u-boot flash.
 
-## Copying from SD to EMMC
-
-Once the system is booted to the SD card, you can copy the contents to the
-internal emmc (from the booted system):
-
-```sh
-dd if=/dev/mmcblk0 /dev/mmcblk1 bs=1M
-```
-
 ## XFCE
 
 Add `core/nixos_xfce` to SKIFF_CONFIG to enable "Skiff Core" with XFCE Desktop
