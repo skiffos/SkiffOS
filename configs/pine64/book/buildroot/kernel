@@ -1,8 +1,3 @@
-# pinebook: TODO: possible to upgrade to "mainline" kernel
-# 5.6.0-1137-ayufan
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/paralin/linux/archive/e57f05e7bf8f895889e949ff9d7d8455569a8b43/linux-rock64-5.6.0-1137-ayufan.tar.gz"
-
 # 5.9.0-1144-ayufan
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/53b32a53493d9663218283035df0dd18479a7454/linux-rock64-5.9.0-1144-ayufan.tar.gz"
