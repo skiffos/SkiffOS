@@ -1,0 +1,35 @@
+From 6a9c0d82911e7db84a6f072a2dcb94a64014a9ad Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 14 Nov 2020 02:52:29 -0800
+Subject: [PATCH] dockerfile: copy wildcards for nix files
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Dockerfile | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/Dockerfile b/Dockerfile
+index 3eaa7fc..88e926c 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -37,15 +37,14 @@ RUN sudo -u builder bash -c "cd /home/builder && bash ./scripts/nix-setup.sh"
+ ADD nixpkgs-setup.sh /home/builder/scripts/
+ RUN sudo -u builder bash -c "cd /home/builder && bash ./scripts/nixpkgs-setup.sh"
+ 
+-ADD nixos-setup.sh configuration.nix hardware-configuration.nix /home/builder/sys-config/
++ADD nixos-setup.sh *.nix /home/builder/sys-config/
+ RUN \
+   mkdir -p /sys-root && \
+   cd /home/builder/sys-config && bash ./nixos-setup.sh && \
+   rm /sys-root/etc && \
+   mkdir -m 0755 -p /sys-root/etc/nixos && \
+   touch /sys-root/etc/NIXOS && \
+-  cp /home/builder/sys-config/configuration.nix \
+-     /home/builder/sys-config/hardware-configuration.nix \
++  cp /home/builder/sys-config/*.nix \
+      /sys-root/etc/nixos/
+ 
+ # create the final Docker image using the output of the build.
+-- 
+2.29.2
+

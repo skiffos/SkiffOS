@@ -15,6 +15,10 @@ SKIFF_CORE_NIXOS_DEPENDENCIES = skiff-core skiff-core-defconfig
 define SKIFF_CORE_NIXOS_INSTALL_COREENV
 	mkdir -p $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-nixos
 	cp -r $(@D)/* $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-nixos/
+	mv $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-nixos/configuration.nix \
+		$(TARGET_DIR)/opt/skiff/coreenv/skiff-core-nixos/skiff-core-nixos.nix
+	$(INSTALL) -m 0644 $(SKIFF_CORE_NIXOS_PKGDIR)/configuration.nix \
+		$(TARGET_DIR)/opt/skiff/coreenv/skiff-core-nixos/configuration.nix
 	$(INSTALL) -m 0644 $(SKIFF_CORE_NIXOS_PKGDIR)/coreenv-defconfig.yaml \
 		$(TARGET_DIR)/opt/skiff/coreenv/defconfig.yaml
 	touch $(TARGET_DIR)/opt/skiff/coreenv/.overridden
