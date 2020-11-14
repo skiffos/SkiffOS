@@ -38,7 +38,7 @@ jobs:
           export SKIFF_WORKSPACE=docker
           SKIFF_TARGET=$(echo ${SKIFF_DEVICE_CONFIG} | sed "s#-#/#g")
           export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/nixos
-          make -s configure check compile
+          make -s configure compile check
           mkdir -p workflow-artifacts
           tar -cvf ./workflow-artifacts/images.tar.gz -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
       - uses: actions/upload-artifact@v2
