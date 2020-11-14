@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_NIXOS_XFCE_PATH/package/skiff-core-nixos-xfce/Config.in"
