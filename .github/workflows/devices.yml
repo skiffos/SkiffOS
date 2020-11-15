@@ -10,7 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        skiffconf: [pi-0, pi-3, pi-4, odroid-xu, odroid-u, odroid-c4, odroid-c2, apple-macbook, jetson-tx2, jetson-nano, pine64-phone, pine64-h64]
+        skiffconf:
+        - pi-0
+        - pi-3,
+        - pi-4
+        - odroid-xu
+        - odroid-u
+        - odroid-c4
+        - odroid-c2
+        - apple-macbook
+        - jetson-tx2
+        # exceeds the storage limit
+        # - jetson-nano,
+        - pine64-phone
+        - pine64-h64
     steps:
       - uses: actions/checkout@v2
       - name: Cache build cache and downloads
@@ -19,7 +32,7 @@ jobs:
           cache-name: cache-buildroot-device
         with:
           path: ~/br-cache/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-pi${{ matrix.pirev }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.skiffconf }}
       - name: Install buildroot apt deps
         run: |
           sudo apt-get install -y libelf-dev
