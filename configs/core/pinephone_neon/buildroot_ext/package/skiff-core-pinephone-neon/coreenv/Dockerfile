@@ -7,11 +7,13 @@ ENV container docker
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
   apt-get update && \
-  apt-get dist-upgrade -y && \
-  apt-get install -y  \
+  apt-get dist-upgrade -y \
+  -o "Dpkg::Options::=--force-confdef" \
+  -o "Dpkg::Options::=--force-confnew" && \
+  apt-get install -y \
   --no-install-recommends \
-  -o "Dpkg::Options::=--force-confdef"  \
-  -o "Dpkg::Options::=--force-confold"  \
+  -o "Dpkg::Options::=--force-confdef" \
+  -o "Dpkg::Options::=--force-confnew" \
   build-essential \
   openssh-client \
   rsync \
