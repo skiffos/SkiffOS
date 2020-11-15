@@ -12,7 +12,7 @@ jobs:
       matrix:
         skiffconf:
         - pi-0
-        - pi-3,
+        - pi-3
         - pi-4
         - odroid-xu
         - odroid-u
