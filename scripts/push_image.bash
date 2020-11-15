@@ -38,6 +38,8 @@ if ! mountpoint -q /mnt/boot ; then
     mount $BOOT_DEVICE $BOOT_MNT_FLAGS /mnt/boot
   elif [ -b /dev/disk/by-label/BOOT ]; then
     mount LABEL="BOOT" /mnt/boot
+  elif [ -b /dev/disk/by-label/boot ]; then
+    mount LABEL="boot" /mnt/boot
   elif [ -b /dev/mmcblk0p1 ]; then
     mount /dev/mmcblk0p1 /mnt/boot
   elif [ -b /dev/mmcblk1p1 ]; then
