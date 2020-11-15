@@ -1,0 +1,6 @@
+config BR2_PACKAGE_ATINOUT
+	bool "atinout"
+	help
+	  atinout tool for AT commands
+
+	  http://atinout.sourceforge.net/
