@@ -1,0 +1,41 @@
+From 1945a434ad8f5c12b459b887273dc0f8124314e4 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sun, 15 Nov 2020 01:54:44 -0800
+Subject: [PATCH] Simplify Makefile
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Makefile | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 1daa431..7ba9305 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,17 +1,15 @@
+-VERSION	= 0.9.1
++VERSION := 0.9.1
+ 
+-PREFIX	= /usr
++PREFIX := /usr
+ 
+-CC	= gcc
+-CFLAGS	= -W -Wall -Wextra -Werror \
+-	-DVERSION=\"$(VERSION)\" \
+-	-g
+-LDFLAGS =
++CC := gcc
++CFLAGS :=
++LDFLAGS :=
+ 
+ all: atinout
+ 
+ atinout: atinout.c
+-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^
++	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) -DVERSION=\"$(VERSION)\" $^
+ 
+ clean:
+ 	rm -f atinout
+-- 
+2.29.2
+
