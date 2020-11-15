@@ -6,7 +6,7 @@ setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 
 # setenv silent 1
-setenv condev "console=tty0 console=ttyS0,115200n8"
+setenv condev "console=tty1 console=ttyS2,115200n8"
 setenv verify 0
 setenv bootlogo "false"
 
@@ -29,7 +29,7 @@ setenv governor "schedutil"
 # Load kernel, initrd and dtb in that sequence
 fatload mmc ${mmc_bootdev}:1 ${kernel_addr_r} Image
 fatload mmc ${mmc_bootdev}:1 ${initramfs_addr_r} rootfs.cpio.uboot
-fatload mmc ${mmc_bootdev}:1 ${dtb_addr_r} sun50i-a64-pine64-plus.dtb
+fatload mmc ${mmc_bootdev}:1 ${dtb_addr_r} sun50i-h6-pine-h64-model-b.dtb
 
 fdt addr ${dtb_addr_r}
 fdt resize
