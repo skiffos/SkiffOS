@@ -71,7 +71,7 @@ sudo dd if=/dev/zero of=$PINE64_SD bs=8k count=13 oflag=dsync
 sudo parted $PINE64_SD mklabel msdos
 
 echo "Making boot partition..."
-sudo parted -a optimal $PINE64_SD mkpart primary fat32 2MiB 310MiB
+sudo parted -a optimal $PINE64_SD mkpart primary fat32 128MiB 510MiB
 sudo parted $PINE64_SD set 1 boot on
 sudo parted $PINE64_SD set 1 lba on
 
@@ -84,11 +84,11 @@ mkfs.vfat -F 32 ${PINE64_SD_SFX}1
 fatlabel ${PINE64_SD_SFX}1 boot
 
 echo "Making rootfs partition..."
-sudo parted -a optimal $PINE64_SD mkpart primary ext4 310MiB 600MiB
+sudo parted -a optimal $PINE64_SD mkpart primary ext4 510MiB 1024MiB
 $MKEXT4 -L "rootfs" ${PINE64_SD_SFX}2
 
 echo "Making persist partition..."
-sudo parted -a optimal $PINE64_SD -- mkpart primary ext4 600MiB "-1s"
+sudo parted -a optimal $PINE64_SD -- mkpart primary ext4 1024MiB "-1s"
 $MKEXT4 -L "persist" ${PINE64_SD_SFX}3
 
 sync && sync
