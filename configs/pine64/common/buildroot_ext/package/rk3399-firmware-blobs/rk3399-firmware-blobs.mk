@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RK3399_FIRMWARE_BLOBS_VERSION = 9dbf477701ba6b21a83bc46e7c99bcc51bfe49d4
+RK3399_FIRMWARE_BLOBS_VERSION = 0fb2be2d3bab5ff58dc22a891299e6bb9739d7bc
 RK3399_FIRMWARE_BLOBS_SITE = $(call github,skiffos,rk3399-firmware-blobs,$(RK3399_FIRMWARE_BLOBS_VERSION))
 RK3399_FIRMWARE_BLOBS_LICENSE = BSD-3-Clause
 RK3399_FIRMWARE_BLOBS_LICENSE_FILES = LICENSE
