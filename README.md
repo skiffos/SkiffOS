@@ -161,9 +161,10 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.75        |                        |
 | [Pi 3] (and 1/2)     | pi/3               | N/A                  | ✔ 5.4.75        |                        |
 | [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.75        |                        |
+| [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PineBook Pro]       | pine64/book        | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
-| Pine64               | pine64/common      | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ 5.8.0         |                        |
+| [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
@@ -189,8 +190,10 @@ Here are the boards/systems currently supported by Skiff:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[Pine64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[RockPro64]: https://www.pine64.org/rockpro64/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
 
