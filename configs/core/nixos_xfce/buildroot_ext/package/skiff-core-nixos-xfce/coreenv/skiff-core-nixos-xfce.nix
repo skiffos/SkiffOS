@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
+  # sound
+  hardware.pulseaudio.enable = true;
+
   # ui
   hardware.opengl = {
     enable = true;
