@@ -4,135 +4,24 @@ This configuration package configures Buildroot to produce a BSP image for the
 Jetson TX1, TX2, AGX Xavier, or Nano boards.
 
 There are specific configurations for each board, see "Board Compatibility."
-
-References:
-
- - https://elinux.org/Jetson
- - https://github.com/madisongh/meta-tegra
- - https://developer.nvidia.com/embedded/linux-tegra
- - https://developer.nvidia.com/embedded/faq#jetson-part-numbers
  
 Currently tested on the TX2 and Nano. Issue reports welcome.
-
-## Getting Started
-
-Set the comma-separated `SKIFF_CONFIG` variable:
-
-```sh
-$ export SKIFF_CONFIG=jetson/tx2
-$ make configure                   # configure the system
-$ make compile                     # build the system
-```
-
-Once the build is complete, it's time to flash the system via USB. You will need
-to switch to `sudo bash` for this on most systems.
-
-```sh
-$ sudo bash             # switch to root
-# follow the "Flashing" process described below.
-```
-
-The board will boot up into Skiff.
-
-Note: the "flashusb" recovery mode flashing approach will overwrite the
-"persist" data as well. This is a limitation of the flashing process and
-partition layout on the internal emmc. Read "flashing" below for info. The best
-approach for OTA update is to replace the "image" and "rootfs.cpio.gz" and
-"modules.squashfs" (if skiff/moduleimg is used) files on the running system.
-
-Note: the Jetson Nano uses a custom u-boot script, similar to other Skiff
-boards, and has a separate "format" and "install" script. This allows users to
-update Skiff independently of the bootloader and partition layout and other
-persistent data. The "install" step will not overwrite any persistent data in
-the "persist" partition.
 
 ## Board Compatibility
 
 There are specific packages tuned to each model.
 
-| **Board**       | **Config Package** |
-| --------------- | -----------------  |
-| [Jetson Nano]   | jetson/nano        |
-| [Jetson TX2]    | jetson/tx2         |
+| **Board**       | **Config Package**    |
+| --------------- | -----------------     |
+| [Jetson Nano]   | [jetson/nano](./nano) |
+| [Jetson TX2]    | [jetson/tx2](./tx2)   |
 
 [Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [Jetson TX2]: https://elinux.org/Jetson_TX2
 
-## TX2: Flashing via USB
+## Flashing
 
-Note: this section applies to the Jetson TX2 only.
-
-Flashing to the internal eMMC is done by booting to the official recovery mode,
-and flashing the system from there. The default factory-flashed TX2 is suitable.
-
-There are a lot of cases where the TX2 will not boot properly unless all of the
-peripherals are fully disconnected, power is disconnected, everything fully
-resets, and then the power is introduced back again.
-
-The recovery mode of the Jetson is used to flash Skiff. Entering recovery:
-
- - Start with the machine powered off + fully unplugged.
- - Plug in the device to power, and connect a HDMI display.
- - Connect a micro-USB cable from the host PC to the target board.
- - Power on the device by holding the start button until the red light is lit.
- - Hold down the RST button and REC button simultaneously.
- - Release the RST button while holding down the REC button.
- - Wait a few seconds, then release the REC button.
-
-You may also be able to enter recovery by SSHing to the default system (username
-nvidia password nvidia) and entering `sudo reboot --force forced-recovery`.
-
-Skiff uses the Tegra for Linux package to flash over USB (flash.sh). The L4T
-packages are licensed under the NVIDIA Customer Software License. Skiff will
-download the linux4tegra package to your build workspace, and exposes the
-contained scripts as Makefile targets.
-
-To flash over USB:
-
-```
-export SKIFF_WORKSPACE=myworkspace
-export SKIFF_NVIDIA_USB_FLASH="true"
-make cmd/jetson/tx2/flashusb
-```
-
-This will run the `flash.sh` script from L4T, and will setup the kernel, u-boot,
-persist + boot-up partition mmcblk0p1. This may overwrite your existing work so
-use it for initial setup only.
-
-After Skiff is installed, the system can be OTA updated by replacing the "Image"
-and "initrd" files. The flash script will overwrite the entire persist
-partition. This is due to a limitation in the flashing process: the jetson
-internal EMMC partition layout has a single "app" partition. The recovery mode
-is used to flash a ext4 image to that partition containing the system files.
-Partial flashing would need separate partitions to work correctly.
-
-It's possible to flash only u-boot by modifying the flash.sh script, and a
-target for this will be added to Skiff later on.
-
-## Nano: Flashing SD Card
-
-Note: this section applies to the Jetson Nano only.
-
-The Jetson Nano boots to a SD card:
-
-```
-sudo bash
-export SKIFF_WORKSPACE=myworkspace
-# Set to the sd card - i.e. /dev/sdb
-export NVIDIA_SD=/dev/sdX
-# Format the SD card with partition layout + u-boot
-make cmd/jetson/nano/format
-# Install the latest Skiff release files to the card
-make cmd/jetson/nano/install
-```
-
-The flashing process should look similar to [this
-output](https://asciinema.org/a/V9wuudXPxC0nnImCjkFfmRWy4).
-
-Note: updating Skiff requires running the "install" command (not the "format").
-This will not overwrite any persistent data stored on the "persist" partition,
-and will only replace files in the /boot directory. The "format" command creates
-the initial system partition layout and installs u-boot and other firmware.
+See the readme for the individual board package.
 
 ## Bootup Process
 
@@ -185,14 +74,6 @@ other Skiff boards:
 
 Unfortunately, the complex partition layout is unavoidable, but the Skiff
 install and OTA scripts are careful to handle it properly.
-
-## Remaining Work
-
-The Jetson TX2 and Nano currently do not make use of the deferred modules
-loading via skiff/moduleimg package. This is because the "rootfs" portion is not
-included in the target for the Tx2, and the Jetson TX2 does not yet make use of
-a initramfs-based system (it uses a standard ext4 rootfs). This also makes it
-difficult to OTA the TX2 (the nano supports the initramfs boot).
 
 # License Acknowledgment
 
