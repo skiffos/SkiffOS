@@ -19,11 +19,11 @@ jobs:
         - odroid-c4
         - odroid-c2
         - apple-macbook
-        - jetson-tx2
-        # exceeds the storage limit
-        # - jetson-nano,
         - pine64-phone
         - pine64-h64
+        # exceeds the storage limit
+        # - jetson-nano
+        # - jetson-tx2
     steps:
       - uses: actions/checkout@v2
       - name: Cache build cache and downloads
