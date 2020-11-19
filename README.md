@@ -137,13 +137,13 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.9.8         | Run SkiffOS in QEmu    |
-| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.9.8         |                        |
-| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.9.8         |                        |
-| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.8         |                        |
-| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.8         | ⚠ Untested             |
-| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.9.8         |                        |
-| [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.8         |                        |
+| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.9.9         | Run SkiffOS in QEmu    |
+| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.9.9         |                        |
+| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.9.9         |                        |
+| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.9         |                        |
+| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.9         | ⚠ Untested             |
+| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.9.9         |                        |
+| [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.9         |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10 Src | ✔ tb-5.8.18     | ⚠ Discontinued         |
@@ -153,14 +153,14 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.18     |                        |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.18     | ⚠ Discontinued         |
 | [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.8.18     |                        |
-| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 5.9.8         | ⚠ Untested             |
-| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.8         | ⚠ Untested             |
-| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.8         |                        |
-| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.9.8         |                        |
+| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 5.9.9         | ⚠ Untested             |
+| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.9         | ⚠ Untested             |
+| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.9         |                        |
+| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.9.9         |                        |
 | [Pi 0]               | pi/0               | N/A                  | ✔ 5.4.77        |                        |
 | [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.77        |                        |
 | [Pi 3] (and 1/2)     | pi/3               | N/A                  | ✔ 5.4.77        |                        |
-| [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.77       |                        |
+| [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.77        |                        |
 | [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PineBook Pro]       | pine64/book        | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ 5.8.0         |                        |
