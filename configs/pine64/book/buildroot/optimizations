@@ -1,0 +1,1 @@
+BR2_TARGET_OPTIMIZATION="-march=armv8-a+crc+simd+crypto"
