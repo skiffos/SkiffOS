@@ -157,10 +157,10 @@ Here are the boards/systems currently supported by Skiff:
 | [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.12        | ⚠ Untested             |
 | [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.12        |                        |
 | [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.9.12        |                        |
-| [Pi 0]               | pi/0               | N/A                  | ✔ 5.4.79        |                        |
-| [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.79        |                        |
-| [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ 5.4.79        |                        |
-| [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.79        |                        |
+| [Pi 0]               | pi/0               | N/A                  | ✔ 5.4.80        |                        |
+| [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.80        |                        |
+| [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ 5.4.80        |                        |
+| [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.80        |                        |
 | [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PineBook Pro]       | pine64/book        | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ 5.8.0         |                        |
