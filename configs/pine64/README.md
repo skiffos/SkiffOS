@@ -9,6 +9,7 @@ References:
 
  - https://linux-sunxi.org/Pine_Pinebook
  - https://linux-sunxi.org/PinePhone
+ - https://xnux.eu/devices/pine64-pinephone.html
 
 # Board Compatibility
 

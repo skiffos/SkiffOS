@@ -163,7 +163,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 4]               | pi/4               | N/A                  | ✔ 5.4.81        |                        |
 | [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ 5.8.0         |                        |
 | [PineBook Pro]       | pine64/book        | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
-| [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ 5.8.0         |                        |
+| [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ megi-5.9.11   |                        |
 | [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (binaries)  | ✔ 5.9.0         |                        |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)

@@ -1,9 +1,14 @@
 BR2_TARGET_UBOOT_USE_DEFCONFIG=y
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pinephone"
 
+BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
+
 # pinephone-crust
 # https://gitlab.com/pine64-org/u-boot/-/commits/crust/
-BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="https://github.com/paralin/u-boot/archive/7206996ef7f89375dd74b275ced62d85f8bc7f42/u-boot-pine64-7206996.tar.gz"
-BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pine64-lts"
+# BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="https://github.com/paralin/u-boot/archive/7206996ef7f89375dd74b275ced62d85f8bc7f42/u-boot-pine64-7206996.tar.gz"
+# BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pine64-lts"
+
+# megi opi-v2020.04
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="https://github.com/paralin/u-boot/archive/d40120e18c49bb927114b575c610ed0beaf3ee33/u-boot-megous-opi-v2020.04-r1.tar.gz"
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pinephone"
 
