@@ -10,6 +10,7 @@ References:
  - https://www.ironrobin.net/pureos/git/clover/pinephone
  - https://gitlab.com/groups/postmarketOS/-/milestones/1
  - https://gitlab.com/postmarketOS/pmaports/-/tree/master/device/community/device-pine64-pinephone
+ - https://xnux.eu/devices/pine64-pinephone.html
 
 ## Getting Started
 
