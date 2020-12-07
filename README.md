@@ -146,13 +146,13 @@ Here are the boards/systems currently supported by Skiff:
 | [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.12        |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
-| [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10 Src | ✔ tb-5.9.10     | ⚠ Discontinued         |
-| [Odroid C4]          | odroid/c4          | ✔ U-Boot 2020.10 Src | ✔ tb-5.9.10     |                        |
-| [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ tb-5.9.10     | ⚠ Discontinued         |
-| [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.10     |                        |
-| [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.10     |                        |
-| [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.10     | ⚠ Discontinued         |
-| [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.10     |                        |
+| [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10 Src | ✔ tb-5.9.12     | ⚠ Discontinued         |
+| [Odroid C4]          | odroid/c4          | ✔ U-Boot 2020.10 Src | ✔ tb-5.9.12     |                        |
+| [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03 Src | ✔ tb-5.9.12     | ⚠ Discontinued         |
+| [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     |                        |
+| [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     |                        |
+| [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     | ⚠ Discontinued         |
+| [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     |                        |
 | [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 5.9.12        | ⚠ Untested             |
 | [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.12        | ⚠ Untested             |
 | [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.12        |                        |
