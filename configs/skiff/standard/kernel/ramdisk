@@ -1,5 +1,4 @@
-# Up the maximum ramdisk size to 1gb
-# Possibly unnecessary
+CONFIG_RD_GZIP=y
 CONFIG_BLK_DEV_RAM_COUNT=1
 CONFIG_BLK_DEV_RAM_SIZE=125000
 CONFIG_IKCONFIG=y
