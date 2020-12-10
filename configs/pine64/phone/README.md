@@ -35,3 +35,17 @@ This image was built by importing the pinephone KDE Neon image to Docker with
 some tweaks. An ~2Gb file will be downloaded at first boot from Docker Hub with
 the pinephone KDE Neon base image.
 
+## Upgrading Modem Firmware
+
+The phone comes with a older version of the firmware pre-flashed to the modem.
+To upgrade the modem firmware, follow the instructions on the [PinePhone
+Firmware Wiki] page.
+
+Reference:
+
+ - [PinePhone Firmware Wiki]
+ - https://github.com/Biktorgj/quectel_eg25_recovery
+ - https://github.com/Biktorgj/qfirehose
+ - https://git.sr.ht/~martijnbraam/pinephone-modemfw/
+
+[PinePhone Firmware Wiki]: https://wiki.pine64.org/wiki/PineModems#Firmware_Recovery
