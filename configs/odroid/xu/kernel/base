@@ -2,6 +2,21 @@
 # Based on build/config/kernel/linux-odroidxu4-current.config in armbian/build.
 # https://github.com/armbian/build/blob/master/config/kernel/linux-odroidxu4-current.config
 
+# CONFIG_DRM_ATMEL_HLCDC is not set
+# CONFIG_DRM_I2C_ADV7511 is not set
+# CONFIG_DRM_IMX is not set
+# CONFIG_DRM_KOMEDA is not set
+# CONFIG_DRM_MSM is not set
+# CONFIG_DRM_NOUVEAU is not set
+# CONFIG_DRM_RCAR_CMM is not set
+# CONFIG_DRM_RCAR_DU is not set
+# CONFIG_DRM_RCAR_LVDS is not set
+# CONFIG_DRM_ROCKCHIP is not set
+# CONFIG_DRM_STI is not set
+# CONFIG_DRM_STM is not set
+# CONFIG_DRM_SUN4I is not set
+# CONFIG_DRM_SUN6I_DSI is not set
+# CONFIG_DRM_TEGRA is not set
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_SYSVIPC=y
 CONFIG_POSIX_MQUEUE=y
