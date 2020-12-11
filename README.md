@@ -137,13 +137,13 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.9.13        | Run SkiffOS in QEmu    |
-| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.9.13        |                        |
-| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.9.13        |                        |
-| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.13        |                        |
-| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.13        | ⚠ Untested             |
-| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.9.13        |                        |
-| [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.13        |                        |
+| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.9.14        | Run SkiffOS in QEmu    |
+| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.9.14        |                        |
+| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2019.01 Src | ✔ 5.9.14        |                        |
+| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.14        |                        |
+| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2019.01 Src | ✔ 5.9.14        | ⚠ Untested             |
+| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2019.01 Src | ✔ 5.9.14        |                        |
+| [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.9.14        |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
 | [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10 Src | ✔ tb-5.9.12     | ⚠ Discontinued         |
@@ -153,10 +153,10 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     |                        |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     | ⚠ Discontinued         |
 | [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04 Src | ✔ tb-5.9.12     |                        |
-| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 5.9.13       | ⚠ Untested             |
-| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.13        | ⚠ Untested             |
-| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.13        |                        |
-| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.9.13        |                        |
+| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05 Src | ✔ 5.9.14        | ⚠ Untested             |
+| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07 Src | ✔ 5.9.14        | ⚠ Untested             |
+| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07 Src | ✔ 5.9.14        |                        |
+| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.9.14        |                        |
 | [Pi 0]               | pi/0               | N/A                  | ✔ 5.4.81        |                        |
 | [Pi 1]               | pi/1               | N/A                  | ✔ 5.4.81        |                        |
 | [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ 5.4.81        |                        |
