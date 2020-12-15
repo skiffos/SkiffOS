@@ -3,13 +3,13 @@ name: CI
 # Controls when the action will run.
 on:
   push:
-    branches: [master, next, stable]
+    branches: [master, next, stable, staging]
   pull_request:
-    branches: [master, next, stable]
+    branches: [master, next, stable, staging]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
