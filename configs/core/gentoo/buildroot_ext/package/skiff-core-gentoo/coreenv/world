@@ -26,13 +26,10 @@ media-fonts/courier-prime
 media-fonts/croscorefonts
 media-fonts/liberation-fonts
 media-libs/fontconfig
-media-sound/pulseaudio
-media-sound/pulseaudio-modules-bt
 net-dns/bind-tools
 net-dns/dnsmasq
 net-ftp/ftp
 net-libs/gnutls
-net-mail/notmuch
 net-misc/curl
 net-misc/openssh
 net-vpn/openvpn
