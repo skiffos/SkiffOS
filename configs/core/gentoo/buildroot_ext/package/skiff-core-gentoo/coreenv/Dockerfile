@@ -3,18 +3,18 @@ FROM alpine:3.11 as builder
 WORKDIR /gentoo
 
 ARG ARCH=arm64
-ARG MICROARCH=arm64
-ARG SUFFIX
-# ARG DIST="https://ftp-osl.osuosl.org/pub/gentoo/releases/${ARCH}/autobuilds"
-ARG DIST="http://distfiles.gentoo.org/experimental/arm/${ARCH}"
-# ARG SIGNING_KEY="0xBB572E0E2D182910"
+ARG DIST="http://distfiles.gentoo.org/releases/${ARCH}"
+ARG STAGE3PATH="autobuilds/current-stage3-${ARCH}-systemd/stage3-${ARCH}-systemd-20201004T190540Z.tar.xz"
 ARG SIGNING_KEY="13EBBDBEDE7A12775DFDB1BABB572E0E2D182910"
 
 ENV GENTOO_ARCH ${ARCH}
+ENV STAGE3PATH ${STAGE3PATH}
+ADD ./overrides.sh /
 
-RUN echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${DIST}" \
- && apk --no-cache add ca-certificates gnupg tar wget xz \
- && STAGE3PATH="stage3-arm64-20200609.tar.bz2" \
+RUN apk upgrade --update && \
+    apk add ca-certificates gnupg tar wget xz
+RUN source /overrides.sh \
+ && echo "Building Gentoo Container image for ${ARCH} fetching from ${DIST}" \
  && echo "STAGE3PATH:" $STAGE3PATH \
  && STAGE3="$(basename ${STAGE3PATH})" \
  && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS" \
@@ -28,7 +28,7 @@ WORKDIR /
 COPY --from=builder /gentoo/ /
 CMD ["/bin/bash"]
 
-FROM stage3
+FROM stage3 as stage4
 
 # setup environment
 ENV LANG C.UTF-8
@@ -36,20 +36,36 @@ ENV LC_ALL C.UTF-8
 ENV container docker
 
 COPY ./make.conf ./package.accept_keywords /etc/portage/
+ADD ./overrides.sh /gentoo-skiff-overrides.sh
+RUN source /gentoo-skiff-overrides.sh; \
+  sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
+  rm /gentoo-skiff-overrides.sh
 COPY ./package.use /etc/portage/package.use/01-standard
-COPY ./world /var/lib/portage/world
 
 # pass 1: base build env
 # pass 2: update packages
 # be failure tolerant here. we can deal with it later.
+# disable certain use flags that cause cycles
+RUN emerge-webrsync
+RUN eselect profile set "default/linux/arm64/17.0/systemd"
 RUN \
-  emerge-webrsync && \
-  eselect profile set "default/linux/arm64/17.0/systemd" && \
-  emerge --oneshot --nodeps portage && \
-  emerge --oneshot --with-bdeps=y --update portage && \
-  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
-  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
-  rm -rf /var/cache/distfiles/* /etc/xdg/autostart/* /var/db/repos/gentoo
+  export USE="-tk" && \
+  (emerge --oneshot --nodeps portage || true) && \
+  (emerge --oneshot --with-bdeps=y --update portage || true) && \
+  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
+
+COPY ./world /var/lib/portage/world
+RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
+
+# minimize image size
+RUN rm -rf /var/cache/distfiles/* \
+   /etc/xdg/autostart/* /var/db/repos/gentoo || true
+
+FROM scratch
+
+COPY --from=stage4 / /
+
+ENV container docker
 
 # Create the user which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
@@ -61,9 +77,6 @@ RUN \
   mkdir -p /home/core/ && \
   chown core:core /home/core && \
   echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-#  systemctl enable lightdm.service
-#  systemctl set-default graphical.target
 
 ADD ./system-auth /etc/pam.d/system-auth
 RUN \
