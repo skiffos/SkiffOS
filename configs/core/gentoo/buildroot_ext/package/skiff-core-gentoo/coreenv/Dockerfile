@@ -51,8 +51,9 @@ RUN source /gentoo-skiff-overrides.sh; \
 
 RUN \
   export USE="-tk" && \
-  (emerge --oneshot --nodeps portage || true) && \
   (emerge --oneshot --with-bdeps=y --update portage || true) && \
+  (emerge --oneshot --update portage || true) && \
+  (emerge --oneshot --nodeps portage || true) && \
   (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
 COPY ./world /var/lib/portage/world
