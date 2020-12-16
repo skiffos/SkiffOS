@@ -42,6 +42,7 @@ jobs:
           make -s configure compile check
           echo "Compilation complete, building Docker image..."
           make cmd/virt/docker/buildimage
+          sleep 2 # docker sometimes does not tag right away
           mkdir -p workflow-artifacts
           docker save paralin/skiffos:latest | gzip -9 > ./workflow-artifacts/docker-image.tar.gz
 
