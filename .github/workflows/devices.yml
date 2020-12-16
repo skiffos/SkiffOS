@@ -53,7 +53,7 @@ jobs:
           export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/nixos
           make -s configure compile check
           mkdir -p workflow-artifacts
-          tar -cvf ./workflow-artifacts/images.tar.gz -X rootfs.cpio -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
+          tar -cvf ./workflow-artifacts/images.tar.gz --exclude="rootfs.cpio" -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
       - uses: actions/upload-artifact@v2
         with:	
           name: images-${{ matrix.skiffconf }}.tar.gz
