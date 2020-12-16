@@ -49,11 +49,13 @@ RUN source /gentoo-skiff-overrides.sh; \
   eselect profile set "default/linux/${ARCH}/17.0/systemd"; \
   rm /gentoo-skiff-overrides.sh
 
+# causes python-exec issues:
+#  (emerge --oneshot --with-bdeps=y --update portage || true)
+#  (emerge --oneshot --update portage || true)
+#  (emerge --oneshot --nodeps portage || true)
+# just update everything at once:
 RUN \
   export USE="-tk" && \
-  (emerge --oneshot --with-bdeps=y --update portage || true) && \
-  (emerge --oneshot --update portage || true) && \
-  (emerge --oneshot --nodeps portage || true) && \
   (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
 COPY ./world /var/lib/portage/world
