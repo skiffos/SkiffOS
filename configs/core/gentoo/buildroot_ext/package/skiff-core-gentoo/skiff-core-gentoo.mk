@@ -31,7 +31,7 @@ endif
 # aarch64
 ifeq ($(BR2_aarch64),y)
 SKIFF_CORE_GENTOO_COREENV_ARCH = arm64
-SKIFF_CORE_GENTOO_COREENV_STAGE3PATH = autobuilds/current-stage3-arm64-systemd/stage3-arm64-systemd-20201004T190540Z.tar.xz
+SKIFF_CORE_GENTOO_COREENV_STAGE3PATH = autobuilds/current-stage3-arm64-systemd/stage3-arm64-systemd-20201216T203511Z.tar.xz
 endif
 
 SKIFF_CORE_GENTOO_COREENV_DIST = \
