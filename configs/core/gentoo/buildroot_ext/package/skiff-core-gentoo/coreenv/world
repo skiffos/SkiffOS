@@ -26,6 +26,8 @@ media-fonts/courier-prime
 media-fonts/croscorefonts
 media-fonts/liberation-fonts
 media-libs/fontconfig
+media-sound/alsa-utils
+media-sound/pulseaudio
 net-dns/bind-tools
 net-dns/dnsmasq
 net-ftp/ftp
@@ -35,6 +37,7 @@ net-misc/openssh
 net-vpn/openvpn
 sys-apps/ethtool
 sys-apps/pciutils
+sys-apps/systemd
 sys-apps/usbutils
 sys-auth/nss-mdns
 sys-block/ms-sys
