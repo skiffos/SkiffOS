@@ -39,5 +39,9 @@ users:
       copyRootKeys: true
 images:
   skiffos/skiff-core-gentoo:latest:
+    pull:
+      # images are provided for arm64, arm, amd64
+      # also an option: policy: ifbuildfails
+      policy: ifnotpresent
     build:
       source: /opt/skiff/coreenv/skiff-core-gentoo
