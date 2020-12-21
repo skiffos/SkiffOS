@@ -1,3 +1,4 @@
+app-arch/bzip2 ~ARCH
 app-editors/emacs ~ARCH
 app-emulation/virtualbox ~ARCH
 app-emulation/virtualbox-modules ~ARCH
