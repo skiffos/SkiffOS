@@ -35,7 +35,9 @@ net-libs/gnutls
 net-misc/curl
 net-misc/openssh
 net-vpn/openvpn
+sys-auth/pam_mount
 sys-apps/ethtool
+sys-apps/lm-sensors
 sys-apps/pciutils
 sys-apps/systemd
 sys-apps/usbutils
