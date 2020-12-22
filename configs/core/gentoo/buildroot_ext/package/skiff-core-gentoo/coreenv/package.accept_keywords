@@ -1,5 +1,4 @@
 app-arch/bzip2 ~ARCH
-sys-devel/gcc ~ARCH
 app-editors/emacs ~ARCH
 app-emulation/virtualbox ~ARCH
 app-emulation/virtualbox-modules ~ARCH
@@ -12,16 +11,12 @@ dev-libs/nss ~ARCH
 dev-util/gn ~ARCH
 dev-util/patchelf ~ARCH
 dev-vcs/git ~ARCH
+kde-apps/* ~ARCH
+kde-plasma/* ~ARCH
 media-fonts/courier-prime ~ARCH
 media-libs/libvpx ~ARCH
 media-libs/libwebp ~ARCH
 media-sound/pulseaudio-modules-bt ~ARCH
-media-sound/spotify ~ARCH
-media-video/ffmpeg ~ARCH
-net-im/discord-bin ~ARCH
-net-libs/libhackrf ~ARCH
-net-libs/libosmo-dsp ~ARCH
-net-libs/liquid-dsp ~ARCH
 net-mail/notmuch ~ARCH
 net-wireless/blueman ~ARCH
 net-wireless/bluez ~ARCH
@@ -33,8 +28,10 @@ net-wireless/gr-osmosdr ~ARCH
 net-wireless/hackrf-tools ~ARCH
 net-wireless/inspectrum ~ARCH
 net-wireless/ubertooth ~ARCH
+pp-arch/bzip2 ~ARCH
 sys-apps/baselayout-java ~ARCH
 sys-apps/qdirstat ~ARCH
+sys-auth/pam_mount ~ARCH
 sys-devel/gcc ~ARCH
 virtual/jdk ~ARCH
 virtual/jre ~ARCH

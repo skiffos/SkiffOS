@@ -63,6 +63,7 @@ RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-back
 
 # minimize image size
 RUN rm -rf /var/cache/distfiles/* \
+   /var/log/* \
    /etc/xdg/autostart/* /var/db/repos/gentoo || true
 
 FROM scratch
@@ -82,7 +83,6 @@ RUN \
   chown core:core /home/core && \
   echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-ADD ./system-auth /etc/pam.d/system-auth
 RUN \
   systemctl mask tmp.mount && \
   find /etc/systemd/system \
@@ -100,6 +100,6 @@ RUN \
   -exec echo \{} \; \
   -exec rm \{} \;
 
-WORKDIR /home/core
+WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
 
