@@ -22,9 +22,6 @@ dev-util/cmake
 dev-util/cppunit
 dev-vcs/git
 dev-vcs/subversion
-media-fonts/courier-prime
-media-fonts/croscorefonts
-media-fonts/liberation-fonts
 media-libs/fontconfig
 media-sound/alsa-utils
 media-sound/pulseaudio
@@ -35,7 +32,6 @@ net-libs/gnutls
 net-misc/curl
 net-misc/openssh
 net-vpn/openvpn
-sys-auth/pam_mount
 sys-apps/ethtool
 sys-apps/lm-sensors
 sys-apps/pciutils
@@ -49,7 +45,6 @@ sys-fs/fuse
 sys-libs/timezone-data
 sys-libs/zlib
 sys-power/acpid
-sys-process/glances
 sys-process/htop
 sys-process/lsof
 virtual/ssh
