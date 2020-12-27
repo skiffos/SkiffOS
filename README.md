@@ -4,12 +4,19 @@
 
 Skiff compiles a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
-[Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs].
+[Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs]. It is:
 
-Skiff builds a minimal system to host containers while running fully from RAM.
-This brings unparalleled boot-up reliability and easy OTA updates. The
-cross-compiled system is identical across any underlying compute platform.
-Device support and additional features are organized into configuration layers.
+ - **Adoptable**: any userspace can be imported/exported to/from container images.
+ - **Familiar**: uses simple Makefile and KConfig language for configuration.
+ - **Flexible**: supports all major OS distributions inside containers.
+ - **Portable**: containers can be moved between machines of similar CPU type.
+ - **Reliable**: changes inside user environments cannot break the host boot-up.
+ - **Reproducible**: a given Skiff Git tree will always produce identical output.
+
+Uses [Buildroot] to produce a minimal in-RAM OS optimized for hosting user
+environments in containers attached to persistent storage. The cross-compiled
+system is identical across any underlying compute platform. Device support and
+additional features are organized into configuration layers.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
@@ -28,50 +35,7 @@ virtualization environment.
 
 [Buildroot]: https://buildroot.org
 
-There are three release channels: **next**, **master**, and **stable**.
-
-Skiff can be upgraded or downgraded (rolled back) independently from the
-persistent storage partition. This allows for easy OTA, and significant
-improvements in confidence when upgrading system components: never worry about
-an interrupted "apt-get" breaking your system again!
-
-With the "skiff/core" layer, containers, images, and users can be configured
-with an easy to understand YAML syntax. SSH connections to the machine are
-automatically routed to the correct container per-user, and rsync / scp still
-works as expected. The container image can be compiled on-demand, which adds the
-opportunity for hardware-specific tweaks or setup on first boot.
-
-## Demo: Run in Docker
-
-You can now demo Skiff in a Docker container. It requires some additional flags
-(for now) to allow running systemd as the container init:
-
-```sh
-# Execute the latest Skiff release with Docker.
-docker run -d --name=skiff \
-  --privileged \
-  --cap-add=NET_ADMIN \
-  --security-opt seccomp=unconfined \
-  --stop-signal=SIGRTMIN+3 \
-  --tmpfs /run \
-  --tmpfs /run/lock \
-  -t \
-  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-  -v $(pwd)/skiff-persist:/mnt/persist \
-  skiffos/skiffos:latest
-
-# Run a shell in the container.
-docker exec -it skiff sh
-
-# Inside the container, switch to "Skiff core"
-su - core
-```
-
-This will download and execute Skiff in a container.
-
 ## Getting started
-
-Building a system with Skiff is easy! This example will build a OS for a Pi4 64bit.
 
 You can type `make` at any time to see a status and help printout. Do this now,
 and look at the list of configuration packages. Select which ones you want, and
@@ -79,7 +43,7 @@ set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ make                             # observe status output
-$ export SKIFF_CONFIG=pi/4x64,skiff/core
+$ export SKIFF_CONFIG=pi/4,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -87,15 +51,15 @@ $ make compile                     # build the system
 After you run `make configure` Skiff will remember what you selected in
 `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
+You can add your SSH public key to the target image by adding it to
+`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`.
+
+The example above uses `pi/4`, which can be replaced with any of the hardware
+support packages listed in the [Supported Systems](#supported-systems) table.
+
 ```sh
 $ make br/menuconfig               # optionally explore config
 $ make br/linux-menuconfig         # optionally explore Linux config
-```
-
-You can also enable Docker or other packages in the target:
-
-```sh
-SKIFF_CONFIG=pi/4x64,apps/docker,skiff/core
 ```
 
 Once the build is complete, it's time to flash the system to a SD card. You will
@@ -114,19 +78,6 @@ install command as many times as you want to update the system. The persist
 partition is not touched in this step, so anything you save there, including
 Docker state and system configuration, will not be touched in the upgrade.
 
-Skiff configurations are evaluated in the order they are specified. An example
-configuration might look like:
-
-```sh
-SKIFF_CONFIG=pi/4,apps/ttyd make configure compile
-```
-
-Some operating systems are not compatible with the Skiff build system, due to
-the host not using glibc, or using some outdated or otherwise incompatible
-libraries for the fairly recent Skiff distribution. If you encounter any errors
-related to host-* packages, you can try [building Skiff inside
-Docker](./docker-build).
-
 ## Supported Systems
 
 SkiffOS is based on Buildroot, which can compile operating systems for virtually
@@ -138,10 +89,10 @@ Here are the boards/systems currently supported by Skiff:
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.3        | Run SkiffOS in QEmu    |
-| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.10.3        |                        |
-| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.3        |                        |
-| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.3        |                        |
-| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.10.3        | ⚠ Untested             |
+| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.10.3        | ✔ Tested               |
+| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.3        | ⚠ Discontinued                       |
+| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.3        | ⚠ Discontinued                       |
+| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.10.3        |                        |
 | [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.10.3        |                        |
 | [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.10.3        |                        |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | Linux4Tegra 32.4.4     |
@@ -153,18 +104,18 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     |                        |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ⚠ Discontinued         |
 | [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     |                        |
-| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.10.3        | ⚠ Untested             |
-| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.10.3        | ⚠ Untested             |
+| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.10.3        |                        |
+| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.10.3        |                        |
 | [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.10.3        |                        |
 | [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.10.3        |                        |
-| [Pi 0]               | pi/0               | N/A                  | ✔ 5.10.1        |                        |
-| [Pi 1]               | pi/1               | N/A                  | ✔ 5.10.1        |                        |
-| [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ 5.10.1        |                        |
-| [Pi 4]               | pi/4               | N/A                  | ✔ 5.10.1        |                        |
-| [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ 5.8.0         |                        |
-| [PineBook Pro]       | pine64/book        | ✔ U-Boot (bin)       | ✔ 5.9.0         |                        |
+| [Pi 0]               | pi/0               | N/A                  | ✔ rpi-5.10.3    |                        |
+| [Pi 1]               | pi/1               | N/A                  | ✔ rpi-5.10.3    |                        |
+| [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ rpi-5.10.3    |                        |
+| [Pi 4]               | pi/4               | N/A                  | ✔ rpi-5.10.3    |                        |
+| [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ pine64-5.8.0  |                        |
+| [PineBook Pro]       | pine64/book        | ✔ U-Boot (bin)       | ✔ ayufan-5.9.0  |                        |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ megi-5.9.11   |                        |
-| [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.9.0         |                        |
+| [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.9.0         | ⚠ In development       |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
@@ -202,6 +153,42 @@ the board, as described above.
 
 If you have a board that is not yet supported by SkiffOS, please **open an
 issue,** and we will work with you to integrate and test the new platform.
+
+## Demo: Run in Docker
+
+You can now demo Skiff in a Docker container. It requires some additional flags
+(for now) to allow running systemd as the container init:
+
+```sh
+# Execute the latest Skiff release with Docker.
+docker run -d --name=skiff \
+  --privileged \
+  --cap-add=NET_ADMIN \
+  --security-opt seccomp=unconfined \
+  --stop-signal=SIGRTMIN+3 \
+  --tmpfs /run \
+  --tmpfs /run/lock \
+  -t \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+  -v $(pwd)/skiff-persist:/mnt/persist \
+  skiffos/skiffos:latest
+
+# Run a shell in the container.
+docker exec -it skiff sh
+
+# Inside the container, switch to "Skiff core"
+su - core
+```
+
+This will download and execute Skiff in a container.
+
+## Release Channels
+
+There are three release channels: **next**, **master**, and **stable**.
+
+Skiff can be upgraded or downgraded (rolled back) independently from the
+persistent storage partition. This allows for easy OTA, and significant
+improvements in confidence when upgrading system components.
 
 ## Configuration Packages/Layers
 
@@ -443,6 +430,14 @@ point in embedded Linux development, and the practice of "imaging" an entire
 drive is a significant time bottleneck and inhibitor of proper backup practices.
 Finally, there's no clear way to keep multiple development devices in sync or
 maintaining the same configuration changes with the traditional approach.
+
+## Build in Docker
+
+Some operating systems are not compatible with the Skiff build system, due to
+the host not using glibc, or using some outdated or otherwise incompatible
+libraries for the fairly recent Skiff distribution. If you encounter any errors
+related to host-* packages, you can try [building Skiff inside
+Docker](./docker-build).
 
 ## Support
 
