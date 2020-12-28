@@ -44,3 +44,13 @@ the internal emmc, if found containing a valid u-boot flash.
 Add `core/nixos_xfce` to SKIFF_CONFIG to enable "Skiff Core" with XFCE Desktop
 configured.
 
+## Known Issues
+
+The PineBook Pro is a work in progress and the firmware / software does not
+currently support everything perfectly (upstream issues):
+
+ - Suspend does not work (firmware issue)
+ - U-boot 2020.10 has LCD issues (for some units only)
+   - Display is blurred + illegible on this version
+   - Skiff is using 2020.07 for now
+
