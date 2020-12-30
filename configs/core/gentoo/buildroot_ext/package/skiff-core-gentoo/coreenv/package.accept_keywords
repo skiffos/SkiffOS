@@ -25,6 +25,7 @@ media-libs/libvpx ~ARCH
 media-libs/libwebp ~ARCH
 media-libs/mesa ~ARCH
 media-libs/suil ~ARCH
+media-libs/x264 ~ARCH
 media-sound/audacity ~ARCH
 media-sound/hpdet-pinebookpro ~ARCH
 media-sound/pulseaudio-modules-bt ~ARCH
@@ -51,6 +52,9 @@ sys-apps/baselayout-java ~ARCH
 sys-apps/qdirstat ~ARCH
 sys-auth/pam_mount ~ARCH
 sys-block/partitionmanager ~ARCH
+sys-devel/binutils ~ARCH
+sys-devel/binutils ~ARCH
+sys-devel/gcc ~ARCH
 sys-devel/gcc ~ARCH
 sys-libs/kpmcore ~ARCH
 virtual/ffmpeg ~ARCH
@@ -59,9 +63,6 @@ virtual/jre ~ARCH
 virtual/perl-libnet ~ARCH
 www-client/chromium ~ARCH
 www-client/firefox ~ARCH
-www-client/google-chrome ~ARCH
-www-client/google-chrome-beta ~ARCH
-www-client/google-chrome-unstable ~ARCH
 x11-apps/xrandr ~ARCH
 x11-misc/x11vnc ~ARCH
 x11-wm/xpra ~ARCH

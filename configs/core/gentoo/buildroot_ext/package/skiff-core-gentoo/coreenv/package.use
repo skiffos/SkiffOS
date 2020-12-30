@@ -1,9 +1,14 @@
-app-editors/emacs gtk3 png sound svg xft xwidgets
+app-editors/emacs gtk3 png sound svg xft xwidgets gui json dbus harfbuzz
 app-text/ghostscript-gpl cups
+app-text/texlive graphics games music science publishers pstricks texi2html xetex png
+dev-db/mysql -server
+dev-lang/python sqlite
 dev-libs/libxml2 python
-dev-python/six python_targets_python3_5
+media-gfx/imagemagick fontconfig graphviz hdri jbig jpeg2k lzma svg raw postscript tiff xml
 media-libs/mesa vulkan
+media-sound/pulseaudio equalizer
 media-video/ffmpeg encode v4l x265 x264 mp3 opus openssl sdl vpx libdrm
+media-video/obs-studio imagemagick nvenc python v4l vlc
 media-video/vlc chromecast opus mp3 
 net-libs/nodejs icu inspector
 net-mail/notmuch emacs python
@@ -11,8 +16,11 @@ net-misc/remmina vnc
 net-misc/tigervnc server
 sci-geosciences/gpsd python
 sys-apps/systemd cgroup-hybrid
+sys-devel/gcc graphite
+sys-fs/ecryptfs-utils suid
 www-client/chromium system-ffmpeg widevine
 x11-base/xorg-server dmx xvfb
+x11-drivers/nvidia-drivers -driver
 x11-misc/xscreensaver opengl
 
 # autounmasked
