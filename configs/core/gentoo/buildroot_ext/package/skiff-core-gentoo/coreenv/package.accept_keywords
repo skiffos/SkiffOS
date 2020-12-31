@@ -1,3 +1,9 @@
+# SkiffOS: Package Keywords Accept List
+
+# These packages are known to require arch-specific keywords on arm-based
+# platforms, and/or are necessary to keep at the latest version for best
+# performance and compatibility.
+
 app-arch/bzip2 ~ARCH
 app-cdr/dolphin-plugins-mountiso ~ARCH
 app-editors/emacs ~ARCH
@@ -53,8 +59,6 @@ sys-apps/qdirstat ~ARCH
 sys-auth/pam_mount ~ARCH
 sys-block/partitionmanager ~ARCH
 sys-devel/binutils ~ARCH
-sys-devel/binutils ~ARCH
-sys-devel/gcc ~ARCH
 sys-devel/gcc ~ARCH
 sys-libs/kpmcore ~ARCH
 virtual/ffmpeg ~ARCH
