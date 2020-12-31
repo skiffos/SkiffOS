@@ -78,24 +78,12 @@ before the first partition. It loads and executes a boot.ini configuration.
 Note: there may be some binary bootloader blobs used that are provided by the
 vendor & signed, and cannot be compiled by Skiff, depending on the board.
 
-## Known Issues
-
-There are the following known issues:
-
- - Desktop environments / video rendering / MALI not tested yet.
-
-The full desktop experience is not tested yet.
-
 ## Acknowledgments
 
-(As of September, 2020):
+(As of December, 2020):
 
-Thank you to [armbian] and [tobetter] (and others) for patching / testing the
-Linux kernel for the Odroid (meson and meson64) series of boards. The kernel
-patches for the n2 and c4 are derived by computing the difference between
-tobetter's latest version and the armbian version. Many configuration specifics
-are referenced from the armbian repo.
+Thank you to [tobetter] for patching / testing the latest Linux kernels for the
+Odroid series of boards.
 
-[armbian]: https://github.com/armbian/build
 [tobetter]: https://github.com/tobetter/linux
 
