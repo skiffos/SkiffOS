@@ -19,6 +19,7 @@ containers:
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/portage-build:/var/tmp/portage
     privileged: true
+    startAfterCreate: true
     restartPolicy: "always"
     dns:
       - "8.8.8.8"
