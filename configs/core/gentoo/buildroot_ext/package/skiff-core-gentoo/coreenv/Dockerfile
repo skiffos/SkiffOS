@@ -76,7 +76,7 @@ ENV container docker
 # Also allow core to run stuff as sudo without a password.
 RUN \
   useradd \
-  -G users,audio,dialout \
+  -G users,audio,dialout,systemd-journal \
   -s /bin/bash \
   core && \
   mkdir -p /home/core/ && \
