@@ -1,0 +1,33 @@
+From 7503edff8a6eb094ab4761818b261581f2ffcb3a Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Wed, 13 Jan 2021 18:48:24 -0800
+Subject: [PATCH] sysdeps: unix: disable kernel too old check
+
+Disables the check leading to FATAL: kernel too old against Windows Subsystem
+for Linux 1.
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ sysdeps/unix/sysv/linux/dl-osinfo.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sysdeps/unix/sysv/linux/dl-osinfo.h b/sysdeps/unix/sysv/linux/dl-osinfo.h
+index 7f83bf41..4577c888 100644
+--- a/sysdeps/unix/sysv/linux/dl-osinfo.h
++++ b/sysdeps/unix/sysv/linux/dl-osinfo.h
+@@ -26,7 +26,12 @@
+ # define MIN(a,b) (((a)<(b))?(a):(b))
+ #endif
+ 
++/* SKIFFOS: Disable kernel version check for WSL1 compatibility. */
+ #define DL_SYSDEP_OSCHECK(FATAL)					      \
++  do {									      \
++  } while (0)
++
++#define DL_SYSDEP_OSCHECK_DISABLED(FATAL)				      \
+   do {									      \
+     /* Test whether the kernel is new enough.  This test is only performed    \
+        if the library is not compiled to run on all kernels.  */	      \
+-- 
+2.30.0
+

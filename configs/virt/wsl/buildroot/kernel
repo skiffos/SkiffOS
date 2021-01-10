@@ -1,0 +1,18 @@
+BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
+BR2_KERNEL_HEADERS_AS_KERNEL=y
+BR2_LINUX_KERNEL_BZIMAGE=y
+
+# linux-msft-wsl-4.19.y
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/microsoft/WSL2-Linux-Kernel/archive/db998769a92eb01159c74b1f461b502a49cc3aa2/linux-WSL2-4.19.84.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_19=y
+
+# linux-msft-wsl-5.4.y
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/microsoft/WSL2-Linux-Kernel/archive/4dcfb9f36dc446a94ba3bc2824411c797f590dcd/linux-WSL2-5.4.83.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_4=y
+
+# Compatibility with WSL1
+# on Windows Server 1809
+# uname -a reports: Linux 4.4.0-17763-Microsoft
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_4=y
+BR2_KERNEL_HEADERS_VERSION=y
+BR2_DEFAULT_KERNEL_VERSION="4.4"
