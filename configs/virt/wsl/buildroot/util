@@ -1,0 +1,2 @@
+# screenfetch utility
+BR2_PACKAGE_SCREEN_FETCH=y
