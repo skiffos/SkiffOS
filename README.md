@@ -89,6 +89,7 @@ Here are the boards/systems currently supported by Skiff:
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.7        | Run SkiffOS in QEmu    |
+| [WSL] on Windows     | virt/wsl           | N/A                  | ✔ msft-4.19.84  | Run in WSL1 or WSL2    |
 | [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.10.7        | ✔ Tested               |
 | [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
 | [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
@@ -147,6 +148,7 @@ Here are the boards/systems currently supported by Skiff:
 [RockPro64]: https://www.pine64.org/rockpro64/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
+[WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above.
