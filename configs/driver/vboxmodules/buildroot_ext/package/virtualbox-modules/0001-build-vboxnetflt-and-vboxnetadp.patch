@@ -1,4 +1,4 @@
-From 915d0c12636cdb9b04d2473bbf28f07a08a61367 Mon Sep 17 00:00:00 2001
+From e0ff0b89ca079c9a792aba71849ef776464d34e7 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 4 Jan 2020 02:09:34 -0800
 Subject: [PATCH] build vboxnetflt and vboxnetadp
@@ -8,7 +8,7 @@ Subject: [PATCH] build vboxnetflt and vboxnetadp
  1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 18466b4..9e856ae 100644
+index 8ba3395..e97f61a 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -29,15 +29,8 @@ ifneq ($(KERNELRELEASE),)
@@ -30,5 +30,5 @@ index 18466b4..9e856ae 100644
  else # ! KERNELRELEASE
  
 -- 
-2.24.1
+2.30.0
 
