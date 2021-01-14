@@ -1,14 +1,10 @@
 # Windows Subsystem for Linux
 
-This configuration package adds support for running as a WSL Guest to SkiffOS.
+![Screenshot](https://github.com/skiffos/WSL-DistroLauncher/raw/master/Resources/screenshot.png)
+
+This package adds support for running SkiffOS inside WSL.
 
 WSL2 runs a full Linux kernel in a VM. WSL1 runs the Linux userspace only.
-
-This package is compatible with both, and uses older kernel headers (4.4.x) to
-ensure backwards compatibility, but compiles a more recent (5.6.x) kernel, which
-containers can be compiled against to take full advantage of the new features
-(if running in WSL2). SkiffOS distributions running in WSL1 can be upgraded to
-run in WSL2 without a full re-install using the standard process.
 
 The following example builds WSL with Docker and Skiff Core:
 
@@ -19,6 +15,11 @@ make configure compile
 ```
 
 The below instructions cover loading the distribution into a host machine.
+
+This package is compatible with both versions, and uses older kernel headers
+(4.4.x) to ensure backwards compatibility. It compiles a more recent (5.6.x)
+kernel which can be used if running in WSL2. SkiffOS distributions running in
+WSL1 can be upgraded to run in WSL2: `wsl --set-version SkiffOS 2`.
 
 ## WSL2
 
