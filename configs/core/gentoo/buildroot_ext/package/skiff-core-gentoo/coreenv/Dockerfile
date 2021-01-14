@@ -1,26 +1,34 @@
-FROM alpine:3.11 as builder
+# See: https://github.com/gentoo/gentoo-docker-images/blob/master/stage3.Dockerfile
+ARG BOOTSTRAP
+FROM ${BOOTSTRAP:-alpine:latest} as builder
 
 WORKDIR /gentoo
 
-ARG ARCH=arm64
-ARG DIST="http://distfiles.gentoo.org/releases/${ARCH}"
-ARG STAGE3PATH="autobuilds/current-stage3-${ARCH}-systemd/stage3-${ARCH}-systemd-20201004T190540Z.tar.xz"
-ARG SIGNING_KEY="13EBBDBEDE7A12775DFDB1BABB572E0E2D182910"
+ARG ARCH=amd64
+ARG MICROARCH=amd64
+ARG SUFFIX="-systemd"
+ARG DIST="https://ftp-osl.osuosl.org/pub/gentoo/releases/${ARCH}/autobuilds"
+ARG SIGNING_KEY="0xBB572E0E2D182910"
 
-ENV GENTOO_ARCH ${ARCH}
-ENV STAGE3PATH ${STAGE3PATH}
 ADD ./overrides.sh /
 
-RUN apk upgrade --update && \
-    apk add ca-certificates gnupg tar wget xz
+RUN apk --no-cache --upgrade add ca-certificates gnupg tar wget xz
 RUN source /overrides.sh \
- && echo "Building Gentoo Container image for ${ARCH} fetching from ${DIST}" \
+ && echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${DIST}" \
+ && STAGE3PATH="$(wget -O- "${DIST}/latest-stage3-${MICROARCH}${SUFFIX}.txt" | tail -n 1 | cut -f 1 -d ' ')" \
  && echo "STAGE3PATH:" $STAGE3PATH \
  && STAGE3="$(basename ${STAGE3PATH})" \
- && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS" \
+ && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS.asc" \
+ && gpg --list-keys \
+ && echo "honor-http-proxy" >> ~/.gnupg/dirmngr.conf \
+ && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
+ && gpg --keyserver hkps://keys.gentoo.org --recv-keys ${SIGNING_KEY} \
+ && gpg --verify "${STAGE3}.DIGESTS.asc" \
+ && awk '/# SHA512 HASH/{getline; print}' ${STAGE3}.DIGESTS.asc | sha512sum -c \
  && tar xpf "${STAGE3}" --xattrs-include='*.*' --numeric-owner \
  && ( sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' etc/rc.conf 2>/dev/null || true ) \
- && rm ${STAGE3}.DIGESTS ${STAGE3}.CONTENTS.gz ${STAGE3}
+ && echo 'UTC' > etc/timezone \
+ && rm ${STAGE3}.DIGESTS.asc ${STAGE3}.CONTENTS.gz ${STAGE3}
 
 FROM scratch as stage3
 
