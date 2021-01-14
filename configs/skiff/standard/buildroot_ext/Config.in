@@ -1,1 +1,0 @@
-source "$BR2_EXTERNAL_SKIFF_STANDARD_PATH/package/screen-fetch/Config.in"
