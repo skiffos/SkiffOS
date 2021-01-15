@@ -161,8 +161,6 @@ if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/host
   echo "$NHOSTNAME" > /etc/hostname
 
   hostname -F /etc/hostname                     # change transient hostname
-  systemctl start systemd-hostnamed || true     # ensure hostnamed is running
-  hostnamectl set-hostname "$NHOSTNAME" || true # change permanent hostname
 else
   hostname > $PERSIST_ROOT/skiff/hostname
   if [ "$(hostname)" == "" ]; then
@@ -171,7 +169,7 @@ else
 fi
 
 systemctl daemon-reload
-hostname $(cat /etc/hostname)
+hostname -F /etc/hostname
 
 # Run any additional final setup scripts.
 for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
