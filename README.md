@@ -314,9 +314,12 @@ $ make cmd/virt/qemu/run
 Here is a minimal working example of running Skiff in Docker:
 
 ```sh
-$ SKIFF_CONFIG=virt/docker make configure compile
+$ SKIFF_CONFIG=virt/docker,skiff/core make configure compile
 $ make cmd/virt/docker/buildimage
 $ make cmd/virt/docker/run
+
+# inside container
+$ su - core
 ```
 
 The build command compiles the image, and run executes it.
