@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_VERSION = v1.4.2
+SKIFF_CORE_VERSION = v1.5.1
 SKIFF_CORE_SITE = $(call github,paralin,skiff-core,$(SKIFF_CORE_VERSION))
 SKIFF_CORE_LICENSE = MIT
 SKIFF_CORE_LICENSE_FILES = LICENSE
