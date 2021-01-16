@@ -9,6 +9,9 @@ if [ ! -f ./overrides.sh ]; then
 fi
 
 if [ -n "$VAR" ] && [ -n "$VAL" ]; then
+    if [ "$VAL" == "none" ]; then
+        VAL=""
+    fi
     echo "Setting override ${VAR}=${VAL}..."
     echo "export ${VAR}=\"${VAL}\"" >> ./overrides.sh
 fi
