@@ -68,6 +68,7 @@ force_turbo=1
 max_usb_current=1
 ```
 
+
 ## Config.txt Conditional Sections
 
 The config.txt file supports conditional sections:
@@ -79,3 +80,4 @@ The config.txt file supports conditional sections:
  - `[pi4]`:	Model 4B
  - `[pi0]`:	Zero, Zero W, Zero WH
  - `[pi0w]`:	Zero W, Zero WH
+
