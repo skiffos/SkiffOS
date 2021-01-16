@@ -33,9 +33,10 @@ To enable WSL2, follow [this guide] summarized here with the below steps:
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl.exe --set-default-version 2
+wsl.exe --update
 ```
 
-[this guide]: https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10
+[this guide]: https://aka.ms/wsl2-install
 
 You can then import the SkiffOS build output `rootfs.tar.gz`:
 
@@ -77,6 +78,57 @@ To compile a release image: Close Visual Studio and open the "Developer Prompt
 for Visual Studio." Use `cd` to change directories to the WSL-DistroLauncher
 project. Run the "build.bat" script. Note: this is generally less reliable than
 running the Visual Studio deploy approach.
+
+## Running WSL2 in a Virtualbox Machine
+
+Note: as of January 2021, VirtualBox does not support SLAT pass-through, and the
+VM will show the warning "Hyper-V cannot be enabled, the CPU does not support
+SLAT" or similar. You will need to run the VM directly with Hyper-V instead of
+using VirtualBox to get this to work until SLAT pass-through is implemented.
+
+However, if SLAT pass-through is working:
+
+To enable nested virtualization extensions, required for operating WSL2 inside a
+VirtualBox machine, run the following command:
+
+```
+VBoxManage modifyvm "My VM Name" --nested-hw-virt on
+```
+
+This will enable it even if the box is greyed out in the UI. You may need to go
+to the "Windows Features" dialog and enable "Windows Hypervisor Platform."
+Windows needs to start-up the Hyper-V subsystem at boot time; if it's not loaded
+properly, WSL2 won't work with a vague error about enabling the VM platform.
+
+### Migrating a VirtualBox Machine to Qemu
+
+One possible work-around is to use Qemu instead, which supports SLAT.
+
+Nested virtualization must be enabled in KVM on Intel, check this is "Y":
+
+```
+cat /sys/module/kvm_intel/parameters/nested
+```
+
+Convert the VM image into the Qemu format:
+
+```
+qemu-img convert -f vdi -O raw WindowsVM.vdi QemuWindowsVM.img
+```
+
+When importing, use the "use existing disk image" option.
+
+## Running a Windows 10 Qemu/KVM Machine
+
+To test WSL2 on a Linux host, a Windows 10 VM can be run in KVM.
+
+This requires "nested Hyper-V" which requires "SLAT" - second layer address
+translation. On Intel CPUs, the QEMU command line must include the +vmx cpu
+feature, for example:
+
+```
+-cpu SandyBridge,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time,+vmx
+```
 
 ## Known Issues
 
