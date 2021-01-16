@@ -57,17 +57,16 @@ RUN source /gentoo-skiff-overrides.sh; \
   eselect profile set "default/linux/${ARCH}/17.0/systemd"; \
   rm /gentoo-skiff-overrides.sh
 
-# causes python-exec issues:
-#  (emerge --oneshot --with-bdeps=y --update portage || true)
-#  (emerge --oneshot --update portage || true)
-#  (emerge --oneshot --nodeps portage || true)
-# just update everything at once:
+# pass #1: base package set, system, remove tk and icu to fix circular deps
 RUN \
-  export USE="-tk" && \
+  export USE="-tk -icu" && \
   (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
 COPY ./world /var/lib/portage/world
+# pass #2: world set from the skiff core world file
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
+# pass #3: ensure that everything is up to date & this command works without errors
+RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
 
 # minimize image size
 RUN rm -rf /var/cache/distfiles/* \
