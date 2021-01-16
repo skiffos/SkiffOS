@@ -1,6 +1,9 @@
 containers:
   core:
-    image: gentoo/stage3:systemd
+    # Note: upstream image does not have pre-installed tools.
+    # Set this if you want to use upstream default stage3.
+    # image: gentoo/stage3:systemd
+    image: skiffos/skiff-core-gentoo:latest
     entrypoint: ["/lib/systemd/systemd"]
     stopSignal: RTMIN+3
     tty: true
@@ -41,10 +44,12 @@ users:
     auth:
       copyRootKeys: true
 images:
-  gentoo/stage3:systemd:
+  # Set this if you want to use upstream default stage3.
+  # gentoo/stage3:systemd:
+  skiffos/skiff-core-gentoo:latest:
     pull:
       # images are provided for arm64, arm, amd64
       # also an option: policy: ifbuildfails
-      policy: ifbuildfails
+      policy: ifnotexists
     build:
       source: /opt/skiff/coreenv/skiff-core-gentoo
