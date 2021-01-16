@@ -90,21 +90,21 @@ Here are the boards/systems currently supported by Skiff:
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.7        | Run SkiffOS in QEmu    |
 | [WSL] on Windows     | virt/wsl           | N/A                  | ✔ msft-4.19.84  | Run in WSL1 or WSL2    |
-| [Apple Macbook]      | apple/macbook      | [rEFInd]             | ✔ 5.10.7        | ✔ Tested               |
+| [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.10.7        | ✔ Tested               |
 | [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
 | [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
 | [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.10.7        |                        |
 | [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ✔ Tested               |
-| [Intel x86/64]       | intel/x64          | Grub                 | ✔ 5.10.7        |                        |
+| [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.10.7        | ✔ Tested               |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10     | ✔ tb-5.9.16     | ⚠ Discontinued         |
-| [Odroid C4]          | odroid/c4          | ✔ U-Boot 2020.10     | ✔ tb-5.9.16     |                        |
+| [Odroid C4]          | odroid/c4          | ✔ U-Boot 2020.10     | ✔ tb-5.9.16     | ✔ Tested               |
 | [Odroid U]           | odroid/u           | ✔ U-Boot 2016.03     | ✔ tb-5.9.16     | ⚠ Discontinued         |
-| [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     |                        |
-| [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     |                        |
+| [Odroid HC1]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ✔ Tested               |
+| [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ✔ Tested               |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ⚠ Discontinued         |
-| [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     |                        |
+| [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ✔ Tested               |
 | [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.10.7        |                        |
 | [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.10.7        |                        |
 | [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.10.7        |                        |
@@ -113,7 +113,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pi 1]               | pi/1               | N/A                  | ✔ rpi-5.10.3    |                        |
 | [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ rpi-5.10.3    | ✔ Tested               |
 | [Pi 4]               | pi/4               | N/A                  | ✔ rpi-5.10.3    | ✔ Tested               |
-| [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ pine64-5.8.0  |                        |
+| [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ pine64-5.8.0  | ✔ Tested               |
 | [PineBook Pro]       | pine64/book        | ✔ U-Boot (bin)       | ✔ ayufan-5.9.0  | ✔ Tested               |
 | [PinePhone]          | pine64/phone       | ✔ U-Boot             | ✔ megi-5.9.11   | ✔ Tested               |
 | [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.9.0         | ⚠ In development       |
@@ -149,6 +149,8 @@ Here are the boards/systems currently supported by Skiff:
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
+
+All targets marked "tested" use automated end-to-end testing on real hardware.
 
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above.
