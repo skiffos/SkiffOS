@@ -47,12 +47,17 @@ ifeq ($(SKIFF_CORE_GENTOO_COREENV_MICROARCH),)
 SKIFF_CORE_GENTOO_COREENV_MICROARCH = $(SKIFF_CORE_GENTOO_COREENV_ARCH)
 endif
 
+# configure the CFLAGS in Gentoo according to the Skiff CFLAGS
+SKIFF_CORE_GENTOO_CFLAGS = $(TARGET_CFLAGS)
+
 define SKIFF_CORE_GENTOO_INSTALL_COREENV
 	mkdir -p $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-gentoo
 	cd $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-gentoo ; \
 		cp -r $(SKIFF_CORE_GENTOO_PKGDIR)/coreenv/* ./ ;\
 		$(INSTALL) -m 0644 $(SKIFF_CORE_GENTOO_PKGDIR)/coreenv-defconfig.yaml \
 			../defconfig.yaml ; \
+		$(SED) "/COMMON_FLAGS=/c\COMMON_FLAGS=\"$(SKIFF_CORE_GENTOO_CFLAGS)\"" \
+			make.conf; \
 		bash ./mkoverride.sh ARCH $(SKIFF_CORE_GENTOO_COREENV_ARCH); \
 		bash ./mkoverride.sh MICROARCH $(SKIFF_CORE_GENTOO_COREENV_MICROARCH); \
 		bash ./mkoverride.sh SUFFIX $(SKIFF_CORE_GENTOO_COREENV_SUFFIX); \
