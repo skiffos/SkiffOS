@@ -1,0 +1,11 @@
+# latest toolchain
+BR2_BINUTILS_VERSION_2_34_X=y
+BR2_GCC_VERSION_10_X=y
+
+# -Ofast enables -O3 and riskier optimization flags
+# note: additional flags disable some optimizations
+BR2_OPTIMIZE_FAST=y
+
+BR2_GCC_ENABLE_LTO=y
+BR2_GCC_ENABLE_GRAPHITE=y
+BR2_GCC_ENABLE_OPENMP=y
