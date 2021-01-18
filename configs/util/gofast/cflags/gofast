@@ -1,3 +1,8 @@
+# safer without standards-breaking ffast-math
 -fno-fast-math
-
-
+# graphite
+-fgraphite-identity -floop-nest-optimize
+# interprocedural optimizations
+-fipa-pta -fno-semantic-interposition
+# perform devirtualization across object file boundaries
+-fdevirtualize-at-ltrans
