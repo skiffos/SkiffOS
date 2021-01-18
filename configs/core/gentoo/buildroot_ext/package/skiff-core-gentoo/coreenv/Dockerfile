@@ -60,11 +60,11 @@ RUN source /gentoo-skiff-overrides.sh; \
 # pass #1: base package set, system, remove tk and icu to fix circular deps
 RUN \
   export USE="-tk -icu" && \
-  (emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
+  (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
 COPY ./world /var/lib/portage/world
 # pass #2: world set from the skiff core world file
-RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
+RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
 # pass #3: ensure that everything is up to date & this command works without errors
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
 
