@@ -1,6 +1,6 @@
 # Windows Subsystem for Linux
 
-![Screenshot](https://github.com/skiffos/WSL-DistroLauncher/raw/master/Resources/screenshot.png)
+![Screenshot](../../../resources/wsl-screenshot.png)
 
 This package adds support for running SkiffOS inside WSL.
 
