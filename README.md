@@ -88,14 +88,14 @@ Here are the boards/systems currently supported by Skiff:
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
-| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.7        | Run SkiffOS in QEmu    |
+| [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.8        | Run SkiffOS in QEmu    |
 | [WSL] on Windows     | virt/wsl           | N/A                  | ✔ msft-4.19.84  | Run in WSL1 or WSL2    |
-| [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.10.7        | ✔ Tested               |
-| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
-| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ⚠ Discontinued         |
-| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.10.7        |                        |
-| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.10.7        | ✔ Tested               |
-| [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.10.7        | ✔ Tested               |
+| [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.10.8        | ✔ Tested               |
+| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.8        | ⚠ Discontinued         |
+| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.8        | ⚠ Discontinued         |
+| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.10.8        |                        |
+| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.10.8        | ✔ Tested               |
+| [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.10.8        | ✔ Tested               |
 | [NVIDIA Jetson Nano] | jetson/nano        | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | jetson/tx2         | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [Odroid C2]          | odroid/c2          | ✔ U-Boot 2020.10     | ✔ tb-5.9.16     | ⚠ Discontinued         |
@@ -105,10 +105,10 @@ Here are the boards/systems currently supported by Skiff:
 | [Odroid HC2]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ✔ Tested               |
 | [Odroid XU3]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ⚠ Discontinued         |
 | [Odroid XU4]         | odroid/xu          | ✔ U-Boot 2019.04     | ✔ tb-5.9.16     | ✔ Tested               |
-| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.10.7        |                        |
-| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.10.7        |                        |
-| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.10.7        |                        |
-| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.10.7        |                        |
+| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.10.8        |                        |
+| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.10.8        |                        |
+| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.10.8        |                        |
+| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.10.8        |                        |
 | [Pi 0]               | pi/0               | N/A                  | ✔ rpi-5.10.3    | ✔ Tested               |
 | [Pi 1]               | pi/1               | N/A                  | ✔ rpi-5.10.3    |                        |
 | [Pi 3] + 1, 2        | pi/3               | N/A                  | ✔ rpi-5.10.3    | ✔ Tested               |
