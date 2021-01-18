@@ -210,6 +210,7 @@ directory is the category name and the second is the package name.
 A configuration package is laid out into the following directories:
 
 ```
+├── cflags:         compiler flags in files
 ├── buildroot:      buildroot configuration fragments
 ├── buildroot_ext:  buildroot extensions (extra packages)
 ├── buildroot_patches: extra Buildroot global patches

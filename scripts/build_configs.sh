@@ -85,6 +85,11 @@ touch $uboot_conf
 users_conf=$SKIFF_FINAL_CONFIG_DIR/users
 touch $users_conf
 
+cflags_override_conf=$SKIFF_FINAL_CONFIG_DIR/cflags
+if [ -f $cflags_override_conf ]; then
+    rm $cflags_override_conf || true
+fi
+
 # Make the scripts wrappers
 bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
 bind_path_env="export PATH=$BUILDROOT_DIR/output/host/bin:$BUILDROOT_DIR/output/host/sbin:\$PATH"
@@ -117,10 +122,12 @@ br_exts=()
 br_patches=()
 kern_patches=()
 uboot_patches=()
+addl_target_cflags=()
 confpaths=(${SKIFF_CONFIG_PATH[@]})
 for confp in "${confpaths[@]}"; do
   echo "Merging Skiff config at $confp"
   br_confp=$confp/buildroot
+  cflags_confp=$confp/cflags
   kern_confp=$confp/kernel
   uboot_confp=$confp/uboot
   kern_patchp=$confp/kernel_patches
@@ -141,16 +148,30 @@ for confp in "${confpaths[@]}"; do
   fi
   if [ -d "$br_confp" ]; then
     for file in $(ls -v $br_confp); do
-      # echo "Merging in config file $file"
+      echo "Merging in Buildroot config file $file"
       printf "\n# Configuration from ${br_confp}/${file}\n" >> $br_conf
       $domerge $br_conf $br_confp/$file
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $br_conf
     done
   fi
+  if [ -d "$cflags_confp" ]; then
+      for file in $(ls -v $cflags_confp); do
+          echo "Merging in Cflags config file $file"
+          ncflags=$(cat $cflags_confp/$file | sed -e '/^[ \t]*#/d' | tr '\n' ' ')
+          if [ -z "$ncflags" ]; then
+              echo "Note: file had no effect."
+              continue
+          fi
+          printf "\n# Configuration from ${br_confp}/${file}\n" >> $br_conf
+          printf "# CFLAGS: \"${ncflags}\"\n" >> $br_conf
+          addl_target_cflags+=("${ncflags}")
+          echo "CFLAGS appended for target: \"${ncflags}\""
+      done
+  fi
   if [ -d "$kern_confp" ]; then
     for file in $(ls -v $kern_confp); do
-      echo "Merging in config file $file"
+      echo "Merging in Kernel config file $file"
       printf "\n# Configuration from ${kern_confp}/${file}\n" >> $kern_conf
       $domerge $kern_conf $kern_confp/$file
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
@@ -203,8 +224,10 @@ br_patches=${br_patches[@]}
 kern_patches=${kern_patches[@]}
 rootfs_overlays=${rootfs_overlays[@]}
 uboot_patches=${uboot_patches[@]}
+addl_target_cflags=${addl_target_cflags[@]}
 
-# Touch up the buildroot
+# Touch up the buildroot configurations
+# these are defined in configs-base/post
 sed -i "s@REPLACEME_BR_PATCHES@$br_patches@g" $br_conf
 sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
 sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patches@g" $br_conf
@@ -214,13 +237,28 @@ sed -i "s@REPLACEME_ROOTFS_OVERLAY@$rootfs_overlays@g" $br_conf
 sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
 sed -i "s@REPLACEME_SKIFF_VERSION_COMMIT@$SKIFF_VERSION_COMMIT@g" $br_conf
 sed -i "s@REPLACEME_SKIFF_VERSION@$SKIFF_VERSION@g" $br_conf
-br_exts=$(join_by : "${br_exts[@]}")
+
+# warn if overriding BR2_TARGET_OPTIMIZATION
+if [ -n "$addl_target_cflags" ]; then
+    if grep -q 'BR2_TARGET_OPTIMIZATION' $br_conf; then
+        printf "\nNOTE: your BR2_TARGET_OPTIMIZATION flags will be overridden.\n"
+        printf "Please move these into the \"cflags\" configuration dir in files:\n"
+        grep -nh 'BR2_TARGET_OPTIMIZATION' $br_conf
+        printf "\n\n"
+    fi
+    echo "CFLAGS: ${addl_target_cflags}"
+    echo "BR2_TARGET_OPTIMIZATION=\"$addl_target_cflags\"" > $cflags_override_conf
+    echo "Merging in cflags to Buildroot config..."
+    $domerge $br_conf $cflags_override_conf
+    mv .config $br_conf
+fi
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig
 # Build the buildroot config
 rm $BUILDROOT_DIR/.config 2>/dev/null || true
 # ln -fs $br_conf $BUILDROOT_DIR/.config
+br_exts=$(join_by : "${br_exts[@]}")
 (cd $BUILDROOT_DIR && make defconfig BR2_DEFCONFIG=$br_conf BR2_EXTERNAL="${br_exts}")
 # Now copy the config
 mv $BUILDROOT_DIR/.config $SKIFF_FINAL_CONFIG_DIR/final/buildroot
