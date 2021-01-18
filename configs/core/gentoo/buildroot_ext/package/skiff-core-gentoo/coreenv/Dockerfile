@@ -54,7 +54,10 @@ COPY ./package.use /etc/portage/package.use/01-standard
 RUN emerge-webrsync
 RUN source /gentoo-skiff-overrides.sh; \
   sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
-  eselect profile set "default/linux/${ARCH}/17.1/systemd"; \
+  PROFILES_DIR=/var/db/repos/gentoo/profiles/default; \
+  PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/systemd | sort | tail -n1); \
+  PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
+  eselect profile set "${PROFILE}"; \
   rm /gentoo-skiff-overrides.sh
 
 # pass #1: base package set, system, remove tk and icu to fix circular deps
