@@ -3,8 +3,12 @@ BR2_BINUTILS_VERSION_2_34_X=y
 BR2_GCC_VERSION_10_X=y
 
 # -Ofast enables -O3 and riskier optimization flags
+# BR2_OPTIMIZE_FAST=y
+
+# -O3 enables all optimizations except ffast-math
+BR2_OPTIMIZE_3=y
+
 # note: additional flags disable some optimizations
-BR2_OPTIMIZE_FAST=y
 
 BR2_GCC_ENABLE_LTO=y
 BR2_GCC_ENABLE_GRAPHITE=y
