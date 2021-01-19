@@ -13,7 +13,7 @@ All commands are run in the Skiff root.
 Build the working environment:
 
 ```sh
-docker build -t "skiff/build:latest" ./docker-build
+docker build -t "skiff/build:latest" .
 ```
 
 Start the container (the sleep is to keep it running forever):
