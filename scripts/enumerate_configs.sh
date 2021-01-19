@@ -73,12 +73,11 @@ while [ "$var" ] ;do
       # - built in odroid/xu4
       conffp="${iter}/${pack}"
       conffp=$(echo "$conffp" | sed -e "s#//#/#g")
+      # if not already defined
       if [ -z "${!confvarn}" ]; then
         echo " > [$pack] [$conffp]"
         export ${confvarn}="$conffp"
         export ${confnamevarn}="$pack"
-      else
-        echo " ! [$pack] [$iter] (duplicate, ignored)"
       fi
     fi
 
@@ -117,9 +116,8 @@ if [ -n "$SKIFF_CONFIG" ]; then
         (>&2 echo " ! [$conf] Invalid config, should be category/name. Ignored.")
         continue
       fi
-      # Check if its already known
+      # Check if its already in the configuration set
       if containsElement "$conf" "${SKIFF_CONFIGS_FINAL[@]}"; then
-        (>&2 echo " ! [$conf] Duplicate, ignoring.")
         continue
       fi
       conf_full=$(echo "$conf" | tr '[:lower:]' '[:upper:]' | sed -e 's#/#_#g')
