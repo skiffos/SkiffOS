@@ -1,5 +1,5 @@
 # latest toolchain
-BR2_BINUTILS_VERSION_2_34_X=y
+BR2_BINUTILS_VERSION_2_35_X=y
 BR2_GCC_VERSION_10_X=y
 
 # -Ofast enables -O3 and riskier optimization flags
