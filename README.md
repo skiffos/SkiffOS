@@ -444,11 +444,8 @@ maintaining the same configuration changes with the traditional approach.
 
 ## Build in Docker
 
-Some operating systems are not compatible with the Skiff build system, due to
-the host not using glibc, or using some outdated or otherwise incompatible
-libraries for the fairly recent Skiff distribution. If you encounter any errors
-related to host-* packages, you can try [building Skiff inside
-Docker](./docker-build).
+You can [build Skiff inside Docker](./build/docker) if you encounter any
+incompatibility with your build host operating system.
 
 ## Support
 
