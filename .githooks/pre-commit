@@ -44,7 +44,7 @@ if make --version && gcc --version && python3 --version; then
     echo "Running pre-commit checks..."
     # Run the check.
     export SKIFF_WORKSPACE=git-hook-precommit
-    export SKIFF_CONFIG=intel/x64,skiff/standard
+    export SKIFF_CONFIG=intel/x64,skiff/core
     if [ -n "$SKIFF_PRE_COMMIT_FULL_CHECK" ]; then
         echo "Running full pre-commit check..."
         make check || exit $?

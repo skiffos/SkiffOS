@@ -337,9 +337,9 @@ $ docker exec -it skiff sh
 
 ## Systemd
 
-If the **skiff/systemd** package is included, the Skiff initialization scripts
-are included and the system can be configured as described below. Note: systemd
-is pulled in by **apps/docker** and **skiff/core** automatically.
+SkiffOS includes a systemd-based configuration and a standard partition layout,
+with boot files separated from the persistent data, on default. This can be
+disabled, overridden, and/or customized by other configuration packages.
 
 ### NetworkManager
 
@@ -413,34 +413,6 @@ Some useful tools to try:
    current bandwidth on all interfaces.
  - nload: shows incoming and outgoing network load.
  - nethogs: shows what processes are using network traffic.
-
-
-## Skiff vs. booting directly to the userspace
-
-Skiff loads a small image containing the kernel and core system into RAM at
-boot-time. This ensures that the system will always boot up into a consistent
-state, ideal for embedded and mission-critical environments. Sudden failure of
-the storage drive does not break the system, as the core OS runs from memory.
-
-As a modular configuration package manager for the industry-standard
-[Buildroot](http://buildroot.org) embedded Linux tool, Skiff allows for a
-consistent developer experience and application execution environment across any
-compute platform. The compact nature of the system creates a minimal attack
-surface for security.
-
-Skiff decouples the core OS (kernel, bootup process, virtualization) from the
-userspace. This is optimal for containerized host systems as the Skiff portion
-can be updated independently from the userspace and easily rolled back. The
-environments inside the containers can be upgraded without fear of bricking the
-boot-up process. Because the system upgrade becomes an atomic operation, testing
-and quality assurance can be greatly accelerated.
-
-Traditionally, vendors will supply pre-installed GNU/Linux distributions on
-embedded development boards. Variance in these images creates a significant pain
-point in embedded Linux development, and the practice of "imaging" an entire
-drive is a significant time bottleneck and inhibitor of proper backup practices.
-Finally, there's no clear way to keep multiple development devices in sync or
-maintaining the same configuration changes with the traditional approach.
 
 ## Build in Docker
 
