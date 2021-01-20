@@ -34,9 +34,7 @@ The board will boot up into Skiff.
 
 Note: the "flashusb" recovery mode flashing approach will overwrite the
 "persist" data as well. This is a limitation of the flashing process and
-partition layout on the internal emmc. Read "flashing" below for info. The best
-approach for OTA update is to replace the "image" and "rootfs.cpio.gz" and
-"modules.squashfs" (if skiff/moduleimg is used) files on the running system.
+partition layout on the internal emmc.
 
 ## TX2: Flashing via USB
 
@@ -79,21 +77,17 @@ This will run the `flash.sh` script from L4T, and will setup the kernel, u-boot,
 persist + boot-up partition mmcblk0p1. This may overwrite your existing work so
 use it for initial setup only.
 
-After Skiff is installed, the system can be OTA updated by replacing the "Image"
-and "initrd" files. The flash script will overwrite the entire persist
-partition. This is due to a limitation in the flashing process: the jetson
-internal EMMC partition layout has a single "app" partition. The recovery mode
-is used to flash a ext4 image to that partition containing the system files.
-Partial flashing would need separate partitions to work correctly.
+After Skiff is installed, the system can be OTA updated by using the
+"scripts/push_image.sh" script:
 
-It's possible to flash only u-boot by modifying the flash.sh script, and a
-target for this will be added to Skiff later on.
+```
+export SKIFF_WORKSPACE=myworkspace
+./scripts/push_image.sh root@myjetsontx2
+```
 
-## Remaining Work
-
-The Jetson TX2 currently does not make use of the deferred modules loading via
-skiff/moduleimg package. This is because the "rootfs" portion is not included in
-the target for the Tx2, and the Jetson TX2 does not yet make use of a
-initramfs-based system (it uses a standard ext4 rootfs). This also makes it
-difficult to OTA the TX2.
+The flash script will overwrite the entire persist partition. This is due to a
+limitation in the flashing process: the jetson internal EMMC partition layout
+has a single "app" partition. The recovery mode is used to flash a ext4 image to
+that partition containing the system files. Partial flashing would need separate
+partitions to work correctly.
 

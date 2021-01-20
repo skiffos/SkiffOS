@@ -36,13 +36,8 @@ A "secure boot" process is used, with multiple bootloaders:
  - Uboot
  - Kernel
  
-Uboot is flashed to the mmcblk0p1 emmc partition. Skiff compiles u-boot properly
-for the boards, however it's not necessary to flash u-boot to begin using it.
-There are scripts included designed to "upgrade" a factory-flashed TX2 Ubuntu
-system to use Skiff, by overwriting the contents of the rootfs partition.
-
-Cboot could be compiled from source, and the source is available from the
-official sources, however, Skiff does not (yet) compile cboot.
+Uboot is flashed to the mmcblk0p1 emmc partition, and searches for the
+"boot/extlinux/extlinux.conf" file in the persist partition.
 
 ## Core Image
 
