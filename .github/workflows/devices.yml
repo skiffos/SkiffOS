@@ -21,9 +21,9 @@ jobs:
         - apple-macbook
         - pine64-phone
         - pine64-h64
+        - jetson-tx2
         # exceeds the storage limit
         # - jetson-nano
-        # - jetson-tx2
     steps:
       - uses: actions/checkout@v2
       - name: Cache build cache and downloads
@@ -52,10 +52,12 @@ jobs:
           SKIFF_TARGET=$(echo ${SKIFF_DEVICE_CONFIG} | sed "s#-#/#g")
           export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/nixos
           make -s configure compile check
+          rm -rf ./workspaces/${SKIFF_WORKSPACE}/build
           mkdir -p workflow-artifacts
           tar -cvf ./workflow-artifacts/images.tar.gz --exclude="rootfs.cpio" -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
       - uses: actions/upload-artifact@v2
         with:	
           name: images-${{ matrix.skiffconf }}.tar.gz
           path: ${{ github.workspace }}/workflow-artifacts/images.tar.gz
+
 

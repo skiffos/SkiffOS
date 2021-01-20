@@ -34,3 +34,6 @@ if [ -f ${SYSTEMD_DIR}/sysinit.target.wants/systemd-journald.service ]; then
 fi
 rm ${SKIFF_BUILDROOT_DIR}/target/etc/resolv.conf || true
 echo "# Managed by NetworkManager" > ${SKIFF_BUILDROOT_DIR}/target/etc/resolv.conf
+
+# mountpoints
+mkdir -p ${TARGET_DIR}/mnt/{persist,rootfs}

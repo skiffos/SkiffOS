@@ -54,6 +54,8 @@ mount -o remount,rw /mnt/rootfs
 EOF
 if [ -f ${WS}/rootfs.cpio.uboot ]; then
     $RS ${WS}/rootfs.cpio.uboot $SSHSTR:/mnt/boot/rootfs.cpio.uboot
+elif [ -f ${WS}/rootfs.squashfs ]; then
+    $RS ${WS}/rootfs.squashfs $SSHSTR:/mnt/boot/rootfs.squashfs
 elif [ -f ${WS}/rootfs.cpio.lz4 ]; then
     $RS ${WS}/rootfs.cpio.lz4 $SSHSTR:/mnt/boot/rootfs.cpio.lz4
 elif [ -f ${WS}/rootfs.cpio.gz ]; then

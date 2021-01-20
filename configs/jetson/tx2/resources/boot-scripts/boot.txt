@@ -1,0 +1,27 @@
+# setenv silent 1
+setenv condev "console=ttyS0,115200 rootwaitconsole=ttyS0,115200n8 console=tty0"
+
+# use /init script to deferred mount /
+setenv bootmem "rw init=/boot/skiff-init/skiff-init-squashfs"
+
+# base kernel config options
+setenv baseconfig "fsck.repair=yes"
+
+# CPU Governor Selection
+# Available governors: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# final boot args
+setenv bootargs "${cbootargs} ${condev} ${bootmem} ${baseconfig} governor=${governor}"
+setenv cbootargs "${bootargs}"
+
+# Load kernel and dtb
+ext4load mmc 0:1 ${fdt_addr_r} /boot/tegra186-quill-p3310-1000-c03-00-base.dtb
+ext4load mmc 0:1 ${kernel_addr_r} /boot/Image
+
+# fdt adjustments
+fdt addr ${fdt_addr_r}
+fdt resize
+
+# Boot the board
+booti ${kernel_addr_r} - ${fdt_addr_r}
