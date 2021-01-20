@@ -21,6 +21,11 @@ This package is compatible with both versions, and uses older kernel headers
 kernel which can be used if running in WSL2. SkiffOS distributions running in
 WSL1 can be upgraded to run in WSL2: `wsl --set-version SkiffOS 2`.
 
+Reference:
+
+ - https://docs.microsoft.com/en-us/windows/wsl/about#what-is-wsl-2
+ - https://docs.microsoft.com/en-us/windows/wsl/compare-versions
+
 ## WSL2
 
 Note: currently WSL2 is only available on Windows Insider builds.
