@@ -1,10 +1,15 @@
+# see other Skiff packages for more advanced defaults:
+#  - core/alpine
+#  - core/ubuntu
+#  - core/nixos
+#  - core/gentoo
 # Documented at https://github.com/skiffos/skiff-core
 images:
   skiff/core:latest:
     build:
-      source: /opt/skiff/coreenv/user
+      source: /opt/skiff/coreenv/base
 containers: # can add unlimited containers
-  skiff_core: # can be anything!
+  skiff_core: # name of the docker container
     image: skiff/core:latest
     tty: false # causes setctty error
     disableInit: true
