@@ -1,0 +1,6 @@
+# must be =y not =m, so we can mount modules squashfs
+CONFIG_EXT2_FS=y
+CONFIG_EXT3_FS=y
+CONFIG_SQUASHFS=y
+CONFIG_SQUASHFS_LZ4=y
+CONFIG_BLK_DEV_LOOP=y
