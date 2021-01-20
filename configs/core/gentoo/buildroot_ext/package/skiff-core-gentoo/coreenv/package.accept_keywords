@@ -11,6 +11,8 @@ app-emulation/virtualbox ~ARCH
 app-emulation/virtualbox-modules ~ARCH
 app-office/libreoffice ~ARCH
 app-office/libreoffice-l10n ~ARCH
+app-portage/portage-bashrc-mv ~ARCH
+app-shells/runtitle ~ARCH
 app-text/pandoc ~ARCH
 dev-java/openjdk-bin ~ARCH
 dev-lang/go ~ARCH
@@ -58,6 +60,7 @@ sys-apps/baselayout-java ~ARCH
 sys-apps/qdirstat ~ARCH
 sys-auth/pam_mount ~ARCH
 sys-block/partitionmanager ~ARCH
+sys-config/ltoize ~ARCH
 sys-devel/binutils ~ARCH
 sys-devel/gcc ~ARCH
 sys-libs/kpmcore ~ARCH
