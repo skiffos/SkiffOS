@@ -1,0 +1,7 @@
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS
+	bool "skiff-init-squashfs"
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_TOOLCHAIN_USES_UCLIBC
+	depends on BR2_USE_MMU # docker-containerd
+	help
+	  Statically linked init binary to chroot into squashfs.

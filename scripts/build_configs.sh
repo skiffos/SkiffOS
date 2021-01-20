@@ -204,6 +204,7 @@ for confp in "${confpaths[@]}"; do
     br_patches+=("$br_patchp")
   fi
   if [ -d "$usersp" ]; then
+    echo "Adding users configs..."
     for file in $(ls -v $usersp); do
       cat $usersp/$file >> $users_conf
     done
@@ -211,10 +212,13 @@ for confp in "${confpaths[@]}"; do
   pre_hook_pat="$confp/hooks/pre.sh"
   if [ -f "$pre_hook_pat" ]; then
     echo "Adding pre-image hook..."
+    echo "echo \"\$(tput smso)Executing hook: ${pre_hook_pat}\$(tput sgr0)\"" >> $pre_build_script
     echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $pre_hook_pat" >> $pre_build_script
   fi
   post_hook_pat="$confp/hooks/post.sh"
   if [ -f "$post_hook_pat" ]; then
+    echo "Adding post-image hook..."
+    echo "echo \"\$(tput smso)Executing hook: ${post_hook_pat}\$(tput sgr0)\"" >> $post_build_script
     echo "SKIFF_CURRENT_CONF_DIR=\"$confp\" $post_hook_pat" >> $post_build_script
   fi
 done

@@ -34,8 +34,8 @@ if [ -n "$TX2_MUTABLE_ROOTFS" ]; then
     sudo bash $flash_path \
          -I $IMAGES_DIR/rootfs.ext2 \
          -K $IMAGES_DIR/Image \
-         -L $IMAGES_DIR/u-boot-dtb.bin \
-         -C "ramdisk_size=100000 net.ifnames=0 elevator=deadline" \
+         -L $IMAGES_DIR/u-boot.bin \
+         -C "net.ifnames=0" \
          -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
          jetson-tx2-devkit mmcblk0p1
     exit $?
@@ -48,8 +48,8 @@ fi
 echo "Using skiffos.ext2 as APP partition with u-boot..."
 sudo bash $flash_path \
      -I $IMAGES_DIR/skiffos.ext2 \
-     -L $IMAGES_DIR/u-boot-dtb.bin \
-     -C "ramdisk_size=100000 net.ifnames=0 elevator=deadline" \
+     -C "net.ifnames=0" \
+     -L $IMAGES_DIR/u-boot.bin \
      -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
      jetson-tx2-devkit mmcblk0p1
 

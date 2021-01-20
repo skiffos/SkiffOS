@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-squashfs/Config.in"
+source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-resize2fs/Config.in"
