@@ -54,7 +54,9 @@ mount -o remount,rw /mnt/rootfs
 EOF
 if [ -f ${WS}/rootfs.cpio.uboot ]; then
     $RS ${WS}/rootfs.cpio.uboot $SSHSTR:/mnt/boot/rootfs.cpio.uboot
-else
+elif [ -f ${WS}/rootfs.cpio.lz4 ]; then
+    $RS ${WS}/rootfs.cpio.lz4 $SSHSTR:/mnt/boot/rootfs.cpio.lz4
+elif [ -f ${WS}/rootfs.cpio.gz ]; then
     $RS ${WS}/rootfs.cpio.gz $SSHSTR:/mnt/boot/rootfs.cpio.gz
 fi
 if [ -d ${WS}/rootfs_part ]; then
@@ -66,6 +68,9 @@ else
   $RS ${WS}/Image $SSHSTR:/mnt/boot/Image
 fi
 $RS ${WS}/*.dtb $SSHSTR:/mnt/boot/
+if [ -f ${WS}/skiff-release ]; then
+  $RS ${WS}/skiff-release $SSHSTR:/mnt/boot/skiff-release
+fi
 if [ -d ${WS}/rpi-firmware ]; then
     $RS ${WS}/rpi-firmware/overlays/ $SSHSTR:/mnt/boot/overlays/
     $RS ${WS}/rpi-firmware/*.bin \
@@ -78,4 +83,5 @@ sync && sync
 EOF
 
 echo "Done."
+
 

@@ -26,9 +26,28 @@ if [ ! -f $flash_path ]; then
 fi
 
 cd ${IMAGES_DIR}/linux4tegra
+
+# operating mode #1: kernel in partition, buildroot rootfs as mutable /
+# (legacy)
+if [ -n "$TX2_MUTABLE_ROOTFS" ]; then
+    echo "Using legacy mutable rootfs approach..."
+    sudo bash $flash_path \
+         -I $IMAGES_DIR/rootfs.ext2 \
+         -K $IMAGES_DIR/Image \
+         -L $IMAGES_DIR/u-boot-dtb.bin \
+         -C "ramdisk_size=100000 net.ifnames=0 elevator=deadline" \
+         -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
+         jetson-tx2-devkit mmcblk0p1
+    exit $?
+fi
+
+
+# operating mode #2: standard SkiffOS u-boot system
+# everything stored in one partition (persist)
+# using /boot bind-mounted to /mnt/boot
+echo "Using skiffos.ext2 as APP partition with u-boot..."
 sudo bash $flash_path \
-     -I $IMAGES_DIR/rootfs.ext2 \
-     -K $IMAGES_DIR/Image \
+     -I $IMAGES_DIR/skiffos.ext2 \
      -L $IMAGES_DIR/u-boot-dtb.bin \
      -C "ramdisk_size=100000 net.ifnames=0 elevator=deadline" \
      -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
