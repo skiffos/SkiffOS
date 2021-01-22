@@ -346,6 +346,12 @@ int main(int argc, char* argv[]) {
 
 #endif
 
+  // chmod the mountpoint so non-root users can use it
+  if (chmod(mountpoint, 0755) != 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS init: failed to chmod root to a+rX: %s: (%d) %s\n", mountpoint, res, strerror(res));
+    res = 0;
+  }
 
   // Mount persist if set
 #ifndef NO_ROOT_AS_PERSIST
