@@ -1,4 +1,4 @@
-From 6a1369467fb9e82d330191b4b3a1ad0c2362c059 Mon Sep 17 00:00:00 2001
+From 2b42d10d246ebb457ccb4d27828d24ff6b26b4e8 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Fri, 22 Jan 2021 01:36:45 -0800
 Subject: [PATCH] Added support for SkiffOS
@@ -13,7 +13,7 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/neofetch b/neofetch
-index 1e4b564..9ed2537 100755
+index 1e4b564..ef6f78f 100755
 --- a/neofetch
 +++ b/neofetch
 @@ -794,8 +794,8 @@ image_source="auto"
@@ -60,7 +60,7 @@ index 1e4b564..9ed2537 100755
 +      ${c1}.11111ttttttfffffffffffftt1i:;,${c2}.....
 +        .....,,,,,${c1}:::;;i11ttfffffffftt1;:,${c2}...
 +            ..............,,${c1}:;i1ttffffffft1;:,${c2}.
-+                  ..............,${c1}:i1tffffffft1;${c2}.
++                  ...............${c1}:i1tffffffft1.${c2}.
 +EOF
 +            ;;
 +
