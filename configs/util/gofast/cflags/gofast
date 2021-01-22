@@ -6,3 +6,5 @@
 -fipa-pta -fno-semantic-interposition
 # perform devirtualization across object file boundaries
 -fdevirtualize-at-ltrans
+# lto
+-flto=auto -fuse-linker-plugin
