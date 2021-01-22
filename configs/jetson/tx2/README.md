@@ -43,10 +43,6 @@ Note: this section applies to the Jetson TX2 only.
 Flashing to the internal eMMC is done by booting to the official recovery mode,
 and flashing the system from there. The default factory-flashed TX2 is suitable.
 
-There are a lot of cases where the TX2 will not boot properly unless all of the
-peripherals are fully disconnected, power is disconnected, everything fully
-resets, and then the power is introduced back again.
-
 The recovery mode of the Jetson is used to flash Skiff. Entering recovery:
 
  - Start with the machine powered off + fully unplugged.
@@ -78,7 +74,7 @@ persist + boot-up partition mmcblk0p1. This may overwrite your existing work so
 use it for initial setup only.
 
 After Skiff is installed, the system can be OTA updated by using the
-"scripts/push_image.sh" script:
+`scripts/push_image.sh` script:
 
 ```
 export SKIFF_WORKSPACE=myworkspace
@@ -89,5 +85,5 @@ The flash script will overwrite the entire persist partition. This is due to a
 limitation in the flashing process: the jetson internal EMMC partition layout
 has a single "app" partition. The recovery mode is used to flash a ext4 image to
 that partition containing the system files. Partial flashing would need separate
-partitions to work correctly.
+partitions to work correctly. Please use the `push_image.sh` script to update.
 
