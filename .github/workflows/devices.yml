@@ -21,9 +21,9 @@ jobs:
         - apple-macbook
         - pine64-phone
         - pine64-h64
-        - jetson-tx2
         # exceeds the storage limit
         # - jetson-nano
+        # - jetson-tx2
     steps:
       - uses: actions/checkout@v2
       - name: Cache build cache and downloads
