@@ -1,10 +1,12 @@
 # safer without standards-breaking ffast-math
 -fno-fast-math
-# graphite
--fgraphite-identity -floop-nest-optimize
-# interprocedural optimizations
--fipa-pta -fno-semantic-interposition
-# perform devirtualization across object file boundaries
--fdevirtualize-at-ltrans
 # lto
--flto=auto -fuse-linker-plugin
+-flto=auto -fuse-linker-plugin -fipa-pta 
+# perform devirtualization across object file boundaries with LTO
+-fdevirtualize-at-ltrans
+# graphite (disabled on default)
+# -fgraphite-identity -floop-nest-optimize
+# assumes that interposition happens for functions,
+# the overwriting function will have precisely the same semantics.
+# (disabled on default)
+# -fno-semantic-interposition
