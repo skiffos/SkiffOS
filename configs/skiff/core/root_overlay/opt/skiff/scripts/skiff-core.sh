@@ -8,6 +8,7 @@ CORE_CONFIG_FILE=${CORE_PERSIST_DIR}/config.yaml
 CORE_DEFCONFIG_FILE=/opt/skiff/coreenv/defconfig.yaml
 
 SKIFF_CORE="/usr/bin/skiff-core --config $CORE_CONFIG_FILE"
+export SKIFF_CORE_WORK_DIR=${CORE_PERSIST_DIR}/tmp
 
 mkdir -p $CORE_PERSIST_DIR
 if [ ! -f $CORE_CONFIG_FILE ]; then
