@@ -1,4 +1,4 @@
-From 2b42d10d246ebb457ccb4d27828d24ff6b26b4e8 Mon Sep 17 00:00:00 2001
+From 55bbde6fa53e2dc997e34d355b753933b9c13b34 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Fri, 22 Jan 2021 01:36:45 -0800
 Subject: [PATCH] Added support for SkiffOS
@@ -9,11 +9,11 @@ Fixes #7
 
 Signed-off-by: Christian Stewart <christian@paral.in>
 ---
- neofetch | 30 ++++++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+ neofetch | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/neofetch b/neofetch
-index 1e4b564..ef6f78f 100755
+index 1e4b564..edbc456 100755
 --- a/neofetch
 +++ b/neofetch
 @@ -794,8 +794,8 @@ image_source="auto"
@@ -40,27 +40,23 @@ index 1e4b564..ef6f78f 100755
              elif [[ -f /etc/mcst_version ]]; then
                  case $distro_shorthand in
                      on|tiny) distro="OS Elbrus" ;;
-@@ -9646,6 +9652,26 @@ yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+@@ -9646,6 +9652,22 @@ yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
  EOF
          ;;
  
 +        "SkiffOS"*)
-+            # set_colors 7 4
-+            set_colors 7 4
++            set_colors 4 7
 +            read -rd '' ascii_data <<'EOF'
 +${c2}
-+                   ${c1}.,:,..${c2}
-+             ${c1}.;1}1ttffttt11i:,${c2}
-+            ${c1}:tfffffffffffftt1i;,${c2}
-+ ${c2}...........${c1}:ii11tttffffffffft1;${c2}
-+ ${c2}...................${c1}:;;i1ttff1;,${c2}
-+  ${c2}.........................${c1}:;i;${c2}
-+   ${c1}:111111111111iii;;;::,,${c2}........
-+    ${c1}:tffffffffffffffffftttt1i;::,${c2}.....
-+      ${c1}.11111ttttttfffffffffffftt1i:;,${c2}.....
-+        .....,,,,,${c1}:::;;i11ttfffffffftt1;:,${c2}...
-+            ..............,,${c1}:;i1ttffffffft1;:,${c2}.
-+                  ...............${c1}:i1tffffffft1.${c2}.
++             ,@@@@@@@@@@@w,_            
++  ${c2}====~~~,,.${c2}A@@@@@@@@@@@@@@@@@W,_       
++  ${c1}`||||||||||||||L{${c2}"@$@@@@@@@@B"        
++   ${c1}`|||||||||||||||||||||L{${c2}"$D          
++     ${c2}@@@@@@@@@@@@@@@@@@@@@${c1}_||||}==,     
++      ${c2}*@@@@@@@@@@@@@@@@@@@@@@@@@p${c1}||||==,
++        ${c1}`'||LLL{{""${c2}@$B@@@@@@@@@@@@@@@p${c1}||
++            ${c1}`~=|||||||||||L"${c2}$@@@@@@@@@@@
++                   ${c1}````'"""""""${c2}'""""""""
 +EOF
 +            ;;
 +
