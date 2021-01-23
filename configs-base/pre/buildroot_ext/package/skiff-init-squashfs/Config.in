@@ -8,9 +8,53 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS
 
 if BR2_PACKAGE_SKIFF_INIT_SQUASHFS
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
+	bool "inherit /mnt from the root fs"
+	help
+	  Bind mounts /mnt into the chroot system at /mnt
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_CHROOT_TARGET
+	bool "chroot into target fs"
+	default y
+	help
+	  chroots into the mountpoint before running init.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_INIT_PROC
+	string "init process to run"
+	default "/lib/systemd/systemd"
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_PROC
+	bool "inherit /proc from the root fs"
+	default y
+	help
+	  Mounts /proc into the chroot system at /proc
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_SYS
+	bool "mount /sys in the target fs"
+	default y
+	help
+	  Mounts /proc into the chroot system at /proc
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_SYS_RBIND
+	bool "mount /sys in the target fs as rbind"
+	select BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_SYS
+	help
+	  Mounts /sys into the chroot system at /sys with rbind
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_MOVE_MOUNTPOINT_ROOT
-	bool "Disable moving mountpoint to /"
+	bool "disable moving mountpoint to /"
 	help
 	  Disable moving skiff mountpoint to /
+    
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
+	bool "inherit / to /mnt/persist from the root fs"
+	default y
+	help
+	  Mounts / into the chroot system at /mnt/persist
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_MAKE_SHARED
+	bool "ensure that the / mount is shared"
+	help
+	  Ensures that / is a shared mount on startup.
 
 endif # BR2_PACKAGE_SKIFF_INIT_SQUASHFS

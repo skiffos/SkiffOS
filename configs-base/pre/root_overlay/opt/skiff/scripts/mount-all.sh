@@ -73,7 +73,7 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_MNT_F
      rm -rf /var/log/journal || true
     fi
     mkdir -p /var/log/journal
-    mount --rbind ${JOURNAL_PERSIST} /var/log/journal
+    mount --bind ${JOURNAL_PERSIST} /var/log/journal
     chmod 4755 /var/log/journal
     systemd-tmpfiles --create --prefix /var/log/journal || true
   fi
@@ -85,11 +85,7 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_MNT_F
     cp /etc/ssh/ssh_config $SSH_PERSIST/ssh_config
   fi
   if ! mountpoint -q /etc/ssh; then
-    mount --rbind $SSH_PERSIST /etc/ssh
-  fi
-  mkdir -p /root/persist
-  if ! mountpoint -q /root/persist; then
-    mount --rbind $PERSIST_ROOT /root/persist || true
+    mount --bind $SSH_PERSIST /etc/ssh
   fi
 else
   echo "Unable to find drive ${PERSIST_DEVICE}!"
@@ -97,9 +93,6 @@ else
 fi
 
 mkdir -p $ROOTFS_MNT
-if [ -z "$ROOTFS_MNT_FLAGS" ]; then
-    ROOTFS_MNT_FLAGS="-o ro"
-fi
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount $ROOTFS_MNT_FLAGS $ROOTFS_DEVICE $ROOTFS_MNT; then
   echo "Rootfs drive at $ROOTFS_MNT"
 else
