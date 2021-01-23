@@ -3,6 +3,7 @@ set -eo pipefail
 
 export LC_ALL=C
 export ROOT_DIR=$(pwd)
+export SKIFF_ROOT_DIR=${ROOT_DIR}
 export SKIFF_CONFIGS_DIR=${ROOT_DIR}/configs
 export SKIFF_WORKSPACES_DIR=${ROOT_DIR}/workspaces
 export SKIFF_OVERRIDES_DIR=${ROOT_DIR}/overrides
