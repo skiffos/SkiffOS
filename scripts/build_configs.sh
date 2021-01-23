@@ -17,6 +17,12 @@ SKIFF_POST_CONFIG_DIR=$SKIFF_BASE_CONFIGS_DIR/post
 SKIFF_OVERRIDES_CONFIG_DIR=$SKIFF_OVERRIDES_DIR
 SKIFF_WS_OVERRIDES_CONFIG_DIR=$SKIFF_WS_OVERRIDES_DIR
 
+# Check old cflags, if set
+PREVIOUS_TARGET_CFLAGS=""
+if [ -f $SKIFF_FINAL_CONFIG_DIR/cflags ]; then
+    PREVIOUS_TARGET_CFLAGS=$(cat $SKIFF_FINAL_CONFIG_DIR/cflags)
+fi
+
 # Determine if we should skip rebuilding the config.
 if (
 if [ -n "$SKIFF_FORCE_RECONFIG" ]; then
@@ -84,11 +90,6 @@ touch $uboot_conf
 
 users_conf=$SKIFF_FINAL_CONFIG_DIR/users
 touch $users_conf
-
-cflags_override_conf=$SKIFF_FINAL_CONFIG_DIR/cflags
-if [ -f $cflags_override_conf ]; then
-    rm $cflags_override_conf || true
-fi
 
 # Make the scripts wrappers
 bind_env="$(env | grep 'SKIFF_*' | sed 's/^/export /' | sed 's/=/=\"/' | sed 's/$/\"/')"
@@ -251,11 +252,24 @@ if [ -n "$addl_target_cflags" ]; then
         printf "\n\n"
     fi
     echo "CFLAGS: ${addl_target_cflags}"
+    cflags_override_conf=$SKIFF_FINAL_CONFIG_DIR/buildroot/cflags
     echo "BR2_TARGET_OPTIMIZATION=\"$addl_target_cflags\"" > $cflags_override_conf
     echo "Merging in cflags to Buildroot config..."
     $domerge $br_conf $cflags_override_conf
+    rm $cflags_override_conf || true
     mv .config $br_conf
 fi
+
+# if the target cflags changed, remove the gcc stamps so we re-configure gcc
+# this allows for temporary adjustments of cflags when developing
+echo "${addl_target_cflags}" > $SKIFF_FINAL_CONFIG_DIR/cflags
+if [ "$PREVIOUS_TARGET_CFLAGS" != "${addl_target_cflags}" ]; then
+    echo "Forcing GCC re-configuration after cflags changed:"
+    echo "Old cflags: ${PREVIOUS_CFLAGS}"
+    echo "New cflags: ${addl_target_cflags}"
+    rm ${BUILDROOT_DIR}/build/*gcc-*-*/.stamp_{built,configured,host_installed,installed} 2>/dev/null || true
+fi
+unset PREVIOUS_TARGET_CFLAGS
 
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/final
 mkdir -p $SKIFF_FINAL_CONFIG_DIR/defconfig
