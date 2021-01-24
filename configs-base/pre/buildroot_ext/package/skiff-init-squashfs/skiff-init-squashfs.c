@@ -130,6 +130,9 @@ int loopdev_setup_device(const char * file, uint64_t offset, const char * device
 // To disable the mutable / overlayfs:
 // #define NO_MUTABLE_OVERLAY
 
+// To disable the moving mountpoint to /
+// #define NO_MOVE_MOUNTPOINT_ROOT
+
 // TODO: Convert to defines and/or allow overriding from Config.in
 const char* pid1_log = "/dev/kmsg"; // "/dev/ttyS0";
 const char* squashfs_file = "/boot/rootfs.squashfs";
@@ -400,12 +403,17 @@ int main(int argc, char* argv[]) {
   }
 
   // move mountpoint
+#ifndef NO_MOVE_MOUNTPOINT_ROOT
   if (mount(mountpoint, "/", NULL, MS_MOVE, NULL) < 0) {
     res = errno;
     fprintf(logfd, "SkiffOS: failed to move / mount: (%d) %s\n", res, strerror(res));
     return res;
 	}
   chroot(".");
+#else
+  chroot(mountpoint);
+#endif
+
   chdir("/");
   if (cfd > 0) {
     close(cfd);

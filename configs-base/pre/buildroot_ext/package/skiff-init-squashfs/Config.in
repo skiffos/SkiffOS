@@ -5,3 +5,12 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS
 	depends on BR2_USE_MMU # docker-containerd
 	help
 	  Statically linked init binary to chroot into squashfs.
+
+if BR2_PACKAGE_SKIFF_INIT_SQUASHFS
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_MOVE_MOUNTPOINT_ROOT
+	bool "Disable moving mountpoint to /"
+	help
+	  Disable moving skiff mountpoint to /
+
+endif # BR2_PACKAGE_SKIFF_INIT_SQUASHFS
