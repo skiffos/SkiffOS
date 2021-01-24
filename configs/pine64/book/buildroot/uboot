@@ -1,4 +1,5 @@
 # Disabled due to compiler incompatibility:
+# (requires 32 bit arm compiler)
 # BR2_TARGET_UBOOT_USE_DEFCONFIG=y
 # BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pinebook-pro-rk3399"
 
