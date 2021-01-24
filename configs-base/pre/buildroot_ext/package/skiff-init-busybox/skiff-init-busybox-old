@@ -1,0 +1,33 @@
+################################################################################
+#
+# skiff-init-busybox
+#
+################################################################################
+
+SKIFF_INIT_BUSYBOX_DEPENDENCIES = busybox-build
+
+SKIFF_INIT_BUSYBOX_INSTALL_TARGET = NO
+SKIFF_INIT_BUSYBOX_INSTALL_STAGING = NO
+SKIFF_INIT_BUSYBOX_INSTALL_IMAGES = YES
+
+SKIFF_INIT_BUSYBOX_MAKE_ENV = $(BUSYBOX_MAKE_ENV) \
+	CFLAGS="$(BUSYBOX_CFLAGS) -static" \
+	CFLAGS_busybox="$(BUSYBOX_CFLAGS_busybox) -static"
+
+# build the static binary
+define SKIFF_INIT_BUSYBOX_BUILD_CMDS
+	echo "CONFIG_PAM=n" >> $(BUSYBOX_SRCDIR)/.config
+	echo "CONFIG_STATIC=y" >> $(BUSYBOX_SRCDIR)/.config
+	$(SKIFF_INIT_BUSYBOX_MAKE_ENV) $(MAKE) $(BUSYBOX_MAKE_OPTS) \
+		-C $(BUSYBOX_SRCDIR) clean busybox
+	rm ${BUSYBOX_SRCDIR}/busybox_unstripped || true
+	cp ${BUSYBOX_SRCDIR}/busybox ${BUSYBOX_SRCDIR}/skiff-init-busybox
+endef
+
+define SKIFF_INIT_BUSYBOX_INSTALL_IMAGES_CMDS
+	mkdir -p $(BINARIES_DIR)/skiff-init
+	$(INSTALL) -m 755 -D $(BUSYBOX_SRCDIR)/skiff-init-busybox \
+		 $(BINARIES_DIR)/skiff-init/busybox
+endef
+
+$(eval $(generic-package))
