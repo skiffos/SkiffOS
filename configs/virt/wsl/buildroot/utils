@@ -1,0 +1,2 @@
+# wslutilities: wslusc, wslsys, wslfetch, wslvar, wslview, wslact
+BR2_PACKAGE_WSLU=y
