@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RK3399_FIRMWARE_BLOBS_VERSION = 0fb2be2d3bab5ff58dc22a891299e6bb9739d7bc
+RK3399_FIRMWARE_BLOBS_VERSION = 1a5baa2474d3a1165a9bb2f9e63273cc6fb88e0a
 RK3399_FIRMWARE_BLOBS_SITE = $(call github,skiffos,rk3399-firmware-blobs,$(RK3399_FIRMWARE_BLOBS_VERSION))
 RK3399_FIRMWARE_BLOBS_LICENSE = BSD-3-Clause
 RK3399_FIRMWARE_BLOBS_LICENSE_FILES = LICENSE
@@ -13,9 +13,13 @@ RK3399_FIRMWARE_BLOBS_INSTALL_TARGET = NO
 RK3399_FIRMWARE_BLOBS_INSTALL_HOST = NO
 RK3399_FIRMWARE_BLOBS_INSTALL_IMAGES = YES
 
+RK3399_FIRMWARE_BLOBS_VARIANT = $(BR2_PACKAGE_RK3399_FIRMWARE_BLOBS_VARIANT)
+
 define RK3399_FIRMWARE_BLOBS_INSTALL_IMAGES_CMDS
-	mkdir -p $(BINARIES_DIR)/rk3399-firmware-blobs
-	cp -dpfr $(@D)/. $(BINARIES_DIR)/rk3399-firmware-blobs/
+	OUT="$(BINARIES_DIR)/rk3399-firmware-blobs"; \
+		mkdir -p $$OUT; \
+		cp $(@D)/bl31.elf $${OUT}; \
+		cp -dpfr $(@D)/$(RK3399_FIRMWARE_BLOBS_VARIANT)/. $${OUT}
 endef
 
 $(eval $(generic-package))
