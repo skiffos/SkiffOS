@@ -40,7 +40,7 @@ wsl.exe --update
 
 [this guide]: https://aka.ms/wsl2-install
 
-You can then import the SkiffOS build output `rootfs.tar.gz`:
+You can then import the SkiffOS build output `skiffos.tar.gz`:
 
 ```
 # import, creating rootfs file at storage path
