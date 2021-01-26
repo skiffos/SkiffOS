@@ -1,5 +1,7 @@
 BR2_TARGET_ROOTFS_CPIO=n
 
+# BR2_TARGET_ROOTFS_TAR is not set
+
 # rootfs.tar.gz for direct import as mutable / to WSL
 # BR2_TARGET_ROOTFS_TAR=y
 # BR2_TARGET_ROOTFS_TAR_GZIP=y
