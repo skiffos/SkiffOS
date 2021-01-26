@@ -1,4 +1,5 @@
 #!/bin/bash
+shopt -s nullglob
 set -eo pipefail
 
 CMD=$0
@@ -52,7 +53,9 @@ if ! mountpoint -q /mnt/boot ; then
   fi
 fi
 sync
-mount -o remount,rw /mnt/rootfs
+if [ -n "$ROOTFS_REMOUNT_RW" ]; then
+  mount -o remount,rw /mnt/rootfs
+fi
 EOF
 if [ -f ${WS}/rootfs.cpio.uboot ]; then
     $RS ${WS}/rootfs.cpio.uboot $SSHSTR:/mnt/boot/rootfs.cpio.uboot
@@ -66,12 +69,19 @@ fi
 if [ -d ${WS}/rootfs_part ]; then
     $RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
 fi
-if [ -f ${WS}/zImage ]; then
-  $RS ${WS}/zImage $SSHSTR:/mnt/boot/zImage
-else
-  $RS ${WS}/Image $SSHSTR:/mnt/boot/Image
+
+IMG_TYPES=( zImage Image bzImage vmlinux )
+for t in ${IMG_TYPES[@]}; do
+    if [ -f ${WS}/$t ]; then
+        $RS ${WS}/$t $SSHSTR:/mnt/boot/
+        break
+    fi
+done
+
+DTB_FILES=( ${WS}/*.dtb )
+if (( ${#DTB_FILES[@]} )); then
+    $RS ${WS}/*.dtb $SSHSTR:/mnt/boot/
 fi
-$RS ${WS}/*.dtb $SSHSTR:/mnt/boot/
 if [ -f ${WS}/skiff-release ]; then
   $RS ${WS}/skiff-release $SSHSTR:/mnt/boot/skiff-release
 fi
