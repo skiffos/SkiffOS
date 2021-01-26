@@ -29,10 +29,12 @@ fi
 
 echo "Ensuring mountpoints..."
 ssh $SSHSTR 'bash -s' <<'EOF'
-set -eo pipefail
+set -xeo pipefail
 sync
 if ! mountpoint -q /mnt/boot ; then
-  source /opt/skiff/scripts/mount-all.pre.d/*.sh || true
+  for f in /opt/skiff/scripts/mount-all.pre.d/*.sh; do
+    source $f || true
+  done
   mkdir -p /mnt/boot
   if [ -n "$BOOT_DEVICE" ]; then
     mount $BOOT_DEVICE $BOOT_MNT_FLAGS /mnt/boot
