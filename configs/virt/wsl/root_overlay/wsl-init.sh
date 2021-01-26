@@ -13,6 +13,9 @@ export PATH=/usr/lib/systemd:/usr/sbin:/usr/bin
 # to enter ns: chroot /skiff-overlays/system; nsenter -t$(pidof systemd)
 set -x
 mount --make-shared / || true
+if ! mountpoint -q /proc; then
+    mount -t proc proc /proc || true
+fi
 exec unshare --wd=/ --mount --mount-proc \
      --keep-caps --propagation shared \
      --pid --fork --setgroups allow \
