@@ -89,7 +89,7 @@ Here are the boards/systems currently supported by Skiff:
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | virt/docker        | N/A                  | N/A             | Run SkiffOS in Docker  |
 | [Qemu]               | virt/qemu          | N/A                  | ✔ 5.10.10       | Run SkiffOS in QEmu    |
-| [WSL] on Windows     | virt/wsl           | N/A                  | ✔ msft-4.19.84  | Run in WSL1 or WSL2    |
+| [WSL] on Windows     | virt/wsl           | N/A                  | ✔ msft-5.4.72   | Run in WSL1 or WSL2    |
 | [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.10.10       | ✔ Tested               |
 | [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.10.10       | ⚠ Discontinued         |
 | [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.10.10       | ⚠ Discontinued         |
