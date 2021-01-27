@@ -28,8 +28,6 @@ additional features are organized into configuration layers.
 [Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 
-[Buildroot]: https://buildroot.org
-
 ## Getting started
 
 You can type `make` at any time to see a status and help printout. Do this now,
