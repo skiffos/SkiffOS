@@ -54,5 +54,7 @@ images:
       # images are provided for arm64, arm, amd64
       # also an option: policy: ifbuildfails
       policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
     build:
       source: /opt/skiff/coreenv/skiff-core-gentoo
