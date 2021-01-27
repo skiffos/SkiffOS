@@ -53,7 +53,7 @@ if ! mountpoint -q /mnt/boot ; then
   fi
 fi
 sync
-if [ -n "$ROOTFS_REMOUNT_RW" ]; then
+if [ -n "$ROOTFS_REMOUNT_RW" ] || ! [ -w /mnt/rootfs ]; then
   mount -o remount,rw /mnt/rootfs
 fi
 EOF
