@@ -1,6 +1,7 @@
 # See: https://github.com/gentoo/gentoo-docker-images/blob/master/stage3.Dockerfile
 ARG BOOTSTRAP
-FROM ${BOOTSTRAP:-alpine:latest} as builder
+# FROM ${BOOTSTRAP:-alpine:latest} as builder
+FROM ${BOOTSTRAP:-quay.io/skiffos/alpine:latest} as builder
 
 WORKDIR /gentoo
 
