@@ -14,3 +14,9 @@ find ${TARGET_DIR}/etc/systemd/system \
      -or -name 'systemd-remount-fs.service' \) \
      -exec echo \{\} \; \
      -exec rm \{\} \;
+
+echo "virt/wsl: creating wsl-shell symlink in target..."
+if [ -f ${TARGET_DIR}/bin/wsl-shell ]; then
+    rm ${TARGET_DIR}/bin/wsl-shell || true
+fi
+ln -fs /bin/bash ${TARGET_DIR}/bin/wsl-shell

@@ -1,1 +1,2 @@
+source "$BR2_EXTERNAL_VIRT_WSL_PATH/package/wsl-shell/Config.in"
 source "$BR2_EXTERNAL_VIRT_WSL_PATH/package/wslu/Config.in"

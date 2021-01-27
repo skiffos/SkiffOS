@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <libgen.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +29,9 @@
 // To mount / to /mnt/persist:
 // #define ROOT_AS_PERSIST
 
+// To disable resizing persist
+// #define NO_RESIZE_PERSIST
+
 // To disable the mutable / overlayfs:
 // #define NO_MUTABLE_OVERLAY
 
@@ -51,7 +55,15 @@
 #define SKIFF_INIT_PROC "/lib/systemd/systemd"
 #endif
 
+// To write a PID file for the init proc.
+// #define WRITE_SKIFF_INIT_PID
+
+#ifndef SKIFF_INIT_PID
+#define SKIFF_INIT_PID "/run/skiff-init/skiff-init.pid"
+#endif
+
 const char *init_proc = SKIFF_INIT_PROC;
+const char *init_pid_path = SKIFF_INIT_PID;
 
 FILE *logfd;
 const char *pid1_log = "/dev/kmsg";
@@ -82,6 +94,7 @@ const char *overlay_work_mountpoint = SKIFF_MOUNTS_DIR "/system-tmp";
 
 char *loopdev_find_unused();
 int loopdev_setup_device(const char *file, uint64_t offset, const char *device);
+void write_skiff_init_pid(pid_t pid);
 
 int main(int argc, char *argv[]) {
   int res = 0;
@@ -114,6 +127,13 @@ int main(int argc, char *argv[]) {
       closeLogFd = 1;
     }
   }
+
+  // clear the init PID early
+#ifdef WRITE_SKIFF_INIT_PID
+  if (stat(init_pid_path, &st) == 0) {
+    unlink(init_pid_path);
+  }
+#endif
 
   // mkdir -p ${root_dir}
   if (stat(root_dir, &st) == -1) {
@@ -158,7 +178,7 @@ int main(int argc, char *argv[]) {
   // it is assumed that root= was set to the "persist" partition and that the
   // boot data is stored in /boot. this may be changed later to support more
   // exotic setups.
-#ifndef NO_RESIZE_ROOT
+#ifndef NO_RESIZE_PERSIST
   if (stat(resize2fs_path, &st) == 0 && stat(resize2fs_conf, &st) == 0) {
     // read the path(s) to resize from the conf file.
     // all lines not starting with # are assumed to be paths to device files.
@@ -237,6 +257,9 @@ int main(int argc, char *argv[]) {
               "SkiffOS init: mountpoint %s already mounted, skipping mount "
               "process.\n",
               mountpoint);
+#ifdef WRITE_SKIFF_INIT_PID
+      write_skiff_init_pid(getpid());
+#endif
       chmod(mountpoint, 0755);
       chdir(mountpoint);
 #ifndef NO_CHROOT_TARGET
@@ -326,6 +349,9 @@ int main(int argc, char *argv[]) {
   }
   free(overlayArgs);
 
+  // attempt to make the mountpoint shared
+  mount(NULL, mountpoint, NULL, MS_SHARED|MS_REC, NULL);
+
 #endif
 
   // chmod the mountpoint so non-root users can use it
@@ -398,6 +424,11 @@ int main(int argc, char *argv[]) {
     return res;
   }
 #endif
+#endif
+
+  // Write PID file for init
+#ifdef WRITE_SKIFF_INIT_PID
+  write_skiff_init_pid(getpid());
 #endif
 
   // Attempt to chroot into it
@@ -473,7 +504,6 @@ int main(int argc, char *argv[]) {
 #endif
 #endif
 
-
 exec_init_proc:
 
   // compute new init argc and argv
@@ -481,6 +511,7 @@ exec_init_proc:
     argc = 1;
   }
   char **initargv = (char **)malloc((argc + 1) * sizeof(char *));
+  initargv[argc] = NULL;
   initargv[0] = strdup(init_proc);
   for (i = 1; i < argc; i++) { // skip argv[0]
     size_t len = strlen(argv[i]) + 1;
@@ -610,4 +641,37 @@ error:
     close(device_fd);
   }
   return 1;
+}
+
+void write_skiff_init_pid(pid_t pid) {
+#ifdef WRITE_SKIFF_INIT_PID
+  fprintf(logfd, "SkiffOS init: writing PID file: %s: %d\n", init_pid_path, pid);
+  int pidfd;
+  FILE *pidf;
+  struct stat st = {0};
+  char *init_pid_pathf = strdup(init_pid_path);
+  char *init_pid_dir = dirname(init_pid_pathf);
+  if (stat(init_pid_dir, &st) != 0) {
+    mkdir(init_pid_dir, 0644);
+  }
+  free(init_pid_pathf);
+  if (stat(init_pid_path, &st) == 0) {
+    unlink(init_pid_path);
+  }
+  if ((pidfd = open(init_pid_path, O_WRONLY|O_CREAT|O_TRUNC, 0644)) <= 0 ||
+      (pidf = fdopen(pidfd, "w")) == NULL) {
+    fprintf(logfd, "SkiffOS init: failed to write pid file to %s: (%d) %s\n",
+            init_pid_path, errno, strerror(errno));
+    if (pidfd > 0) {
+      close(pidfd);
+    }
+    return;
+  }
+  if (!fprintf(pidf, "%d\n", pid)) {
+    fprintf(logfd, "SkiffOS init: failed to write pid file to %s: (%d) %s\n",
+            init_pid_path, errno, strerror(errno));
+  }
+  fflush(pidf);
+  close(pidfd);
+#endif
 }
