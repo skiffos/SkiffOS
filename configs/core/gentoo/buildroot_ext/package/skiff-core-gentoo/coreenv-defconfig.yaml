@@ -48,7 +48,6 @@ users:
       copyRootKeys: true
 images:
   # See the image choices in the comment block above.
-  # This block instructs skiff-core to pull the image from Docker Hub.
   skiffos/skiff-core-gentoo:latest:
     pull:
       # images are provided for arm64, arm, amd64
