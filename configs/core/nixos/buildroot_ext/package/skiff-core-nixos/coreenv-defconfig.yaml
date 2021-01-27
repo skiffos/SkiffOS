@@ -33,5 +33,9 @@ users:
       copyRootKeys: true
 images:
   skiffos/skiff-core-nixos:latest:
+    pull:
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
     build:
       source: /opt/skiff/coreenv/skiff-core-nixos
