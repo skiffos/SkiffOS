@@ -1,2 +1,6 @@
 # wslutilities: wslusc, wslsys, wslfetch, wslvar, wslview, wslact
 BR2_PACKAGE_WSLU=y
+# wsl-shell for nsenter to skiff system
+BR2_PACKAGE_WSL_SHELL=y
+BR2_PACKAGE_WSL_SHELL_CHROOT_TARGET=y
+BR2_PACKAGE_WSL_SHELL_RUN_SKIFF_INIT=y

@@ -45,6 +45,11 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_MOVE_MOUNTPOINT_ROOT
 	bool "disable moving mountpoint to /"
 	help
 	  Disable moving skiff mountpoint to /
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_RESIZE_PERSIST
+	bool "disable resizing persist partition"
+	help
+	  Disable running resize2fs on the persist partition
     
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	bool "inherit / to /mnt/persist from the root fs"
@@ -56,5 +61,10 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_MAKE_SHARED
 	bool "ensure that the / mount is shared"
 	help
 	  Ensures that / is a shared mount on startup.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_WRITE_SKIFF_INIT_PID
+	bool "write skiff-init pid file"
+	help
+	  write PID file for systemd to /run/skiff-init/skiff-init.pid
 
 endif # BR2_PACKAGE_SKIFF_INIT_SQUASHFS
