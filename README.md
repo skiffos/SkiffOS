@@ -20,20 +20,13 @@ additional features are organized into configuration layers.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
+[Buildroot]: https://buildroot.org
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
 [Desktop PCs]: https://linux-hardware.org/?probe=267ab5de51
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
 [Odroid]: https://linux-hardware.org/?probe=927be03a24
 [Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
-
-![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
-
-[Buildroot] - an industry-adopted embedded GNU/Linux cross-compiler tool -
-produces a build optimized & tuned for the underlying compute hardware or
-virtualization environment.
-
-[Buildroot]: https://buildroot.org
 
 ## Getting started
 
@@ -79,6 +72,8 @@ partition is not touched in this step, so anything you save there, including
 Docker state and system configuration, will not be touched in the upgrade.
 
 ## Supported Systems
+
+![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
 
 SkiffOS is based on Buildroot, which can compile operating systems for virtually
 any machine. Therefore, SkiffOS also works on nearly any architecture or board.
@@ -421,6 +416,9 @@ incompatibility with your build host operating system.
 
 ## Support
 
+[![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
+
 If you encounter issues or questions at any point when using Skiff, please file
-a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new).
+a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new) and/or [Join
+Discord](https://discord.gg/EKVkdVmvwT).
 
