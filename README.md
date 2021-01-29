@@ -384,7 +384,7 @@ $ make cmd/virt/docker/exec
 $ docker exec -it skiff sh
 ```
 
-## Systemd
+## Configuration
 
 SkiffOS includes a systemd-based configuration and a standard partition layout,
 with boot files separated from the persistent data, on default. This can be
@@ -419,49 +419,6 @@ It takes SSH public key files (`*.pub`) from these locations:
 
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
-
-## System Tools with Alpine
-
-Note: with Skiff Core - `SKIFF_CONFIG=skiff/core` - you can run "su - core" to
-switch into the containerized environment (with the default configs).
-
-Alpine provides a lightweight environment with a package manager (apk) to
-install developer tools on-demand. This command will execute a persistent
-container named "work" which you can execute a shell inside to interact with.
-This workflow is similar to how Skiff Core drops SSH sessions into Docker
-containers as an optional feature.
-
-```bash
-docker run \
-	--name=work -d \
-    --pid=host --uts=host --net=host \
-    --privileged \
-    -v /:/root-fs -v /dev:/dev \
-    --privileged \
-    alpine:edge \
-    bin/sleep 99999
-    
-# Execute a shell in the container.
-docker exec -it work sh
-
-# Update the packages.
-apk upgrade --update
-
-# Add a package.
-apk add vim
-apk add alpine-sdk # adds compilers
-```
-
-Some useful tools to try:
-
- - htop: interactive process manager similar to top
- - atop: shows CPU statistics and process information as well as summaries of
-   network interface load.
- - bwm-ng: simple lightweight UI to show rx/tx and total bandwidth of all interfaces.
- - bmon: detailed UI, shows all details of any network errors experienced and
-   current bandwidth on all interfaces.
- - nload: shows incoming and outgoing network load.
- - nethogs: shows what processes are using network traffic.
 
 ## Build in Docker
 
