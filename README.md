@@ -315,6 +315,7 @@ configuration for starting a traditional Linux distribution in a container:
 [NixOS]: https://nixos.org
 [UBPorts]: https://ubports.com/
 [Ubuntu]: https://ubuntu.com/
+[XFCE]: https://www.xfce.org/
 
 All core configurations work with all target platforms. To customize the core
 environment, edit the file at `skiff/core/config.yaml` on the persist partition.
