@@ -169,48 +169,6 @@ the board, as described above.
 If you have a board that is not yet supported by SkiffOS, please **open an
 issue,** and we will work with you to integrate and test the new platform.
 
-## Supported Core Environments
-
-These configuration packages bring in `skiff/core` automatically, with
-configuration for starting a traditional Linux distribution in a container.
-
-Here are the **core** images currently supported by Skiff:
-
-| **Distribution**      | **Config Package**     | **Notes**              |
-| ---------------       | -----------------      | ---------------------- |
-| [Gentoo]              | core/gentoo            | Based on latest stage3 |
-| [NixOS]               | core/nixos             |                        |
-| [NixOS] for PinePhone | core/pinephone_nixos   |                        |
-| [NixOS] with [XFCE]   | core/nixos_xfce        |                        |
-| PinePhone [Manjaro]   | core/pinephone_manjaro |                        |
-| PinePhone [KDE Neon]  | core/pinephone_neon    | Ubuntu-based KDE Neon  |
-| PinePhone [UBPorts]   | core/pinephone_ubports | Ubuntu-ports based     |
-| [Ubuntu]              | skiff/core             | Default configuration  |
-
-[Gentoo]: https://www.gentoo.org/
-[KDE Neon]: https://neon.kde.org/
-[Manjaro]: https://manjaro.org/
-[NixOS]: https://nixos.org
-[UBPorts]: https://ubports.com/
-[Ubuntu]: https://ubuntu.com/
-
-The default configuration creates a user named "core" mapped into a container,
-but this can be easily configured in the `skiff-core.yaml` configuration file:
-
-```yaml
-containers:
-  core:
-    image: skiffos/skiff-core-gentoo:latest
-    [...]
-users:
-  core:
-    container: core
-    containerUser: core
-    [...]
-```
-
-All core configurations work with all target platforms.
-
 ## Demo: Run in Docker
 
 You can now demo Skiff in a Docker container. It requires some additional flags
@@ -337,8 +295,45 @@ can be loaded as a Docker image with the `docker import` command.
 To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
 list.
 
-To customize the core environment, edit the file at `skiff/core/config.yaml` on
-the persist partition. The default config will be placed there on first boot.
+These configuration packages bring in `skiff/core` automatically, with
+configuration for starting a traditional Linux distribution in a container:
+
+| **Distribution**      | **Config Package**     | **Notes**              |
+| ---------------       | -----------------      | ---------------------- |
+| [Gentoo]              | core/gentoo            | Based on latest stage3 |
+| [NixOS]               | core/nixos             |                        |
+| [NixOS] for PinePhone | core/pinephone_nixos   |                        |
+| [NixOS] with [XFCE]   | core/nixos_xfce        |                        |
+| PinePhone [Manjaro]   | core/pinephone_manjaro |                        |
+| PinePhone [KDE Neon]  | core/pinephone_neon    | Ubuntu-based KDE Neon  |
+| PinePhone [UBPorts]   | core/pinephone_ubports | Ubuntu-ports based     |
+| [Ubuntu]              | skiff/core             | Default configuration  |
+
+[Gentoo]: https://www.gentoo.org/
+[KDE Neon]: https://neon.kde.org/
+[Manjaro]: https://manjaro.org/
+[NixOS]: https://nixos.org
+[UBPorts]: https://ubports.com/
+[Ubuntu]: https://ubuntu.com/
+
+All core configurations work with all target platforms. To customize the core
+environment, edit the file at `skiff/core/config.yaml` on the persist partition.
+The default config will be placed there on first boot.
+
+The default configuration creates a user named "core" mapped into a container,
+but this can be easily configured in the `skiff-core.yaml` configuration file:
+
+```yaml
+containers:
+  core:
+    image: skiffos/skiff-core-gentoo:latest
+    [...]
+users:
+  core:
+    container: core
+    containerUser: core
+    [...]
+```
 
 The default config can be overridden with a file at
 `/opt/skiff/coreenv/defconfig.yaml`.
