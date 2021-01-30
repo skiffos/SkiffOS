@@ -74,6 +74,24 @@ export SKIFF_WORKSPACE=wsl
 
 Note that my-wsl-system should be the ssh server running in the Skiff system.
 
+## Configuring WSL2
+
+WSL2 has two methods for configuration: editing the `/mnt/persist/etc/wsl.conf`
+file, and editing the `$env:USERPROFILE/.wslconfig` file in Windows.
+
+The documentation for the settings is available at the [wsl-config docs].
+
+[wsl-config docs]: https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings
+
+An example for changing the resources allocated to WSL2:
+
+```
+# notepad $env:USERPROFILE/.wslconfig
+[wsl2]
+memory=3GB
+swap=4GB
+processors=4
+```
 
 ## Upgrading the WSL2 Kernel
 
