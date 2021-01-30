@@ -1,4 +1,4 @@
-From e4dd16aa68cdf1719abc42d0394ecf2b9f8f7643 Mon Sep 17 00:00:00 2001
+From c3379dd7bd3e45a8d584321faa1a9a7283d86f0a Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 30 Jan 2021 02:55:00 -0800
 Subject: [PATCH] io: fix nil ref exception against nil stdout
@@ -7,10 +7,11 @@ Signed-off-by: Christian Stewart <christian@paral.in>
 ---
  setup/setup_image.go       |  3 ++-
  shell/shell.go             | 13 ++++++++-----
+ util/execcmd/container.go  |  3 ++-
  util/execcmd/hijackedio.go | 10 ++++++----
  util/execcmd/instream.go   |  2 +-
  util/execcmd/outstream.go  |  2 +-
- 5 files changed, 18 insertions(+), 12 deletions(-)
+ 6 files changed, 20 insertions(+), 13 deletions(-)
 
 diff --git a/setup/setup_image.go b/setup/setup_image.go
 index 3c387fb..d796a02 100644
@@ -62,6 +63,20 @@ index 30a71e1..53bbac2 100644
  			log.WithError(err).Error("Error monitoring TTY size")
  		}
  	}
+diff --git a/util/execcmd/container.go b/util/execcmd/container.go
+index 42503de..04e2c69 100644
+--- a/util/execcmd/container.go
++++ b/util/execcmd/container.go
+@@ -19,7 +19,8 @@ func ExecCmdContainer(
+ 	in := NewInStream(stdIn, false)
+ 	out := NewOutStream(stdOut)
+ 	errOut := NewOutStream(stdErr)
+-	useTty := in != nil && in.IsTty()
++	inStrm, _ := in.(*InStream)
++	useTty := inStrm != nil && inStrm.IsTty()
+ 
+ 	cmds := append([]string{cmd}, args...)
+ 	execCreate, err := dockerClient.ContainerExecCreate(ctx, containerID, types.ExecConfig{
 diff --git a/util/execcmd/hijackedio.go b/util/execcmd/hijackedio.go
 index b8c09be..94a0fec 100644
 --- a/util/execcmd/hijackedio.go
