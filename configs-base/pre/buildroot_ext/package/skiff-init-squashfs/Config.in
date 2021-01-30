@@ -13,6 +13,12 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
 	help
 	  Bind mounts /mnt into the chroot system at /mnt
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_HOST_DIRS
+	string "list of host bind mounts"
+	default ""
+	help
+	  space separated list of /source-path:/target-path pairs
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_CHROOT_TARGET
 	bool "chroot into target fs"
 	default y

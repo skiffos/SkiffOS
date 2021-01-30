@@ -92,9 +92,17 @@ const char *overlay_upper_mountpoint = SKIFF_MOUNTS_DIR "/system-upper";
 const char *overlay_work_mountpoint = SKIFF_MOUNTS_DIR "/system-tmp";
 #endif
 
+// Set BIND_HOST_DIRS to a space-separated list of paths to bind mount:
+// Each path should be host-dir:target-dir
+// i.e. /mydir:/my-target-dir /my-other-dir:/my-other-target-dir
+#ifndef BIND_HOST_DIRS
+#define BIND_HOST_DIRS ""
+#endif
+
 char *loopdev_find_unused();
 int loopdev_setup_device(const char *file, uint64_t offset, const char *device);
 void write_skiff_init_pid(pid_t pid);
+void do_bind_host_dirs(void);
 
 int main(int argc, char *argv[]) {
   int res = 0;
@@ -396,7 +404,7 @@ int main(int argc, char *argv[]) {
     res = 0; // ignore
   }
 
-#else // !BIND_ROOT_MOUNT
+#else // !BIND_ROOT_MNT
 
   // Mount persist into the target chroot only.
 #ifdef ROOT_AS_PERSIST
@@ -412,7 +420,7 @@ int main(int argc, char *argv[]) {
   }
 #endif // ROOT_AS_PERSIST
 
-#endif // BIND_ROOT_MOUNT
+#endif // BIND_ROOT_MNT
 
 #ifndef NO_MOUNT_SYS
 #ifdef MOUNT_SYS_RBIND
@@ -431,9 +439,7 @@ int main(int argc, char *argv[]) {
   write_skiff_init_pid(getpid());
 #endif
 
-  // Attempt to chroot into it
-  fprintf(logfd, "SkiffOS init: switching into mountpoint: %s\n", mountpoint);
-  fprintf(logfd, "SkiffOS init: mounting /dev /proc /sys...\n");
+  // Bind /dev into the container if set.
   if (stat("/dev", &st) == 0) {
     if (mount("/dev", dev_mnt, NULL, MS_BIND | MS_REC, NULL) != 0) {
       res = errno;
@@ -443,6 +449,11 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  // Bind all of the extra host dirs into the container.
+  do_bind_host_dirs();
+
+  // Attempt to chroot into it
+  fprintf(logfd, "SkiffOS init: switching into mountpoint: %s\n", mountpoint);
   chdir(mountpoint);
 
   // move the mount to /
@@ -674,4 +685,98 @@ void write_skiff_init_pid(pid_t pid) {
   fflush(pidf);
   close(pidfd);
 #endif
+}
+
+// do_bind_host_dirs binds any extra host dirs defined in BIND_HOST_DIRS.
+void do_bind_host_dirs(void) {
+  struct stat st = {0};
+  const char* bhd = BIND_HOST_DIRS;
+  int bhdlen = strlen(bhd);
+  int mtptlen = strlen(mountpoint);
+  int res = 0;
+  int bhdskiptws = 0;
+  for (int i1 = 0; i1 < bhdlen; i1++) {
+  nextbhdmatch:
+    // skip until whitespaces
+    if (bhdskiptws) {
+      bhdskiptws = 0;
+      while (i1 < bhdlen && bhd[i1] != ' ') {
+        i1++;
+      }
+      continue;
+    }
+    // skip whitespaces
+    if (i1 >= bhdlen || bhd[i1] == ' ') {
+      continue;
+    }
+    // evaluate value
+    const char* mhost_dir = &bhd[i1];
+    int mhost_len = 1;
+    const char* mtarget_dir = 0;
+    int mtarget_len = 0;
+    int tpath = 0;
+    i1++;
+    for (; i1 < bhdlen && bhd[i1] != ' '; i1++) {
+      if (bhd[i1] == ':') {
+        if (tpath) {
+          // ERROR: more than 1 : in the string.
+          // fast forward to next space and continue.
+          bhdskiptws = 1;
+          goto nextbhdmatch;
+        }
+        tpath = 1;
+        mtarget_dir = &bhd[i1+1];
+        continue;
+      }
+      if (!tpath) {
+        mhost_len++;
+      } else {
+        mtarget_len++;
+      }
+    }
+    if (mhost_len == 0 || mtarget_len == 0) {
+      continue;
+    }
+
+    char* host_dir = malloc((mhost_len+1) * sizeof(char));
+    memcpy(host_dir, mhost_dir, mhost_len);
+    host_dir[mhost_len] = 0;
+
+    // prefix target dir with the chroot path.
+    char *target_dir = malloc(mtptlen + (mtarget_len + 1) * sizeof(char));
+    memcpy(target_dir, mountpoint, mtptlen);
+    memcpy(target_dir+mtptlen, mtarget_dir, mtarget_len);
+    target_dir[mtarget_len+mtptlen] = 0;
+
+    if (stat(host_dir, &st) != 0) {
+      fprintf(logfd, "SkiffOS init: extra bind path: %s -> %s: "
+              "host dir does not exist\n",
+              host_dir, target_dir);
+      goto skipbhdmount;
+    }
+    if (stat(target_dir, &st) != 0) {
+      if (mkdir(target_dir, 0755) != 0) {
+        res = errno;
+        fprintf(logfd,
+                "SkiffOS init: extra bind path: %s -> %s: "
+                "cannot create target dir: (%d) %s\n",
+                host_dir, target_dir, res, strerror(res));
+        goto skipbhdmount;
+      }
+    }
+
+    if (mount(host_dir, target_dir, NULL, MS_BIND | MS_REC, NULL) != 0) {
+      res = errno;
+      fprintf(logfd, "SkiffOS: failed to mount extra bind path %s -> %s: (%d) %s\n", host_dir, target_dir, res,
+              strerror(res));
+      goto skipbhdmount;
+    }
+
+    fprintf(logfd, "SkiffOS init: mounted extra bind path: %s -> %s\n",
+            host_dir, target_dir);
+
+  skipbhdmount:
+    free(host_dir);
+    free(target_dir);
+  }
 }
