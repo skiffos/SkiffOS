@@ -13,12 +13,6 @@ config BR2_PACKAGE_WSL_SHELL_CHROOT_TARGET
 	help
 	  chroots into the mountpoint before running the shell
 
-config BR2_PACKAGE_WSL_SHELL_RUN_SKIFF_INIT
-	bool "start skiff-init if not running"
-	default y
-	help
-	  attempts to start skiff-init if not running
-
 config BR2_PACKAGE_WSL_SHELL_NO_DROP_ENV
 	bool "disable dropping parent env for shell"
 	help

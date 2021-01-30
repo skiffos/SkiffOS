@@ -45,9 +45,6 @@
 #define DEFAULT_SHELL "/bin/bash"
 #endif
 
-// Set to disable restoring OLDPWD inside the target (if exists)
-// #ifndef NO_RESTORE_PWD
-
 // INIT_WAIT_PID_MAX is the amount of time to wait before starting init.
 #ifndef INIT_WAIT_PID_MAX
 #define INIT_WAIT_PID_MAX 1000 * 5 // 5 seconds
@@ -62,9 +59,8 @@
 #define WAIT_PID_MAX_ATTEMPTS 10
 #endif
 
-// To run skiff-init if the PID is not active.
-// Otherwise, exits with an error.
-// #define RUN_SKIFF_INIT
+// Set to disable restoring OLDPWD inside the target (if exists)
+// #ifndef NO_RESTORE_PWD
 
 // To disable chroot before running shell
 // #define NO_CHROOT_TARGET
@@ -78,8 +74,6 @@ const char *mountpoint = SKIFF_MOUNTPOINT;
 const char *init_pid_path = SKIFF_INIT_PID;
 static pid_t target_pid = 0;
 
-// {.nstype = CLONE_NEWCGROUP, .name = "ns/cgroup", .fd = -1},
-//  {.nstype = CLONE_NEWTIME, .name = "ns/time", .fd = -1},
 static struct namespace_file {
   int nstype;
   const char *name;
@@ -123,51 +117,37 @@ int main(int argc, char *argv[]) {
     usleep(WAIT_PID_POLL_DUR * 1000);
   }
 
-  // step 2: find PID file, check PID exists, otherwise 
+  // step 2: find PID file, check PID exists
   // find the PID file for the target
   // possibly loop several times
   int attempts = 0;
-  int ran_skiff_init = 0;
   do {
     if (attempts++ >= WAIT_PID_MAX_ATTEMPTS) {
-      fprintf(logfd, "SkiffOS: attempted %d times to start/nsenter init, but failed\n", attempts-1);
+      fprintf(logfd, "SkiffOS: failed to nsenter, run 'wsl.exe --shutdown' and try again.\n");
       return res;
     }
 
-    if (stat(init_pid_path, &st) != 0) {
-#ifndef RUN_SKIFF_INIT
-      res = errno;
-      fprintf(logfd, "SkiffOS: could not find init pid: %s: (%d) %s\n",
-              init_pid_path, res, strerror(res));
-      return res;
-#endif
-    } else {
+    // if pid file already exists
+    if (stat(init_pid_path, &st) == 0) {
       // read pid
       FILE *pidf;
       int pidi = 0;
       if (!(pidf = fopen(init_pid_path, "r"))) {
         res = errno;
-#ifdef RUN_SKIFF_INIT
         if (res != ENOENT) {
-#endif
           fprintf(logfd, "SkiffOS: could not read init pid: %s: (%d) %s\n",
                   init_pid_path, res, strerror(res));
           return res;
-#ifdef RUN_SKIFF_INIT
         } else {
           res = 0; // ignore not found
         }
-#endif
       } else { // file opened
         int sres = fscanf(pidf, "%d", &pidi);
         fclose(pidf);
         if (sres == 0 || pidi < 1) {
-#ifndef RUN_SKIFF_INIT
           fprintf(logfd, "SkiffOS: could not read init pid: %s: file empty\n",
                   init_pid_path);
           return 1;
-#endif
-          pidi = 0;
         }
         if (pidi > 0) {
           target_pid = pidi;
@@ -182,49 +162,6 @@ int main(int argc, char *argv[]) {
       }
       target_pid = 0;
     }
-
-#ifndef RUN_SKIFF_INIT
-    ran_skiff_init = 1;
-#else
-    if (!ran_skiff_init) {
-      ran_skiff_init = 1;
-
-      if (uid != 0) {
-        fprintf(logfd, "SkiffOS: unable to start init as uid %d\n", uid);
-        return 1;
-      }
-
-      // attempt to start skiff init
-
-      // note: expects skiff-init to be configured to write PID file
-      // run skiff init & wait for pid file to exist
-      unlink(init_pid_path);
-      if (stat(SKIFF_INIT_PATH, &st) != 0) {
-        res = errno;
-        fprintf(logfd, "SkiffOS: unable to stat init: (%d) %s\n", res,
-                strerror(res));
-        return res;
-      }
-
-      if (fork() == 0) {
-        // child process: execute the init process
-        char *carg = NULL;
-        char **initargv = (char **)malloc((2) * sizeof(char *));
-        initargv[0] = SKIFF_INIT_PATH;
-        initargv[1] = NULL;
-
-        // re-use environment
-        if (execve(SKIFF_INIT_PATH, initargv, environ) != 0) {
-          res = errno;
-          fprintf(logfd, "Failed to exec init process: (%d) %s\n", res,
-                  strerror(res));
-          return res;
-        }
-        free(initargv);
-        return 0;
-      }
-    }
-#endif
 
     // wait for pid file (basic polling implementation)
     int didStart = 0;

@@ -1,6 +1,8 @@
 # wslutilities: wslusc, wslsys, wslfetch, wslvar, wslview, wslact
 BR2_PACKAGE_WSLU=y
+
 # wsl-shell for nsenter to skiff system
+# note: init is started by wsl.conf in wsl2.
+# if wsl fails to startup, run "wsl --shutdown" and try again.
 BR2_PACKAGE_WSL_SHELL=y
 BR2_PACKAGE_WSL_SHELL_CHROOT_TARGET=y
-BR2_PACKAGE_WSL_SHELL_RUN_SKIFF_INIT=y
