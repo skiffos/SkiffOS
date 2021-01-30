@@ -1,0 +1,114 @@
+From e4dd16aa68cdf1719abc42d0394ecf2b9f8f7643 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 30 Jan 2021 02:55:00 -0800
+Subject: [PATCH] io: fix nil ref exception against nil stdout
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ setup/setup_image.go       |  3 ++-
+ shell/shell.go             | 13 ++++++++-----
+ util/execcmd/hijackedio.go | 10 ++++++----
+ util/execcmd/instream.go   |  2 +-
+ util/execcmd/outstream.go  |  2 +-
+ 5 files changed, 18 insertions(+), 12 deletions(-)
+
+diff --git a/setup/setup_image.go b/setup/setup_image.go
+index 3c387fb..d796a02 100644
+--- a/setup/setup_image.go
++++ b/setup/setup_image.go
+@@ -137,7 +137,8 @@ func (i *ImageSetup) Execute() (exError error) {
+ 	if i.config.Pull != nil {
+ 		if i.config.Pull.Policy == config.ConfigPullPolicy_IfBuildFails {
+ 			postBuildPull = true
+-		} else if !exists || i.config.Pull.Policy == config.ConfigPullPolicy_Always {
++		} else if (!exists && i.config.Pull.Policy == config.ConfigPullPolicy_IfNotPresent) ||
++			i.config.Pull.Policy == config.ConfigPullPolicy_Always {
+ 			err := i.pull(dockerClient)
+ 			if err == nil {
+ 				return nil
+diff --git a/shell/shell.go b/shell/shell.go
+index 30a71e1..53bbac2 100644
+--- a/shell/shell.go
++++ b/shell/shell.go
+@@ -96,7 +96,10 @@ func (s *Shell) Execute(
+ 	in := execcmd.NewInStream(os.Stdin, true)
+ 	out := execcmd.NewOutStream(os.Stdout)
+ 	errOut := execcmd.NewOutStream(os.Stderr)
+-	useTty := in.IsTty()
++	inStrm, _ := in.(*execcmd.InStream)
++	useTty := inStrm != nil && inStrm.IsTty()
++	outStrm, _ := out.(*execcmd.OutStream)
++	// errStrm, _ := errOut.(*execcmd.OutStream)
+ 
+ 	configPath := path.Join(s.homeDir, config.UserConfigFile)
+ 	logPath := path.Join(s.homeDir, config.UserLogFile)
+@@ -218,15 +221,15 @@ func (s *Shell) Execute(
+ 			Tty:          useTty,
+ 		}
+ 		if useTty {
+-			in.SetRawMode()
+-			defer in.RestoreTerminal()
++			inStrm.SetRawMode()
++			defer inStrm.RestoreTerminal()
+ 		}
+ 
+ 		errCh <- streamer.Stream(ctx)
+ 	}()
+ 
+-	if useTty && in.IsTerminal() {
+-		if err := MonitorTtySize(ctx, dockerClient, out, execCreate.ID, true); err != nil {
++	if useTty && inStrm != nil && inStrm.IsTerminal() && outStrm != nil {
++		if err := MonitorTtySize(ctx, dockerClient, outStrm, execCreate.ID, true); err != nil {
+ 			log.WithError(err).Error("Error monitoring TTY size")
+ 		}
+ 	}
+diff --git a/util/execcmd/hijackedio.go b/util/execcmd/hijackedio.go
+index b8c09be..94a0fec 100644
+--- a/util/execcmd/hijackedio.go
++++ b/util/execcmd/hijackedio.go
+@@ -65,10 +65,12 @@ func (h *HijackedIOStreamer) beginOutputStream() <-chan error {
+ 		var err error
+ 
+ 		// When TTY is ON, use regular copy
+-		if h.OutputStream != nil && h.Tty {
+-			_, err = io.Copy(h.OutputStream, h.Resp.Reader)
+-		} else {
+-			_, err = stdcopy.StdCopy(h.OutputStream, h.ErrorStream, h.Resp.Reader)
++		if h.OutputStream != nil {
++			if h.Tty {
++				_, err = io.Copy(h.OutputStream, h.Resp.Reader)
++			} else {
++				_, err = stdcopy.StdCopy(h.OutputStream, h.ErrorStream, h.Resp.Reader)
++			}
+ 		}
+ 
+ 		if err != nil {
+diff --git a/util/execcmd/instream.go b/util/execcmd/instream.go
+index 18d4a2c..4a88bb9 100644
+--- a/util/execcmd/instream.go
++++ b/util/execcmd/instream.go
+@@ -36,7 +36,7 @@ func (i *InStream) IsTty() bool {
+ }
+ 
+ // NewInStream returns a new InStream object from a ReadCloser
+-func NewInStream(in io.Reader, close bool) *InStream {
++func NewInStream(in io.Reader, close bool) io.ReadCloser {
+ 	if in == nil {
+ 		return nil
+ 	}
+diff --git a/util/execcmd/outstream.go b/util/execcmd/outstream.go
+index 0f3527e..7cfaa85 100644
+--- a/util/execcmd/outstream.go
++++ b/util/execcmd/outstream.go
+@@ -34,7 +34,7 @@ func (o *OutStream) GetTtySize() (uint, uint) {
+ }
+ 
+ // NewOutStream returns a new OutStream object from a Writer
+-func NewOutStream(out io.Writer) *OutStream {
++func NewOutStream(out io.Writer) io.Writer {
+ 	if out == nil {
+ 		return nil
+ 	}
+-- 
+2.30.0
+
