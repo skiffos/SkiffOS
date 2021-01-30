@@ -121,6 +121,27 @@ export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}
 
 All X11 apps will now be forwarded correctly to the Windows host.
 
+If you want GWSL to detect all of your applications, **map the root user to the
+core container in config.yaml** as described in the next section.
+
+Then, GWSL will detect and auto-integrate all of your Core container apps. 
+
+## Mapping the WSL Root User to Core
+
+This also changes the "wsl" shell to automatically enter the container:
+
+```
+users:
+  root:
+    container: core
+    containerUser: core
+    createContainerUser: true
+    containerShell:
+      - "/bin/bash"
+```
+
+If you want to disable this, unset it and restart wsl with `wsl --shutdown`.
+
 ## Running WSL2 in a Virtualbox Machine
 
 Note: as of January 2021, VirtualBox does not support SLAT pass-through, and the
