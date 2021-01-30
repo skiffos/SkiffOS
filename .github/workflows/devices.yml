@@ -51,7 +51,7 @@ jobs:
           export BR2_DL_DIR=${HOME}/br-cache/dl
           export SKIFF_WORKSPACE=docker
           SKIFF_TARGET=$(echo ${SKIFF_DEVICE_CONFIG} | sed "s#-#/#g")
-          export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/nixos
+          export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/gentoo
           make -s configure compile check
           rm -rf ./workspaces/${SKIFF_WORKSPACE}/{build,extra_images,host,target,staging}
           mkdir -p workflow-artifacts
