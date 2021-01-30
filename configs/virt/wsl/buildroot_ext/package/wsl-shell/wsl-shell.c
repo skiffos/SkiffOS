@@ -127,6 +127,7 @@ int main(int argc, char *argv[]) {
   // find the PID file for the target
   // possibly loop several times
   int attempts = 0;
+  int ran_skiff_init = 0;
   do {
     if (attempts++ >= WAIT_PID_MAX_ATTEMPTS) {
       fprintf(logfd, "SkiffOS: attempted %d times to start/nsenter init, but failed\n", attempts-1);
@@ -183,60 +184,65 @@ int main(int argc, char *argv[]) {
     }
 
 #ifndef RUN_SKIFF_INIT
-    fprintf(logfd, "SkiffOS: unable to determine target pid\n");
-    return 1;
-#endif
+    ran_skiff_init = 1;
+#else
+    if (!ran_skiff_init) {
+      ran_skiff_init = 1;
 
-    if (uid != 0) {
-      fprintf(logfd, "SkiffOS: unable to start init as uid %d\n", uid);
-      return 1;
-    }
-
-    // note: expects skiff-init to be configured to write PID file
-    // run skiff init & wait for pid file to exist
-    unlink(init_pid_path);
-    if (stat(SKIFF_INIT_PATH, &st) != 0) {
-      res = errno;
-      fprintf(logfd, "SkiffOS: unable to stat init: (%d) %s\n", res, strerror(res));
-      return res;
-    }
-
-    if (fork() == 0) {
-      // child process: execute the init process
-      char *carg = NULL;
-      char **initargv = (char **)malloc((2) * sizeof(char *));
-      initargv[0] = SKIFF_INIT_PATH;
-      initargv[1] = NULL;
-
-      // re-use environment
-      if (execve(SKIFF_INIT_PATH, initargv, environ) != 0) {
-        res = errno;
-        fprintf(logfd, "Failed to exec init process: (%d) %s\n", res, strerror(res));
-        return res;
-      }
-      free(initargv);
-      return 0;
-    } else {
-      // wait for pid file (basic polling implementation)
-      int didStart = 0;
-      for (int i = 0; i < WAIT_PID_MAX / WAIT_PID_POLL_DUR; i++) {
-        usleep(WAIT_PID_POLL_DUR * 1000);
-        if (stat(init_pid_path, &st) == 0) {
-          didStart = 1;
-          break;
-        }
-      }
-      if (!didStart) {
-        fprintf(logfd,
-                "SkiffOS: timed out waiting for init process to start\n");
+      if (uid != 0) {
+        fprintf(logfd, "SkiffOS: unable to start init as uid %d\n", uid);
         return 1;
       }
+
+      // attempt to start skiff init
+
+      // note: expects skiff-init to be configured to write PID file
+      // run skiff init & wait for pid file to exist
+      unlink(init_pid_path);
+      if (stat(SKIFF_INIT_PATH, &st) != 0) {
+        res = errno;
+        fprintf(logfd, "SkiffOS: unable to stat init: (%d) %s\n", res,
+                strerror(res));
+        return res;
+      }
+
+      if (fork() == 0) {
+        // child process: execute the init process
+        char *carg = NULL;
+        char **initargv = (char **)malloc((2) * sizeof(char *));
+        initargv[0] = SKIFF_INIT_PATH;
+        initargv[1] = NULL;
+
+        // re-use environment
+        if (execve(SKIFF_INIT_PATH, initargv, environ) != 0) {
+          res = errno;
+          fprintf(logfd, "Failed to exec init process: (%d) %s\n", res,
+                  strerror(res));
+          return res;
+        }
+        free(initargv);
+        return 0;
+      }
+    }
+#endif
+
+    // wait for pid file (basic polling implementation)
+    int didStart = 0;
+    for (int i = 0; i < WAIT_PID_MAX / WAIT_PID_POLL_DUR; i++) {
+      usleep(WAIT_PID_POLL_DUR * 1000);
+      if (stat(init_pid_path, &st) == 0) {
+        didStart = 1;
+        break;
+      }
+    }
+    if (!didStart) {
+      fprintf(logfd, "SkiffOS: timed out waiting for init process to start\n");
     }
   } while (target_pid == 0);
 
   // We have the target pid, let's change namespace into it.
   int namespaces = 0;
-  struct namespace_file* nsfile;
+  struct namespace_file *nsfile;
   for (nsfile = namespace_files; nsfile->nstype; nsfile++) {
     namespaces |= nsfile->nstype;
     if (nsfile->fd >= 0) {
