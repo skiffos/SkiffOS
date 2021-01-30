@@ -74,7 +74,8 @@ export SKIFF_WORKSPACE=wsl
 
 Note that my-wsl-system should be the ssh server running in the Skiff system.
 
-### Upgrading the WSL2 Kernel
+
+## Upgrading the WSL2 Kernel
 
 The WSL2 kernel is configured per Windows user. It's not possible for Skiff to
 override it from within the distribution.
@@ -90,7 +91,19 @@ Then run `wsl.exe --shutdown` to force wsl to restart.
 
 NOTE: the kernel produced by Skiff does not start properly in WSL2 (yet).
 
-### Running WSL2 in a Virtualbox Machine
+## Running Graphical Apps
+
+Install the [GWSL](https://opticos.github.io/gwsl/) tool on the Windows host.
+
+In your "core" container, add the following configuration to `~/.profile` or `/etc/profile`:
+
+```
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0
+```
+
+All X11 apps will now be forwarded correctly to the Windows host.
+
+## Running WSL2 in a Virtualbox Machine
 
 Note: as of January 2021, VirtualBox does not support SLAT pass-through, and the
 VM will show the warning "Hyper-V cannot be enabled, the CPU does not support
