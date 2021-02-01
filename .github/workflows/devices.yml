@@ -34,6 +34,21 @@ jobs:
         with:
           path: ~/br-cache/
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.skiffconf }}
+      - name: Clear caches if necessary
+        run: |
+          # necessary to save space
+          if [ ! -f ~/br-cache/ccache-v1 ]; then
+            echo "Clearing old compiler cache..."
+            rm -rf ~/br-cache/ccache* || true
+            mkdir -p ~/br-cache/ccache
+            touch ~/br-cache/ccache-v1
+          fi
+          if [ ! -f ~/br-cache/dl-v1 ]; then
+            echo "Clearing old downloads cache..."
+            rm -rf ~/br-cache/dl* || true
+            mkdir -p ~/br-cache/dl
+            touch ~/br-cache/dl-v1
+          fi
       - name: Install buildroot apt deps
         run: |
           sudo apt-get install -y libelf-dev
