@@ -1,9 +1,8 @@
-FROM ubuntu:focal
+FROM ubuntu:focal as stage1
 
 # setup environment
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-ENV TERM xterm
 ENV container docker
 
 # Core packages
@@ -42,7 +41,12 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 
 RUN locale-gen "en_US.UTF-8"
 
-ENV LANG=en_US.UTF-8 \
+FROM scratch as stage2
+
+COPY --from=stage1 / /
+
+ENV container=docker \
+  LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8
 
@@ -83,6 +87,6 @@ RUN systemctl set-default graphical.target && \
          -exec echo \{} \; \
          -exec rm \{} \;
 
-WORKDIR /home/core
+WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
 

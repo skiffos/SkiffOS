@@ -4,13 +4,9 @@
 #  - core/nixos
 #  - core/gentoo
 # Documented at https://github.com/skiffos/skiff-core
-images:
-  skiff/core:latest:
-    build:
-      source: /opt/skiff/coreenv/base
 containers: # can add unlimited containers
   skiff_core: # name of the docker container
-    image: skiff/core:latest
+    image: skiffos/skiff-core-ubuntu:latest
     tty: false # causes setctty error
     disableInit: true
     workingDirectory: /home/core
@@ -40,3 +36,13 @@ users: # can add unlimited users
     - "/bin/bash"
     auth:
       copyRootKeys: true
+images:
+  skiffos/skiff-core-ubuntu:latest:
+    pull:
+      # images are provided for arm64, arm, amd64
+      # also an option: policy: ifbuildfails
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
+    build:
+      source: /opt/skiff/coreenv/base
