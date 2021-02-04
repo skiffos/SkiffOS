@@ -1,5 +1,5 @@
 # configs-base: default toolchain
-BR2_BINUTILS_VERSION_2_34_X=y
+BR2_BINUTILS_VERSION_2_36_X=y
 BR2_CCACHE=y
 BR2_GCC_VERSION_9_X=y
 BR2_OPTIMIZE_2=y
