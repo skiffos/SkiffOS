@@ -7,9 +7,11 @@
 containers: # can add unlimited containers
   skiff_core: # name of the docker container
     image: skiffos/skiff-core-ubuntu:latest
+    entrypoint: ["/lib/systemd/systemd"]
+    stopSignal: RTMIN+3
     tty: false # causes setctty error
     disableInit: true
-    workingDirectory: /home/core
+    workingDirectory: /
     mounts:
     - /dev:/dev
     - /lib/modules:/lib/modules
@@ -18,6 +20,8 @@ containers: # can add unlimited containers
     - /run/udev:/run/udev
     - /etc/resolv.conf:/etc/resolv.conf:ro
     privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
     capAdd:
     - ALL
     hostIPC: true
