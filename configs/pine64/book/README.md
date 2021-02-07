@@ -1,5 +1,7 @@
 # Pine64 PineBook
 
+![](../../../resources/images/pinebook-screenshot.png)
+
 This configuration package `pine64/book` compiles a Skiff base operating system
 for the Pine64 PineBook.
 
