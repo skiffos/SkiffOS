@@ -1,4 +1,4 @@
-From c92cea971e210f4acd90675a7473256fd2dcb4be Mon Sep 17 00:00:00 2001
+From 95d5b309830e6f35e7d0b21a7bc2c039b7b41679 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Mon, 25 Jan 2021 04:34:09 -0800
 Subject: [PATCH] HACK: WSL2: libcontainer: avoid mount --move
@@ -11,18 +11,18 @@ It appears to succeed, but the mountpoint is not actually moved.
 
 Signed-off-by: Christian Stewart <christian@paral.in>
 ---
- libcontainer/rootfs_linux.go        | 40 +++++++++++++++++++++--------
- libcontainer/setns_init_linux.go    | 15 +++++++++++
+ libcontainer/rootfs_linux.go        | 48 ++++++++++++++++++++---------
+ libcontainer/setns_init_linux.go    | 15 +++++++++
  libcontainer/standard_init_linux.go |  1 +
- libcontainer/wsl.go                 | 15 +++++++++++
- 4 files changed, 60 insertions(+), 11 deletions(-)
+ libcontainer/wsl.go                 | 15 +++++++++
+ 4 files changed, 65 insertions(+), 14 deletions(-)
  create mode 100644 libcontainer/wsl.go
 
 diff --git a/libcontainer/rootfs_linux.go b/libcontainer/rootfs_linux.go
-index e00df0a2..10003e17 100644
+index 411496ab..7605cc7a 100644
 --- a/libcontainer/rootfs_linux.go
 +++ b/libcontainer/rootfs_linux.go
-@@ -43,6 +43,9 @@ func needsSetupDev(config *configs.Config) bool {
+@@ -44,6 +44,9 @@ func needsSetupDev(config *configs.Config) bool {
  // finalizeRootfs after this function to finish setting up the rootfs.
  func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig) (err error) {
  	config := iConfig.Config
@@ -32,7 +32,7 @@ index e00df0a2..10003e17 100644
  	if err := prepareRoot(config); err != nil {
  		return newSystemErrorWithCause(err, "preparing rootfs")
  	}
-@@ -106,13 +109,21 @@ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig) (err error) {
+@@ -107,13 +110,21 @@ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig) (err error) {
  		return err
  	}
  
@@ -61,7 +61,7 @@ index e00df0a2..10003e17 100644
  	if err != nil {
  		return newSystemErrorWithCause(err, "jailing process inside rootfs")
  	}
-@@ -150,11 +161,14 @@ func finalizeRootfs(config *configs.Config) (err error) {
+@@ -151,11 +162,14 @@ func finalizeRootfs(config *configs.Config) (err error) {
  	}
  
  	// set rootfs ( / ) as readonly
@@ -78,9 +78,9 @@ index e00df0a2..10003e17 100644
 -	}
 +	*/
  
- 	unix.Umask(0022)
- 	return nil
-@@ -713,6 +727,7 @@ func prepareRoot(config *configs.Config) error {
+ 	if config.Umask != nil {
+ 		unix.Umask(int(*config.Umask))
+@@ -735,6 +749,7 @@ func prepareRoot(config *configs.Config) error {
  	if config.RootPropagation != 0 {
  		flag = config.RootPropagation
  	}
@@ -88,21 +88,29 @@ index e00df0a2..10003e17 100644
  	if err := unix.Mount("", "/", "", uintptr(flag), ""); err != nil {
  		return err
  	}
-@@ -834,6 +849,9 @@ func msMoveRoot(rootfs string) error {
- 			}
- 		}
+@@ -892,9 +907,14 @@ func msMoveRoot(rootfs string) error {
  	}
+ 
+ 	// Move the rootfs on top of "/" in our mount namespace.
+-	if err := unix.Mount(rootfs, "/", "", unix.MS_MOVE, ""); err != nil {
+-		return err
+-	}
 +	// WSL2: mount --move {path} / fails silently.
 +	// The chroot() still works (changes dir to ., which is rootfs).
 +	// Therefore the container still starts, but "exec" will be in the wrong place.
- 	if err := unix.Mount(rootfs, "/", "", unix.MS_MOVE, ""); err != nil {
- 		return err
- 	}
++	/*
++		if err := unix.Mount(rootfs, "/", "", unix.MS_MOVE, ""); err != nil {
++			return err
++		}
++	*/
+ 	return chroot()
+ }
+ 
 diff --git a/libcontainer/setns_init_linux.go b/libcontainer/setns_init_linux.go
-index 0b9cd885..e391d4bb 100644
+index 6b1e9a6e..fa601a9d 100644
 --- a/libcontainer/setns_init_linux.go
 +++ b/libcontainer/setns_init_linux.go
-@@ -32,6 +32,21 @@ func (l *linuxSetnsInit) Init() error {
+@@ -31,6 +31,21 @@ func (l *linuxSetnsInit) Init() error {
  	runtime.LockOSThread()
  	defer runtime.UnlockOSThread()
  
@@ -125,7 +133,7 @@ index 0b9cd885..e391d4bb 100644
  		if err := selinux.SetKeyLabel(l.config.ProcessLabel); err != nil {
  			return err
 diff --git a/libcontainer/standard_init_linux.go b/libcontainer/standard_init_linux.go
-index b20ce148..0845cf2b 100644
+index 7ec506c4..bfaba5ee 100644
 --- a/libcontainer/standard_init_linux.go
 +++ b/libcontainer/standard_init_linux.go
 @@ -46,6 +46,7 @@ func (l *linuxStandardInit) getSessionRingParams() (string, uint32, uint32) {
@@ -158,5 +166,5 @@ index 00000000..ede2bc5e
 +	return unix.Chdir("/")
 +}
 -- 
-2.30.0
+2.30.1
 
