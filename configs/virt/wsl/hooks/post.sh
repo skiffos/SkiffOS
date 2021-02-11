@@ -26,7 +26,7 @@ rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 rsync -rv ./skiff-release ./rootfs.squashfs ${BOOT_DIR}/
 
 # configure busybox
-BUSYBOX_BINS=( blkid id whoami su dmesg mount sh unshare nsenter )
+BUSYBOX_BINS=( blkid id whoami su dmesg mount sh unshare nsenter poweroff reboot )
 cp ./skiff-init/busybox ${PERSIST_DIR}/bin/busybox
 rm ${BOOT_DIR}/skiff-init/busybox || true
 for b in ${BUSYBOX_BINS[@]}; do
