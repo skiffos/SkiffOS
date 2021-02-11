@@ -94,7 +94,7 @@ Here are the boards/systems currently supported by Skiff:
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.10.12    | ⚠ Discontinued         |
-| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2020.10     | ✔ tb-5.10.12    | ✔ Tested               |
+| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2021.01     | ✔ tb-5.10.12    | ✔ Tested               |
 | [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03     | ✔ tb-5.10.12    | ⚠ Discontinued         |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.10.12    | ✔ Tested               |
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.10.12    | ✔ Tested               |
