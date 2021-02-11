@@ -153,7 +153,6 @@ if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/host
   sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
   echo "$NHOSTNAME" > /etc/hostname
 
-  hostname -F /etc/hostname                     # change transient hostname
 else
   hostname > $PERSIST_ROOT/skiff/hostname
   if [ "$(hostname)" == "" ]; then
@@ -162,7 +161,7 @@ else
 fi
 
 systemctl daemon-reload
-hostname -F /etc/hostname
+hostname -F /etc/hostname # change transient hostname
 
 # Run any additional final setup scripts.
 for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
