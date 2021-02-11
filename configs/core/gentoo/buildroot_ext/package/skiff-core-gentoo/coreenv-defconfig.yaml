@@ -13,11 +13,12 @@ containers:
     disableInit: true
     workingDirectory: /
     mounts:
-      - /etc/resolv.conf:/etc/resolv.conf:ro
       - /dev:/dev
-      - /lib/modules:/lib/modules
-      - /run/udev:/run/udev
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
+      - /run/udev:/run/udev
       - /mnt/persist/core-docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/binpkgs:/var/cache/binpkgs
       - /mnt/persist/skiff/core/repos/distfiles:/var/cache/distfiles
