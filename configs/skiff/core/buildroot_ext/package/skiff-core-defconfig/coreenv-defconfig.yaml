@@ -5,7 +5,7 @@
 #  - core/gentoo
 # Documented at https://github.com/skiffos/skiff-core
 containers: # can add unlimited containers
-  skiff_core: # name of the docker container
+  core: # name of the docker container
     image: skiffos/skiff-core-ubuntu:latest
     entrypoint: ["/lib/systemd/systemd"]
     stopSignal: RTMIN+3
@@ -13,12 +13,12 @@ containers: # can add unlimited containers
     disableInit: true
     workingDirectory: /
     mounts:
-    - /dev:/dev
-    - /lib/modules:/lib/modules
-    - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    - /mnt:/mnt
-    - /run/udev:/run/udev
-    - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /dev:/dev
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
     privileged: true
     startAfterCreate: true
     restartPolicy: "always"
@@ -34,7 +34,7 @@ containers: # can add unlimited containers
       /run/lock: rw,noexec,nosuid,size=65536k
 users: # can add unlimited users 
   core:
-    container: skiff_core
+    container: core
     containerUser: core
     containerShell:
     - "/bin/bash"
