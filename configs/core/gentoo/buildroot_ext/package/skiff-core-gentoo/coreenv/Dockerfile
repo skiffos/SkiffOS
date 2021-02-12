@@ -40,9 +40,14 @@ CMD ["/bin/bash"]
 FROM stage3 as stage4
 
 # setup environment
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-ENV container docker
+ENV LANG=C.UTF-8 \
+  LC_ALL=C.UTF-8 \
+  container=docker \
+  ARCH=${ARCH} \
+  MICROARCH=${MICROARCH} \
+  SUFFIX=${SUFFIX} \
+  DIST=${DIST} \
+  SIGNING_KEY=${SIGNING_KEY}
 
 COPY ./make.conf ./package.accept_keywords /etc/portage/
 ADD ./overrides.sh /gentoo-skiff-overrides.sh
@@ -55,6 +60,9 @@ COPY ./package.use /etc/portage/package.use/01-standard
 RUN emerge-webrsync
 RUN source /gentoo-skiff-overrides.sh; \
   sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
+  mv /etc/portage/package.accept_keywords /etc/portage/package-accept.tmp; \
+  mkdir -p /etc/portage/package.accept_keywords; \
+  mv /etc/portage/package-accept.tmp /etc/portage/package.accept_keywords/01-standard; \
   PROFILES_DIR=/var/db/repos/gentoo/profiles/default; \
   PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/systemd | sort | tail -n1); \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
