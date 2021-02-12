@@ -3,6 +3,9 @@ containers:
     # Image: optimized for Pinebook, with GentooLTO and KDE Apps.
     image: skiffos/skiff-core-gentoo-kde:pinebook-lto
     entrypoint: ["/lib/systemd/systemd"]
+    # systemd: indicate this is a container
+    env: ["container=docker"]
+    stopSignal: RTMIN+3
     stopSignal: RTMIN+3
     tty: true
     disableInit: true

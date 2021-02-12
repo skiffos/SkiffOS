@@ -8,6 +8,8 @@ containers:
     # Image option: sane defaults, generic cflags, developer tools
     image: skiffos/skiff-core-gentoo:latest
     entrypoint: ["/lib/systemd/systemd"]
+    # systemd: indicate this is a container
+    env: ["container=docker"]
     stopSignal: RTMIN+3
     tty: true
     disableInit: true

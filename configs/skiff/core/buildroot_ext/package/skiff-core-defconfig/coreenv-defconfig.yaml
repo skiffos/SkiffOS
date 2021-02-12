@@ -8,6 +8,8 @@ containers: # can add unlimited containers
   core: # name of the docker container
     image: skiffos/skiff-core-ubuntu:latest
     entrypoint: ["/lib/systemd/systemd"]
+    # systemd: indicate this is a container
+    env: ["container=docker"]
     stopSignal: RTMIN+3
     tty: false # causes setctty error
     disableInit: true
