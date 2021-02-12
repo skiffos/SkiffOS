@@ -18,3 +18,4 @@ if [ -n "$BR2_TARGET_GENERIC_GETTY_PORT" ] ; then
     echo "Creating systemd mask for ${BR2_TARGET_GENERIC_GETTY_PORT}"
     ln -fs /dev/null "${TARGET_DIR}/etc/systemd/system/serial-getty@${BR2_TARGET_GENERIC_GETTY_PORT}.service"
 fi
+touch ${IMAGES_DIR}/.disable-serial-console
