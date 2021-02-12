@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_PINEBOOK_GENTOO_PATH/package/skiff-core-pinebook-gentoo/Config.in"

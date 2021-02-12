@@ -1,0 +1,48 @@
+containers:
+  core:
+    # Image: optimized for Pinebook, with GentooLTO and KDE Apps.
+    image: skiffos/skiff-core-gentoo-kde:pinebook-lto
+    entrypoint: ["/lib/systemd/systemd"]
+    stopSignal: RTMIN+3
+    tty: true
+    disableInit: true
+    workingDirectory: /
+    mounts:
+      - /dev:/dev
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/core-docker:/var/lib/docker
+      - /mnt/persist/skiff/core/repos/binpkgs:/var/cache/binpkgs
+      - /mnt/persist/skiff/core/repos/distfiles:/var/cache/distfiles
+      - /mnt/persist/skiff/core/repos/gentoo:/var/db/repos/gentoo
+      - /mnt/persist/skiff/core/repos/linux:/usr/src
+      - /mnt/persist/skiff/core/repos/log:/var/log
+      - /mnt/persist/skiff/core/repos/portage-build:/var/tmp/portage
+    privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
+    capAdd:
+      - ALL
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    securityOpt:
+      - seccomp=unconfined
+users:
+  core:
+    container: core
+    containerUser: core
+    createContainerUser: true
+    containerShell:
+      - "/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+  skiffos/skiff-core-gentoo-kde:pinebook-lto:
+    pull:
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
