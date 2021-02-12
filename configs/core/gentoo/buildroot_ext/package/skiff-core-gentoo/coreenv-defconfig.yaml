@@ -19,9 +19,9 @@ containers:
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
       - /run/udev:/run/udev
-      - /mnt/persist/core-docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/binpkgs:/var/cache/binpkgs
       - /mnt/persist/skiff/core/repos/distfiles:/var/cache/distfiles
+      - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/gentoo:/var/db/repos/gentoo
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
@@ -36,6 +36,9 @@ containers:
     hostNetwork: true
     securityOpt:
       - seccomp=unconfined
+    tmpFs:
+      /run: rw,noexec,nosuid,size=65536k
+      /run/lock: rw,noexec,nosuid,size=65536k
 users:
   core:
     container: core
