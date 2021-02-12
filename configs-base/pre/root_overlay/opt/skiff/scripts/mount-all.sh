@@ -20,6 +20,15 @@ for i in ${PRE_SCRIPTS_DIR}/*.sh ; do
     fi
 done
 
+# Ensure that / is mounted read-write if applicable
+if [ -z "$DISABLE_ROOT_REMOUNT_RW" ]; then
+    READ_ONLY_MOUNTS=$(awk '$4~/(^|,)ro($|,)/' /proc/mounts)
+    if echo "${READ_ONLY_MOUNTS}" | grep -q "/ rootfs ro"; then
+        echo "Remounting / read-write..."
+        mount -o remount,rw / || true
+    fi
+fi
+
 PERSIST_ROOT=$PERSIST_MNT/$PERSIST_SUBDIR
 SKIFF_PERSIST=$PERSIST_ROOT/skiff
 KEYS_PERSIST=$SKIFF_PERSIST/keys
