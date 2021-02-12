@@ -48,7 +48,11 @@ SKIFF_CORE_GENTOO_COREENV_MICROARCH = $(SKIFF_CORE_GENTOO_COREENV_ARCH)
 endif
 
 # configure the CFLAGS in Gentoo according to the Skiff CFLAGS
-SKIFF_CORE_GENTOO_CFLAGS = $(TARGET_CFLAGS)
+# ... but only if there is some reason to (target optimization flags set)
+ifneq ($(BR2_TARGET_OPTIMIZATION),)
+SKIFF_CORE_GENTOO_CFLAGS = -O2 -fomit-frame-pointer -pipe
+SKIFF_CORE_GENTOO_CFLAGS += $(call qstrip,$(BR2_TARGET_OPTIMIZATION))
+endif
 
 define SKIFF_CORE_GENTOO_INSTALL_COREENV
 	mkdir -p $(TARGET_DIR)/opt/skiff/coreenv/skiff-core-gentoo
@@ -56,8 +60,10 @@ define SKIFF_CORE_GENTOO_INSTALL_COREENV
 		cp -r $(SKIFF_CORE_GENTOO_PKGDIR)/coreenv/* ./ ;\
 		$(INSTALL) -m 0644 $(SKIFF_CORE_GENTOO_PKGDIR)/coreenv-defconfig.yaml \
 			../defconfig.yaml ; \
-		$(SED) "/COMMON_FLAGS=/c\COMMON_FLAGS=\"$(SKIFF_CORE_GENTOO_CFLAGS)\"" \
-			make.conf; \
+    if [ -n "$(SKIFF_CORE_GENTOO_CFLAGS)" ]; then \
+		  $(SED) "/COMMON_FLAGS=/c\COMMON_FLAGS=\"$(SKIFF_CORE_GENTOO_CFLAGS)\"" \
+			  make.conf; \
+		fi; \
 		bash ./mkoverride.sh ARCH $(SKIFF_CORE_GENTOO_COREENV_ARCH); \
 		bash ./mkoverride.sh MICROARCH $(SKIFF_CORE_GENTOO_COREENV_MICROARCH); \
 		bash ./mkoverride.sh SUFFIX $(SKIFF_CORE_GENTOO_COREENV_SUFFIX); \
