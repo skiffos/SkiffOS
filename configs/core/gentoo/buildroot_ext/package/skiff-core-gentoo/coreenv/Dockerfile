@@ -82,7 +82,7 @@ RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-back
 
 # minimize image size
 RUN rm -rf /var/cache/distfiles/* \
-   /var/log/* /usr/src/* \
+   /var/log/* /var/tmp/* /usr/src/* \
    /etc/xdg/autostart/* /var/db/repos/gentoo || true
 
 FROM scratch

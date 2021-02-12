@@ -26,6 +26,7 @@ containers:
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/portage-build:/var/tmp/portage
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
     privileged: true
     startAfterCreate: true
     restartPolicy: "always"
