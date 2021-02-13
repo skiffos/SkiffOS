@@ -1,30 +1,38 @@
 containers:
   core:
+    # based on the ISO from the KDE website
+    image: skiffos/skiff-core-pinephone-neon:latest
+    # systemd
+    entrypoint: ["/lib/systemd/systemd"]
+    env: ["container=docker"]
+    stopSignal: RTMIN+3
+    tty: true
+    disableInit: true
+    workingDirectory: /
+    entrypoint: ["/lib/systemd/systemd"]
+    mounts:
+      - /dev:/dev
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
+      - /mnt/persist/skiff/core/repos/log:/var/log
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
+    privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
     capAdd:
       - ALL
-    disableInit: true
-    dns:
-      - "8.8.8.8"
-      - "8.8.4.4"
-    entrypoint: ["/lib/systemd/systemd"]
     hostIPC: true
     hostUTS: true
     hostNetwork: true
-    image: skiffos/skiff-core-pinephone-neon:latest
-    mounts:
-      - /dev:/dev
-      - /lib/modules:/lib/modules
-      - /mnt/persist/core-docker:/var/lib/docker
-      - /mnt:/mnt
-      - /run/udev:/run/udev
-    privileged: true
-    restartPolicy: "always"
     securityOpt:
       - seccomp=unconfined
-    startAfterCreate: true
-    stopSignal: RTMIN+3
-    tty: true
-    workingDirectory: /home/core
+    tmpFs:
+      /run: rw,noexec,nosuid,size=65536k
+      /run/lock: rw,noexec,nosuid,size=65536k
 users:
   core:
     container: core
@@ -35,5 +43,9 @@ users:
       copyRootKeys: true
 images:
   skiffos/skiff-core-pinephone-neon:latest:
-    build:
-      source: /opt/skiff/coreenv/skiff-core-pinephone-neon
+    pull:
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
+    #build:
+    #  source: /opt/skiff/coreenv/skiff-core-pinephone-neon
