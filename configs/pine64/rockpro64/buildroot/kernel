@@ -1,9 +1,8 @@
-# 5.9.0-1146-ayufan
+# 5.11.0-rc4-1147-ayufan
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/ab09e252a729703ef563200f29379ad1db61e85b/linux-rock64-5.9.0-1146-ayufan.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/bf2a8ef692d281e5e98f6c8053343bcac23a7644/linux-rock64-5.11.0-rc4-1147-ayufan.tar.gz"
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 
 BR2_LINUX_KERNEL_DEFCONFIG="rockchip_linux"
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="rockchip/rk3399-rockpro64"

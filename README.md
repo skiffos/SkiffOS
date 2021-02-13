@@ -111,7 +111,7 @@ Here are the boards/systems currently supported by Skiff:
 | [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ pine64-5.8.0  | ✔ Tested               |
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)       | ✔ ayufan-5.9.0  | ✔ Tested               |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot             | ✔ megi-5.9.11   | ✔ Tested               |
-| [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.9.0         | ⚠ In development       |
+| [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.11.0-rc4    | ✔ Tested               |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
