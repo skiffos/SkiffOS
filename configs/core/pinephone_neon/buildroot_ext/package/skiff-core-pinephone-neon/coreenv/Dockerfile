@@ -72,5 +72,5 @@ RUN systemctl set-default graphical.target && \
          -exec echo \{} \; \
          -exec rm \{} \;
 
-WORKDIR /home/core
+WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
