@@ -49,7 +49,7 @@ ENV LANG=C.UTF-8 \
   DIST=${DIST} \
   SIGNING_KEY=${SIGNING_KEY}
 
-COPY ./make.conf ./package.accept_keywords /etc/portage/
+COPY ./make.conf ./package.accept_keywords ./repos.conf /etc/portage/
 ADD ./overrides.sh /gentoo-skiff-overrides.sh
 COPY ./package.use /etc/portage/package.use/01-standard
 
@@ -67,6 +67,11 @@ RUN source /gentoo-skiff-overrides.sh; \
   PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/systemd | sort | tail -n1); \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
   eselect profile set "${PROFILE}"; \
+  touch /etc/portage/repos.conf; \
+  mkdir -p /var/db/repos/localrepo-crossdev/{profiles,metadata}; \
+  echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
+  echo 'masters = gentoo' > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
+  chown -R portage:portage /var/db/repos/localrepo-crossdev; \
   rm /gentoo-skiff-overrides.sh
 
 # pass #1: base package set, system, remove tk and icu to fix circular deps

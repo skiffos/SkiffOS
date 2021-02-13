@@ -55,7 +55,6 @@ net-wireless/gr-osmosdr ~ARCH
 net-wireless/hackrf-tools ~ARCH
 net-wireless/inspectrum ~ARCH
 net-wireless/ubertooth ~ARCH
-pp-arch/bzip2 ~ARCH
 sys-apps/baselayout-java ~ARCH
 sys-apps/qdirstat ~ARCH
 sys-auth/pam_mount ~ARCH
