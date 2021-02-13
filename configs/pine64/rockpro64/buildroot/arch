@@ -1,1 +1,2 @@
-BR2_cortex_a72=y
+BR2_aarch64=y
+BR2_cortex_a72_a53=y
