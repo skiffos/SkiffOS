@@ -67,6 +67,7 @@ virtual/ffmpeg ~ARCH
 virtual/jdk ~ARCH
 virtual/jre ~ARCH
 virtual/perl-libnet ~ARCH
+virtual/rust ~ARCH
 www-client/chromium ~ARCH
 www-client/firefox ~ARCH
 x11-apps/xrandr ~ARCH
