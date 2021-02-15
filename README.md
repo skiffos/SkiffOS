@@ -13,10 +13,11 @@ ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
  - **Reliable**: changes inside user environments cannot break the host boot-up.
  - **Reproducible**: a given Skiff Git tree will always produce identical output.
 
-Uses [Buildroot] to produce a minimal in-RAM OS optimized for hosting user
-environments in containers attached to persistent storage. The cross-compiled
-system is identical across any underlying compute platform. Device support and
-additional features are organized into configuration layers.
+Uses [Buildroot] to produce a minimal "single-file" host OS as a standardized
+base cross-platform operating system "shim" for hosting containers. Most Linux
+platforms have widely varying requirements for kernel, firmware, and additional
+hardware support packages. The immutable SkiffOS host system contains everything
+needed to support the hardware, cleanly separated from the applications.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
