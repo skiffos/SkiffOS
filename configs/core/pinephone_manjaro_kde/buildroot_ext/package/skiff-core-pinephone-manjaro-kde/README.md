@@ -1,13 +1,15 @@
-# Skiff Core based on KDE Neon for PinePhone
+# Skiff Core based on Manjaro KDE for PinePhone
 
-This is a skiff core setup based on the KDE Neon for PinePhone build.
+This is a skiff core setup based on the Manjaro KDE for Pinephone distribution.
+
+https://manjaro.org
 
 ## Building the Base Image
 
 The base image is downloaded automatically from Docker Hub from
-`skiffos/neon-pinephone-base`. To build this base image:
+`skiffos/skiff-core-pinephone-manjaro-kde:latest`. To build this image:
 
-Fetch the latest download: https://images.plasma-mobile.org/pinephone/
+Fetch the latest download: https://osdn.net/projects/manjaro-arm/storage/pinephone/plasma-mobile/dev/
 
 Then, mount it as a loop-back device, and build the docker image:
 
