@@ -297,18 +297,20 @@ To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
 list.
 
 These configuration packages bring in `skiff/core` automatically, with
-configuration for starting a traditional Linux distribution in a container:
+configuration for starting a applications distribution in a container:
 
-| **Distribution**      | **Config Package**     | **Notes**              |
-| ---------------       | -----------------      | ---------------------- |
-| [Gentoo]              | core/gentoo            | Based on latest stage3 |
-| [NixOS]               | core/nixos             |                        |
-| [NixOS] for PinePhone | core/pinephone_nixos   |                        |
-| [NixOS] with [XFCE]   | core/nixos_xfce        |                        |
-| PinePhone [Manjaro]   | core/pinephone_manjaro |                        |
-| PinePhone [KDE Neon]  | core/pinephone_neon    | Ubuntu-based KDE Neon  |
-| PinePhone [UBPorts]   | core/pinephone_ubports | Ubuntu-ports based     |
-| [Ubuntu]              | skiff/core             | Default configuration  |
+| **Distribution**           | **Config Package**            | **Notes**              |
+| ---------------            | -----------------             | ---------------------- |
+| [Gentoo]                   | core/gentoo                   | Based on latest stage3 |
+| [NixOS]                    | core/nixos                    |                        |
+| [NixOS] for PinePhone      | core/pinephone_nixos          |                        |
+| [NixOS] with [XFCE]        | core/nixos_xfce               |                        |
+| [Ubuntu]                   | skiff/core                    | Default configuration  |
+| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
+| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
+| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
+| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
+| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)  |
 
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/

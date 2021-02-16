@@ -43,7 +43,7 @@ ENV LANG=en_US.UTF-8 \
 RUN \
   adduser core \
   --no-create-home \
-  --gecos "Unconfigured Workstation" \
+  --gecos "SkiffOS Core" \
   --shell /bin/bash \
   --disabled-password && \
   adduser core sudo && \

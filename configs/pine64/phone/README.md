@@ -1,7 +1,8 @@
 # Pine64 PinePhone
 
 This configuration package `pine64/phone` compiles a Skiff base operating system
-for the Pine64 PinePhone.
+for the Pine64 PinePhone. Most of the other distributions are available as core
+configurations.
 
 References: 
 
@@ -17,24 +18,34 @@ References:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=pine64/phone,core/pinephone_neon
+$ export SKIFF_CONFIG=pine64/phone,core/pinephone_manjaro_kde
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
+
+The `core/pinephone_manjaro_kde` portion of SKIFF_CONFIG enables "Skiff Core"
+with Manjaro KDE for PinePhone. See http://manjaro.org for more information.
 
 Once the build is complete, it's time to flash the system. There are several
 approaches, please see the "Flashing" section in the [common readme].
 
 [common readme]: ../
 
-## KDE Neon
+## Skiff Core: Available Variants
 
-The `core/pinephone_neon` portion of SKIFF_CONFIG enables "Skiff Core" with
-Mobile KDE Neon - a version of KDE optimized for mobile.
 
-This image was built by importing the pinephone KDE Neon image to Docker with
-some tweaks. An ~2Gb file will be downloaded at first boot from Docker Hub with
-the pinephone KDE Neon base image.
+| **Distribution**           | **Config Package**            | **Notes**              |
+| ---------------            | -----------------             | ---------------------- |
+| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
+| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
+| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
+| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
+| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)  |
+
+
+[KDE Neon]: https://neon.kde.org/
+[Manjaro]: https://manjaro.org/
+[UBPorts]: https://ubports.com/
 
 ## Upgrading Modem Firmware
 
