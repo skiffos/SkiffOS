@@ -1,5 +1,6 @@
-source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/atinout/Config.in"
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/ap6256-firmware/Config.in"
+source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/atinout/Config.in"
+source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/pinephone-firmware/Config.in"
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rk3399-firmware-blobs/Config.in"
-source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723cs/Config.in"
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723bt-firmware/Config.in"
+source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723cs/Config.in"

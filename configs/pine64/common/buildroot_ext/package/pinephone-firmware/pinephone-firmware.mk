@@ -7,9 +7,11 @@
 PINEPHONE_FIRMWARE_VERSION = 4ec2645b007ba4c3f2962e38b50c06f274abbf7c
 PINEPHONE_FIRMWARE_SITE = $(call github,paralin,megous-linux-firmware,$(PINEPHONE_FIRMWARE_VERSION))
 
+PINEPHONE_FIRMWARE_DEPENDENCIES = linux-firmware
 PINEPHONE_FIRMWARE_LICENSE = Proprietary
 
 PINEPHONE_FIRMWARE_FILES += \
+	anx7688-fw.bin \
 	brcm/BCM20702A1.hcd \
 	brcm/BCM4345C5.hcd \
 	brcm/brcmfmac43362-sdio.bin \

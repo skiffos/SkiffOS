@@ -1,8 +1,8 @@
 config BR2_PACKAGE_PINEPHONE_FIRMWARE
 	bool "pinephone-firmware"
+	select BR2_PACKAGE_LINUX_FIRMWARE
 	help
 	  This package provides binary firmware files (closed blobs)
 	  for the PinePhone camera and other hardware.
 
 	  https://megous.com/git/linux-firmware/
-
