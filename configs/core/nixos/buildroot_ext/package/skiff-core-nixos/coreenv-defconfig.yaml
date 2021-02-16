@@ -1,28 +1,34 @@
 containers:
   core:
+    image: skiffos/skiff-core-nixos:latest
+    entrypoint: ["/init"]
+    # systemd: indicate this is a container
+    env: ["container=docker"]
+    stopSignal: RTMIN+3
+    tty: false
+    disableInit: true
+    workingDirectory: /
+    mounts:
+      - /dev:/dev
+      - /etc/hostname:/etc/hostname:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/skiff/core/repos/lib:/var/lib
+      - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
+      - /mnt/persist/skiff/core/repos/log:/var/log
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
+    privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
     capAdd:
       - ALL
-    disableInit: true
-    dns:
-      - "8.8.8.8"
-      - "8.8.4.4"
     hostIPC: true
     hostUTS: true
     hostNetwork: true
-    image: skiffos/skiff-core-nixos:latest
-    mounts:
-      - /dev:/dev
-      - /lib/modules:/lib/modules:ro
-      - /run/udev:/run/udev
-      - /mnt:/mnt
-    privileged: true
-    restartPolicy: "always"
     securityOpt:
       - seccomp=unconfined
-    startAfterCreate: true
-    stopSignal: RTMIN+3
-    tty: false
-    workingDirectory: /
 users:
   core:
     container: core
