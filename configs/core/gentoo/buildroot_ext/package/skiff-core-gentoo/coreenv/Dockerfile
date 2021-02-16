@@ -93,6 +93,11 @@ RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write -
 # pass #3: ensure that everything is up to date & this command works without errors
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
 
+# emaint & eclean cleanup
+RUN emaint all && \
+  eclean packages && \
+  eclean distfiles
+
 # minimize image size
 RUN rm -rf /var/cache/distfiles/* \
    /var/log/* /var/tmp/* /usr/src/* \
