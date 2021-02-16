@@ -13,7 +13,11 @@ ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     container=docker
 
-RUN pacman --noconfirm -Syu && rm -rf /var/cache/*
+RUN \
+  pacman --noconfirm -Rdd linux-firmware anx7688-firmware \
+    ov5640-firmware rtl8723bt-firmware-megi && \
+  pacman --noconfirm -Syu && \
+  rm -rf /var/cache/*
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
     rm /usr/lib/systemd/system/systemd-remount-fs.service || true; \
