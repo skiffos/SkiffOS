@@ -31,12 +31,11 @@ needed to support the hardware, cleanly separated from the applications.
 
 ## Getting started
 
-You can type `make` at any time to see a status and help printout. Do this now,
-and look at the list of configuration packages. Select which ones you want, and
-set the comma-separated `SKIFF_CONFIG` variable:
+The `SKIFF_CONFIG` comma-separated environment variable selects which
+configuration layers should be merged together to configure the build.
 
 ```sh
-$ make                             # observe status output
+$ make                             # lists all available layers
 $ export SKIFF_CONFIG=pi/4,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
@@ -45,16 +44,15 @@ $ make compile                     # build the system
 After you run `make configure` Skiff will remember what you selected in
 `SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
 
+Adjustments can be made to configuration layers, and `make compile` can be
+called again to re-pack the system image without re-building everything.
+
 You can add your SSH public key to the target image by adding it to
-`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`.
+`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`, or by adding it
+to your own custom configuration package.
 
 The example above uses `pi/4`, which can be replaced with any of the hardware
 support packages listed in the [Supported Systems](#supported-systems) table.
-
-```sh
-$ make br/menuconfig               # optionally explore config
-$ make br/linux-menuconfig         # optionally explore Linux config
-```
 
 Once the build is complete, it's time to flash the system to a SD card. You will
 need to switch to `sudo bash` for this on most systems.
@@ -67,10 +65,32 @@ $ make cmd/pi/common/format  # tell skiff to format the device
 $ make cmd/pi/common/install # tell skiff to install the os
 ```
 
-After you format a card, you do not need to do so again. You can call the
-install command as many times as you want to update the system. The persist
-partition is not touched in this step, so anything you save there, including
-Docker state and system configuration, will not be touched in the upgrade.
+The device needs to be formatted only one time, after which, the install command
+can be used to update the SkiffOS images without clearing the persistent state.
+The persist partition is not touched in this step, so anything you save there,
+including Docker state and system configuration, will not be modified.
+
+There are many other utility commands made available by Buildroot, which can be
+listed using `make br/help`, some examples:
+
+```sh
+$ make br/menuconfig # optionally explore Buildroot config
+$ make br/sdk        # build relocatable SDK for target
+$ make br/graph-size # graph the target packages sizes
+```
+
+Connect using SSH to `root@my-ip-address` to access the SkiffOS system, and
+connect to `core@my-ip-address` to access the "Core" system container. The
+mapping between users and containers can be edited in the
+`/mnt/persist/skiff/core/config.yaml` file.
+
+The system can then be upgraded over-the-air (OTA) using the rsync script:
+
+```sh
+$ ./scripts/push_image.bash root@my-ip-address
+```
+
+The SkiffOS upgrade (or downgrade) will take effect on next reboot.
 
 ## Supported Systems
 
@@ -275,16 +295,13 @@ the Linux kernel, add extra Buildroot packages, add build hooks, etc.
 
 [View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
 
-Users can work within a familiar, traditional, persistent OS environment if
-desired. This is called the "core" user within Skiff. If this feature is
-enabled:
+The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
+any of the core environment packages, automatically configures mappings between
+users and containerized environments. It maps incoming SSH sessions accordingly:
 
- - On first boot, the system will build the **core** container image.
- - The correct base image for the architecture is selected.
- - The default image contains Ubuntu and systemd.
- - SSH connections to the **core** user are dropped into the Docker container.
- - SSH connections are limited to public keys only (on default).
- - Unlimited containers, users, or images can be specified in YAML config.
+ - Configured using a YAML configuration file `skiff-core.yaml`.
+ - The container image is either pulled or built from scratch.
+ - systemd and/or other init systems operate as PID 1 inside the container.
 
 This allows virtually any workflow to be migrated to Skiff. The config file
 structure is flexible, and allows for any number of containers, users, and
@@ -293,11 +310,7 @@ images to be defined and built.
 Any existing GNU/Linux system with compatibility with the running kernel version
 can be loaded as a Docker image with the `docker import` command.
 
-To enable, add the `skiff/core` package to your `SKIFF_CONFIG` comma-separated
-list.
-
-These configuration packages bring in `skiff/core` automatically, with
-configuration for starting a applications distribution in a container:
+All core configurations work with all target platforms:
 
 | **Distribution**           | **Config Package**            | **Notes**              |
 | ---------------            | -----------------             | ---------------------- |
@@ -320,9 +333,6 @@ configuration for starting a applications distribution in a container:
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
 
-All core configurations work with all target platforms. To customize the core
-environment, edit the file at `skiff/core/config.yaml` on the persist partition.
-The default config will be placed there on first boot.
 
 The default configuration creates a user named "core" mapped into a container,
 but this can be easily configured in the `skiff-core.yaml` configuration file:
@@ -339,12 +349,12 @@ users:
     [...]
 ```
 
-The default config can be overridden with a file at
-`/opt/skiff/coreenv/defconfig.yaml`.
+To customize the core configuration after booting into SkiffOS, edit the file at
+`/mnt/persist/skiff/core/config.yaml`.
 
 ## Workspaces
 
-Workspaces allow you to configure and compile multiple systems in tandem.
+Workspaces allow you to configure and compile multiple systems at a time.
 
 Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
 Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
@@ -429,8 +439,6 @@ You can [build Skiff inside Docker](./build/docker) if you encounter any
 incompatibility with your build host operating system.
 
 ## Support
-
-[![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
 
 If you encounter issues or questions at any point when using Skiff, please file
 a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new) and/or [Join
