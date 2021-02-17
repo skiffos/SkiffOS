@@ -63,6 +63,7 @@ sys-config/ltoize ~ARCH
 sys-devel/binutils ~ARCH
 sys-devel/gcc ~ARCH
 sys-libs/kpmcore ~ARCH
+sys-power/acpid ~ARCH
 virtual/ffmpeg ~ARCH
 virtual/jdk ~ARCH
 virtual/jre ~ARCH
