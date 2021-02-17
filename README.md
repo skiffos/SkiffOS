@@ -185,38 +185,72 @@ Here are the boards/systems currently supported by Skiff:
 All targets marked "tested" use automated end-to-end testing on real hardware.
 
 Adding support for a board involves creating a Skiff configuration package for
-the board, as described above.
+the board, as described above. If you have a device that is not yet supported by
+SkiffOS, please **[open an issue].**
 
-If you have a board that is not yet supported by SkiffOS, please **open an
-issue,** and we will work with you to integrate and test the new platform.
+[open an issue]: https://github.com/skiffos/SkiffOS/issues/new
 
-## Demo: Run in Docker
+## Skiff Core
 
-You can now demo Skiff in a Docker container. It requires some additional flags
-(for now) to allow running systemd as the container init:
+[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
 
-```sh
-# Execute the latest Skiff release with Docker.
-docker run -d --name=skiff \
-  --privileged \
-  --cap-add=NET_ADMIN \
-  --security-opt seccomp=unconfined \
-  --stop-signal=SIGRTMIN+3 \
-  --tmpfs /run \
-  --tmpfs /run/lock \
-  -t \
-  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-  -v $(pwd)/skiff-persist:/mnt/persist \
-  skiffos/skiffos:latest
+The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
+any of the core environment packages, automatically configures mappings between
+users and containerized environments. It maps incoming SSH sessions accordingly:
 
-# Run a shell in the container.
-docker exec -it skiff sh
+ - Configured using a YAML configuration file `skiff-core.yaml`.
+ - The container image is either pulled or built from scratch.
+ - systemd and/or other init systems operate as PID 1 inside the container.
 
-# Inside the container, switch to "Skiff core"
-su - core
+This allows virtually any workflow to be migrated to Skiff. The config file
+structure is flexible, and allows for any number of containers, users, and
+images to be defined and built.
+
+### Supported Environments
+
+Any existing GNU/Linux system with compatibility with the running kernel version
+can be loaded as a Docker image with the `docker import` command.
+
+All core configurations work with all target platforms:
+
+| **Distribution**           | **Config Package**            | **Notes**              |
+| ---------------            | -----------------             | ---------------------- |
+| [Gentoo]                   | core/gentoo                   | Based on latest stage3 |
+| [NixOS]                    | core/nixos                    |                        |
+| [NixOS] for PinePhone      | core/pinephone_nixos          |                        |
+| [NixOS] with [XFCE]        | core/nixos_xfce               |                        |
+| [Ubuntu]                   | skiff/core                    | Default configuration  |
+| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
+| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
+| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
+| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
+| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)  |
+
+[Gentoo]: https://www.gentoo.org/
+[KDE Neon]: https://neon.kde.org/
+[Manjaro]: https://manjaro.org/
+[NixOS]: https://nixos.org
+[UBPorts]: https://ubports.com/
+[Ubuntu]: https://ubuntu.com/
+[XFCE]: https://www.xfce.org/
+
+The default configuration creates a user named "core" mapped into a container,
+but this can be easily configured in the `skiff-core.yaml` configuration file:
+
+```yaml
+containers:
+  core:
+    image: skiffos/skiff-core-gentoo:latest
+    [...]
+users:
+  core:
+    container: core
+    containerUser: core
+    [...]
 ```
 
-This will download and execute Skiff in a container.
+To customize the core configuration after booting into SkiffOS, edit the file at
+`/mnt/persist/skiff/core/config.yaml`.
 
 ## Release Channels
 
@@ -290,67 +324,6 @@ The `overrides` directory, as well as the
 additional Skiff configuration packages. You can follow the Skiff configuration
 package format as defined below to override any of the settings in Buildroot or
 the Linux kernel, add extra Buildroot packages, add build hooks, etc.
-
-## Skiff Core
-
-[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
-
-The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
-any of the core environment packages, automatically configures mappings between
-users and containerized environments. It maps incoming SSH sessions accordingly:
-
- - Configured using a YAML configuration file `skiff-core.yaml`.
- - The container image is either pulled or built from scratch.
- - systemd and/or other init systems operate as PID 1 inside the container.
-
-This allows virtually any workflow to be migrated to Skiff. The config file
-structure is flexible, and allows for any number of containers, users, and
-images to be defined and built.
-
-Any existing GNU/Linux system with compatibility with the running kernel version
-can be loaded as a Docker image with the `docker import` command.
-
-All core configurations work with all target platforms:
-
-| **Distribution**           | **Config Package**            | **Notes**              |
-| ---------------            | -----------------             | ---------------------- |
-| [Gentoo]                   | core/gentoo                   | Based on latest stage3 |
-| [NixOS]                    | core/nixos                    |                        |
-| [NixOS] for PinePhone      | core/pinephone_nixos          |                        |
-| [NixOS] with [XFCE]        | core/nixos_xfce               |                        |
-| [Ubuntu]                   | skiff/core                    | Default configuration  |
-| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
-| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
-| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
-| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
-| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)  |
-
-[Gentoo]: https://www.gentoo.org/
-[KDE Neon]: https://neon.kde.org/
-[Manjaro]: https://manjaro.org/
-[NixOS]: https://nixos.org
-[UBPorts]: https://ubports.com/
-[Ubuntu]: https://ubuntu.com/
-[XFCE]: https://www.xfce.org/
-
-
-The default configuration creates a user named "core" mapped into a container,
-but this can be easily configured in the `skiff-core.yaml` configuration file:
-
-```yaml
-containers:
-  core:
-    image: skiffos/skiff-core-gentoo:latest
-    [...]
-users:
-  core:
-    container: core
-    containerUser: core
-    [...]
-```
-
-To customize the core configuration after booting into SkiffOS, edit the file at
-`/mnt/persist/skiff/core/config.yaml`.
 
 ## Workspaces
 
@@ -443,4 +416,3 @@ incompatibility with your build host operating system.
 If you encounter issues or questions at any point when using Skiff, please file
 a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new) and/or [Join
 Discord](https://discord.gg/EKVkdVmvwT).
-
