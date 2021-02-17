@@ -12,7 +12,7 @@ References:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
  ```sh
- $ export SKIFF_CONFIG=pine64/rockpro64
+ $ export SKIFF_CONFIG=pine64/rockpro64,core/gentoo
  $ make configure                   # configure the system
  $ make compile                     # build the system
  ```
