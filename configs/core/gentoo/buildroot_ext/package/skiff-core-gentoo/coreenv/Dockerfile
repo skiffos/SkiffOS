@@ -131,22 +131,10 @@ RUN \
   chmod 0400 /etc/sudoers.d/10-skiff-core && \
   visudo -c -f /etc/sudoers.d/10-skiff-core
 
+# mask any remaining systemd services
 RUN \
-  systemctl mask tmp.mount && \
-  find /etc/systemd/system \
-  /lib/systemd/system \
-  \( -path '*.wants/*' \
-  -name '*swapon*' \
-  -or -name '*ntpd*' \
-  -or -name '*resolved*' \
-  -or -name '*persist-resize*' \
-  -or -name '*remount-fs*' \
-  -or -name '*getty*' \
-  -or -name '*systemd-sysctl*' \
-  -or -name '*.mount' \
-  -or -name '*remote-fs*' \) \
-  -exec echo \{} \; \
-  -exec rm \{} \;
+  rm /etc/sysctl.conf && touch /etc/sysctl.conf; \
+  systemctl mask tmp.mount 
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
