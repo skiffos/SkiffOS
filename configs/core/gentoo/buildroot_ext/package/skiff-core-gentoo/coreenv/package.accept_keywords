@@ -17,6 +17,7 @@ app-text/pandoc ~ARCH
 dev-java/openjdk-bin ~ARCH
 dev-lang/go ~ARCH
 dev-lang/rust ~ARCH
+dev-lang/spidermonkey ~ARCH
 dev-libs/icu ~ARCH
 dev-libs/libffi-compat ~ARCH
 dev-libs/nss ~ARCH

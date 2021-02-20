@@ -49,14 +49,13 @@ ENV LANG=C.UTF-8 \
   DIST=${DIST} \
   SIGNING_KEY=${SIGNING_KEY}
 
-COPY ./make.conf ./package.accept_keywords ./repos.conf /etc/portage/
+COPY ./make.conf ./package.accept_keywords /etc/portage/
 ADD ./overrides.sh /gentoo-skiff-overrides.sh
 COPY ./package.use /etc/portage/package.use/01-standard
 
 # pass 1: base build env
 # pass 2: update packages
-# be failure tolerant here. we can deal with it later.
-# disable certain use flags that cause cycles
+# we don't have Git yet, so download a gentoo tarball.
 RUN emerge-webrsync
 RUN source /gentoo-skiff-overrides.sh; \
   sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
@@ -68,17 +67,24 @@ RUN source /gentoo-skiff-overrides.sh; \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
   eselect profile set "${PROFILE}"; \
   touch /etc/portage/repos.conf; \
-  mkdir -p /var/db/repos/localrepo-crossdev/{profiles,metadata}; \
-  echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
-  echo 'masters = gentoo' > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
-  chown -R portage:portage /var/db/repos/localrepo-crossdev; \
   rm /gentoo-skiff-overrides.sh
 
 # pass #1: base package set, system, remove tk and icu to fix circular deps
+# be failure tolerant here. we can deal with it later.
+# disable certain use flags that cause cycles
 # includes gcc 10
 RUN \
   export USE="-tk -icu" && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
+
+# add repos.conf and use git portage from now forward
+COPY ./repos.conf /etc/portage/repos.conf
+RUN rm -rf /var/db/repos/gentoo/*; \
+    mkdir -p /var/db/repos/localrepo-crossdev/{profiles,metadata}; \
+    echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
+    echo 'masters = gentoo' > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
+    chown -R portage:portage /var/db/repos/localrepo-crossdev; \
+    emerge --sync
 
 # update to gcc 10
 RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
@@ -118,7 +124,9 @@ RUN \
   core && \
   mkdir -p /home/core/ && \
   chown core:core /home/core && \
-  echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+  printf "# skiff core build user\ncore    ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/10-skiff-core && \
+  chmod 0400 /etc/sudoers.d/10-skiff-core && \
+  visudo -c -f /etc/sudoers.d/10-skiff-core
 
 RUN \
   systemctl mask tmp.mount && \
@@ -139,4 +147,3 @@ RUN \
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
-
