@@ -77,6 +77,9 @@ RUN \
   export USE="-tk -icu" && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
+# ensure git is merged, unconditionally
+RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
+
 # add repos.conf and use git portage from now forward
 COPY ./repos.conf /etc/portage/repos.conf
 RUN rm -rf /var/db/repos/gentoo/*; \
