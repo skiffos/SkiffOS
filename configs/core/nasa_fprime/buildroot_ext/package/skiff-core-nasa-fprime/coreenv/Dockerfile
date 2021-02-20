@@ -24,6 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   htop \
   locales \
   lsb-release \
+  libxml2-dev \
   nano \
   net-tools \
   openssh-client \
@@ -66,6 +67,7 @@ RUN \
 # remove unnecessary systemd services
 RUN systemctl set-default graphical.target && \
   systemctl mask tmp.mount && \
+  systemctl mask kmod-static-nodes.service && \
   find /etc/systemd/system \
   /lib/systemd/system \
   \( -path '*.wants/*' \
@@ -93,7 +95,7 @@ ENV \
 COPY --from=fprime-base / /
 
 # configure target software
-RUN mkdir -p /opt/rpi && \
+RUN mkdir -p /opt/rpi /logs && \
   git clone --depth=1 https://github.com/raspberrypi/tools.git /opt/rpi/tools && \
   git clone https://github.com/nasa/fprime.git /opt/fprime && \
   chown -R fprime:fprime /opt/
@@ -108,5 +110,7 @@ RUN python3 -m venv /opt/fprime-venv/ && . /opt/fprime-venv/bin/activate && \
 ENV VIRTUAL_ENV="/opt/fprime-venv" \
     PATH="/opt/fprime-venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
+# for systemd
+USER 0
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]

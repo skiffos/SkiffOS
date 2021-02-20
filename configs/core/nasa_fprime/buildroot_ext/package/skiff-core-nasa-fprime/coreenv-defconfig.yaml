@@ -8,7 +8,7 @@ containers:
     stopSignal: RTMIN+3
     tty: true
     disableInit: true
-    workingDirectory: /
+    workingDirectory: /opt/fprime
     entrypoint: ["/lib/systemd/systemd"]
     mounts:
       - /dev:/dev
@@ -17,6 +17,7 @@ containers:
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
       - /run/udev:/run/udev
+      - /mnt/persist/fprime-logs:/logs
       - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
