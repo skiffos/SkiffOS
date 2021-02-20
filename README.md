@@ -213,26 +213,30 @@ can be loaded as a Docker image with the `docker import` command.
 
 All core configurations work with all target platforms:
 
-| **Distribution**           | **Config Package**            | **Notes**              |
-| ---------------            | -----------------             | ---------------------- |
-| [Gentoo]                   | core/gentoo                   | Based on latest stage3 |
-| [NixOS]                    | core/nixos                    |                        |
-| [NixOS] for PinePhone      | core/pinephone_nixos          |                        |
-| [NixOS] with [XFCE]        | core/nixos_xfce               |                        |
-| [Ubuntu]                   | skiff/core                    | Default configuration  |
-| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
-| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
-| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
-| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
-| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)  |
+| **Distribution**           | **Config Package**            | **Notes**                 |
+| ---------------            | -----------------             | ----------------------    |
+| [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
+| [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
+| [NixOS]                    | core/nixos                    |                           |
+| [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
+| [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
+| [Ubuntu]                   | skiff/core                    | Default configuration     |
+| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon     |
+| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
+| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant            |
+| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant             |
+| PinePhone [UBPorts]        | core/pinephone_ubports        | Ubuntu-ports (legacy)     |
 
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
+[NASA Fprime]: https://github.com/nasa/fprime
 [NixOS]: https://nixos.org
 [UBPorts]: https://ubports.com/
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
+
+[core/nasa_fprime]: ./configs/core/nasa_fprime
 
 The default configuration creates a user named "core" mapped into a container,
 but this can be easily configured in the `skiff-core.yaml` configuration file:
