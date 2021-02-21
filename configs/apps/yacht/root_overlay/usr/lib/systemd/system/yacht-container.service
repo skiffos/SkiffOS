@@ -1,0 +1,14 @@
+[Unit]
+Description=Start the Yacht.sh container
+DefaultDependencies=no
+After=network.target
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=forking
+ExecStart=/opt/skiff/scripts/start-yacht.sh
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=infinity
+RemainAfterExit=true
