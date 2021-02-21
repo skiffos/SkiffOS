@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_NASA_CFS_PATH/package/skiff-core-nasa-cfs/Config.in"

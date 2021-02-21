@@ -216,6 +216,7 @@ All core configurations work with all target platforms:
 | **Distribution**           | **Config Package**            | **Notes**                 |
 | ---------------            | -----------------             | ----------------------    |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
+| [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
 | [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
 | [NixOS]                    | core/nixos                    |                           |
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
@@ -230,12 +231,14 @@ All core configurations work with all target platforms:
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
+[NASA cFS]: https://github.com/nasa/cFS
 [NASA Fprime]: https://github.com/nasa/fprime
 [NixOS]: https://nixos.org
 [UBPorts]: https://ubports.com/
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
 
+[core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
 
 The default configuration creates a user named "core" mapped into a container,
