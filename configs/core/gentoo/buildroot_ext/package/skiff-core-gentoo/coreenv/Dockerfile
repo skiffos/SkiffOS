@@ -103,7 +103,7 @@ RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write -
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
 
 # emaint & eclean cleanup
-RUN emaint all && \
+RUN emaint all -f && \
   eclean packages && \
   eclean distfiles
 
