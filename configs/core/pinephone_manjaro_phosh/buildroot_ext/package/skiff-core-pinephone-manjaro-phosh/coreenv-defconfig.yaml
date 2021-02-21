@@ -1,0 +1,59 @@
+containers:
+  core:
+    # based on the ISO from the Manjaro website
+    image: skiffos/skiff-core-pinephone-manjaro-phosh:latest
+    # systemd
+    entrypoint: ["/lib/systemd/systemd"]
+    env: ["container=docker"]
+    stopSignal: RTMIN+3
+    tty: true
+    disableInit: true
+    workingDirectory: /
+    mounts:
+      - /dev:/dev
+      - /etc/fstab:/etc/fstab:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
+      - /mnt/persist/skiff/core/repos/pacman:/var/cache/pacman
+      - /mnt/persist/skiff/core/repos/log:/var/log
+    privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
+    capAdd:
+      - ALL
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    securityOpt:
+      - seccomp=unconfined
+    tmpFs:
+      /run: rw,noexec,nosuid,size=65536k
+      /run/lock: rw,noexec,nosuid,size=65536k
+users:
+  core:
+    container: core
+    containerUser: kde
+    containerShell:
+      - "/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+    pull:
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
+images:
+  skiffos/skiff-core-pinephone-manjaro-phosh:latest:
+    pull:
+      # also an option: policy: ifbuildfails
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
+    build:
+      # downloads base image & updates with pacman
+      source: /opt/skiff/coreenv/skiff-core-pinephone-manjaro-phosh
