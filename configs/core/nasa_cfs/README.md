@@ -49,7 +49,7 @@ can be used to update the SkiffOS images without clearing the persistent state.
 The persist partition is not touched in this step, so anything you save there,
 including Docker state and system configuration, will not be modified.
 
-NASA Fprime will be either downloaded from the container registry, or compiled
+NASA CFS will be either downloaded from the container registry, or compiled
 from source on the device, depending on image availability and user preferences.
 
 ## Connecting to the System
