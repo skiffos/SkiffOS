@@ -42,43 +42,21 @@ FROM stage3 as stage4
 # setup environment
 ENV LANG=C.UTF-8 \
   LC_ALL=C.UTF-8 \
-  container=docker \
-  ARCH=${ARCH} \
-  MICROARCH=${MICROARCH} \
-  SUFFIX=${SUFFIX} \
-  DIST=${DIST} \
-  SIGNING_KEY=${SIGNING_KEY}
+  container=docker
 
-COPY ./make.conf ./package.accept_keywords /etc/portage/
-ADD ./overrides.sh /gentoo-skiff-overrides.sh
-COPY ./package.use /etc/portage/package.use/01-standard
 
-# pass 1: base build env
-# pass 2: update packages
 # we don't have Git yet, so download a gentoo tarball.
 RUN emerge-webrsync
+# ensure git is merged, unconditionally, so we can use Git for portage
+RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
+# switch to git-based portage
+COPY ./overrides.sh /gentoo-skiff-overrides.sh
 RUN source /gentoo-skiff-overrides.sh; \
-  sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
-  mv /etc/portage/package.accept_keywords /etc/portage/package-accept.tmp; \
-  mkdir -p /etc/portage/package.accept_keywords; \
-  mv /etc/portage/package-accept.tmp /etc/portage/package.accept_keywords/01-standard; \
   PROFILES_DIR=/var/db/repos/gentoo/profiles/default; \
   PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/systemd | sort | tail -n1); \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
   eselect profile set "${PROFILE}"; \
-  touch /etc/portage/repos.conf; \
-  rm /gentoo-skiff-overrides.sh
-
-# pass #1: base package set, system, remove tk and icu to fix circular deps
-# be failure tolerant here. we can deal with it later.
-# disable certain use flags that cause cycles
-# includes gcc 10
-RUN \
-  export USE="-tk -icu" && \
-  (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
-
-# ensure git is merged, unconditionally
-RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
+  touch /etc/portage/repos.conf
 
 # add repos.conf and use git portage from now forward
 COPY ./repos.conf /etc/portage/repos.conf
@@ -87,7 +65,28 @@ RUN rm -rf /var/db/repos/gentoo/*; \
     echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
     echo 'masters = gentoo' > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
     chown -R portage:portage /var/db/repos/localrepo-crossdev; \
+    rm -rf /etc/portage/package.use || true; \
+    mkdir -p /etc/portage/package.use; \
     emerge --sync
+
+# apply package keywords, use flags, etc
+COPY ./make.conf ./package.accept_keywords /etc/portage/
+RUN \
+  source /gentoo-skiff-overrides.sh; \
+  sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
+  mv /etc/portage/package.accept_keywords /etc/portage/package-accept.tmp; \
+  mkdir -p /etc/portage/package.accept_keywords; \
+  mv /etc/portage/package-accept.tmp /etc/portage/package.accept_keywords/01-standard; \
+  rm /gentoo-skiff-overrides.sh
+COPY ./package.use /etc/portage/package.use/01-standard
+
+# pass #1: base package set, system, remove tk and icu to fix circular deps
+# be failure tolerant here. we can deal with it later.
+# disable certain use flags that cause cycles
+# includes gcc 10
+RUN \
+  export USE="-tk -icu" && \
+  (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @system || true)
 
 # update to gcc 10
 RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
@@ -95,11 +94,12 @@ RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
   emerge --oneshot sys-devel/libtool; \
   emerge --depclean
 
-COPY ./world /var/lib/portage/world
 # pass #2: world set from the skiff core world file
+COPY ./world /var/lib/portage/world
 RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
 
 # pass #3: ensure that everything is up to date & this command works without errors
+# sometimes, emerge requires 2 passes to pick up everything
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
 
 # emaint & eclean cleanup

@@ -17,7 +17,7 @@ net-misc/remmina vnc
 net-misc/tigervnc server
 sci-geosciences/gpsd python
 sys-apps/systemd cgroup-hybrid
-sys-devel/gcc graphite
+sys-devel/gcc graphite zstd
 sys-fs/ecryptfs-utils suid
 www-client/chromium system-ffmpeg widevine
 x11-base/xorg-server dmx xvfb
