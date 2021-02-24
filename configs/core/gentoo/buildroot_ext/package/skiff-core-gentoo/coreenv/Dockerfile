@@ -7,6 +7,7 @@ WORKDIR /gentoo
 
 ARG ARCH=amd64
 ARG MICROARCH=amd64
+ARG SUBPROFILE=systemd
 ARG SUFFIX="-systemd"
 ARG DIST="https://ftp-osl.osuosl.org/pub/gentoo/releases/${ARCH}/autobuilds"
 ARG SIGNING_KEY="0xBB572E0E2D182910"
@@ -52,7 +53,7 @@ RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
 COPY ./overrides.sh /gentoo-skiff-overrides.sh
 RUN source /gentoo-skiff-overrides.sh; \
   PROFILES_DIR=/var/db/repos/gentoo/profiles/default; \
-  PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/systemd | sort | tail -n1); \
+  PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/${SUBPROFILE} | sort | tail -n1); \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
   eselect profile set "${PROFILE}"; \
   touch /etc/portage/repos.conf
