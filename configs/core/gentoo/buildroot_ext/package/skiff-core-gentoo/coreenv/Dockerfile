@@ -44,7 +44,6 @@ ENV LANG=C.UTF-8 \
   LC_ALL=C.UTF-8 \
   container=docker
 
-
 # we don't have Git yet, so download a gentoo tarball.
 RUN emerge-webrsync
 # ensure git is merged, unconditionally, so we can use Git for portage
@@ -101,11 +100,6 @@ RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write -
 # pass #3: ensure that everything is up to date & this command works without errors
 # sometimes, emerge requires 2 passes to pick up everything
 RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
-
-# emaint & eclean cleanup
-RUN emaint all -f && \
-  eclean packages && \
-  eclean distfiles
 
 # minimize image size
 RUN rm -rf /var/cache/distfiles/* \
