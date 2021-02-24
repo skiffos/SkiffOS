@@ -68,24 +68,6 @@ rootfs_size=2048
 # currently it flashes rootfs.ext2 which should instead be an initrd
 
 echo "creating signed images"
-pushd ${l4t_dir}
-export BOARDID="${boardid}"
-export FAB="${rev}"
-# --bup
-# -L $IMAGES_DIR/u-boot-dtb.bin \
-# -K $IMAGES_DIR/Image \
-${l4t_dir}/flash.sh \
-          --no-flash \
-          --sign \
-          --no-systemimg \
-          -x ${chipid} \
-          -B ${boardid} \
-          -S "${rootfs_size}MiB" \
-          -I $IMAGES_DIR/rootfs.ext2 \
-          -K $IMAGES_DIR/u-boot-dtb.bin \
-          -d $IMAGES_DIR/tegra210-p3448-0000-p3449-0000-b00.dtb \
-          "${target}" "mmcblk0p1"
-popd
 
 bootloader_dir=${l4t_dir}/bootloader
 if [ ! -f "${bootloader_dir}/flashcmd.txt" ]; then
@@ -93,17 +75,30 @@ if [ ! -f "${bootloader_dir}/flashcmd.txt" ]; then
 		exit 1
 fi
 
+chipid=$(sed -nr 's/.*chip ([^ ]*).*/\1/p' "${bootloader_dir}/flashcmd.txt")
+signed_cfg="flash.xml"
+
+pushd ${l4t_dir}
+export BOARDID="${boardid}"
+export FAB="${rev}"
+# --bup
+${l4t_dir}/flash.sh \
+            --no-flash \
+            --sign \
+            --no-systemimg \
+            -x ${chipid} \
+            -B ${boardid} \
+            -S "${rootfs_size}MiB" \
+            -I $IMAGES_DIR/rootfs.ext2 \
+            -K $IMAGES_DIR/u-boot-dtb.bin \
+            -d $IMAGES_DIR/tegra210-p3448-0000-p3449-0000-b00.dtb \
+            "${target}" "mmcblk0p1"
+popd
+
 signed_image_dir=${bootloader_dir}/signed
 if [ ! -d "${signed_image_dir}" ]; then
 		echo "ERROR: ${signed_image_dir} not found"
 		exit 1
-fi
-
-chipid=$(sed -nr 's/.*chip ([^ ]*).*/\1/p' "${bootloader_dir}/flashcmd.txt")
-if [ "${chipid}" = "0x21" ]; then
-		signed_cfg="flash.xml"
-else
-		signed_cfg="flash.xml.tmp"
 fi
 
 if [ ! -f "${signed_image_dir}/${signed_cfg}" ]; then
@@ -112,6 +107,7 @@ if [ ! -f "${signed_image_dir}/${signed_cfg}" ]; then
 fi
 
 echo "create partitions"
+storage="sdcard"
 partitions=($(${l4t_tools_path}/nvptparser.py "${signed_image_dir}/${signed_cfg}" "${storage}"))
 part_type=8300 # Linux Filesystem
 
