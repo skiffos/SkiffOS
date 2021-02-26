@@ -91,12 +91,12 @@ RUN \
 # update to gcc 10
 RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
   source /etc/profile; \
-  emerge --oneshot sys-devel/libtool; \
-  emerge --depclean
+  emerge --oneshot --with-bdeps=y sys-devel/libtool
 
 # pass #2: world set from the skiff core world file
 COPY ./world /var/lib/portage/world
-RUN emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true
+RUN (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
+    (emerge --depclean || true)
 
 # pass #3: ensure that everything is up to date & this command works without errors
 # sometimes, emerge requires 2 passes to pick up everything
