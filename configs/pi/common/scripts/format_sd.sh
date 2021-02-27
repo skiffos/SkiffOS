@@ -5,14 +5,12 @@ if [ $EUID != 0 ]; then
 fi
 
 set -e
-if ! sudo parted -h > /dev/null; then
-  echo "Please install 'parted' and try again."
-  exit 1
+if ! command -v parted >/dev/null 2>&1; then
+  echo "Please install 'parted' and try again if this script fails."
 fi
 
 if ! command -v mkfs.vfat >/dev/null 2>&1; then
-  echo "Please install 'mkfs.vfat' and try again."
-  exit 1
+  echo "Please install 'mkfs.vfat' and try again if this script fails."
 fi
 
 if [ -z "$PI_SD" ]; then
