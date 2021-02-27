@@ -1,17 +1,14 @@
 # build the ext2 rootfs for backwards compatibility
 # enables using the TX2_MUTABLE_ROOTFS flag for flashusb
 # this is no longer recommended
-BR2_TARGET_ROOTFS_EXT2=y
-BR2_TARGET_ROOTFS_EXT2_4=y
-BR2_TARGET_ROOTFS_EXT2_LABEL="persist"
-# inherit from the p2771-0000.conf.common file, ROOTFSSIZE
-# BR2_TARGET_ROOTFS_EXT2_SIZE="30742M"
-BR2_TARGET_ROOTFS_EXT2_SIZE="1024M"
-
+# BR2_TARGET_ROOTFS_EXT2=y
+# BR2_TARGET_ROOTFS_EXT2_4=y
+# BR2_TARGET_ROOTFS_EXT2_LABEL="persist"
+# BR2_TARGET_ROOTFS_EXT2_SIZE="1024M"
 # BR2_TARGET_ROOTFS_CPIO_GZIP=y
 # BR2_TARGET_ROOTFS_CPIO_UIMAGE=y
 
-# new setup using squashfs with busybox init
+# use skiff-init-squashfs
 # BR2_TARGET_ROOTFS_CPIO is not set
 BR2_TARGET_ROOTFS_SQUASHFS=y
 BR2_TARGET_ROOTFS_SQUASHFS4_LZ4=y
