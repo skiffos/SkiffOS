@@ -71,6 +71,7 @@ RUN rm -rf /var/db/repos/gentoo/*; \
 
 # apply package keywords, use flags, etc
 COPY ./make.conf ./package.accept_keywords /etc/portage/
+COPY ./sysctl.conf /etc/sysctl.conf
 RUN \
   source /gentoo-skiff-overrides.sh; \
   sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
@@ -125,11 +126,6 @@ RUN \
   printf "# skiff core build user\ncore    ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/10-skiff-core && \
   chmod 0400 /etc/sudoers.d/10-skiff-core && \
   visudo -c -f /etc/sudoers.d/10-skiff-core
-
-# mask any remaining systemd services
-RUN \
-  rm /etc/sysctl.conf && touch /etc/sysctl.conf; \
-  systemctl mask tmp.mount 
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
