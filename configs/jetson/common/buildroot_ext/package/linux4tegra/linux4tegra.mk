@@ -100,7 +100,7 @@ LINUX4TEGRA_POST_EXTRACT_HOOKS += LINUX4TEGRA_EXTRACT_NVIDIA_TOOLS
 
 # symlink linux4tegra to the target dir.
 define LINUX4TEGRA_INSTALL_IMAGES_CMDS
-	ln -fs $(@D) $(BINARIES_DIR)/linux4tegra
+	ln -fsn $(@D) $(BINARIES_DIR)/linux4tegra
 endef
 
 LINUX4TEGRA_RSYNC = \

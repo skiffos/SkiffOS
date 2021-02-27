@@ -80,6 +80,7 @@ const char *resize2fs_conf = "/boot/skiff-init/resize2fs.conf";
 const char *root_dir = SKIFF_MOUNTS_DIR;
 const char *mountpoint = SKIFF_MOUNTPOINT;
 const char *dev_mnt = SKIFF_MOUNTPOINT "/dev";
+const char *proc_mnt = SKIFF_MOUNTPOINT "/proc";
 const char *run_mnt = SKIFF_MOUNTPOINT "/run";
 const char *sys_mnt = SKIFF_MOUNTPOINT "/sys";
 const char *mnt_mnt = SKIFF_MOUNTPOINT "/mnt";
@@ -148,11 +149,6 @@ int main(int argc, char *argv[]) {
     mkdir(root_dir, 0700);
   }
 
-  // mount /etc/mtab /proc if not mounted
-  if (stat("/etc", &st) == -1) {
-    mkdir("/etc", 0755);
-  }
-
   if (stat("/proc", &st) == -1) {
     mkdir("/proc", 0555);
   }
@@ -166,6 +162,11 @@ int main(int argc, char *argv[]) {
     }
   }
 
+
+  // mount /etc/mtab
+  if (stat("/etc", &st) == -1) {
+    mkdir("/etc", 0755);
+  }
   if (stat("/etc/mtab", &st) != 0) {
     /*
       int mt = open("/etc/mtab", O_WRONLY|O_CREAT|O_NOCTTY, 0777);
@@ -357,9 +358,6 @@ int main(int argc, char *argv[]) {
   }
   free(overlayArgs);
 
-  // attempt to make the mountpoint shared
-  mount(NULL, mountpoint, NULL, MS_SHARED|MS_REC, NULL);
-
 #endif
 
   // chmod the mountpoint so non-root users can use it
@@ -370,7 +368,8 @@ int main(int argc, char *argv[]) {
     res = 0;
   }
 
-  // Mount /mnt if set
+  // Mount /mnt if set, otherwise, mount / directly to target
+  // Note: most systems use !BIND_ROOT_MNT
 #ifdef BIND_ROOT_MNT
 
   if (stat("/mnt", &st) == -1) {
@@ -383,7 +382,7 @@ int main(int argc, char *argv[]) {
   if (stat(persist_parent_mnt, &st) == -1) {
     mkdir(persist_parent_mnt, 0755);
   }
-  if (mount("/", persist_parent_mnt, NULL, MS_BIND | MS_SHARED, NULL) != 0) { // MS_REC - rbind
+  if (mount("/", persist_parent_mnt, NULL, MS_BIND, NULL) != 0) {
     res = errno;
     fprintf(logfd, "SkiffOS: warning: failed to mount old / as %s: (%d) %s\n",
             persist_mnt, res, strerror(res));
@@ -412,6 +411,7 @@ int main(int argc, char *argv[]) {
   if (stat(persist_mnt, &st) == -1) {
     mkdir(persist_mnt, 0755);
   }
+  // NOTE: MS_SHARED ?
   if (mount("/", persist_mnt, NULL, MS_BIND|MS_SHARED, NULL) != 0) { // MS_REC - rbind
     res = errno;
     fprintf(logfd, "SkiffOS: warning: failed to mount / as %s: (%d) %s\n",
@@ -420,7 +420,25 @@ int main(int argc, char *argv[]) {
   }
 #endif // ROOT_AS_PERSIST
 
-#endif // BIND_ROOT_MNT
+#endif // !BIND_ROOT_MNT
+
+  // mount /dev in target
+  if (mount("/dev", dev_mnt, NULL, MS_BIND | MS_REC, NULL) != 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS: failed to mount /dev in chroot: (%d) %s\n", res,
+            strerror(res));
+    return res;
+  }
+
+#ifndef NO_MOUNT_PROC
+  fprintf(logfd, "SkiffOS init: mounting proc to %s...\n", proc_mnt);
+  if (mount("none", proc_mnt, "proc", 0, NULL) != 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS: failed to mount proc in chroot: (%d) %s\n", res,
+            strerror(res));
+    return res;
+  }
+#endif
 
 #ifndef NO_MOUNT_SYS
 #ifdef MOUNT_SYS_RBIND
@@ -431,26 +449,24 @@ int main(int argc, char *argv[]) {
             strerror(res));
     return res;
   }
+#else
+  fprintf(logfd, "SkiffOS init: mounting sysfs to %s...\n", sys_mnt);
+  if (mount("sysfs", sys_mnt, "sysfs", 0, NULL) != 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS: failed to mount sys in chroot: (%d) %s\n", res,
+            strerror(res));
+    return res;
+  }
 #endif
 #endif
+
+  // Bind all of the extra host dirs into the container.
+  do_bind_host_dirs();
 
   // Write PID file for init
 #ifdef WRITE_SKIFF_INIT_PID
   write_skiff_init_pid(getpid());
 #endif
-
-  // Bind /dev into the container if set.
-  if (stat("/dev", &st) == 0) {
-    if (mount("/dev", dev_mnt, NULL, MS_BIND | MS_REC, NULL) != 0) {
-      res = errno;
-      fprintf(logfd, "SkiffOS: failed to mount /dev in chroot: (%d) %s\n", res,
-              strerror(res));
-      return res;
-    }
-  }
-
-  // Bind all of the extra host dirs into the container.
-  do_bind_host_dirs();
 
   // Attempt to chroot into it
   fprintf(logfd, "SkiffOS init: switching into mountpoint: %s\n", mountpoint);
@@ -477,7 +493,7 @@ int main(int argc, char *argv[]) {
 
   // chroot into / (the mountpoint was moved)
 #ifndef NO_CHROOT_TARGET
-  chroot("/");
+  chroot(".");
 #endif
 
 #else
@@ -494,26 +510,6 @@ int main(int argc, char *argv[]) {
     close(cfd);
     cfd = 0;
   }
-
-#ifndef NO_MOUNT_PROC
-  if (mount("none", "/proc", "proc", 0, NULL) != 0) {
-    res = errno;
-    fprintf(logfd, "SkiffOS: failed to mount proc in chroot: (%d) %s\n", res,
-            strerror(res));
-    return res;
-  }
-#endif
-
-#ifndef NO_MOUNT_SYS
-#ifndef MOUNT_SYS_RBIND
-  if (mount("/sys", "/sys", "sysfs", 0, NULL) != 0) {
-    res = errno;
-    fprintf(logfd, "SkiffOS: failed to mount /sys in chroot: (%d) %s\n", res,
-            strerror(res));
-    return res;
-  }
-#endif
-#endif
 
 exec_init_proc:
 

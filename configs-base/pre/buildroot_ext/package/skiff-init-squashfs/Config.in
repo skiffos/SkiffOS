@@ -30,7 +30,7 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_INIT_PROC
 	default "/lib/systemd/systemd"
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_PROC
-	bool "inherit /proc from the root fs"
+	bool "mount /proc in the target fs"
 	default y
 	help
 	  Mounts /proc into the chroot system at /proc
