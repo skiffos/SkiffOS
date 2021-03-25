@@ -5,9 +5,8 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/69b0bd42d58fa332f1b1d3bfdf89ac7356bcf7b2/linux-odroid-tb-5.9.16-r1.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 
-# tobetter odroid-5.10.y branch
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/b4b1d35d867b7afb8158e928c91a66284aa5fea7/linux-odroid-tb-5.10.12-r1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
+# tobetter odroid-5.11.y branch
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/6fec748987cb193bfa2d5fa27b12ad78b9668e55/linux-odroid-tb-5.11.8-r1.tar.gz"
 
 # note: buildroot <= 2020.11.x does not have CUSTOM_5_10 yet.
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
