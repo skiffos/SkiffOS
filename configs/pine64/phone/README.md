@@ -18,22 +18,21 @@ References:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=pine64/phone,core/pinephone_ubtouch
+$ export SKIFF_CONFIG=pine64/phone,core/pinephone_manjaro_kde
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
-The `core/pinephone_ubtouch` portion of SKIFF_CONFIG enables "Skiff Core" with
-[Ubuntu Touch] for PinePhone. See http://ubuntu-touch.io for more information.
+The `core/pinephone_manjaro_kde` portion of SKIFF_CONFIG enables "Skiff Core"
+with [Manjaro KDE for PinePhone].
 
 Once the build is complete, it's time to flash the system. There are several
 approaches, please see the "Flashing" section in the [common readme].
 
 [common readme]: ../
-[Ubuntu Touch]: https://devices.ubuntu-touch.io/device/pinephone
+[Manjaro KDE for PinePhone]: https://osdn.net/projects/manjaro-arm/storage/pinephone/plasma-mobile/dev/210102/
 
 ## Skiff Core: Available Variants
-
 
 | **Distribution**           | **Config Package**            | **Notes**              |
 | ---------------            | -----------------             | ---------------------- |
@@ -43,10 +42,22 @@ approaches, please see the "Flashing" section in the [common readme].
 | PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
 | PinePhone [UBTouch]        | core/pinephone_ubtouch        | Ubuntu Touch           |
 
-
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
 [UBPorts]: https://ubuntu-touch.io/
+
+## Ubuntu Touch
+
+The [Ubuntu Touch] core `core/pinephone_ubtouch` adds additional kernel options
+and support packages. Ubuntu Touch runs elements of Android which require
+specific kernel features and other system-level customizations.
+
+Unfortunately, this means the Ubuntu Touch image will not work unless SkiffOS
+was compiled with the `core/pinephone_ubtouch` config enabled.
+
+This is a work in progress at present and not all features work (yet).
+
+[Ubuntu Touch]: https://devices.ubuntu-touch.io/device/pinephone
 
 ## Using Jumpdrive
 
