@@ -145,6 +145,7 @@ ENV LANG=C.UTF-8 \
     L4T_SOC=t186
 
 # additional desktop packages
+# chromium-browser
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update && \
     apt-get dist-upgrade -y && \
@@ -152,9 +153,9 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     -o "Dpkg::Options::=--force-confdef"  \
     -o "Dpkg::Options::=--force-confold"  \
     ark \
-    chromium-browser \
     cups \
     desktop-base \
+    firefox \
     fonts-ubuntu \
     gwenview \
     htop \
