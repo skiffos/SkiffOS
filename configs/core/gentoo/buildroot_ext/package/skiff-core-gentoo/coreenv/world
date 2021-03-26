@@ -1,4 +1,5 @@
 app-admin/sudo
+app-arch/cpio
 app-arch/p7zip
 app-editors/vim
 app-eselect/eselect-repository
@@ -24,6 +25,7 @@ sys-apps/pciutils
 sys-apps/systemd
 sys-apps/usbutils
 sys-auth/nss-mdns
+sys-devel/bc
 sys-fs/fuse
 sys-libs/timezone-data
 sys-libs/zlib
