@@ -34,6 +34,7 @@ kde-frameworks/* ~ARCH
 kde-misc/* ~ARCH
 kde-plasma/* ~ARCH
 media-fonts/courier-prime ~ARCH
+media-libs/dav1d ~ARCH
 media-libs/libsoundtouch ~ARCH
 media-libs/libvpx ~ARCH
 media-libs/libwebp ~ARCH
