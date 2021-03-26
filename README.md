@@ -220,6 +220,7 @@ All core configurations work with all target platforms:
 | **Distribution**           | **Config Package**            | **Notes**                 |
 | ---------------            | -----------------             | ----------------------    |
 | [Debian] Bullseye          | [core/debian]                 |                           |
+| [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
 | [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
 | [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
@@ -234,6 +235,7 @@ All core configurations work with all target platforms:
 | PinePhone [UBTouch]        | core/pinephone_ubtouch        | Ubuntu touch              |
 
 [Debian]: https://debian.org/
+[DietPi]: https://github.com/MichaIng/DietPi
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
@@ -245,6 +247,7 @@ All core configurations work with all target platforms:
 [XFCE]: https://www.xfce.org/
 
 [core/debian]: ./configs/core/debian
+[core/dietpi]: ./configs/core/dietpi
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
 
