@@ -32,12 +32,16 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     fake-hwclock \
     git \
     gnupg \
+    htop \
     ifupdown \
     iputils-ping \
     kmod \
     locales \
     lsb-release \
+    nano \
     ncurses-term \
+    net-tools \
+    openssh-client \
     p7zip \
     parted \
     procps \
@@ -52,6 +56,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     udev \
     unzip \
     usbutils \
+    vim \
     whiptail \
     wget && \
     apt-get autoremove -y
@@ -105,6 +110,8 @@ RUN cd /usr/src/DietPi && \
     echo 2 > /boot/dietpi/.install_stage && \
     /boot/dietpi/func/dietpi-set_software ntpd-mode "0" && \
     echo "PATH=\$PATH:/boot/dietpi" > /etc/profile.d/dietpi-path.sh && \
+    sed -ie "s/AUTO_SETUP_SSH_SERVER_INDEX=-1/AUTO_SETUP_SSH_SERVER_INDEX=0/g" /boot/dietpi.txt && \
+    sed -ie "s/AUTO_SETUP_LOGGING_INDEX=-1/AUTO_SETUP_LOGGING_INDEX=0/g" /boot/dietpi.txt && \
     chmod +x /etc/profile.d/dietpi-path.sh && \
     cd / && rm -rf /usr/src/DietPi
 
@@ -128,24 +135,6 @@ RUN (rm -Rv /var/cache/apparmor || true) && \
     (rm -fv /var/cache/debconf/*-old || true) && \
     (rm -fv /var/lib/dpkg/*-old || true) && \
     (rm -Rfv /{root,home/*}/.{bash_history,nano_history,wget-hsts,cache,local,config,gnupg,viminfo,dbus,gconf,nano,vim,zshrc,oh-my-zsh} || true)
-
-# Extra packages (browsers, other utilities)
-RUN export DEBIAN_FRONTEND=noninteractive; \
-    apt-get dist-upgrade -y && \
-    apt-get install -y  \
-    --no-install-recommends \
-    -o "Dpkg::Options::=--force-confdef"  \
-    -o "Dpkg::Options::=--force-confnew"  \
-    htop \
-    lightdm \
-    nano \
-    net-tools \
-    openssh-client \
-    task-xfce-desktop \
-    vim \
-    xorg \
-    xorg \
-    xserver-xorg-input-all
 
 # Cleanup any data we don't need.
 RUN rm -rf /var/lib/apt/lists/*
