@@ -89,7 +89,7 @@ RUN cd /usr/src/DietPi && \
     export HW_MODEL=22 && \
     export WIFI_REQUIRED=0 && \
     export DISTRO_TARGET=6 && \
-    mkdir -p  /boot/dietpi /var/{lib,tmp}/dietpi && \
+    mkdir -p /boot/dietpi /var/tmp/dietpi /var/lib/dietpi/dietpi-software/ && \
     cp -Rf ./dietpi/. /boot/dietpi/ && \
     cp -Rf ./rootfs/. / && \
     cp dietpi.txt /boot/ && \
@@ -102,8 +102,10 @@ RUN cd /usr/src/DietPi && \
     cp LICENSE /var/lib/dietpi/license.txt && \
     echo "22" > /etc/.dietpi_hw_model_identifier && \
     /boot/dietpi/func/dietpi-obtain_hw_model && \
-    echo -1 > /boot/dietpi/.install_stage && \
+    echo 2 > /boot/dietpi/.install_stage && \
     /boot/dietpi/func/dietpi-set_software ntpd-mode "0" && \
+    echo "PATH=\$PATH:/boot/dietpi" > /etc/profile.d/dietpi-path.sh && \
+    chmod +x /etc/profile.d/dietpi-path.sh && \
     cd / && rm -rf /usr/src/DietPi
 
 # Run dietpi setup scripts
@@ -113,8 +115,8 @@ RUN /boot/dietpi/func/dietpi-set_software apt-mirror default && \
     mkdir -pv /var/lib/dietpi/{postboot.d,dietpi-software/installed} && \
     mkdir -pv /var/tmp/dietpi/logs/dietpi-ramlog_store && \
     mkdir -pv /mnt/{dietpi_userdata,samba,ftp_client,nfs_client} && \
-    chown -R dietpi:dietpi /var/{lib,tmp}/dietpi /mnt/{dietpi_userdata,samba,ftp_client,nfs_client} && \
-    find /var/{lib,tmp}/dietpi /mnt/{dietpi_userdata,samba,ftp_client,nfs_client} -type d -exec chmod 0775 {} + && \
+    chown -R dietpi:dietpi /var/lib/dietpi /mnt/{dietpi_userdata,samba,ftp_client,nfs_client} && \
+    find /var/lib/dietpi /mnt/{dietpi_userdata,samba,ftp_client,nfs_client} -type d -exec chmod 0775 {} + && \
     systemctl enable dietpi-ramlog dietpi-preboot dietpi-boot dietpi-postboot dietpi-kill_ssh && \
     systemctl mask sshd
 
