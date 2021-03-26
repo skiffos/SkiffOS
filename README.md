@@ -219,19 +219,21 @@ All core configurations work with all target platforms:
 
 | **Distribution**           | **Config Package**            | **Notes**                 |
 | ---------------            | -----------------             | ----------------------    |
+| [Debian] Bullseye          | [core/debian]                 |                           |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
 | [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
 | [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
 | [NixOS]                    | core/nixos                    |                           |
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
 | [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
-| [Ubuntu]                   | skiff/core                    | Default configuration     |
+| [Ubuntu]                   | skiff/core                    | With minimal desktop GUI  |
 | PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon     |
 | PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
 | PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant            |
 | PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant             |
 | PinePhone [UBTouch]        | core/pinephone_ubtouch        | Ubuntu touch              |
 
+[Debian]: https://debian.org/
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
@@ -242,6 +244,7 @@ All core configurations work with all target platforms:
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
 
+[core/debian]: ./configs/core/debian
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
 

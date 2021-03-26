@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_DEBIAN_PATH/package/skiff-core-debian/Config.in"
