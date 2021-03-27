@@ -14,6 +14,7 @@ SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
 ZRAM_SIZE="2048M"
 if ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
     echo "Enabling ZRAM at /dev/zram0..."
+    modprobe zram || true
     zramctl -s ${ZRAM_SIZE} /dev/zram0 || true
     swapoff /dev/zram0 2>/dev/null || true
     mkswap /dev/zram0 || true
