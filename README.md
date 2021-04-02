@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629836.svg)](https://doi.org/10.5281/zenodo.4629836)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
 [![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
 
 [SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
