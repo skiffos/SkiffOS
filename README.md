@@ -2,7 +2,10 @@
 
 ## Introduction
 
-Skiff compiles a lightweight operating system for [any Linux-compatible computer],
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629836.svg)](https://doi.org/10.5281/zenodo.4629836)
+[![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
+
+[SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
 [Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs]. It is:
 
@@ -28,6 +31,7 @@ needed to support the hardware, cleanly separated from the applications.
 [Odroid]: https://linux-hardware.org/?probe=927be03a24
 [Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
+[SkiffOS]: ./resources/paper.pdf
 
 ## Getting started
 
