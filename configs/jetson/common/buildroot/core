@@ -4,5 +4,7 @@ BR2_PACKAGE_SKIFF_CORE_LINUX4TEGRA=y
 # BR2_PACKAGE_NVIDIA_CONTAINER_RUNTIME is not set
 
 # NOTE: Post-docker 19.03 uses the OCI hook (toolkit)
-BR2_PACKAGE_NVIDIA_CONTAINER_TOOLKIT=y
+# NOTE: this is not necessary for skiff-core images.
+# NOTE: libnvidia-container currently does not build
+# BR2_PACKAGE_NVIDIA_CONTAINER_TOOLKIT is not set
 
