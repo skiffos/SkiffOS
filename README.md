@@ -140,6 +140,7 @@ Here are the boards/systems currently supported:
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)       | ✔ ayufan-5.9.0  | ✔ Tested               |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot             | ✔ megi-5.12     | ✔ Tested               |
 | [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.11.0-rc4    | ✔ Tested               |
+| [USBArmory Mk2]      | usbarmory/mk2      | ✔ U-Boot 2020.10     | ✔ 5.11.17       | ✔ Tested               |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
@@ -171,6 +172,7 @@ Here are the boards/systems currently supported:
 [RockPro64]: https://www.pine64.org/rockpro64/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
+[USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 
 [virt/docker]: ./configs/virt/docker
