@@ -43,25 +43,33 @@ sleep 1
 
 echo "Making boot partition..."
 sudo parted -a optimal $PI_SD mkpart primary fat16 0% 300M
-sleep 1
 
 PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p
 fi
 
-mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
 sudo parted $PI_SD set 1 boot on
 sudo parted $PI_SD set 1 lba on
-sleep 1
-# mlabel -i ${PI_SD_SFX}1 ::boot
 
 echo "Making rootfs partition..."
 sudo parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
-sleep 1
-mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Making persist partition..."
 sudo parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
-sleep 1
+
+echo "Waiting for partprobe..."
+partprobe $PI_SD || true
+sleep 2
+partprobe $PI_SD || true
+
+echo "Formatting rootfs partition..."
+mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
+
+echo "Formatting boot partition..."
+mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
+
+echo "Formatting persist partition..."
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
+
+partprobe $PI_SD || true
