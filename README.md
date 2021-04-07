@@ -102,10 +102,10 @@ The SkiffOS upgrade (or downgrade) will take effect on next reboot.
 
 ![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
 
-SkiffOS is based on Buildroot, which can compile operating systems for virtually
-any machine. Therefore, SkiffOS also works on nearly any architecture or board.
+SkiffOS is based on Buildroot, which can compile operating systems for any
+Linux-compatible machine.
 
-Here are the boards/systems currently supported by Skiff:
+Here are the boards/systems currently supported:
 
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
@@ -214,7 +214,7 @@ This allows virtually any workflow to be migrated to Skiff. The config file
 structure is flexible, and allows for any number of containers, users, and
 images to be defined and built.
 
-### Supported Environments
+### Environment Presets
 
 Any existing GNU/Linux system with compatibility with the running kernel version
 can be loaded as a Docker image with the `docker import` command.
