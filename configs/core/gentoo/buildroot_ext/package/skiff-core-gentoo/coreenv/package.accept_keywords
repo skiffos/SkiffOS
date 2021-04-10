@@ -32,6 +32,7 @@ dev-haskell/pandoc-citeproc ~ARCH
 dev-java/openjdk-bin ~ARCH
 dev-lang/ghc ~ARCH
 dev-lang/go ~ARCH
+dev-lang/python ~ARCH
 dev-lang/rust ~ARCH
 dev-lang/spidermonkey ~ARCH
 dev-libs/boost ~ARCH
@@ -144,6 +145,7 @@ www-client/google-chrome-beta ~ARCH
 www-client/google-chrome-unstable ~ARCH
 x11-apps/xrandr ~ARCH
 x11-misc/easystroke ~ARCH
-x11-misc/x11vnc ~ARCH11-wm/xpra ~ARCH
+x11-misc/x11vnc ~ARCH
+x11-wm/xpra ~ARCH
 
 # autounmasked
