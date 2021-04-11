@@ -2,7 +2,7 @@
 # integration branch: orange-pi-5.10
 # BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/db16c398a809ac303e7693f2f46ad20fad11d39a/linux-megous-5.10-r1.tar.gz"
 # integration branch: orange-pi-5.9
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/6f2d95b9833e4e2395ca58056c1489fa77eb5810/linux-megous-5.9.11-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/1b6b38b89ea6237997786fa5f279c93e456a79b9/linux-megous-5.9.16-r1.tar.gz"
 
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 
