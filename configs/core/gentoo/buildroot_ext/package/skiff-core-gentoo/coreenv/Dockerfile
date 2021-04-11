@@ -63,7 +63,7 @@ COPY ./repos.conf /etc/portage/repos.conf
 RUN rm -rf /var/db/repos/gentoo/*; \
     mkdir -p /var/db/repos/localrepo-crossdev/{profiles,metadata}; \
     echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
-    echo "masters = gentoo\nthin-manifests = true" > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
+    printf "masters = gentoo\nthin-manifests = true\n" > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
     chown -R portage:portage /var/db/repos/localrepo-crossdev; \
     rm -rf /etc/portage/package.use || true; \
     mkdir -p /etc/portage/package.use; \
