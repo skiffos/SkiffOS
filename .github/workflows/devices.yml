@@ -38,17 +38,17 @@ jobs:
       - name: Clear caches if necessary
         run: |
           # necessary to save space
-          if [ ! -f ~/br-cache/ccache-v5 ]; then
+          if [ ! -f ~/br-cache/ccache-v6 ]; then
             echo "Clearing old compiler cache..."
             rm -rf ~/br-cache/ccache* || true
             mkdir -p ~/br-cache/ccache
-            touch ~/br-cache/ccache-v5
+            touch ~/br-cache/ccache-v6
           fi
-          if [ ! -f ~/br-cache/dl-v5 ]; then
+          if [ ! -f ~/br-cache/dl-v6 ]; then
             echo "Clearing old downloads cache..."
             rm -rf ~/br-cache/dl* || true
             mkdir -p ~/br-cache/dl
-            touch ~/br-cache/dl-v5
+            touch ~/br-cache/dl-v6
           fi
       - name: Print help and packages list
         run: |
@@ -60,12 +60,19 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           export TERM=xterm
+          export PATH=/usr/sbin:/usr/bin:/sbin:/bin
           export BR2_CCACHE_DIR=${HOME}/br-cache/ccache
           export BR2_DL_DIR=${HOME}/br-cache/dl
-          export SKIFF_WORKSPACE=docker
           SKIFF_TARGET=$(echo ${SKIFF_DEVICE_CONFIG} | sed "s#-#/#g")
           export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/gentoo
-          make -s configure compile check
+          export SKIFF_WORKSPACE=${SKIFF_DEVICE_CONFIG}
+          rm -rf ./workspaces/${SKIFF_WORKSPACE} || true
+          make -s configure
+          cd ./workspaces/${SKIFF_WORKSPACE}
+          make -s host-python
+          cd ../../
+          make -s compile
+          make -s check
           rm -rf ./workspaces/${SKIFF_WORKSPACE}/{build,extra_images,host,target,staging}
           mkdir -p workflow-artifacts
           tar -cvf ./workflow-artifacts/images.tar.gz --exclude="rootfs.cpio" -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
