@@ -9,6 +9,7 @@ jobs:
   device:
     # runs-on: ubuntu-latest
     runs-on: self-hosted
+    timeout-minutes: 2880
     strategy:
       matrix:
         skiffconf:
@@ -20,21 +21,14 @@ jobs:
         - pi-4
         - pine64-book
         - pine64-phone
-        # exceeds the storage/time limit
-        # - pine64-h64
+        - pine64-h64
+        - jetson-tx2
+        # temporarily disabled targets:
         # - jetson-nano
-        # - jetson-tx2
         # - odroid-u
         # - virt-wsl
     steps:
       - uses: actions/checkout@v2
-      #- name: Cache build cache and downloads
-      #  uses: actions/cache@v2
-      #  env:
-      #    cache-name: cache-buildroot-device
-      #  with:
-      #    path: ~/br-cache/
-      #    key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.skiffconf }}
       - name: Clear caches if necessary
         run: |
           # necessary to save space
