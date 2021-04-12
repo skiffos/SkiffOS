@@ -1,8 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
+# ensure we don't use the buildroot host path "mount"
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 if [ $EUID != 0 ]; then
-  echo "This script requires sudo, so it might not work."
+  echo "This script requires root, so it might not work."
 fi
 
 if [ -z "$PINE64_SD" ]; then
@@ -47,7 +49,7 @@ function cleanup {
 sync || true
 for mount in "${mounts[@]}"; do
   echo "Unmounting ${mount}..."
-  sudo umount $mount || true
+  umount $mount || true
 done
 mounts=()
 if [ -d "$WORK_DIR" ]; then
@@ -68,17 +70,17 @@ fi
 mkdir -p $boot_dir
 echo "Mounting ${PINE64_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-sudo mount ${PINE64_SD_SFX}1 $boot_dir
+mount ${PINE64_SD_SFX}1 $boot_dir
 
 echo "Mounting ${PINE64_SD_SFX}2 to $rootfs_dir..."
 mkdir -p $rootfs_dir
 mounts+=("$rootfs_dir")
-sudo mount ${PINE64_SD_SFX}2 $rootfs_dir
+mount ${PINE64_SD_SFX}2 $rootfs_dir
 
 echo "Mounting ${PINE64_SD_SFX}3 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-sudo mount ${PINE64_SD_SFX}3 $persist_dir
+mount ${PINE64_SD_SFX}3 $persist_dir
 
 echo "Copying kernel image..."
 sync
