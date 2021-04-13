@@ -17,6 +17,7 @@ app-emulation/virt-manager ~ARCH
 app-emulation/virtualbox ~ARCH
 app-emulation/virtualbox-modules ~ARCH
 app-eselect/eselect-opencascade ~ARCH
+app-i18n/* ~ARCH
 app-misc/neofetch ~ARCH
 app-office/libreoffice ~ARCH
 app-office/libreoffice-l10n ~ARCH
@@ -36,6 +37,7 @@ dev-lang/python ~ARCH
 dev-lang/rust ~ARCH
 dev-lang/spidermonkey ~ARCH
 dev-libs/boost ~ARCH
+dev-libs/ell ~ARCH
 dev-libs/editline ~ARCH
 dev-libs/ell ~ARCH
 dev-libs/gmp ~ARCH
