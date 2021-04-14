@@ -29,6 +29,11 @@ jobs:
         # - virt-wsl
     steps:
       - uses: actions/checkout@v2
+      - name: Update the submodule
+        run: |
+          cd $GITHUB_WORKSPACE
+          git submodule update --init --recursive
+      - name: Build the system image
       - name: Clear caches if necessary
         run: |
           # necessary to save space
