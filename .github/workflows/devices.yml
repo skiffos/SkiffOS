@@ -33,7 +33,6 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           git submodule update --init --recursive
-      - name: Build the system image
       - name: Clear caches if necessary
         run: |
           # necessary to save space
