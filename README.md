@@ -110,14 +110,14 @@ Here are the boards/systems currently supported:
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | [virt/docker]      | N/A                  | N/A             | Run in Docker          |
-| [Qemu]               | [virt/qemu]        | N/A                  | ✔ 5.11.15       | Run in QEmu            |
+| [Qemu]               | [virt/qemu]        | N/A                  | ✔ 5.11.16       | Run in QEmu            |
 | [WSL] on Windows     | [virt/wsl]         | N/A                  | ✔ msft-5.4.72   | Run in WSL2            |
-| [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.11.15       | ✔ Tested               |
-| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.11.15       | ⚠ Discontinued         |
-| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.11.15       | ⚠ Discontinued         |
-| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.11.15       |                        |
-| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.11.15       | ✔ Tested               |
-| [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.11.15       | ✔ Tested               |
+| [Apple Macbook]      | apple/macbook      | ✔ [rEFInd]           | ✔ 5.11.16       | ✔ Tested               |
+| [BananaPi M1]        | bananapi/m1        | ✔ U-Boot 2020.10     | ✔ 5.11.16       | ⚠ Discontinued         |
+| [BananaPi M1+/Pro]   | bananapi/m1plus    | ✔ U-Boot 2020.10     | ✔ 5.11.16       | ⚠ Discontinued         |
+| [BananaPi M2+]       | bananapi/m2plus    | ✔ U-Boot 2020.10     | ✔ 5.11.16       |                        |
+| [BananaPi M3]        | bananapi/m3        | ✔ U-Boot 2020.10     | ✔ 5.11.16       | ✔ Tested               |
+| [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.11.16       | ✔ Tested               |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.11.14    | ⚠ Discontinued         |
@@ -127,10 +127,10 @@ Here are the boards/systems currently supported:
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ✔ Tested               |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ⚠ Discontinued         |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ✔ Tested               |
-| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.11.15       |                        |
-| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.11.15       |                        |
-| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.11.15       |                        |
-| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.11.15       |                        |
+| [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.11.16       |                        |
+| [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.11.16       |                        |
+| [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.11.16       |                        |
+| [PcEngines APU2]     | pcengines/apu2     | ✔ CoreBoot           | ✔ 5.11.16       |                        |
 | [Pi 0]               | [pi/0]             | N/A                  | ✔ rpi-5.11.11   | ✔ Tested               |
 | [Pi 1]               | [pi/1]             | N/A                  | ✔ rpi-5.11.11   |                        |
 | [Pi 3] + 1, 2        | [pi/3]             | N/A                  | ✔ rpi-5.11.11   | ✔ Tested               |
