@@ -87,3 +87,27 @@ Reference:
 
 [PinePhone Firmware Wiki]: https://wiki.pine64.org/wiki/PineModems#Firmware_Recovery
 
+## ModemManager
+
+The SkiffOS configuration includes the relevant udev rules and firmware, but
+does not include eg25-manager. ModemManager is included, and can be configured
+to connect to a mobile network provider with the [corresponding APN]:
+
+[corresponding APN]: https://wiki.pine64.org/wiki/PinePhone_APN_Settings
+
+```
+ssh root@pinephone
+nmcli connection edit type gsm con-name "My Cellular Connection"
+> set gsm.apn myapnhere
+> print
+> save
+```
+
+It should connect to the mobile network, you can use `mmcli` to check:
+
+```
+# list modems
+mmcli -L
+# get modem status
+mmcli --modem=0
+```
