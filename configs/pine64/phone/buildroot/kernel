@@ -5,7 +5,7 @@
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 
 # integration branch: orange-pi-5.12
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/a36815260a4364f7ba26d9d56a58856b0bc6ce7a/linux-megous-5.12-rc6-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/4b9f3342ecc64267d472fd555e93595e5bd33ae4/linux-megous-5.12-r1.tar.gz"
 
 BR2_LINUX_KERNEL_DEFCONFIG="pinephone"
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun50i-a64-pinephone-1.2"

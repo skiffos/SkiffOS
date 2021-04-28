@@ -138,7 +138,7 @@ Here are the boards/systems currently supported:
 | [Pi 4] (32bit mode)  | [pi/4x32]          | N/A                  | ✔ rpi-5.11.16   | ✔ Tested               |
 | [Pine64] H64         | pine64/h64         | ✔ U-Boot             | ✔ pine64-5.8.0  | ✔ Tested               |
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)       | ✔ ayufan-5.9.0  | ✔ Tested               |
-| [PinePhone]          | [pine64/phone]     | ✔ U-Boot             | ✔ megi-5.12-rc6 | ✔ Tested               |
+| [PinePhone]          | [pine64/phone]     | ✔ U-Boot             | ✔ megi-5.12     | ✔ Tested               |
 | [RockPro64]          | pine64/rockpro64   | ✔ U-Boot (bin)       | ✔ 5.11.0-rc4    | ✔ Tested               |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
