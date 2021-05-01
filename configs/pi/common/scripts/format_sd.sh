@@ -64,7 +64,7 @@ echo "Formatting rootfs partition..."
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Formatting boot partition..."
-mkfs.vfat -n BOOT -F 16 ${PI_SD_SFX}1
+mkfs.vfat -n BOOT -F 32 ${PI_SD_SFX}1
 
 echo "Formatting persist partition..."
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
