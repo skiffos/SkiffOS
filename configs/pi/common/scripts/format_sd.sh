@@ -49,9 +49,6 @@ if [ -b ${PI_SD}p1 ]; then
   PI_SD_SFX=${PI_SD}p
 fi
 
-sudo parted $PI_SD set 1 boot on
-sudo parted $PI_SD set 1 lba on
-
 echo "Making rootfs partition..."
 sudo parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
 
