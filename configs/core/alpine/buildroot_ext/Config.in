@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_ALPINE_PATH/package/skiff-core-alpine/Config.in"
