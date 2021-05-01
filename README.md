@@ -223,6 +223,7 @@ All core configurations work with all target platforms:
 
 | **Distribution**           | **Config Package**            | **Notes**                 |
 | ---------------            | -----------------             | ----------------------    |
+| [Alpine] Linux             | core/alpine                   | OpenRC                    |
 | [Debian] Bullseye          | [core/debian]                 |                           |
 | [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
@@ -240,6 +241,7 @@ All core configurations work with all target platforms:
 
 [Debian]: https://debian.org/
 [DietPi]: https://github.com/MichaIng/DietPi
+[Alpine]: https://www.alpinelinux.org/
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
