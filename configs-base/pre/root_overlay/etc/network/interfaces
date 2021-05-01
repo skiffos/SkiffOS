@@ -1,5 +1,5 @@
-# interface file from odroid/base
-# see /etc/systemd/network to configure
+# SkiffOS: interfaces are configured by NetworkManager
+# use "nmcli" and "nmtui" to control
 
 auto lo
 iface lo inet loopback
