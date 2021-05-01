@@ -106,6 +106,8 @@ nmcli connection edit type gsm con-name "My Cellular Connection"
 It should connect to the mobile network, you can use `mmcli` to check:
 
 ```
+# power on modem, if not already powered
+echo 1 > /sys/class/modem-power/modem-power/device/powered
 # list modems
 mmcli -L
 # get modem status
