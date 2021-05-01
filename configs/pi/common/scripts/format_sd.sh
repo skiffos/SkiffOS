@@ -56,9 +56,9 @@ echo "Making persist partition..."
 sudo parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
 
 echo "Waiting for partprobe..."
-partprobe $PI_SD || true
+sudo partprobe $PI_SD || true
 sleep 2
-partprobe $PI_SD || true
+sudo partprobe $PI_SD || true
 
 echo "Formatting rootfs partition..."
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
@@ -69,4 +69,4 @@ mkfs.vfat -n BOOT -F 32 ${PI_SD_SFX}1
 echo "Formatting persist partition..."
 mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
 
-partprobe $PI_SD || true
+sudo partprobe $PI_SD || true
