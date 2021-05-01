@@ -35,10 +35,9 @@ containers:
 users:
   core:
     container: core
-    containerUser: core
-    createContainerUser: true
+    containerUser: root
     containerShell:
-      - "/bin/bash"
+      - "/bin/sh"
     auth:
       copyRootKeys: true
 images:
