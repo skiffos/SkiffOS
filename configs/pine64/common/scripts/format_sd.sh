@@ -61,7 +61,7 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   fi
 fi
 
-MKEXT4="mkfs.ext4 -F -O ^64bit"
+MKEXT4="mkfs.ext4 -F"
 
 set -x
 set -e
