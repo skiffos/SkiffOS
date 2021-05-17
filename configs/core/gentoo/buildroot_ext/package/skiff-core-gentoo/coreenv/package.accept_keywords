@@ -37,8 +37,8 @@ dev-lang/python ~ARCH
 dev-lang/rust ~ARCH
 dev-lang/spidermonkey ~ARCH
 dev-libs/boost ~ARCH
-dev-libs/ell ~ARCH
 dev-libs/editline ~ARCH
+dev-libs/ell ~ARCH
 dev-libs/ell ~ARCH
 dev-libs/gmp ~ARCH
 dev-libs/icu ~ARCH
@@ -48,6 +48,7 @@ dev-libs/libgcrypt ~ARCH
 dev-libs/libpcre2 ~ARCH
 dev-libs/nspr ~ARCH
 dev-libs/nss ~ARCH
+dev-libs/plasma-wayland-protocols ~ARCH
 dev-libs/pugixml ~ARCH
 dev-libs/re2 ~ARCH
 dev-libs/wayland ~ARCH
@@ -84,6 +85,7 @@ media-libs/libsoundtouch ~ARCH
 media-libs/libvpx ~ARCH
 media-libs/libwebp ~ARCH
 media-libs/mesa ~ARCH
+media-libs/mlt ~ARCH
 media-libs/suil ~ARCH
 media-libs/x264 ~ARCH
 media-sound/audacity ~ARCH
@@ -130,6 +132,8 @@ sys-cluster/openmpi ~ARCH
 sys-config/ltoize ~ARCH
 sys-devel/binutils ~ARCH
 sys-devel/gcc ~ARCH
+sys-firmware/ipxe ~ARCH
+sys-firmware/sgabios ~ARCH
 sys-fs/ecryptfs-utils ~ARCH
 sys-fs/gocryptfs ~ARCH
 sys-kernel/linux-headers ~ARCH
@@ -146,8 +150,10 @@ www-client/google-chrome ~ARCH
 www-client/google-chrome-beta ~ARCH
 www-client/google-chrome-unstable ~ARCH
 x11-apps/xrandr ~ARCH
+x11-libs/libdrm ~ARCH
 x11-misc/easystroke ~ARCH
 x11-misc/x11vnc ~ARCH
+x11-misc/xdg-utils ~ARCH
 x11-wm/xpra ~ARCH
 
 # autounmasked

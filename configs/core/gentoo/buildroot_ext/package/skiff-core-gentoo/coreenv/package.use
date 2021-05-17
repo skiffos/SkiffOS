@@ -19,6 +19,7 @@ sci-geosciences/gpsd python
 sys-apps/systemd cgroup-hybrid
 sys-devel/gcc graphite zstd
 sys-fs/ecryptfs-utils suid
+sys-libs/libseccomp static-libs python
 www-client/chromium system-ffmpeg widevine
 x11-base/xorg-server dmx xvfb
 x11-drivers/nvidia-drivers -driver
