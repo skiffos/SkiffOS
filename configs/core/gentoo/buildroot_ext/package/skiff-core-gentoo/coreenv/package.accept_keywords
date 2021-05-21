@@ -60,6 +60,7 @@ dev-python/websockets ~ARCH
 dev-python/wxpython ~ARCH
 dev-util/boost-build ~ARCH
 dev-util/gn ~ARCH
+dev-util/meson ~ARCH
 dev-util/nvidia-cuda-toolkit ~ARCH
 dev-util/patchelf ~ARCH
 dev-vcs/git ~ARCH
@@ -151,6 +152,7 @@ www-client/google-chrome-beta ~ARCH
 www-client/google-chrome-unstable ~ARCH
 x11-apps/xrandr ~ARCH
 x11-libs/libdrm ~ARCH
+x11-libs/vte ~ARCH
 x11-misc/easystroke ~ARCH
 x11-misc/x11vnc ~ARCH
 x11-misc/xdg-utils ~ARCH
