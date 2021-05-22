@@ -120,13 +120,13 @@ Here are the boards/systems currently supported:
 | [Intel x86/64]       | intel/x64          | ✔ Grub               | ✔ 5.12.6        | ✔ Tested               |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
-| [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.11.14    | ⚠ Discontinued         |
-| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2021.01     | ✔ tb-5.11.14    | ✔ Tested               |
-| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03     | ✔ tb-5.11.14    | ⚠ Discontinued         |
-| [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ✔ Tested               |
-| [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ✔ Tested               |
-| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ⚠ Discontinued         |
-| [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.14    | ✔ Tested               |
+| [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.11.18    | ⚠ Discontinued         |
+| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2021.01     | ✔ tb-5.11.18    | ✔ Tested               |
+| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03     | ✔ tb-5.11.18    | ⚠ Discontinued         |
+| [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ✔ Tested               |
+| [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ✔ Tested               |
+| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ⚠ Discontinued         |
+| [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ✔ Tested               |
 | [OrangePi Lite]      | orangepi/lite      | ✔ U-Boot 2018.05     | ✔ 5.12.6        |                        |
 | [OrangePi Zero]      | orangepi/zero      | ✔ U-Boot 2018.07     | ✔ 5.12.6        |                        |
 | [PcDuino 3]          | pcduino/3          | ✔ U-Boot 2019.07     | ✔ 5.12.6        |                        |
