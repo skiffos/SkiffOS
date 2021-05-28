@@ -113,3 +113,13 @@ mmcli -L
 # get modem status
 mmcli --modem=0
 ```
+
+## Known Issues
+
+The following are known issues:
+
+ - Crust/TF-A requires a musl or1k cross-compiler
+   - Buildroot cannot build multiple toolchains in parallel
+   - Skiff distributes pre-built u-boot binaries to fix this
+   - Can re-compile the blobs from scratch with this repo:
+   - https://github.com/skiffos/pinephone-crust-blobs
