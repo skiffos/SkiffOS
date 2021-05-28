@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PINEPHONE_CRUST_BLOBS
+	bool "pinephone crust u-boot blobs"
+	help
+	  Binary blobs for PinePhone U-boot with crust support
+
+	  https://gitlab.com/skiffos/pinephone-crust-blobs
