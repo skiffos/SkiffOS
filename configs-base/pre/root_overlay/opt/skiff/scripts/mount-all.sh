@@ -102,6 +102,11 @@ else
   mkdir -p /var/log/journal
 fi
 
+# Attempt to resize disk if necessary.
+if [ -z "${DISABLE_RESIZE_PERSIST}" ]; then
+    embiggen-disk ${PERSIST_MNT} || echo "Failed to resize persist partition, continuing anyway."
+fi
+
 mkdir -p $ROOTFS_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount $ROOTFS_MNT_FLAGS $ROOTFS_DEVICE $ROOTFS_MNT; then
   echo "Rootfs drive at $ROOTFS_MNT"
