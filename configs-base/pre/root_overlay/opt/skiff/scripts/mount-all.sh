@@ -153,7 +153,7 @@ chmod -R 0600 /etc/NetworkManager/system-connections
 chown -R root:root /etc/NetworkManager/system-connections
 
 if [ -d $PERSIST_ROOT/skiff/etc ]; then
-  rsync -rav $PERSIST_ROOT/skiff/etc/ /etc/
+  rsync --exclude=/readme -rav $PERSIST_ROOT/skiff/etc/ /etc/
 else
   mkdir -p $PERSIST_ROOT/skiff/etc/
 fi
