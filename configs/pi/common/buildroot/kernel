@@ -1,10 +1,10 @@
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
 # rpi-5.10.y branch
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/a2d265da70816783255d7f450d065c6e1100185c/linux-rpi-5.10.39-r2.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/bcb79983422d056ea85d2b4a515762c0d56690e5/linux-rpi-5.10.39-r3.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 
 # rpi-5.12.y branch
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/c84df89f0476b1616ee3fe9de6030f018ad002c3/linux-rpi-5.12.6-r1.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/raspberrypi/linux/archive/68c813a66c870fbbfe89b3525e14b83ef498a9a9/linux-rpi-5.12.6-r2.tar.gz"
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
