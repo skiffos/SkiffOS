@@ -8,29 +8,29 @@ This feature is a bit rough at the moment and will be improved in the future.
 
 ### Getting Started
 
-All commands are run in the Skiff root.
+Make sure you have Docker installed on your machine and that it is running. Then use the scripts provided in this folder. They can be run from this folder or the project root but be sure to get the path to the script right if you don't run it from this folder.
 
-Build the working environment:
-
-```sh
-docker build -t "skiff/build:latest" .
-```
-
-Start the container (the sleep is to keep it running forever):
+To build the Docker container use the build script:
 
 ```sh
-docker run -d \
-	--name=skiff-build \
-    -v $(pwd):/home/buildroot/skiff \
-	--restart=on-failure \
-	skiff/build:latest /bin/sleep 9999999
+./build.bash
 ```
 
-Enter the container:
+To use the Docker container use the run script:
+
+```sh
+./run.bash
+```
+
+Then enter the Docker container:
 
 ```sh
 docker exec -it skiff-build sh
+```
 
+And run the following commands (or the version for the build you want) to start the build:
+
+```
 $ cd ./skiff
 $ make                             # observe status output
 $ SKIFF_CONFIG=pi/3 make configure # configure the system
