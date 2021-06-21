@@ -1,11 +1,9 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# tobetter odroid-5.11.y branch (previous version)
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/da0cd69598edc1735beca2765394d7f141b2baa6/linux-odroid-tb-5.11.14-r1.tar.gz"
-
 # tobetter odroid-5.11.y branch
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/a5b0f896fba4385d7b847bc92b4cb6b5d43e5a4d/linux-odroid-tb-5.11.18-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_11=y
 
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y
