@@ -110,14 +110,14 @@ Here are the boards/systems currently supported:
 | **Board**            | **Config Package** | **Bootloader**       | **Kernel**      | **Notes**              |
 | ---------------      | -----------------  | -------------------- | --------------- | ---------------------- |
 | [Docker Img]         | [virt/docker]      | N/A                  | N/A             | Run in Docker          |
-| [Qemu]               | [virt/qemu]        | N/A                  | ✔ 5.12.13       | Run in QEmu            |
+| [Qemu]               | [virt/qemu]        | N/A                  | ✔ 5.12.14       | Run in QEmu            |
 | [WSL] on Windows     | [virt/wsl]         | N/A                  | ✔ msft-5.4.72   | Run in WSL2            |
-| [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]           | ✔ 5.12.13       | ✔ Tested               |
-| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10     | ✔ 5.12.13       | ⚠ Discontinued         |
-| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10     | ✔ 5.12.13       | ⚠ Discontinued         |
-| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10     | ✔ 5.12.13       |                        |
-| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10     | ✔ 5.12.13       | ✔ Tested               |
-| [Intel x86/64]       | [intel/x64]        | ✔ Grub               | ✔ 5.12.13       | ✔ Tested               |
+| [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]           | ✔ 5.12.14       | ✔ Tested               |
+| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10     | ✔ 5.12.14       | ⚠ Discontinued         |
+| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10     | ✔ 5.12.14       | ⚠ Discontinued         |
+| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10     | ✔ 5.12.14       |                        |
+| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10     | ✔ 5.12.14       | ✔ Tested               |
+| [Intel x86/64]       | [intel/x64]        | ✔ Grub               | ✔ 5.12.14       | ✔ Tested               |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.11.18    | ⚠ Discontinued         |
@@ -127,10 +127,10 @@ Here are the boards/systems currently supported:
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ✔ Tested               |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ⚠ Discontinued         |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.11.18    | ✔ Tested               |
-| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05     | ✔ 5.12.13       |                        |
-| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07     | ✔ 5.12.13       |                        |
-| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07     | ✔ 5.12.13       |                        |
-| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot           | ✔ 5.12.13       |                        |
+| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05     | ✔ 5.12.14       |                        |
+| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07     | ✔ 5.12.14       |                        |
+| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07     | ✔ 5.12.14       |                        |
+| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot           | ✔ 5.12.14       |                        |
 | [Pi 0]               | [pi/0]             | N/A                  | ✔ rpi-5.10.44   | ✔ Tested               |
 | [Pi 1]               | [pi/1]             | N/A                  | ✔ rpi-5.10.44   |                        |
 | [Pi 3] + 1, 2        | [pi/3]             | N/A                  | ✔ rpi-5.10.44   | ✔ Tested               |
@@ -140,7 +140,7 @@ Here are the boards/systems currently supported:
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)       | ✔ ayufan-5.12.0 | ✔ Tested               |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)       | ✔ megi-5.13-rc6 | ✔ Tested               |
 | [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)       | ✔ ayufan-5.12.0 | ✔ Tested               |
-| [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10     | ✔ 5.12.13       | ✔ Tested               |
+| [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10     | ✔ 5.12.14       | ✔ Tested               |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
