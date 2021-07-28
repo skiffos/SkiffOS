@@ -129,7 +129,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   -o "Dpkg::Options::=--force-confnew"  \
   /usr/src/l4t_deb_packages/*.deb && \
   apt-get autoremove -y && \
-  apt-mark hold nvidia-l4t-kernel nvidia-l4t-initrd nvidia-l4t-kernel-dtbs nvidia-l4t-xusb-firmware && \
+  apt-mark hold nvidia-l4t-core nvidia-l4t-kernel nvidia-l4t-initrd nvidia-l4t-kernel-dtbs nvidia-l4t-xusb-firmware && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /usr/src/l4t_deb_packages
 
