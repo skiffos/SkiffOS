@@ -1,10 +1,10 @@
 # megous kernel for pinephone, pinebook, orangepi
 
-# integration branch: orange-pi-5.12
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/3e14045d352625628aa544a175fdbc0dda64298a/linux-megous-5.12.12-r1.tar.gz"
+# previous branch: orange-pi-5.13
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/b1f383fd3c70e21a8062fdc3f59403d2a26edc9f/linux-megous-5.13.7-r1.tar.gz"
 
-# integration branch: orange-pi-5.13
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/b1f383fd3c70e21a8062fdc3f59403d2a26edc9f/linux-megous-5.13.7-r1.tar.gz"
+# integration branch: orange-pi-5.14
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/a5dd13b8899c3ad3828ca17d8183f562b2593923/linux-megous-5.14-rc3-r1.tar.gz"
 
 BR2_LINUX_KERNEL_DEFCONFIG="pinephone"
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun50i-a64-pinephone-1.2"
