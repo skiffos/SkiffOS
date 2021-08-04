@@ -1,1 +1,2 @@
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="exynos5422-odroidxu4 exynos5422-odroidxu3 exynos5422-odroidxu3-lite"

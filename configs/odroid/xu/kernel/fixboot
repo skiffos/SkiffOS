@@ -1,3 +1,5 @@
+# TODO: Q2 2021: this may no longer be required.
+
 # Fix a boot issue, possibly due to big/little scheduler.
 # See https://github.com/hardkernel/linux/issues/337#issuecomment-447922535
 CONFIG_CGROUP_PIDS=n
