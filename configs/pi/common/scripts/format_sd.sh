@@ -44,11 +44,6 @@ sleep 1
 echo "Making boot partition..."
 sudo parted -a optimal $PI_SD mkpart primary fat16 0% 300M
 
-PI_SD_SFX=$PI_SD
-if [ -b ${PI_SD}p1 ]; then
-  PI_SD_SFX=${PI_SD}p
-fi
-
 echo "Making rootfs partition..."
 sudo parted -a optimal $PI_SD mkpart primary ext4 300M 700MiB
 
@@ -59,6 +54,11 @@ echo "Waiting for partprobe..."
 sudo partprobe $PI_SD || true
 sleep 2
 sudo partprobe $PI_SD || true
+
+PI_SD_SFX=$PI_SD
+if [ -b ${PI_SD}p1 ]; then
+    PI_SD_SFX=${PI_SD}p
+fi
 
 echo "Formatting rootfs partition..."
 mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
