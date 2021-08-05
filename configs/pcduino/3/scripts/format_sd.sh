@@ -48,18 +48,21 @@ parted "$PCDUINO_SD" mklabel msdos
 echo "Making boot partition..."
 parted -a optimal "$PCDUINO_SD" mkpart primary fat32 100MiB 410MiB
 
-PCDUINO_SD_SFX=$PCDUINO_SD
-if [ -b "${PCDUINO_SD}p1" ]; then
-  PCDUINO_SD_SFX=${PCDUINO_SD}p
-fi
-
 echo "Making rootfs partition..."
 parted -a optimal "$PCDUINO_SD" mkpart primary ext4 410MiB 600MiB
 
 echo "Making persist partition..."
 parted -a optimal "$PCDUINO_SD" -- mkpart primary ext4 600MiB -1s
 
-sleep 1
+echo "Waiting for partprobe..."
+partprobe $PCDUINO_SD || true
+sleep 2
+partprobe $PCDUINO_SD || true
+
+PCDUINO_SD_SFX=$PCDUINO_SD
+if [ -b "${PCDUINO_SD}p1" ]; then
+    PCDUINO_SD_SFX=${PCDUINO_SD}p
+fi
 
 echo "Building fat filesystem for boot..."
 mkfs.vfat -F 32 "${PCDUINO_SD_SFX}1"

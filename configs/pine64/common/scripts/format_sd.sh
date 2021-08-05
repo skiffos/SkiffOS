@@ -85,6 +85,7 @@ sudo parted -a optimal $PINE64_SD mkpart primary ext4 510MiB 1024MiB
 sudo parted -a optimal $PINE64_SD -- mkpart primary ext4 1024MiB "-1s"
 
 echo "Waiting for partprobe..."
+sync && sync
 partprobe $PINE64_SD || true
 sleep 2
 partprobe $PINE64_SD || true

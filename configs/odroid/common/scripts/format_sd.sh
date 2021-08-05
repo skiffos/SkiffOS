@@ -95,6 +95,7 @@ sudo parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
 sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "-1s"
 
 echo "Waiting for partprobe..."
+sync && sync
 partprobe $ODROID_SD || true
 sleep 2
 partprobe $ODROID_SD || true

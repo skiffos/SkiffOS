@@ -46,9 +46,12 @@ set -e
 echo "Formatting device..."
 sudo dd if=/dev/zero of=$USBARMORY_SD bs=1M count=8
 sync
-partprobe $USBARMORY_SD || true
-sudo parted $USBARMORY_SD mklabel msdos
 sleep 1
+partprobe $USBARMORY_SD || true
+
+echo "Making partition table..."
+sudo parted $USBARMORY_SD mklabel msdos
+
 partprobe $USBARMORY_SD || true
 sleep 1
 

@@ -62,22 +62,22 @@ parted -a optimal $PI_SD mkpart primary fat32 100MiB 410MiB
 #parted $PI_SD set 1 boot on
 #parted $PI_SD set 1 lba on
 
-PI_SD_SFX=$PI_SD
-if [ -b ${PI_SD}p1 ]; then
-  PI_SD_SFX=${PI_SD}p
-fi
-
 echo "Making rootfs partition..."
 parted -a optimal $PI_SD mkpart primary ext4 410MiB 600MiB
 
 echo "Making persist partition..."
 parted -a optimal $PI_SD -- mkpart primary ext4 600MiB "-1s"
 
+echo "Waiting for partprobe..."
 sync && sync
-sleep 1
+partprobe $PI_SD || true
+sleep 2
+partprobe $PI_SD || true
 
-partprobe $PI_SD || true # some systems do not have partprobe
-sleep 1
+PI_SD_SFX=$PI_SD
+if [ -b ${PI_SD}p1 ]; then
+    PI_SD_SFX=${PI_SD}p
+fi
 
 echo "Building fat filesystem for boot..."
 mkfs.vfat -F 32 ${PI_SD_SFX}1
