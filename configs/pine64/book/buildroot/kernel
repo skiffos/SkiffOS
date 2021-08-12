@@ -1,6 +1,6 @@
-# 5.12.0-1149-ayufan
+# 5.13.0-1150-ayufan
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/4df324d2e4109ff3f24ee18e5c72a421d33cf903/linux-rock64-5.12.0-1149-ayufan.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/7a7e95f6664887f189de280fff4e3e3f80fa02e9/linux-rock64-5.13.0-1150-ayufan.tar.gz"
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 
