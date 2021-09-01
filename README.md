@@ -457,6 +457,25 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
 
+### Mount a Disk to a Container
+
+To mount a Linux disk, for example an `ext4` partition, to a path inside a
+Docker container, you can use the Docker Volumes feature:
+
+```sh
+# Determine the UUID of your volume
+# Look for your disk & get the UUID
+blkid
+# Create "my-volume" with the UUID.
+# Replace with your UUID from the previous command.
+docker volume create --driver=local --opt type=ext4 --opt device=/dev/disk/by-uuid/d21c6d3a-461e-4d7d-8732-40e56e8f184a my-volume
+# Run a container with the drive mounted to a path.
+docker run -v my-volume:/my-volume --rm -it alpine sh
+```
+
+The volumes and containers state is stored in the "persist" partition and will
+remain between reboots, while the SkiffOS host system is ephemeral.
+
 ## Build in Docker
 
 You can [build Skiff inside Docker](./build/docker) if you encounter any
