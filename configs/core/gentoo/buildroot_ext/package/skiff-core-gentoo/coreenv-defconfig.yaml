@@ -1,17 +1,17 @@
 containers:
   core:
     # Select a image option (also update under images section):
+    image: skiffos/skiff-core-gentoo:latest
     # Image option: upstream gentoo stage3 (minimal):
     # image: gentoo/stage3:systemd
     # Image option: LTO, graphite, latest compiler, O3
     # image: skiffos/skiff-core-gentoo-lto:latest
     # Image option: sane defaults, generic cflags, developer tools
-    image: skiffos/skiff-core-gentoo:latest
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
     stopSignal: RTMIN+3
-    tty: false
+    tty: true
     disableInit: true
     workingDirectory: /
     mounts:
@@ -38,6 +38,7 @@ containers:
     hostNetwork: true
     securityOpt:
       - seccomp=unconfined
+      - apparmor=unconfined
     tmpFs:
       /run: rw,noexec,nosuid,size=65536k
       /run/lock: rw,noexec,nosuid,size=65536k
