@@ -1,3 +1,5 @@
+# SkiffOS: Package Use Flags
+
 app-editors/emacs gtk3 png sound svg xft xwidgets gui json dbus harfbuzz
 app-text/ghostscript-gpl cups
 app-text/texlive graphics games music science publishers pstricks texi2html xetex png

@@ -4,6 +4,8 @@
 # platforms, and/or are necessary to keep at the latest version for best
 # performance and compatibility.
 
+=sys-apps/systemd-249.4-r3 ~arm
+
 app-admin/haskell-updater ~ARCH
 app-arch/bzip2 ~ARCH
 app-arch/p7zip ~ARCH
