@@ -113,19 +113,19 @@ Here are the boards/systems currently supported:
 | [Qemu]               | [virt/qemu]        | N/A                  | ✔ 5.14.6        | Run in QEmu            |
 | [WSL] on Windows     | [virt/wsl]         | N/A                  | ✔ msft-5.4.72   | Run in WSL2            |
 | [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]           | ✔ 5.14.6        | ✔ Tested               |
-| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10     | ✔ 5.14.6        | ⚠ Discontinued         |
-| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10     | ✔ 5.14.6        | ⚠ Discontinued         |
+| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10     | ✔ 5.14.6        | ⚠ Obsolete             |
+| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10     | ✔ 5.14.6        | ⚠ Obsolete             |
 | [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10     | ✔ 5.14.6        |                        |
 | [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10     | ✔ 5.14.6        | ✔ Tested               |
 | [Intel x86/64]       | [intel/x64]        | ✔ Grub               | ✔ 5.14.6        | ✔ Tested               |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot             | ✔ 4.9.140       | ✔ Tested               |
-| [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.13.15    | ⚠ Discontinued         |
+| [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10     | ✔ tb-5.13.15    | ⚠ Obsolete             |
 | [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2021.01     | ✔ tb-5.13.15    | ✔ Tested               |
-| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03     | ✔ tb-5.13.15    | ⚠ Discontinued         |
+| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03     | ✔ tb-5.13.15    | ⚠ Obsolete             |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ✔ Tested               |
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ✔ Tested               |
-| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ⚠ Discontinued         |
+| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ⚠ Obsolete             |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ✔ Tested               |
 | [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05     | ✔ 5.14.6        |                        |
 | [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07     | ✔ 5.14.6        |                        |
