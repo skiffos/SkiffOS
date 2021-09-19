@@ -217,7 +217,7 @@ SkiffOS, please **[open an issue].**
 
 ## Skiff Core
 
-[View Demo!](https://asciinema.org/a/RiWjwpTXMmK7d45TXjl0I20r9)
+[![View Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
 
 The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
 any of the core environment packages, automatically configures mappings between
