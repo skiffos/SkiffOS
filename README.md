@@ -127,10 +127,10 @@ Here are the boards/systems currently supported:
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ✔ Tested               |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ⚠ Discontinued         |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04     | ✔ tb-5.13.15    | ✔ Tested               |
-| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05     | ✔ 5.13.17       |                        |
-| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07     | ✔ 5.13.17       |                        |
-| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07     | ✔ 5.13.17       |                        |
-| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot           | ✔ 5.13.17       |                        |
+| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05     | ✔ 5.14.6        |                        |
+| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07     | ✔ 5.14.6        |                        |
+| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07     | ✔ 5.14.6        |                        |
+| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot           | ✔ 5.14.6        |                        |
 | [Pi 0]               | [pi/0]             | N/A                  | ✔ rpi-5.10.63   | ✔ Tested               |
 | [Pi 1]               | [pi/1]             | N/A                  | ✔ rpi-5.10.63   |                        |
 | [Pi 3] + 1, 2        | [pi/3]             | N/A                  | ✔ rpi-5.10.63   | ✔ Tested               |
