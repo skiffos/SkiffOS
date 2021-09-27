@@ -5,7 +5,7 @@ containers:
     # systemd: indicate this is a container
     env: ["container=docker"]
     stopSignal: RTMIN+3
-    tty: false # causes setctty error
+    tty: true
     disableInit: true
     workingDirectory: /
     mounts:
@@ -16,13 +16,13 @@ containers:
       - /mnt:/mnt
       - /run/udev:/run/udev
       - /mnt/persist/skiff/core/repos/apt:/var/lib/apt
+      - /mnt/persist/skiff/core/repos/linux:/usr/src
+      - /mnt/persist/skiff/core/repos/log:/var/log
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
       - /mnt/persist/skiff/core/repos/dietpi/ftp_client:/mnt/ftp_client
       - /mnt/persist/skiff/core/repos/dietpi/nfs_client:/mnt/nfs_client
       - /mnt/persist/skiff/core/repos/dietpi/samba:/mnt/samba
       - /mnt/persist/skiff/core/repos/dietpi/userdata:/mnt/dietpi_userdata
-      - /mnt/persist/skiff/core/repos/linux:/usr/src
-      - /mnt/persist/skiff/core/repos/log:/var/log
-      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
     privileged: true
     startAfterCreate: true
     restartPolicy: "always"
