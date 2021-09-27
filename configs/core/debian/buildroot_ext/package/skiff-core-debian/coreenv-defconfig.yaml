@@ -1,11 +1,11 @@
 containers:
-  core: # name of the docker container
+  core:
     image: skiffos/skiff-core-debian:latest
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
     stopSignal: RTMIN+3
-    tty: false # causes setctty error
+    tty: true
     disableInit: true
     workingDirectory: /
     mounts:
