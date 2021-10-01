@@ -1,4 +1,4 @@
-From 1985b8289710e86a59bec3b59634622d01517a25 Mon Sep 17 00:00:00 2001
+From 15e21c6c821d8ef98c0f3ad19bee6d0e1d94d875 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Thu, 29 Oct 2020 01:17:16 -0700
 Subject: [PATCH] configuration: add skiff core user with sudo
@@ -9,10 +9,10 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  1 file changed, 10 insertions(+)
 
 diff --git a/configuration.nix b/configuration.nix
-index d3ac303..3c43c78 100644
+index 1c66747..fe86c98 100644
 --- a/configuration.nix
 +++ b/configuration.nix
-@@ -67,4 +67,14 @@
+@@ -70,4 +70,14 @@
    security.sudo.extraRules = [
      { groups = [ "sudo" ]; commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ]; }
    ];
@@ -29,5 +29,5 @@ index d3ac303..3c43c78 100644
  }
 \ No newline at end of file
 -- 
-2.30.0
+2.33.0
 

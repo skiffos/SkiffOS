@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_NIXOS_VERSION = 65528c34a952f314c26fc67f8ccdde1dfa5de0c2
+SKIFF_CORE_NIXOS_VERSION = 5989ab1c63274ae23bcd79c7849827cc208d0a2e
 SKIFF_CORE_NIXOS_SITE = $(call github,paralin,docker-nixos,$(SKIFF_CORE_NIXOS_VERSION))
 SKIFF_CORE_NIXOS_LICENSE = MIT
 SKIFF_CORE_NIXOS_LICENSE_FILES = LICENSE
