@@ -250,6 +250,7 @@ All core configurations work with all target platforms:
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
 | [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
 | [Ubuntu]                   | skiff/core                    | With minimal desktop GUI  |
+| PineBook [Manjaro] KDE     | core/pinebook_manjaro_kde     | KDE Variant               |
 | PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon     |
 | PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
 | PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant            |
