@@ -33,7 +33,7 @@ RUN \
 RUN systemctl set-default graphical.target && \
     systemctl mask zswap-arm.service NetworkManager.service firewalld.service \
     udisks2-zram-setup@.service udisks2-zram-setup@zram0.service \
-    systemd-remount-fs.service
+    systemd-firstboot.service systemd-remount-fs.service
 
 # add skiff core user
 RUN useradd -m core && \
