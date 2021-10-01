@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_PINEBOOK_MANJARO_KDE_PATH/package/skiff-core-pinebook-manjaro-kde/Config.in"
