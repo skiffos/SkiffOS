@@ -21,6 +21,32 @@ There are specific packages tuned to each Pi model.
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 
+## Building an Image
+
+It's possible to create a .img file instead of directly flashing a SD.
+
+```sh
+# must be root to use losetup
+sudo bash
+# set your skiff workspace
+export SKIFF_WORKSPACE=default
+# set the output path
+export PI_IMAGE=./pi-image.img
+# make the image
+make cmd/pi/common/buildimage
+```
+
+The image can then be flashed to the target:
+
+```
+# change sdX to, for example, sdb
+dd if=pi-image.img of=/dev/sdX status=progress oflag=sync
+```
+
+This is equivalent to using the format and install scripts.
+
+The persist partition will be resized to fill the available space on first boot.
+
 ## Note: config.txt
 
 You can override the config.txt. Simply copy the "resources/rpi" directory from
