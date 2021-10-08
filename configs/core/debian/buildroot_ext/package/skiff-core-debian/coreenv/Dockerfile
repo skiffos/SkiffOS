@@ -27,6 +27,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     htop \
     locales \
     lsb-release \
+    ncurses-term \
     nano \
     net-tools \
     openssh-client \
