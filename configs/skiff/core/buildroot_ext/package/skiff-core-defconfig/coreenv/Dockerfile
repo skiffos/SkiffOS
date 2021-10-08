@@ -25,6 +25,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   lsb-release \
   nano \
   net-tools \
+  ncurses-term \
   openssh-client \
   rsync \
   software-properties-common \
