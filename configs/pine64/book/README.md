@@ -50,8 +50,8 @@ Skiff's u-boot with adjusted boot priority can be flashed to the emmc from a
 running pinebook system using two files from the images dir:
 
 ```sh
-dd if=idbloader.img of=/dev/mmcblk0 seek=64 oflag=dsync,notrunc
-dd if=u-boot.itb of=/dev/mmcblk0 seek=16384 oflag=dsync,notrunc
+dd if=idbloader.img of=/dev/mmcblk0 seek=64 oflag=dsync
+dd if=u-boot.itb of=/dev/mmcblk0 seek=16384 oflag=dsync
 ```
 
 This will allow the system to boot from the SD card with higher priority than
