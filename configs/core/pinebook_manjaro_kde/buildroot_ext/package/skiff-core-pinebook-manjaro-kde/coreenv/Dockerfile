@@ -6,9 +6,7 @@
 FROM skiffos/skiff-core-pinebook-manjaro-kde:base AS stage1
 
 # setup environment
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8 \
+ENV LANG=C \
     container=docker
 
 # update packages and add vim
@@ -47,9 +45,7 @@ FROM scratch
 
 ENV \
     container=docker \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8
+    LANG=C
 
 COPY --from=stage1 / /
 
