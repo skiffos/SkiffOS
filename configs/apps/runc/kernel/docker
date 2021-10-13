@@ -1,0 +1,5 @@
+# Skiff required runc options
+CONFIG_FUSE_FS=m
+CONFIG_USER_NS=y
+CONFIG_OVERLAY_FS=y
+CONFIG_TUN=m
