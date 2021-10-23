@@ -36,7 +36,7 @@ mkdir -p ${SHARED_DIR}
 qemu-system-x86_64 \
   -nographic -serial mon:stdio \
 	-kernel bzImage \
-	-initrd rootfs.cpio.gz -m size=1024 \
+	-initrd rootfs.cpio.lz4 -m size=1024 \
 	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \

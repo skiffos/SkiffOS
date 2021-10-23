@@ -20,7 +20,7 @@ cd ${IMAGES_DIR}
 rm -rf ${GENIMAGE_TMP}
 if [ ! -f ${RESOURCES_DISK} ]; then
 	echo "Building resources image..."
-	rsync -rav ${IMAGES_DIR}/rootfs.cpio.gz ${IMAGES_DIR}/rootfs_part/rootfs.cpio.gz
+	rsync -rav ${IMAGES_DIR}/rootfs.cpio.lz4 ${IMAGES_DIR}/rootfs_part/rootfs.cpio.lz4
 	genimage \
 		--tmppath "${GENIMAGE_TMP}" \
 		--rootpath "${IMAGES_DIR}/rootfs_part" \

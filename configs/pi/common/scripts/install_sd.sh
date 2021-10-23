@@ -27,7 +27,7 @@ fi
 
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/zImage"
-cpio_path="${outp_path}/images/rootfs.cpio.gz"
+cpio_path="${outp_path}/images/rootfs.cpio.lz4"
 firm_path="${outp_path}/images/rpi-firmware"
 
 if [ ! -f "$uimg_path" ]; then
@@ -107,7 +107,7 @@ rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/
 sync
 
 echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.gz
+rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.lz4
 sync
 
 cleanup

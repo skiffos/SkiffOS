@@ -8,7 +8,7 @@
 # my/config/resources/rpi/config.txt
 
 kernel=zImage
-initramfs rootfs.cpio.gz
+initramfs rootfs.cpio.lz4
 
 # We always use the same names, the real used variant is selected by
 # BR2_PACKAGE_RPI_FIRMWARE_{DEFAULT,X,CD} choice
