@@ -1,2 +1,1 @@
 BR2_TARGET_GRUB2_INSTALL_TOOLS=y
-BR2_TARGET_GRUB2_BUILTIN_MODULES="boot linux ext2 fat squash4 part_msdos part_gpt normal efi_gop chain"
