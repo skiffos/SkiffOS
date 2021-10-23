@@ -87,8 +87,11 @@ if [ -f ${WS}/skiff-release ]; then
   $RS ${WS}/skiff-release $SSHSTR:/mnt/boot/skiff-release
 fi
 if [ -d ${WS}/rpi-firmware ]; then
-    $RS ${WS}/rpi-firmware/overlays/ $SSHSTR:/mnt/boot/overlays/
-    $RS ${WS}/rpi-firmware/*.bin \
+    $RS --delete \
+        ${WS}/rpi-firmware/overlays/ \
+        $SSHSTR:/mnt/boot/overlays/
+    $RS --delete \
+        ${WS}/rpi-firmware/*.bin \
         ${WS}/rpi-firmware/*.dat \
         ${WS}/rpi-firmware/*.elf \
         $SSHSTR:/mnt/boot/
