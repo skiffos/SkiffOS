@@ -20,7 +20,7 @@ resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 outp_path="${BUILDROOT_DIR}/output"
 images_path="${outp_path}/images"
 uimg_path="${images_path}/bzImage"
-cpio_path="${images_path}/rootfs.cpio.gz"
+cpio_path="${images_path}/rootfs.cpio.lz4"
 
 if [ ! -f "$uimg_path" ]; then
   echo "bzImage not found, make sure Buildroot is done compiling."

@@ -18,7 +18,7 @@ fi
 
 outp_path="${BUILDROOT_DIR}/output"
 uimg_path="${outp_path}/images/bzImage"
-cpio_path="${outp_path}/images/rootfs.cpio.gz"
+cpio_path="${outp_path}/images/rootfs.cpio.lz4"
 
 if [ ! -f "$uimg_path" ]; then
   echo "bzImage not found, make sure Buildroot is done compiling."
@@ -80,7 +80,7 @@ if [ -d "$outp_path/images/persist_part" ]; then
 fi
 
 echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.gz
+rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.lz4
 sync
 
 cleanup
