@@ -95,6 +95,16 @@ if [ -d ${WS}/rpi-firmware ]; then
         ${WS}/rpi-firmware/*.dat \
         ${WS}/rpi-firmware/*.elf \
         $SSHSTR:/mnt/boot/
+
+    # backwards compat: upgrade pi to lz4 cpio
+    if [ -f ${WS}/rootfs.cpio.lz4 ]; then
+        ssh $SSHSTR 'bash -s' <<EOF
+sed -i -e "s/^initramfs .*/initramfs rootfs.cpio.lz4/" /mnt/boot/config.txt
+if [ -f /mnt/boot/rootfs.cpio.gz ] && [ -f /mnt/boot/rootfs.cpio.lz4 ]; then
+  rm /mnt/boot/rootfs.cpio.gz
+fi
+EOF
+    fi
 fi
 ssh $SSHSTR 'bash -s' <<EOF
 sync && sync
