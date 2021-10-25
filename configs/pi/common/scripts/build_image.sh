@@ -18,7 +18,6 @@ if [[ "$PI_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-# dd if=/dev/zero of=$PI_IMAGE bs=1GB count=1
 fallocate -l 1G $PI_IMAGE
 
 echo "Setting up loopback device..."
