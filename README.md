@@ -169,6 +169,7 @@ Here are the boards/systems currently supported:
 | [Pine64] H64         | [pine64/h64]       | ✔ U-Boot         | ✔ pine64-5.8.0  | ✔ Tested      |
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
+| [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.16.15       | ✔ Tested      |
 
@@ -200,6 +201,7 @@ Here are the boards/systems currently supported:
 [Pine64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[Rock64]: https://www.pine64.org/devices/single-board-computers/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
 [rEFInd]: https://www.rodsbooks.com/refind/
 [Qemu]: ./configs/virt/qemu
