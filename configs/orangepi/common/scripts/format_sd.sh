@@ -59,8 +59,6 @@ parted $PI_SD mklabel msdos
 
 echo "Making boot partition..."
 parted -a optimal $PI_SD mkpart primary fat32 100MiB 410MiB
-#parted $PI_SD set 1 boot on
-#parted $PI_SD set 1 lba on
 
 echo "Making rootfs partition..."
 parted -a optimal $PI_SD mkpart primary ext4 410MiB 600MiB

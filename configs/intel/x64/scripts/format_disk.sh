@@ -54,7 +54,6 @@ fi
 
 mkfs.vfat -n BOOT -F 16 ${SKIFF_DISK_SFX}1
 parted $SKIFF_DISK set 1 boot on
-parted $SKIFF_DISK set 1 lba on
 sleep 1
 
 echo "Making rootfs partition..."

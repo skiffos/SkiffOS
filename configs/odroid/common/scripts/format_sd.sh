@@ -86,7 +86,6 @@ sudo parted $ODROID_SD mklabel msdos
 # boot
 sudo parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
 sudo parted $ODROID_SD set 1 boot on
-sudo parted $ODROID_SD set 1 lba on
 
 # rootfs
 sudo parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
