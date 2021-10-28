@@ -65,7 +65,7 @@ To flash over USB:
 
 ```
 export SKIFF_WORKSPACE=myworkspace
-export SKIFF_NVIDIA_USB_FLASH="true"
+export SKIFF_NVIDIA_USB_FLASH=confirm
 make cmd/jetson/tx2/flashusb
 ```
 
