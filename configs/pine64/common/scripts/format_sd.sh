@@ -71,7 +71,8 @@ sudo dd if=/dev/zero of=$PINE64_SD bs=8k count=13 oflag=dsync
 
 echo "Creating partitions..."
 sudo partprobe ${PINE64_SD} || true
-sudo parted $PINE64_SD mklabel gpt
+# sudo parted $PINE64_SD mklabel gpt
+sudo parted $PINE64_SD mklabel msdos
 
 # boot
 sudo parted -a optimal $PINE64_SD mkpart primary fat32 128MiB 510MiB
