@@ -1,4 +1,2 @@
-# pi3
--march=armv8-a+crc -mfpu=neon-vfpv4 -mtune=cortex-a53
 # use more registers
--ftree-vectorize -fomit-frame-pointer
+-ftree-vectorize
