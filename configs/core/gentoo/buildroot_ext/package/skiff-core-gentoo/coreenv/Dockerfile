@@ -84,15 +84,14 @@ COPY ./package.use /etc/portage/package.use/01-standard
 # pass #1: base package set, system, remove tk and icu to fix circular deps
 # be failure tolerant here. we can deal with it later.
 # disable certain use flags that cause cycles
-# includes gcc 10
 RUN \
   export USE="-tk -icu" && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @system || true)
 
-# update to gcc 10
-RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
-  source /etc/profile; \
-  emerge --oneshot --with-bdeps=y sys-devel/libtool
+# update gcc (not currently necessary)
+# RUN gcc-config -l | grep "10." | cut -d[ -f2 | cut -d] -f1 | xargs gcc-config; \
+#  source /etc/profile; \
+#  emerge --oneshot --with-bdeps=y sys-devel/libtool
 
 # pass #2: world set from the skiff core world file
 COPY ./world /var/lib/portage/world
