@@ -86,6 +86,7 @@ COPY ./package.use /etc/portage/package.use/01-standard
 # disable certain use flags that cause cycles
 RUN \
   export USE="-tk -icu" && \
+  emerge -1 portage && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @system || true)
 
 # update gcc (not currently necessary)
