@@ -4,70 +4,60 @@
 #
 ################################################################################
 
-LINUX4TEGRA_VERSION = 32.4.3
+LINUX4TEGRA_VERSION = 32.6.1
 
 ifeq ($(BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T186REF),y)
-LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v4.3/t186ref_release_aarch64
-LINUX4TEGRA_SOURCE = Tegra186_Linux_R$(LINUX4TEGRA_VERSION)_aarch64.tbz2
+LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t186
+LINUX4TEGRA_SOURCE = jetson_linux_r$(LINUX4TEGRA_VERSION)_aarch64.tbz2
 else # ifeq ($(BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T210REF),y)
-LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v4.3/t210ref_release_aarch64
-LINUX4TEGRA_SOURCE = Tegra210_Linux_R$(LINUX4TEGRA_VERSION)_aarch64.tbz2
+LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t210
+LINUX4TEGRA_SOURCE = jetson-210_linux_r$(LINUX4TEGRA_VERSION)_aarch64.tbz2
 endif
 
 LINUX4TEGRA_LICENSE = NVIDIA Software License, GPL-2.0, LGPL, Apache-2.0, MIT
 LINUX4TEGRA_LICENSE_FILES = \
 	bootloader/LICENSE \
-	bootloader/LICENSE.adsp \
-	bootloader/LICENSE.bpmp \
-	bootloader/LICENSE.bpmp_t194 \
-	bootloader/LICENSE.camera-rtcpu \
-	bootloader/LICENSE.cboot \
-	bootloader/LICENSE.cboot_t194 \
 	bootloader/LICENSE.chkbdinfo \
-	bootloader/LICENSE.mce_c10_prod_cr \
 	bootloader/LICENSE.mkbctpart \
 	bootloader/LICENSE.mkbootimg \
 	bootloader/LICENSE.mkgpt \
-	bootloader/LICENSE.nv_smd_generator \
-	bootloader/LICENSE.spe.bin \
-	bootloader/LICENSE.spe_t194.bin \
-	bootloader/LICENSE.tos-mon-only.img.arm-trusted-firmware \
-	bootloader/LICENSE.tos-trusty.img.arm-trusted-firmware \
-	bootloader/LICENSE.tos-trusty.img.trusty \
-	bootloader/LICENSE.tos-trusty_t194.img.arm-trusted-firmware \
-	bootloader/LICENSE.tos-trusty_t194.img.trusty \
-	nv_tegra/LICENSE \
-	nv_tegra/LICENSE \
-	nv_tegra/LICENSE.brcm_patchram_plus \
-	nv_tegra/LICENSE.l4t-usb-device-mode-filesystem.img \
-	nv_tegra/LICENSE.libnvargus \
-	nv_tegra/LICENSE.libnvcam_imageencoder \
-	nv_tegra/LICENSE.libnveventlib \
-	nv_tegra/LICENSE.libnvscf \
-	nv_tegra/LICENSE.libnvtracebuf \
-	nv_tegra/LICENSE.libtegrav4l2 \
-	nv_tegra/LICENSE.minigbm \
-	nv_tegra/LICENSE.nvbootctrl \
-	nv_tegra/LICENSE.nvdla \
-	nv_tegra/LICENSE.weston \
-	nv_tegra/LICENSE.weston-data \
-	nv_tegra/nvidia_configs/opt/nvidia/l4t-usb-device-mode/LICENSE.filesystem.img \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.brcm_patchram_plus \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.cypress_wifibt \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvargus \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvcam_imageencoder \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnveventlib \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvtracebuf \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvv4l2 \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvv4lconvert \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libtegrav4l2 \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libvulkan1 \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.minigbm \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.nvdla \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.realtek_8822ce_wifibt \
-	nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.tegra_sensors \
-	nv_tegra/nvidia_tools/usr/share/doc/nvidia-tegra/LICENSE.nvbootctrl \
-	nv_tegra/nvidia_tools/usr/share/doc/nvidia-tegra/LICENSE.tipc_test
+	bootloader/LICENSE.mksparse \
+	bootloader/LICENSE.tegraopenssl \
+  nv_tegra/nvidia_configs/opt/nvidia/l4t-usb-device-mode/LICENSE.filesystem.img \
+  nv_tegra/LICENSE.libtegrav4l2 \
+  nv_tegra/LICENSE.libnvcam_imageencoder \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libvulkan1 \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvargus \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvv4lconvert \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libtegrav4l2 \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvv4l2 \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.nvdla \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.cypress_wifibt \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.minigbm \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvjpeg \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.brcm_patchram_plus \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvcam_imageencoder \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnvtracebuf \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.realtek_8822ce_wifibt \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.tegra_sensors \
+  nv_tegra/nvidia_drivers/usr/share/doc/nvidia-tegra/LICENSE.libnveventlib \
+  nv_tegra/LICENSE.libnveventlib \
+  nv_tegra/LICENSE.libnvscf \
+  nv_tegra/LICENSE.libnvargus \
+  nv_tegra/LICENSE.minigbm \
+  nv_tegra/LICENSE.wayland-ivi-extension \
+  nv_tegra/nv_sample_apps/LICENSE.gst-nvvideo4linux2 \
+  nv_tegra/nv_sample_apps/LICENSE.gstvideocuda \
+  nv_tegra/nv_sample_apps/LICENSE.gst-openmax \
+  nv_tegra/nv_sample_apps/LICENSE.libgstnvdrmvideosink \
+  nv_tegra/nv_sample_apps/LICENSE.libgstnvvideosinks \
+  nv_tegra/LICENSE \
+  nv_tegra/LICENSE.weston-data \
+  nv_tegra/LICENSE.libnvtracebuf \
+  nv_tegra/LICENSE.weston \
+  nv_tegra/LICENSE.nvdla \
+  nv_tegra/LICENSE.l4t-usb-device-mode-filesystem.img \
+  nv_tegra/LICENSE.brcm_patchram_plus
 
 LINUX4TEGRA_INSTALL_IMAGES = YES
 

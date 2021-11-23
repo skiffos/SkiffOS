@@ -82,14 +82,15 @@ bootloader_dir=${l4t_dir}/bootloader
 
 pushd ${l4t_dir}
 export BOARDID="${boardid}"
+export BOARDSKU="${boardsku}"
 export FAB="${rev}"
+export BUILD_SD_IMAGE=1
 # --bup
+export kernel_image="$IMAGES_DIR/u-boot-dtb.bin"
 ${l4t_dir}/flash.sh \
             --no-flash \
             --sign \
             --no-systemimg \
-            -I $IMAGES_DIR/rootfs.ext2 \
-            -K $IMAGES_DIR/u-boot-dtb.bin \
             -d $IMAGES_DIR/tegra210-p3448-0000-p3449-0000-b00.dtb \
             "${target}" "mmcblk0p1"
 popd
@@ -101,11 +102,11 @@ if [ ! -f "${signed_image_dir}/${signed_cfg}" ]; then
 		exit 1
 fi
 
-echo "create partitions"
-storage="sdcard"
+echo "parse partitions list"
 partitions=($(${l4t_tools_path}/nvptparser.py "${signed_image_dir}/${signed_cfg}" "${storage}"))
 part_type=8300 # Linux Filesystem
 
+echo "create partitions: ${partitions[@]}"
 ${SGDISK} -og "${NVIDIA_SD}"
 for part in "${partitions[@]}"; do
 		eval "${part}"
@@ -172,4 +173,3 @@ fi
 
 echo "create persist partition"
 mkfs.ext4 -F -O ^64bit -L "persist" ${NVIDIA_SD_SFX}1
-
