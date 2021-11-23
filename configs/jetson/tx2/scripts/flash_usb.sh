@@ -2,7 +2,8 @@
 set -eo pipefail
 
 if [ $EUID != 0 ]; then
-  echo "This script requires sudo, so it might not work."
+  echo "This script requires root, so it might not work."
+  echo "Run in sudo bash if you have any issues."
 fi
 
 if [ "$SKIFF_NVIDIA_USB_FLASH" != "confirm" ]; then
@@ -27,11 +28,14 @@ fi
 
 cd ${IMAGES_DIR}/linux4tegra
 
+# disable recovery image
+export NO_RECOVERY_IMG=1
+
 # operating mode #1: kernel in partition, buildroot rootfs as mutable /
 # (legacy)
 if [ -n "$TX2_MUTABLE_ROOTFS" ]; then
     echo "Using legacy mutable rootfs approach..."
-    sudo bash $flash_path \
+    bash $flash_path \
          -I $IMAGES_DIR/rootfs.ext2 \
          -K $IMAGES_DIR/Image \
          -L $IMAGES_DIR/u-boot.bin \
@@ -41,15 +45,14 @@ if [ -n "$TX2_MUTABLE_ROOTFS" ]; then
     exit $?
 fi
 
-
 # operating mode #2: standard SkiffOS u-boot system
 # everything stored in one partition (persist)
 # using /boot bind-mounted to /mnt/boot
 echo "Using skiffos.ext2 as APP partition with u-boot..."
-sudo bash $flash_path \
-     -I $IMAGES_DIR/skiffos.ext2 \
+ln -fs $IMAGES_DIR/skiffos.ext2 ./bootloader/system.img
+bash $flash_path \
+     -r \
      -C "net.ifnames=0" \
      -L $IMAGES_DIR/u-boot.bin \
      -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
      jetson-tx2-devkit mmcblk0p1
-
