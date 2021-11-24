@@ -1,15 +1,7 @@
 #!/bin/bash                                                               
-# From: https://www.ironrobin.net/pureos/git/clover/pinephone/raw/branch/master/usr/lib/systemd/system-sleep/pinephone-modem-suspend.sh
-# PinePhone suspend / wakeup modem
+
+# PinePhone suspend / wakeup modem on sleep/wake
 # /usr/lib/systemd/system-sleep/pinephone-modem-suspend.sh
-
-# DTR is:     
-# - PL6/GPIO358 on BH (1.1)
-# - PB2/GPIO34 on CE (1.2)
-
-# AP_READY is:                  
-# - PL2/GPIO354 on mozzwalds BH (1.1), not connected on others
-# - PH7/GPIO231 on CE (1.2)
 
 LOGFILE=/var/log/pp-suspend.log
 
@@ -27,13 +19,12 @@ if [ ! -f ${LOGFILE} ]; then
 fi
 
 if [ "${1}" == "pre" ]; then
-	# Before Suspend
 	NOW=`date`
 	echo "$NOW Entering suspend" >> ${LOGFILE}
-	echo 1 > /sys/class/gpio/gpio${AP_READY}/value
+	echo 0 > /sys/class/modem-power/modem-power/device/powered
 elif [ "${1}" == "post" ]; then
 	# After wakeup
-	echo 0 > /sys/class/gpio/gpio${AP_READY}/value
+	echo 1 > /sys/class/modem-power/modem-power/device/powered
 	NOW=`date`
 	echo "$NOW Exiting suspend" >> ${LOGFILE}
 fi
