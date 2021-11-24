@@ -1,0 +1,10 @@
+[Unit]
+Description=Power on PinePhone modem
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/opt/skiff/scripts/pinephone-modem-on.sh
+RemainAfterExit=true
+StandardOutput=kmsg+console
+StandardError=kmsg+console
