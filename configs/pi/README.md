@@ -9,6 +9,7 @@ There are specific packages tuned to each Pi model.
 | **Board**       | **Config Package** |
 | --------------- | -----------------  |
 | [Pi 0]          | pi/0               |
+| [Pi 0 V2]       | pi/0v2             |
 | [Pi 1]          | pi/1               |
 | [Pi 2]          | pi/3               |
 | [Pi 3]          | pi/3               |
@@ -16,6 +17,7 @@ There are specific packages tuned to each Pi model.
 | [Pi 4] - 32bit  | pi/4x32            |
 
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
+[Pi 0 V2]: https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b/
 [Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/

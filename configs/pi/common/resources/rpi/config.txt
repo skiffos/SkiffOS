@@ -55,16 +55,22 @@ dtparam=audio=on
 # Forces CPU to run in turbo for initial seconds
 # initial_turbo=45
 
-[pi4]
-# dtoverlay=vc4-kms-v3d-pi4
-dtoverlay=vc4-fkms-v3d
-max_framebuffers=2
-
 [all]
 enable_uart=1
 disable_overscan=1
 hdmi_drive=2
 gpu_mem=128
+
+[pi4]
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+[pi02]
+gpu_mem=100
+# fixes rpi (3B, 3B+, 3A+, 4B ,zero W and zero 2) ttyAMA0 serial console
+dtoverlay=miniuart-bt
+# enable autoprobing of Bluetooth driver without need of hciattach/btattach
+dtoverlay=krnbt=on
 
 # skiff extension files (todo)
 # include skiff-boardcfg.txt
