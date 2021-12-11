@@ -275,8 +275,10 @@ All core configurations work with all target platforms:
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
 
+### Customize Config
+
 The default configuration creates a user named "core" mapped into a container,
-but this can be easily configured in the `skiff-core.yaml` configuration file:
+but this can be adjusted with the `skiff-core.yaml` configuration file:
 
 ```yaml
 containers:
@@ -290,9 +292,38 @@ users:
     [...]
 ```
 
-To customize the core configuration after booting into SkiffOS, edit the file at
-`/mnt/persist/skiff/core/config.yaml` and run `systemctl restart skiff-core` to
-apply.
+The [full example config] is in the skiff/core package.
+
+To customize a running system, edit `/mnt/persist/skiff/core/config.yaml` and
+run `systemctl restart skiff-core` to apply. You may need to delete existing
+containers and restart skiff-core to re-create them after changing their config.
+
+The config format is defined in [the skiff-core repo].
+
+[the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
+[full example config]: ./configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml
+
+### Mounting Volumes to Containers
+
+As an example, a ext4 drive labeled "storage" can be mounted into a container:
+
+```sh
+# create a volume for the storage drive
+docker volume create --driver=local --opt device=/dev/disk/by-label/storage storage
+
+# run a temporary container to view the contents
+docker run --rm -it -v storage:/storage --workdir /storage alpine:edge sh
+```
+
+This volume can be mounted into the Skiff Core container by adding it to the mounts list:
+
+```yaml
+containers:
+  core:
+    image: skiffos/skiff-core-gentoo:latest
+    mounts:
+      - storage:/mnt/storage
+```
 
 ## Release Channels
 
