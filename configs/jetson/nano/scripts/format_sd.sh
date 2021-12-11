@@ -37,6 +37,15 @@ if [ ! -f "$uimg_path" ]; then
   exit 1
 fi
 
+SGDISK=${BUILDROOT_DIR}/host/sbin/sgdisk
+if [ ! -f "$SGDISK" ]; then
+    # fall back to system sgdisk
+    if ! SGDISK=$(which sgdisk); then
+        echo "Host sgdisk not found, make sure Buildroot is done compiling."
+        exit 1
+    fi
+fi
+
 l4t_tools_path=$IMAGES_DIR/linux4tegra/tools
 if [ ! -d $l4t_tools_path ]; then
     echo "linux4tegra tools not found, ensure buildroot is done compiling."
@@ -97,14 +106,14 @@ storage="sdcard"
 partitions=($(${l4t_tools_path}/nvptparser.py "${signed_image_dir}/${signed_cfg}" "${storage}"))
 part_type=8300 # Linux Filesystem
 
-sgdisk -og "${NVIDIA_SD}"
+${SGDISK} -og "${NVIDIA_SD}"
 for part in "${partitions[@]}"; do
 		eval "${part}"
 		if [ "${part_name}" = "master_boot_record" ]; then
 			  continue
 		fi
 		part_size=$((${part_size} / 512)) # convert to sectors
-		sgdisk -n "${part_num}":0:+"${part_size}" \
+		${SGDISK} -n "${part_num}":0:+"${part_size}" \
 			     -c "${part_num}":"${part_name}" \
 			     -t "${part_num}":"${part_type}" "${NVIDIA_SD}"
 done
