@@ -303,28 +303,6 @@ The config format is defined in [the skiff-core repo].
 [the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
 [full example config]: ./configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml
 
-### Mounting Volumes to Containers
-
-As an example, a ext4 drive labeled "storage" can be mounted into a container:
-
-```sh
-# create a volume for the storage drive
-docker volume create --driver=local --opt device=/dev/disk/by-label/storage storage
-
-# run a temporary container to view the contents
-docker run --rm -it -v storage:/storage --workdir /storage alpine:edge sh
-```
-
-This volume can be mounted into the Skiff Core container by adding it to the mounts list:
-
-```yaml
-containers:
-  core:
-    image: skiffos/skiff-core-gentoo:latest
-    mounts:
-      - storage:/mnt/storage
-```
-
 ## Release Channels
 
 There are three release channels: **next**, **master**, and **stable**.
@@ -498,18 +476,30 @@ To mount a Linux disk, for example an `ext4` partition, to a path inside a
 Docker container, you can use the Docker Volumes feature:
 
 ```sh
-# Determine the UUID of your volume
-# Look for your disk & get the UUID
-blkid
-# Create "my-volume" with the UUID.
-# Replace with your UUID from the previous command.
-docker volume create --driver=local --opt type=ext4 --opt device=/dev/disk/by-uuid/d21c6d3a-461e-4d7d-8732-40e56e8f184a my-volume
-# Run a container with the drive mounted to a path.
-docker run -v my-volume:/my-volume --rm -it alpine sh
+# create a volume for the storage drive
+docker volume create --driver=local --opt device=/dev/disk/by-label/storage storage
+
+# run a temporary container to view the contents
+docker run --rm -it -v storage:/storage --workdir /storage alpine:edge sh
 ```
 
-The volumes and containers state is stored in the "persist" partition and will
-remain between reboots, while the SkiffOS host system is ephemeral.
+The volume can be mounted into a Skiff Core container by adding to the mounts
+list in `/mnt/persist/skiff/core/config.yaml`:
+
+```yaml
+containers:
+  core:
+    image: skiffos/skiff-core-gentoo:latest
+    mounts:
+      - storage:/mnt/storage
+```
+
+After adding the mount, delete and re-create the container:
+
+```sh
+docker rm -f core
+systemctl restart skiff-core
+```
 
 ## Build in Docker
 
