@@ -143,6 +143,9 @@ ENV LANG=C.UTF-8 \
     L4T_VERSION=32.6.1 \
     L4T_SOC=t186
 
+# adjust the installed lists
+RUN sed -i -e "s/<SOC>/${L4T_SOC}/g" /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
+
 # additional desktop packages
 # chromium-browser
 RUN export DEBIAN_FRONTEND=noninteractive; \
