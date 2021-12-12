@@ -19,7 +19,7 @@ RUN mkdir -p /data /sources && \
   rm -rf /var/lib/apt/lists/*
 
 # download sources
-ENV L4T_URL https://developer.nvidia.com/embedded/l4t/r32_release_v5.1/r32_release_v5.1/t186/tegra186_linux_r32.5.1_aarch64.tbz2
+ENV L4T_URL https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t210/jetson-210_linux_r32.6.1_aarch64.tbz2
 ENV L4T_TAR linux4tegra-aarch64.tbz2
 RUN wget -q "${L4T_URL}" -O /data/${L4T_TAR}
 
@@ -43,14 +43,11 @@ RUN mkdir -p /sources/l4t_debs_workdir /sources/l4t_debs_patched && \
 # Ubuntu upstream
 FROM ubuntu:18.04 as stage2
 
-# NVIDIA upstream
-# FROM nvcr.io/nvidia/l4t-base:r32.5.1
-
 # setup environment
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     container=docker \
-    L4T_VERSION=32.5.1 \
+    L4T_VERSION=32.6.1 \
     L4T_SOC=t186
 
 # All packages, including requisite packages for nvidia.
@@ -114,7 +111,9 @@ RUN rootfs_dir=/; \
 # setup device-tree path for reference for debs
 RUN mkdir -p /etc/tegra-soc/device-tree && \
   echo "nvidia,quillnvidia,p2597-0000+p3310-1000nvidia,tegra186" >\
-    /etc/tegra-soc/device-tree/compatible
+    /etc/tegra-soc/device-tree/compatible && \
+  mkdir -p /opt/nvidia/l4t-packages && \
+  touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall
 
 # linux4tegra
 RUN export DEBIAN_FRONTEND=noninteractive; \
@@ -141,7 +140,7 @@ COPY --from=stage2 / /
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     container=docker \
-    L4T_VERSION=32.5.1 \
+    L4T_VERSION=32.6.1 \
     L4T_SOC=t186
 
 # additional desktop packages
