@@ -42,7 +42,7 @@ configuration layers should be merged together to configure the build.
 
 ```sh
 $ make                             # lists all available layers
-$ export SKIFF_CONFIG=pi/4,skiff/core,apps/portainer
+$ export SKIFF_CONFIG=pi/4,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -59,11 +59,6 @@ to your own custom configuration package.
 
 The example above uses `pi/4`, which can be replaced with any of the hardware
 support packages listed in the [Supported Systems](#supported-systems) table.
-
-The example above includes the `apps/portainer` layer. See the [portainer layer]
-documentation for more information. The UI will start with HTTPs on port 9443.
-
-[portainer layer]: ./configs/apps/portainer
 
 Once the build is complete, it's time to flash the system to a SD card. You will
 need to switch to `sudo bash` for this on most systems.
