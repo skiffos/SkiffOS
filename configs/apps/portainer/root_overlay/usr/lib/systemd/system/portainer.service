@@ -1,0 +1,15 @@
+[Unit]
+Description=Portainer server and agent
+DefaultDependencies=no
+After=network.target
+After=docker.service
+Requires=docker.service
+Before=multi-user.target
+
+[Service]
+Type=forking
+ExecStart=/opt/skiff/scripts/start-portainer.sh
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=infinity
+RemainAfterExit=true
