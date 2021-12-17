@@ -1,4 +1,4 @@
-From c31a558c9b76bef26f39ee66db89e34d2de971f8 Mon Sep 17 00:00:00 2001
+From b4461f04049a6de0325cf64b3a7e0e08a4386c1f Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Tue, 22 Sep 2020 16:50:06 -0700
 Subject: [PATCH] exynos5422: odroidxu3: mark mmc0 as non-removable to disable
@@ -13,17 +13,17 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi b/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
-index 72de20d5ca4c..a550800e4aa7 100644
+index c3a38d1..609707b 100644
 --- a/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
 +++ b/arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi
 @@ -484,6 +484,7 @@ &mmc_0 {
  	status = "okay";
  	mmc-pwrseq = <&emmc_pwrseq>;
  	card-detect-delay = <200>;
-+  non-removable;
++        non-removable;
  	samsung,dw-mshc-ciu-div = <3>;
  	samsung,dw-mshc-sdr-timing = <0 4>;
  	samsung,dw-mshc-ddr-timing = <0 2>;
 -- 
-2.28.0
+2.34.1
 
