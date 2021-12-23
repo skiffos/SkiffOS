@@ -206,7 +206,8 @@ RUN \
 
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
-    (systemctl mask NetworkManager || true) && \
+    (systemctl mask NetworkManager wpa_supplicant || true) && \
+    (systemctl mask dhcpd || true) && \
     rm /etc/systemd/system/nvwifibt.service && \
     echo "nvidia	ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
