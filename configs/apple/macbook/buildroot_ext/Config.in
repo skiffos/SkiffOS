@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_APPLE_MACBOOK_PATH/package/facetimehd/Config.in"
+source "$BR2_EXTERNAL_APPLE_MACBOOK_PATH/package/facetimehd-firmware/Config.in"

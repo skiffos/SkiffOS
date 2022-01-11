@@ -1,0 +1,7 @@
+config BR2_PACKAGE_FACETIMEHD_FIRMWARE
+	bool "facetimehd-firmware"
+	help
+	  This package provides binary firmware files (closed blobs)
+	  for the facetime HD camera.
+
+	  https://github.com/patjak/facetimehd-firmware
