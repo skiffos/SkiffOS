@@ -508,6 +508,11 @@ incompatibility with your build host operating system.
 
 ## Support
 
-If you encounter issues or questions at any point when using Skiff, please file
-a [GitHub issue](https://github.com/skiffos/SkiffOS/issues/new) and/or [Join
-Discord](https://discord.gg/EKVkdVmvwT).
+Please file a [GitHub issue] and/or [Join Discord] with any questions.
+
+[GitHub issue]: https://github.com/skiffos/skiffos/issues/new
+[Join Discord]: https://discord.gg/EKVkdVmvwT
+
+SkiffOS is built & supported by [Aperture Robotics], LLC.
+
+[Aperture Robotics]: https://github.com/aperturerobotics
