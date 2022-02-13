@@ -34,6 +34,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   ubuntu-desktop-minimal \
   unzip \
   usbutils \
+  ubuntu-standard \
   vim \
   xorg \
   xserver-xorg-input-all \
