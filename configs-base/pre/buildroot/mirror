@@ -1,0 +1,2 @@
+# Override from default of sources.buildroot.net
+BR2_BACKUP_SITE="https://github.com/skiffos/mirror/raw/master"
