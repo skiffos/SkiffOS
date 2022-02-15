@@ -26,6 +26,7 @@ sys-apps/systemd
 sys-apps/usbutils
 sys-auth/nss-mdns
 sys-devel/bc
+sys-devel/distcc
 sys-fs/fuse
 sys-libs/timezone-data
 sys-libs/zlib
