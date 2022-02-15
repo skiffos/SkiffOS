@@ -15,22 +15,27 @@ ARG SIGNING_KEY="0xBB572E0E2D182910"
 ADD ./overrides.sh /
 
 RUN apk --no-cache --upgrade add ca-certificates gnupg tar wget xz
+
+RUN source /overrides.sh \
+    && echo "Fetching Gentoo signing key ${SIGNING_KEY}" \
+    && gpg --list-keys \
+    && echo "honor-http-proxy" >> ~/.gnupg/dirmngr.conf \
+    && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
+    && gpg --keyserver hkps://keys.gentoo.org --recv-keys ${SIGNING_KEY}
+
 RUN source /overrides.sh \
  && echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${DIST}" \
  && STAGE3PATH="$(wget -O- "${DIST}/latest-stage3-${MICROARCH}${SUFFIX}.txt" | tail -n 1 | cut -f 1 -d ' ')" \
  && echo "STAGE3PATH:" $STAGE3PATH \
  && STAGE3="$(basename ${STAGE3PATH})" \
- && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" "${DIST}/${STAGE3PATH}.DIGESTS.asc" \
- && gpg --list-keys \
- && echo "honor-http-proxy" >> ~/.gnupg/dirmngr.conf \
- && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
- && gpg --keyserver hkps://keys.gentoo.org --recv-keys ${SIGNING_KEY} \
- && gpg --verify "${STAGE3}.DIGESTS.asc" \
- && awk '/# SHA512 HASH/{getline; print}' ${STAGE3}.DIGESTS.asc | sha512sum -c \
+    && wget "${DIST}/${STAGE3PATH}.asc" "${DIST}/${STAGE3PATH}.DIGESTS" \
+    && wget -q "${DIST}/${STAGE3PATH}" "${DIST}/${STAGE3PATH}.CONTENTS.gz" \
+ && gpg --verify "${STAGE3}.asc" \
+ && awk '/# SHA512 HASH/{getline; print}' ${STAGE3}.DIGESTS | sha512sum -c \
  && tar xpf "${STAGE3}" --xattrs-include='*.*' --numeric-owner \
  && ( sed -i -e 's/#rc_sys=""/rc_sys="docker"/g' etc/rc.conf 2>/dev/null || true ) \
  && echo 'UTC' > etc/timezone \
- && rm ${STAGE3}.DIGESTS.asc ${STAGE3}.CONTENTS.gz ${STAGE3}
+ && rm ${STAGE3}.asc ${STAGE3}.DIGESTS ${STAGE3}.CONTENTS.gz ${STAGE3}
 
 FROM scratch as stage3
 
