@@ -23,8 +23,8 @@ containers:
       - /run/udev:/run/udev
       - /mnt/persist/skiff/core/repos/binpkgs:/var/cache/binpkgs
       - /mnt/persist/skiff/core/repos/distfiles:/var/cache/distfiles
-      - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/gentoo:/var/db/repos/gentoo
+      - /mnt/persist/skiff/core/repos/lib:/var/lib
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
