@@ -1,7 +1,7 @@
 # See: https://github.com/gentoo/gentoo-docker-images/blob/master/stage3.Dockerfile
 ARG BOOTSTRAP
 # FROM ${BOOTSTRAP:-alpine:latest} as builder
-FROM ${BOOTSTRAP:-quay.io/skiffos/alpine:latest} as builder
+FROM ${BOOTSTRAP:-quay.io/skiffos/alpine:latest} as downloader
 
 WORKDIR /gentoo
 
@@ -40,7 +40,7 @@ RUN source /overrides.sh \
 FROM scratch as stage3
 
 WORKDIR /
-COPY --from=builder /gentoo/ /
+COPY --from=downloader /gentoo/ /
 CMD ["/bin/bash"]
 
 FROM stage3 as stage4
@@ -101,15 +101,16 @@ RUN \
 
 # pass #2: world set from the skiff core world file
 COPY ./world /var/lib/portage/world
-RUN (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true) && \
-    (emerge --depclean || true)
+RUN (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world || true)
 
 # pass #3: ensure that everything is up to date & this command works without errors
 # sometimes, emerge requires 2 passes to pick up everything
-RUN emerge -uDU --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @world
+RUN emerge --update --newuse --deep --backtrack=50 @world
 
+# pass #4: clean any outdated / not needed dependencies
 # minimize image size
-RUN rm -rf /var/cache/distfiles/* \
+RUN (emerge --depclean || true); \
+   rm -rf /var/cache/distfiles/* \
    /var/log/* /var/tmp/* /usr/src/* \
    /etc/xdg/autostart/* /var/db/repos/gentoo || true
 
