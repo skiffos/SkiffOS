@@ -9,6 +9,7 @@ app-misc/tmux
 app-portage/cpuid2cpuflags
 app-portage/eix
 app-portage/gentoolkit
+app-portage/portage-utils
 app-shells/zsh
 app-shells/zsh-completions
 app-text/tree
