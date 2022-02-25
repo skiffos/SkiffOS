@@ -40,6 +40,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   xserver-xorg-input-all \
   wget && \
   apt-get autoremove -y && \
+  apt-get clean -y && \
   rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen "en_US.UTF-8"
