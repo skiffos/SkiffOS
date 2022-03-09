@@ -24,18 +24,17 @@ Raspberry Pi 4 in a Docker container.
 The default configuration produces a minimal (~100Mb) in-RAM host OS with SSH
 and network connectivity, and includes a comprehensive set of debug tools. The
 host OS can be easily remotely updated with the push_image script, using rsync.
-The entire host OS is comprised usually of 3-10 files in a separate partition.
 
-The "skiff/core" layer enables Docker ("apps/docker") and an user environment
-based on Ubuntu with the full graphical desktop environment. The default user
-"core" can be accessed via ssh: connections will be automatically dropped into
-to the container. Ssh to "root" to access the SkiffOS host system. The mapping
-between users and containers can be easily configured with YAML or JSON.
+The "skiff/core" layer enables Docker ("apps/docker") and a default environment
+based on Ubuntu with a full graphical desktop environment. The "core" user can
+be accessed via ssh: connections are automatically forwarded to the container.
+Ssh to "root" to access the SkiffOS host system. The mapping between users and
+containers can be easily configured with YAML or JSON.
 
-Many Linux devices have a unique set of requirements for kernel, firmware, and
-additional hardware support packages. The immutable SkiffOS host OS separates
-hardware-specific support from the portable containerized user environments.
-This simplifies the complexity of managing updates for many hardware variants.
+Most Linux devices have a unique set of requirements for kernel, firmware, and
+hardware support packages. The SkiffOS host OS separates hardware-specific
+support from the containerized user environments. This simplifies managing
+updates across multiple hardware combinations and improves portability.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
