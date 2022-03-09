@@ -26,8 +26,8 @@ and network connectivity, and includes a comprehensive set of debug tools. The
 host OS can be easily remotely updated with the push_image script, using rsync.
 
 The "skiff/core" layer enables Docker ("apps/docker") and a default environment
-based on Ubuntu with a full graphical desktop environment. Other environments
-are available including "core/gentoo" and "core/dietpi."
+based on Ubuntu with a full graphical desktop environment. Others including
+"core/gentoo" and "core/dietpi" are available.
 
 Most Linux devices have a unique set of requirements for kernel, firmware, and
 hardware support packages. The SkiffOS host OS separates hardware-specific
