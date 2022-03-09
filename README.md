@@ -7,7 +7,7 @@
 
 [SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
-[Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs]. It is:
+[Apple MacBook]), [Phones], [Cloud VMs], and more. It is:
 
  - **Familiar**: uses simple Makefile and KConfig language for configuration.
  - **Flexible**: supports any OS distribution inside containers w/ ssh drop-in.
@@ -26,15 +26,13 @@ and network connectivity, and includes a comprehensive set of debug tools. The
 host OS can be easily remotely updated with the push_image script, using rsync.
 
 The "skiff/core" layer enables Docker ("apps/docker") and a default environment
-based on Ubuntu with a full graphical desktop environment. The "core" user can
-be accessed via ssh: connections are automatically forwarded to the container.
-Ssh to "root" to access the SkiffOS host system. The mapping between users and
-containers can be easily configured with YAML or JSON.
+based on Ubuntu with a full graphical desktop environment. Other environments
+are available including "core/gentoo" and "core/dietpi."
 
 Most Linux devices have a unique set of requirements for kernel, firmware, and
 hardware support packages. The SkiffOS host OS separates hardware-specific
-support from the containerized user environments. This simplifies managing
-updates across multiple hardware combinations and improves portability.
+support from the containerized user environments, simplifying management of
+updates across multiple hardware combinations.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
