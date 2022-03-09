@@ -2,25 +2,40 @@
 
 ## Introduction
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
 [![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
 
 [SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
 [Apple MacBook]), [Phones] (PinePhone), Containers, or [Cloud VMs]. It is:
 
- - **Adoptable**: any userspace can be imported/exported to/from container images.
  - **Familiar**: uses simple Makefile and KConfig language for configuration.
- - **Flexible**: supports all major OS distributions inside containers.
- - **Portable**: containers can be moved between machines of similar CPU type.
- - **Reliable**: changes inside user environments cannot break the host boot-up.
- - **Reproducible**: a given Skiff Git tree will always produce identical output.
+ - **Flexible**: supports any OS distribution inside containers w/ ssh drop-in.
+ - **Portable**: replicate the exact same system across any hardware or arch.
+ - **Reliable**: read-only minimal in-RAM host system boots reliably every time.
+ - **Reproducible**: offline and deterministic builds for reproducible behavior.
 
-Uses [Buildroot] to produce a minimal "single-file" host OS as a standardized
-base cross-platform operating system "shim" for hosting containers. Most Linux
-platforms have widely varying requirements for kernel, firmware, and additional
-hardware support packages. The immutable SkiffOS host system contains everything
-needed to support the hardware, cleanly separated from the applications.
+SkiffOS adds a configuration layering system to the [Buildroot] cross-compiler,
+which makes it easy to re-target applications to new hardware. Layers are merged
+together as specified in the `SKIFF_CONFIG` comma-separated environment
+variable. As a basic example: `SKIFF_CONFIG=pi/4,core/gentoo` starts Gentoo on a
+Raspberry Pi 4 in a Docker container.
+
+The default configuration produces a minimal (~100Mb) in-RAM host OS with SSH
+and network connectivity, and includes a comprehensive set of debug tools. The
+host OS can be easily remotely updated with the push_image script, using rsync.
+The entire host OS is comprised usually of 3-10 files in a separate partition.
+
+The "skiff/core" layer enables Docker ("apps/docker") and an user environment
+based on Ubuntu with the full graphical desktop environment. The default user
+"core" can be accessed via ssh: connections will be automatically dropped into
+to the container. Ssh to "root" to access the SkiffOS host system. The mapping
+between users and containers can be easily configured with YAML or JSON.
+
+Many Linux devices have a unique set of requirements for kernel, firmware, and
+additional hardware support packages. The immutable SkiffOS host OS separates
+hardware-specific support from the portable containerized user environments.
+This simplifies the complexity of managing updates for many hardware variants.
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
@@ -40,25 +55,46 @@ needed to support the hardware, cleanly separated from the applications.
 The `SKIFF_CONFIG` comma-separated environment variable selects which
 configuration layers should be merged together to configure the build.
 
+The example above uses `pi/4`, which can be replaced with any of the hardware
+support packages listed in the [Supported Systems](#supported-systems) table.
+
 ```sh
 $ make                             # lists all available layers
+$ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
 $ export SKIFF_CONFIG=pi/4,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
-After you run `make configure` Skiff will remember what you selected in
-`SKIFF_CONFIG`. The compile command instructs Skiff to build the system.
+After you run `make configure` your SKIFF_CONFIG selection will be saved and
+automatically restored in future sessions. The compile command instructs Skiff
+to build the system.
 
-Adjustments can be made to configuration layers, and `make compile` can be
-called again to re-pack the system image without re-building everything.
+The optional `SKIFF_WORKSPACE` variable defaults to `default`, but is useful for
+compiling multiple `SKIFF_CONFIG` simultaneously. Each workspace is isolated
+from the others and can have a completely different configuration. The build can
+be interrupted and resumed with `make compile` as needed.
 
-You can add your SSH public key to the target image by adding it to
-`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`, or by adding it
-to your own custom configuration package.
+You will need a SSH public key to access the system. If you don't have one,
+[create a SSH key] on your development machine. Add the public key (usually
+located at `~/.ssh/id_rsa.pub`) to your build by copying it to
+`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`. The keys can also
+be added to a configuration layer for future use.
 
-The example above uses `pi/4`, which can be replaced with any of the hardware
-support packages listed in the [Supported Systems](#supported-systems) table.
+[create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
+
+There are many other utility commands made available by Buildroot, which can be
+listed using `make br/help`, some examples:
+
+```sh
+$ make br/menuconfig # optionally explore Buildroot config
+$ make br/sdk        # build relocatable SDK for target
+$ make br/graph-size # graph the target packages sizes
+```
+
+You can add `apps/portainer` to `SKIFF_CONFIG` to enable the Portainer UI.
+
+### Flashing the SD Card
 
 Once the build is complete, it's time to flash the system to a SD card. You will
 need to switch to `sudo bash` for this on most systems.
@@ -72,23 +108,20 @@ $ make cmd/pi/common/install # tell skiff to install the os
 ```
 
 The device needs to be formatted only one time, after which, the install command
-can be used to update the SkiffOS images without clearing the persistent state.
+can be used to update the SkiffOS images without clearing the persistent data.
 The persist partition is not touched in this step, so anything you save there,
-including Docker state and system configuration, will not be modified.
+including all Docker containers and system configuration, will not be modified.
 
-There are many other utility commands made available by Buildroot, which can be
-listed using `make br/help`, some examples:
-
-```sh
-$ make br/menuconfig # optionally explore Buildroot config
-$ make br/sdk        # build relocatable SDK for target
-$ make br/graph-size # graph the target packages sizes
-```
+### Connecting
 
 Connect using SSH to `root@my-ip-address` to access the SkiffOS system, and
-connect to `core@my-ip-address` to access the "Core" system container. The
-mapping between users and containers can be edited in the
+connect to `core@my-ip-address` to access the "Core" system container. See the
+section above about SSH public keys if you get a password prompt.
+
+The mapping between users and containers can be edited in the
 `/mnt/persist/skiff/core/config.yaml` file.
+
+### OTA Upgrade
 
 The system can then be upgraded over-the-air (OTA) using the rsync script:
 
@@ -311,20 +344,13 @@ Skiff can be upgraded or downgraded (rolled back) independently from the
 persistent storage partition. This allows for easy OTA, and significant
 improvements in confidence when upgrading system components.
 
-## Configuration Packages/Layers
+## Configuration Layers
 
-Skiff supports modular configuration packages. A configuration directory
-contains kernel configs, buildroot configs, system overlays, etc.
+Skiff supports modular configuration layers. A configuration directory contains
+kernel configs, buildroot configs, system overlays, and misc. files.
 
-These packages are denoted as `namespace/name`. For example, an ODROID XU4
-configuration would be `odroid/xu`.
-
-Configuration package directories should have a depth of 2, where the first
-directory is the category name and the second is the package name.
-
-### Package Layout
-
-A configuration package is laid out into the following directories:
+Layers are named as `namespace/name`. For example, an ODROID XU4 configuration
+would be `odroid/xu`, and Docker is `apps/docker`.
 
 ```
 ├── cflags:         compiler flags in files
@@ -359,22 +385,22 @@ All files are optional.
 You can set the following env variables to control this process:
 
  - `SKIFF_CONFIG_PATH_ODROID_XU`: Set the path for the ODROID_XU config package. You can set this to add new packages or override old ones.
- - `SKIFF_EXTRA_CONFIGS_PATH`: Colon separated list of paths to look for config packages.
+ - `SKIFF_EXTRA_CONFIGS_PATH`: Colon `:` separated list of paths to look for config packages.
  - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
 
 These packages will be available in the Skiff system.
 
 ### Local Overrides
 
-It's often useful to be able to adjust the buildroot, kernel, or other
-configurations locally during development without actually creating a new
-configuration layer. This can be easily done with the overrides system.
+It's often useful to be able to adjust the configs locally during development
+without actually creating a new configuration layer. This can be easily done
+with the [overrides](./overrides) layer.
 
-The `overrides` directory, as well as the
-`overrides/workspaces/$SKIFF_WORKSPACE` directory, are automatically used as
-additional Skiff configuration packages. You can follow the Skiff configuration
-package format as defined below to override any of the settings in Buildroot or
-the Linux kernel, add extra Buildroot packages, add build hooks, etc.
+The overrides directory is treated as an additional configuration layer. The
+layout of the configuration layers is described above. Overrides is ignored by
+Git, and serves as a quick and easy way to modify the configuration.
+
+To apply the changes & re-pack the build, run "make configure compile" again.
 
 ## Workspaces
 
@@ -436,39 +462,39 @@ docker run -t -d --name=skiff \
 
 ## Configuration
 
-SkiffOS includes a systemd-based configuration and a standard partition layout,
-with boot files separated from the persistent data, on default. This can be
-disabled, overridden, and/or customized by other configuration packages.
+SkiffOS can be configured dynamically with files in the "persist" partition.
+
+### Hostname
+
+Set the hostname by placing the desired hostname in the `skiff/hostname` file on
+the persist partition. You could also set this in one of your config packages by
+writing the desired hostname to `/etc/hostname`.
 
 ### NetworkManager
 
-Skiff uses NetworkManager to manage network connections.
-
 Network configurations are loaded from `/etc/NetworkManager/system-connections`
-and from `skiff/connections` on the persist partition.
-
-The configuration file format for these connections is [documented
-here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html)
-with examples.
+or from the persist partition at `skiff/connections`.
 
 You can use `nmcli` on the device to manage `NetworkManager`, and any connection
 definitions written by `nmcli device wifi connect` or similar will automatically
 be written to the persist partition and persisted to future boots.
 
-### Hostname
+To connect to WiFi: `nmcli device wifi connect myssid password mypassword.`
 
-You can set the hostname by placing the desired hostname in the `skiff/hostname`
-file on the persist partition. You could also set this in one of your config
-packages by writing the desired hostname to `/etc/hostname`.
+The configuration file format for these connections is [documented
+here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html)
+with examples.
 
 ### SSH Keys
 
-The system on boot will generate the authorized_keys file for root.
+The system will generate the authorized_keys file for the users on startup.
 
 It takes SSH public key files (`*.pub`) from these locations:
 
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
+ 
+Your SSH public key will usually be located at `~/.ssh/id_rsa.pub`.
 
 ### Mount a Disk to a Container
 
@@ -501,18 +527,17 @@ docker rm -f core
 systemctl restart skiff-core
 ```
 
-## Build in Docker
-
-You can [build Skiff inside Docker](./build/docker) if you encounter any
-incompatibility with your build host operating system.
-
 ## Support
+
+SkiffOS is built & supported by [Aperture Robotics], LLC.
+
+Community contributions and discussion are welcomed!
 
 Please file a [GitHub issue] and/or [Join Discord] with any questions.
 
 [GitHub issue]: https://github.com/skiffos/skiffos/issues/new
 [Join Discord]: https://discord.gg/EKVkdVmvwT
 
-SkiffOS is built & supported by [Aperture Robotics], LLC.
+... or feel free to reach out on [Matrix Chat]!
 
-[Aperture Robotics]: https://github.com/aperturerobotics
+[Matrix Chat]: https://matrix.to/#/#aperturerobotics:matrix.org
