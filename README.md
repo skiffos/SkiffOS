@@ -528,6 +528,8 @@ systemctl restart skiff-core
 
 SkiffOS is built & supported by [Aperture Robotics], LLC.
 
+[Aperture Robotics]: https://github.com/aperturerobotics
+
 Community contributions and discussion are welcomed!
 
 Please file a [GitHub issue] and/or [Join Discord] with any questions.
