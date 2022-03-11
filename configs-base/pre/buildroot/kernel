@@ -9,7 +9,7 @@ BR2_LINUX_KERNEL_NEEDS_HOST_LIBELF=y
 
 # "mainline" kernel applied from configs-base/pre
 # these may be overridden by SKIFF_CONFIG layers
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_15=y
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_16=y
 BR2_LINUX_KERNEL_CUSTOM_VERSION=y
 
 # "stable" branch:
