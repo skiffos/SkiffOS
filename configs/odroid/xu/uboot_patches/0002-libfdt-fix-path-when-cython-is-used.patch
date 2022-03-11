@@ -1,0 +1,26 @@
+From dc97d81068206c4593949e561ed4c99b7e18da1f Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 11 Mar 2022 06:04:29 -0800
+Subject: [PATCH] libfdt: fix path when cython is used
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ tools/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/Makefile b/tools/Makefile
+index 2fc4a583d4..b0bbf01343 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -122,7 +122,7 @@ libfdt:
+ tools/_libfdt.so: $(patsubst %.o,%.c,$(LIBFDT_OBJS)) tools/libfdt_wrap.c
+ 	LDFLAGS="$(HOSTLDFLAGS)" CFLAGS= ${PYTHON} $(srctree)/lib/libfdt/setup.py \
+ 		"$(_hostc_flags)" $^
+-	mv _libfdt.so $@
++	mv _libfdt.*so $@
+ 
+ tools/libfdt_wrap.c: $(srctree)/lib/libfdt/libfdt.swig
+ 	swig -python -o $@ $<
+-- 
+2.35.1
+

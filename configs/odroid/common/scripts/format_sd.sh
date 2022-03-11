@@ -81,6 +81,7 @@ sudo dd if=/dev/zero of=$ODROID_SD bs=8k count=13 oflag=dsync
 
 echo "Creating partitions..."
 sudo partprobe ${ODROID_SD} || true
+
 sudo parted $ODROID_SD mklabel msdos
 
 # boot
@@ -91,7 +92,7 @@ sudo parted $ODROID_SD set 1 boot on
 sudo parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
 
 # persist
-sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "-1s"
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "100%"
 
 echo "Waiting for partprobe..."
 sync && sync

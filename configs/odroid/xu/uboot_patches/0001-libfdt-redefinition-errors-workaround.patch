@@ -1,4 +1,4 @@
-From e78a3de9dd6e7963390a89134aeb3bb6c5968ffb Mon Sep 17 00:00:00 2001
+From 774e33959dad5aa656de07a4bf4193828b02097b Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Tue, 14 Aug 2018 15:05:13 -0700
 Subject: [PATCH] libfdt redefinition errors workaround
@@ -94,5 +94,5 @@ index 9a79fe85dd..8fdda7ee79 100644
 -#endif /* _LIBFDT_INTERNAL_H */
 +#endif /* LIBFDT_INTERNAL_H */
 -- 
-2.16.4
+2.35.1
 
