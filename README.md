@@ -52,8 +52,8 @@ updates across multiple hardware combinations.
 The `SKIFF_CONFIG` comma-separated environment variable selects which
 configuration layers should be merged together to configure the build.
 
-The example above uses `pi/4`, which can be replaced with any of the hardware
-support packages listed in the [Supported Systems](#supported-systems) table.
+This example uses `pi/4`, which can be replaced with any of the hardware support
+packages listed in the [Supported Systems](#supported-systems) table.
 
 ```sh
 $ make                             # lists all available layers
@@ -64,8 +64,7 @@ $ make compile                     # build the system
 ```
 
 After you run `make configure` your SKIFF_CONFIG selection will be saved and
-automatically restored in future sessions. The compile command instructs Skiff
-to build the system.
+automatically restored in future sessions. The compile command builds the OS.
 
 The optional `SKIFF_WORKSPACE` variable defaults to `default`, but is useful for
 compiling multiple `SKIFF_CONFIG` simultaneously. Each workspace is isolated
