@@ -1,5 +1,3 @@
-# Default Console Device Setting
-
 # U-Boot Parameters
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
@@ -112,9 +110,9 @@ if test "${disable_vu7}" = "false"; then setenv hid_quirks "usbhid.quirks=0x0eef
 # Boot Args
 setenv bootargs "${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${cec_enable} ${bootsplash} sdrmode=${sdrmode} consoleblank=0"
 
-fatload mmc ${devno}:1 ${kernel_addr_r} Image
-fatload mmc ${devno}:1 ${initramfs_addr_r} rootfs.cpio.uboot
-fatload mmc ${devno}:1 ${dtb_addr_r} meson64_odroidc4.dtb
+fatload mmc ${devnum}:1 ${kernel_addr_r} Image
+fatload mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot
+fatload mmc ${devnum}:1 ${dtb_addr_r} meson64_odroidc4.dtb
 fdt addr ${dtb_addr_r}
 
 # boot
