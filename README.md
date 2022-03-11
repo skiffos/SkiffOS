@@ -150,13 +150,13 @@ Here are the boards/systems currently supported:
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ 4.9.253       | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ 4.9.253       | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10 | ✔ tb-5.16.14    | ⚠ Obsolete    |
-| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2021.01 | ✔ tb-5.16.14    | ✔ Tested      |
+| [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.14    | ✔ Tested      |
 | [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.16.14    | ⚠ Obsolete    |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.14    | ✔ Tested      |
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.14    | ✔ Tested      |
 | [Odroid N2]+         | [odroid/n2]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.14    | ✔ Tested      |
-| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.14    | ⚠ Obsolete    |
-| [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.14    | ✔ Tested      |
+| [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.14    | ⚠ Obsolete    |
+| [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.14    | ✔ Tested      |
 | [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05 | ✔ 5.16.14       |               |
 | [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07 | ✔ 5.16.14       |               |
 | [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07 | ✔ 5.16.14       |               |
