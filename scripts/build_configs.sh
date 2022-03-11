@@ -244,6 +244,9 @@ sed -i "s@REPLACEME_FINAL_CONFIG_DIR@$SKIFF_FINAL_CONFIG_DIR@g" $br_conf
 sed -i "s@REPLACEME_SKIFF_VERSION_COMMIT@$SKIFF_VERSION_COMMIT@g" $br_conf
 sed -i "s@REPLACEME_SKIFF_VERSION@$SKIFF_VERSION@g" $br_conf
 
+# add the ccache directory
+echo "BR2_CCACHE_DIR=\"${BR2_CCACHE_DIR}\"" >> $br_conf
+
 # warn if overriding BR2_TARGET_OPTIMIZATION
 if [ -n "$addl_target_cflags" ]; then
     if grep -q 'BR2_TARGET_OPTIMIZATION' $br_conf; then
