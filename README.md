@@ -155,6 +155,7 @@ Here are the boards/systems currently supported:
 | [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.15.7     | ⚠ Obsolete    |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.15.7     | ✔ Tested      |
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.15.7     | ✔ Tested      |
+| [Odroid N2]+         | [odroid/n2]        | ✔ U-Boot 2022.01 | ✔ tb-5.15.7     | ✔ Tested      |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.15.7     | ⚠ Obsolete    |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.15.7     | ✔ Tested      |
 | [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05 | ✔ 5.16.14       |               |
@@ -185,6 +186,7 @@ Here are the boards/systems currently supported:
 [Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
 [Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
+[Odroid N2]: https://wiki.odroid.com/odroid-n2/odroid-n2
 [Odroid U]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [Odroid XU3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
 [Odroid XU4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
@@ -346,8 +348,8 @@ improvements in confidence when upgrading system components.
 Skiff supports modular configuration layers. A configuration directory contains
 kernel configs, buildroot configs, system overlays, and misc. files.
 
-Layers are named as `namespace/name`. For example, an ODROID XU4 configuration
-would be `odroid/xu`, and Docker is `apps/docker`.
+Layers are named as `namespace/name`. For example, a Raspberry Pi 4
+configuration would be `pi/4` and Docker is `apps/docker`.
 
 ```
 ├── cflags:         compiler flags in files

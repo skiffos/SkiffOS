@@ -4,6 +4,8 @@ The configuration package `odroid/common` contains common configurations for the
 Odroid series of boards by HardKernel. There are specific packages for each
 board/series.
 
+**If using the n2, set the boot switch to MMC.**
+
 ## Getting Started
 
 Set the comma-separated `SKIFF_CONFIG` variable:
@@ -39,15 +41,15 @@ usually only happen between major Skiff/Buildroot releases if so.
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**       | **Config Package** | Status         |
-| --------------- | -----------------  | --------       |
-| [u] + u2        | odroid/u           | Ethernet Issue |
-| [c2]            | odroid/c2          |                |
-| [xu3]           | odroid/xu          |                |
-| [xu4] (+ xu4q)  | odroid/xu          |                |
-| [hc2]           | odroid/xu          |                |
-| [n2]            | odroid/c4          | Reboot issue   |
-| [c4]            | odroid/c4          | Reboot issue   |
+| **Board**      | **Config Package** | Status         |
+|----------------|--------------------|----------------|
+| [u] + u2       | odroid/u           | Ethernet Issue |
+| [c2]           | odroid/c2          |                |
+| [xu3]          | odroid/xu          |                |
+| [xu4] (+ xu4q) | odroid/xu          |                |
+| [hc2]          | odroid/xu          |                |
+| [n2]           | odroid/n2          | Includes n2+   |
+| [c4]           | odroid/c4          | Reboot issue   |
 
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
@@ -62,15 +64,18 @@ The current SD cards used / tested by developers are:
 
  - PNY Turbo Performance 16GB High Speed MicroSDHC Class 10 UHS-1
  - SanDisk 128GB Extreme MicroSDXC UHS-I 
- - SanDisk 64GB Ultra MicroSDXC UHS-I
+ - SanDisk 128GB MicroSDXC Nintendo Switch Edition
+ - SanDisk Ultra MicroSDXC (Any)
 
 The current cards that are known to **NOT** work are:
 
  - Intenso MicroSDXC Card, UHS-I, 64 GB
 
-Some SD cards may not be compatible with the Odroid kernel.
+Some SD cards may not work as well with the Odroid hardware.
 
 ## Bootup Process
+
+**If using the n2, set the boot switch to MMC.**
 
 All Odroid boards use u-boot. U-boot is flashed to the beginning of the SD card,
 before the first partition. It loads and executes a boot.ini configuration.
@@ -80,10 +85,10 @@ vendor & signed, and cannot be compiled by Skiff, depending on the board.
 
 ## Acknowledgments
 
-(As of December, 2020):
-
 Thank you to [tobetter] for patching / testing the latest Linux kernels for the
 Odroid series of boards.
 
-[tobetter]: https://github.com/tobetter/linux
+There is a [SkiffOS Linux] which restores XU4 support in newer kernels.
 
+[tobetter]: https://github.com/tobetter/linux
+[SkiffOS Linux]: https://github.com/skiffos/linux/tree/skiff-odroid-5.16.y
