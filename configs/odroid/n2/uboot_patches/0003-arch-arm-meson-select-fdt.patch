@@ -1,0 +1,26 @@
+From d77561a6fb96994bc8c5da1c75e3328c0c2dfd0f Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Thu, 10 Mar 2022 17:50:46 -0800
+Subject: [PATCH] arch: arm: meson: select fdt
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/arm/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index f7f03837fe..35bae6a058 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -769,6 +769,8 @@ config ARCH_OMAP2PLUS
+ config ARCH_MESON
+ 	bool "Amlogic Meson"
+ 	select GPIO_EXTRA_HEADER
++	select OF_LIBFDT
++	select OF_LIBFDT_OVERLAY
+ 	imply DISTRO_DEFAULTS
+ 	imply DM_RNG
+ 	help
+-- 
+2.35.1
+

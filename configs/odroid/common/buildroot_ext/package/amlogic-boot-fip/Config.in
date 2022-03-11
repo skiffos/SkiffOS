@@ -4,3 +4,13 @@ config BR2_PACKAGE_AMLOGIC_BOOT_FIP
 	  Amlogic boot fip blobs.
 
 	  https://gitlab.com/LibreELEC/amlogic-boot-fip
+
+if BR2_PACKAGE_AMLOGIC_BOOT_FIP
+
+config BR2_PACKAGE_AMLOGIC_BOOT_FIP_BOARD
+	string "amlogic-boot-fip board name"
+	default "odroid-n2-plus"
+	help
+	  Board and subdirectory name in amlogic-boot-fip.
+
+endif # BR2_PACKAGE_AMLOGIC_BOOT_FIP

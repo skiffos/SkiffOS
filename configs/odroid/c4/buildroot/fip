@@ -1,2 +1,0 @@
-# Closed source blobs for amlogic fip
-BR2_PACKAGE_AMLOGIC_BOOT_FIP=y

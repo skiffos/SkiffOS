@@ -1,15 +1,13 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# tobetter odroid-5.13.y branch
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/0d92e0186b70ebf123e8cb75b4aa5dcfe61e8d2f/linux-odroid-tb-5.13.15-r1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
-
-# tobetter odroid-5.15.y branch (previous)
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/50dccb89dfc43cd3a8344d528555b588b80e6e2d/linux-odroid-tb-5.15.3-r1.tar.gz"
-
-# tobetter odroid-5.15.y branch
+# tobetter og droid-5.15.y branch
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/tobetter/linux/archive/77ebfca65d59167038ef5fcc62d2e8d49f47fa49/linux-odroid-tb-5.15.7-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_15=y
+
+# tobetter odroid-5.16.y branch w/ xu4 support
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/skiffos/linux/archive/854dcdf85564f434be1869e6a144f63f018e0f45/linux-odroid-tb-5.16.4-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_16=y
 
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y
