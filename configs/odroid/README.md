@@ -41,17 +41,18 @@ usually only happen between major Skiff/Buildroot releases if so.
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**      | **Config Package** | Status         |
-|----------------|--------------------|----------------|
-| [u] + u2       | odroid/u           | Ethernet Issue |
-| [c2]           | odroid/c2          |                |
-| [xu3]          | odroid/xu          |                |
-| [xu4] (+ xu4q) | odroid/xu          |                |
-| [hc2]          | odroid/xu          |                |
-| [n2]           | odroid/n2          | Includes n2+   |
-| [c4]           | odroid/c4          | Reboot issue   |
+| **Board**      | **Config Package** | Status       |
+|----------------|--------------------|--------------|
+| [u] + u2       | odroid/u           | Discontinued |
+| [c2]           | odroid/c2          |              |
+| [xu3]          | odroid/xu          | Discontinued |
+| [xu4] (+ xu4q) | odroid/xu          |              |
+| [hc2]          | odroid/xu          |              |
+| [n2]           | odroid/n2          | Includes n2+ |
+| [c4]           | odroid/c4          | Reboot issue |
 
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
+[xu3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
 [hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 [n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
