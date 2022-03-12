@@ -10,24 +10,28 @@
 kernel=Image
 initramfs rootfs.cpio.lz4
 
+# enable 64bits support
+arm_64bit=1
+
+# fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
+dtoverlay=miniuart-bt
+
+# enable autoprobing of Bluetooth driver without need of hciattach/btattach
+dtoverlay=krnbt=on
+
+# GPU memory
+gpu_mem_256=100
+gpu_mem_512=100
+gpu_mem_1024=100
+
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
 # Enable GPIO features
-dtparam=i2c_arm=on
-dtparam=spi=on
+# dtparam=i2c_arm=on
+# dtparam=spi=on
 # dtparam=i2s=on
-
-# Add module parameters to the end of the dtoverlay line,
-# e.g. dtoverlay=lirc-rpi,gpio_in_pin=16,gpio_in_pull=high
-# dtoverlay=lirc-rpi
-
-# disable bt and enable uart on PL011 (UART0)
-dtoverlay=disable-bt
-
-# w1-gpio
-# If you require the external pullup
-# dtoverlay=w1-gpio-pullup,gpiopin=x,pullup=y
-# otherwise
-# dtoverlay=w1-gpio-pullup,gpiopin=x
-# (where x and y are gpios).
 
 # Audio card
 dtparam=audio=on
@@ -51,19 +55,5 @@ dtparam=audio=on
 # initial_turbo=45
 
 [pi4]
-# dtoverlay=vc4-kms-v3d-pi4
-dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-kms-v3d
 max_framebuffers=2
-
-[all]
-enable_uart=1
-disable_overscan=1
-hdmi_drive=2
-gpu_mem=128
-
-# enable 64bits support
-arm_64bit=1
-
-# skiff extension files (todo)
-# include skiff-boardcfg.txt
-# include skiff-usercfg.txt
