@@ -220,6 +220,7 @@ Here are the boards/systems currently supported:
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
 [odroid/u]: ./configs/odroid
+[odroid/n2]: ./configs/odroid
 [odroid/xu]: ./configs/odroid
 [orangepi/lite]: ./configs/orangepi/lite
 [orangepi/zero]: ./configs/orangepi/zero
