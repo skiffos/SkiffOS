@@ -36,6 +36,7 @@ jobs:
       - name: Clear caches if necessary
         run: |
           # necessary to save space
+          echo "Cache dir: $(realpath ~/br-cache)"
           if [ ! -f ~/br-cache/ccache-v8 ]; then
             echo "Clearing old compiler cache..."
             rm -rf ~/br-cache/ccache* || true
@@ -61,6 +62,7 @@ jobs:
           export PATH=/usr/sbin:/usr/bin:/sbin:/bin
           export BR2_CCACHE_DIR=${HOME}/br-cache/ccache
           export BR2_DL_DIR=${HOME}/br-cache/dl
+          echo "Cache dir: ${HOME}/br-cache"
           SKIFF_TARGET=$(echo ${SKIFF_DEVICE_CONFIG} | sed "s#-#/#g")
           export SKIFF_CONFIG=${SKIFF_TARGET},skiff/core,core/gentoo
           export SKIFF_WORKSPACE=${SKIFF_DEVICE_CONFIG}
