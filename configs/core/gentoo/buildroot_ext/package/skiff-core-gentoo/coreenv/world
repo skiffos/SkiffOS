@@ -1,6 +1,7 @@
 app-admin/sudo
 app-arch/cpio
 app-arch/p7zip
+app-editors/nano
 app-editors/vim
 app-eselect/eselect-repository
 app-misc/neofetch

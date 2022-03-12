@@ -83,7 +83,6 @@ RUN systemctl set-default graphical.target && \
          -or -name '*resolved*' \
          -or -name '*udev*' \
          -or -name '*freedesktop*' \
-         -or -name '*persist-resize*' \
          -or -name '*remount-fs*' \
          -or -name '*getty*' \
          -or -name '*systemd-sysctl*' \

@@ -1,8 +1,6 @@
 [Unit]
 Description=SkiffOS early-init
 DefaultDependencies=no
-After=persist-resize.service
-Requires=persist-resize.service
 Before=basic.target
 Before=docker.service
 
