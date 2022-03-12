@@ -1,2 +1,0 @@
-# disable seccomp
-CONFIG_SECCOMP=n

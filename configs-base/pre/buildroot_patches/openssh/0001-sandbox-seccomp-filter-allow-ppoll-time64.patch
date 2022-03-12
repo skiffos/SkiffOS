@@ -1,0 +1,29 @@
+From b424117e199e5be87fa2f44facbb3ef465fadf22 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 11 Mar 2022 20:57:36 -0800
+Subject: [PATCH] sandbox-seccomp-filter: allow ppoll time64
+
+Fixes seccomp errors on arm.
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ sandbox-seccomp-filter.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
+index 2e065ba3..4ce80cb2 100644
+--- a/sandbox-seccomp-filter.c
++++ b/sandbox-seccomp-filter.c
+@@ -276,6 +276,9 @@ static const struct sock_filter preauth_insns[] = {
+ #ifdef __NR_ppoll
+ 	SC_ALLOW(__NR_ppoll),
+ #endif
++#ifdef __NR_ppoll_time64
++	SC_ALLOW(__NR_ppoll_time64),
++#endif
+ #ifdef __NR_poll
+ 	SC_ALLOW(__NR_poll),
+ #endif
+-- 
+2.35.1
+
