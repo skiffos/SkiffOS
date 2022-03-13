@@ -1,7 +1,7 @@
-From ee5515f98d5b3381de66c7d2eb0556a6d8f9c24f Mon Sep 17 00:00:00 2001
+From cb316e06346a471df58e4454710dba966e8c4458 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
-Date: Sat, 27 Nov 2021 03:39:36 -0800
-Subject: [PATCH] meson.build: disable Werror=format-overflow
+Date: Sat, 12 Mar 2022 17:36:24 -0800
+Subject: [PATCH] meson: build: disable wformat-overflow
 
 Signed-off-by: Christian Stewart <christian@paral.in>
 ---
@@ -9,11 +9,11 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  1 file changed, 5 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index 738879eb21..a93d981308 100644
+index c0cbadecb1..75c169bd35 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -366,6 +366,11 @@ if cc.get_id() == 'gcc' and (not '02'.contains(get_option('optimization')) or
-         possible_common_cc_flags += '-Wno-maybe-uninitialized'
+@@ -388,6 +388,11 @@ if cc.get_id() == 'gcc'
+         possible_common_cc_flags += '-Wno-unused-result'
  endif
  
 +# Disable -Wformat-overflow to fix build error
@@ -22,8 +22,8 @@ index 738879eb21..a93d981308 100644
 +endif
 +
  # --as-needed and --no-undefined are provided by meson by default,
- # run mesonconf to see what is enabled
+ # run 'meson configure' to see what is enabled
  possible_link_flags = [
 -- 
-2.34.1
+2.35.1
 
