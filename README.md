@@ -147,8 +147,8 @@ Here are the boards/systems currently supported:
 | [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.14       |               |
 | [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.16.14       | ✔ Tested      |
 | [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.16.14       | ✔ Tested      |
-| [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ 4.9.253       | ✔ Tested      |
-| [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ 4.9.253       | ✔ Tested      |
+| [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ [nv-4.9.290]  | ✔ Tested      |
+| [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.290]  | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10 | ✔ tb-5.16.14    | ⚠ Obsolete    |
 | [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.14    | ✔ Tested      |
 | [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.16.14    | ⚠ Obsolete    |
@@ -205,6 +205,7 @@ Here are the boards/systems currently supported:
 [Qemu]: ./configs/virt/qemu
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
+[nv-4.9.290]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 
 [virt/docker]: ./configs/virt/docker
 [virt/qemu]: ./configs/virt/qemu
