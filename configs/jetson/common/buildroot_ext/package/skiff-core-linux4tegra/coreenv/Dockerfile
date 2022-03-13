@@ -19,7 +19,7 @@ RUN mkdir -p /data /sources && \
   rm -rf /var/lib/apt/lists/*
 
 # download sources
-ENV L4T_URL https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t210/jetson-210_linux_r32.6.1_aarch64.tbz2
+ENV L4T_URL https://developer.nvidia.com/embedded/L4T/r32_Release_v7.1/t210/jetson-210_linux_r32.7.1_aarch64.tbz2
 ENV L4T_TAR linux4tegra-aarch64.tbz2
 RUN wget -q "${L4T_URL}" -O /data/${L4T_TAR}
 

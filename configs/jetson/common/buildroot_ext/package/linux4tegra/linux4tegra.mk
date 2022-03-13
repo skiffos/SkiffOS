@@ -4,13 +4,13 @@
 #
 ################################################################################
 
-LINUX4TEGRA_VERSION = 32.6.1
+LINUX4TEGRA_VERSION = 32.7.1
 
 ifeq ($(BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T186REF),y)
-LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t186
+LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v7.1/t186
 LINUX4TEGRA_SOURCE = jetson_linux_r$(LINUX4TEGRA_VERSION)_aarch64.tbz2
 else # ifeq ($(BR2_PACKAGE_LINUX4TEGRA_PLATFORM_T210REF),y)
-LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v6.1/t210
+LINUX4TEGRA_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v7.1/t210
 LINUX4TEGRA_SOURCE = jetson-210_linux_r$(LINUX4TEGRA_VERSION)_aarch64.tbz2
 endif
 

@@ -16,12 +16,33 @@ There are specific packages tuned to each model.
 | [Jetson Nano]   | [jetson/nano](./nano) |
 | [Jetson TX2]    | [jetson/tx2](./tx2)   |
 
+Jetson Xavier is compatible with the Jetson TX2 config.
+
 [Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [Jetson TX2]: https://elinux.org/Jetson_TX2
 
 ## Flashing
 
-See the readme for the individual board package.
+See the readme for the individual board packages.
+
+## Advantages vs. Jetpack
+
+The current list of advantages to using this vs. NVIDIA Jetpack BSP:
+
+ - Significantly simpler & more reliable OTA
+   - read-only single-file host OS vs. read-write a/b partitions
+   - can be upgraded with simple tools like rsync
+   - does not require any complex boot-up process
+ - [Upgraded kernel] from OE4T merged with more recent versions.
+   - maintained by SkiffOS & OE4T developers
+   - currently **4.9.306** vs Jetpack **4.9.253**
+ - Full Jetpack compatibility: running in a container w/ Ubuntu.
+ - Improved backup / restore UX with Docker CLI tools.
+ 
+The skiff-core-linux4tegra package automatically applies the linux4tegra debs to
+the latest Ubuntu bionic release, patching some files to skip hardware checks.
+
+[Upgraded kernel]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 
 ## Bootup Process
 
@@ -38,12 +59,6 @@ A "secure boot" process is used, with multiple bootloaders:
  
 Uboot is flashed to the mmcblk0p1 emmc partition, and searches for the
 "boot/extlinux/extlinux.conf" file in the persist partition.
-
-## Core Image
-
-The nvidia boards come with a Skiff Core configuration which installs the
-JetPack debs inside the container. This brings in support for the NVIDIA JetPack
-features, even inside the Core docker container, automatically.
 
 ## Partition Layout
 
@@ -76,6 +91,5 @@ The NVIDIA Linux4Tegra packages are licensed under the NVIDIA Customer Software
 License. Skiff does not directly redistribute any parts of the toolkit, but will
 download it as a Buildroot package from the NVIDIA servers as part of the build
 process. The appropriate licenses can be viewed by triggering the Buildroot
-"legal" build step. It is the responsibility of the end user / developer to be
+"legal-info" build step. It is the responsibility of the end user / developer to be
 aware of these terms and follow them accordingly.
-
