@@ -1,0 +1,26 @@
+From 4bf23937a4efc9118e60149d05a3d657f63b6183 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Wed, 16 Mar 2022 16:29:01 -0700
+Subject: [PATCH] check-filesystems: ignore cifs and smb2
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ src/basic/check-filesystems.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/basic/check-filesystems.sh b/src/basic/check-filesystems.sh
+index 295d8ac..b87d3ad 100755
+--- a/src/basic/check-filesystems.sh
++++ b/src/basic/check-filesystems.sh
+@@ -24,7 +24,7 @@ for fs in $($cpp -dM $includes - </dev/null | \
+         # mtd_inode was removed in 2015
+         # futexfs was removed in 2018
+         # SDCARDFS is an Android feature
+-        if [[ "$fs" =~ ^(STACK_END_MAGIC|MTD_INODE_FS_MAGIC|FUTEXFS_SUPER_MAGIC|SDCARDFS_SUPER_MAGIC)$ ]]; then
++        if [[ "$fs" =~ ^(STACK_END_MAGIC|MTD_INODE_FS_MAGIC|FUTEXFS_SUPER_MAGIC|SDCARDFS_SUPER_MAGIC|CIFS_SUPER_MAGIC|SMB2_SUPER_MAGIC)$ ]]; then
+             continue
+         fi
+         echo "Filesystem found in kernel header but not in $(basename "$filesystems_gperf"): $fs";
+-- 
+2.35.1
+
