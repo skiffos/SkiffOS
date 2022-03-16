@@ -168,7 +168,7 @@ Here are the boards/systems currently supported:
 | [Pi 4] (32bit mode)  | [pi/4x32]          | N/A              | ✔ rpi-5.15.27   | ✔ Tested      |
 | [Pine64] H64         | [pine64/h64]       | ✔ U-Boot         | ✔ pine64-5.8.0  | ✔ Tested      |
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ ayufan-5.13.0 | ✔ Tested      |
-| [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17-rc2 | ✔ Tested      |
+| [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ ayufan-5.13.0 | ✔ Tested      |
 | [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.16.15       | ✔ Tested      |
 
