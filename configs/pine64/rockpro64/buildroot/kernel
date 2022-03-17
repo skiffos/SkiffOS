@@ -1,9 +1,13 @@
-# 5.13.0-1150-ayufan
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/7a7e95f6664887f189de280fff4e3e3f80fa02e9/linux-rock64-5.13.0-1150-ayufan.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
-
 BR2_KERNEL_HEADERS_AS_KERNEL=y
+
+# 5.13.0-1150-ayufan
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/7a7e95f6664887f189de280fff4e3e3f80fa02e9/linux-rock64-5.13.0-1150-ayufan.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
+
+# skiff-rockpro64-5.13.19
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/skiffos/linux/archive/d8dc95442653764d4bf47b7e51fdd3453f2a89fd/linux-skiff-rockpro64-5.13.19-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
 
 BR2_LINUX_KERNEL_DEFCONFIG="rockchip_linux"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
