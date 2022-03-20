@@ -166,7 +166,7 @@ Here are the boards/systems currently supported:
 | [Pi 3] + 1, 2        | [pi/3]             | N/A              | ✔ rpi-5.15.27   | ✔ Tested      |
 | [Pi 4]               | [pi/4]             | N/A              | ✔ rpi-5.15.27   | ✔ Tested      |
 | [Pi 4] (32bit mode)  | [pi/4x32]          | N/A              | ✔ rpi-5.15.27   | ✔ Tested      |
-| [Pine64] H64         | [pine64/h64]       | ✔ U-Boot         | ✔ pine64-5.8.0  | ✔ Tested      |
+| [Pine64 H64]         | [pine64/h64]       | ✔ U-Boot         | ✔ megi-5.17-rc8 |               |
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17-rc8 | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17-rc8 | ✔ Tested      |
@@ -198,7 +198,7 @@ Here are the boards/systems currently supported:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
-[Pine64]: https://www.pine64.org/pine-h64-ver-b/
+[Pine64 H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
 [Rock64]: https://www.pine64.org/devices/single-board-computers/rock64/
@@ -237,7 +237,8 @@ Here are the boards/systems currently supported:
 [pine64/h64]: ./configs/pine64/h64
 [pine64/book]: ./configs/pine64/book
 [pine64/phone]: ./configs/pine64/phone
-[pine64/rockpro64]: ./configs/pine64/phone
+[pine64/rock64]: ./configs/pine64/rock64
+[pine64/rockpro64]: ./configs/pine64/rockpro64
 [usbarmory/mk2]: ./configs/usbarmory
 
 All targets marked "tested" use automated end-to-end testing on real hardware.
