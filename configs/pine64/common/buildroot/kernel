@@ -1,15 +1,20 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
+# branch: orange-pi-5.16
+# megous kernel for pinephone, pinebook, orangepi
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/53ca67c734a10afcbb14a386a52882c6763ca1c6/linux-megous-5.16.16-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_16=y
+
 # branch: orange-pi-5.17
 # megous kernel for pinephone, pinebook, orangepi
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/2b8ac0f439cf23b93f34ffb329752aa7a11e402c/linux-megous-5.17-rc8-r1.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/megous/linux/archive/1cad4dcac30c02a56e282b05d7dc14ecf6c07ecb/linux-megous-5.17-r1.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 # branch: megi-5.17.y-rockpro64
 # megous kernel w/ addl. support for rockpro64, rock64
 # merged with ayufan kernel patchset
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/skiffos/linux/archive/c2837bb74e0ef21dc9eb69e3f039f6c090296c79/linux-skiff-megous-5.17-rc8-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/skiffos/linux/archive/e5115ffa79ba2bef087dd1cd231e19b32acaacc8/linux-skiff-megous-5.17-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
