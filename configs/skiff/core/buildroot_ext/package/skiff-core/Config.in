@@ -9,7 +9,6 @@ config BR2_PACKAGE_SKIFF_CORE
 	select BR2_PACKAGE_CONTAINERD # runtime dependency
 	select BR2_PACKAGE_DOCKER_PROXY # runtime dependency
 	select BR2_PACKAGE_IPTABLES # runtime dependency
-	select BR2_PACKAGE_SQLITE # runtime dependency
 	help
 	  Skiff Core manages setting up user environment containers
 	  on embedded systems. It allows users to work inside familiar environments

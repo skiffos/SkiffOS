@@ -5,11 +5,6 @@ config BR2_PACKAGE_SKIFF_CORE_NASA_FPRIME
 	depends on BR2_TOOLCHAIN_HAS_THREADS
 	depends on !BR2_TOOLCHAIN_USES_UCLIBC # docker-containerd -> runc
 	depends on BR2_USE_MMU # docker-containerd
-	select BR2_PACKAGE_DOCKER_ENGINE # skiff-core
-	select BR2_PACKAGE_CONTAINERD # skiff-core
-	select BR2_PACKAGE_DOCKER_PROXY # skiff-core
-	select BR2_PACKAGE_IPTABLES # skiff-core
-	select BR2_PACKAGE_SQLITE # skiff-core
 	select BR2_PACKAGE_SKIFF_CORE
 	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	help
