@@ -140,10 +140,12 @@ Here are the boards/systems currently supported:
 |----------------------|--------------------|------------------|----------------|---------------|
 | [Docker Img]         | [virt/docker]      | N/A              | N/A            | Run in Docker |
 | [Qemu]               | [virt/qemu]        | N/A              | ✔ 5.16.18      | Run in QEmu   |
-| [WSL] on Windows     | [virt/wsl]         | N/A              | ✔ msft-5.4.72  | Run in WSL2   |
+| VirtualBox           | [virt/virtualbox]  | N/A              | ✔ 5.16.18      | Run in VM     |
+| [WSL] on Windows     | [virt/wsl]         | N/A              | N/A            | Run in WSL2   |
+|----------------------|--------------------|------------------|----------------|---------------|
 | [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]       | ✔ 5.16.18      | ✔ Tested      |
-| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10 | ✔ 5.16.18      | ⚠ Obsolete    |
 | [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.18      | ⚠ Obsolete    |
+| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10 | ✔ 5.16.18      | ⚠ Obsolete    |
 | [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.18      |               |
 | [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.16.18      | ✔ Tested      |
 | [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.16.18      | ✔ Tested      |
@@ -151,10 +153,10 @@ Here are the boards/systems currently supported:
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10 | ✔ tb-5.16.18   | ⚠ Obsolete    |
 | [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.18   | ✔ Tested      |
-| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.16.18   | ⚠ Obsolete    |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.18   | ✔ Tested      |
 | [Odroid HC2]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.18   | ✔ Tested      |
 | [Odroid N2]+         | [odroid/n2]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.18   | ✔ Tested      |
+| [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.16.18   | ⚠ Obsolete    |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.18   | ⚠ Obsolete    |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.18   | ✔ Tested      |
 | [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05 | ✔ 5.16.18      |               |
@@ -201,17 +203,14 @@ Here are the boards/systems currently supported:
 [Pine64 H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[Qemu]: ./configs/virt/qemu
 [Rock64]: https://www.pine64.org/devices/single-board-computers/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
-[rEFInd]: https://www.rodsbooks.com/refind/
-[Qemu]: ./configs/virt/qemu
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 [nv-4.9.309]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
+[rEFInd]: https://www.rodsbooks.com/refind/
 
-[virt/docker]: ./configs/virt/docker
-[virt/qemu]: ./configs/virt/qemu
-[virt/wsl]: ./configs/virt/wsl
 [apple/macbook]: ./configs/apple/macbook
 [bananapi/m1]: ./configs/bananapi/m1
 [bananapi/m1plus]: ./configs/bananapi/m1plus
@@ -222,8 +221,8 @@ Here are the boards/systems currently supported:
 [jetson/tx2]: ./configs/jetson/tx2
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
-[odroid/u]: ./configs/odroid
 [odroid/n2]: ./configs/odroid
+[odroid/u]: ./configs/odroid
 [odroid/xu]: ./configs/odroid
 [orangepi/lite]: ./configs/orangepi/lite
 [orangepi/zero]: ./configs/orangepi/zero
@@ -234,12 +233,16 @@ Here are the boards/systems currently supported:
 [pi/3]: ./configs/pi
 [pi/4]: ./configs/pi
 [pi/4x32]: ./configs/pi
-[pine64/h64]: ./configs/pine64/h64
 [pine64/book]: ./configs/pine64/book
+[pine64/h64]: ./configs/pine64/h64
 [pine64/phone]: ./configs/pine64/phone
 [pine64/rock64]: ./configs/pine64/rock64
 [pine64/rockpro64]: ./configs/pine64/rockpro64
 [usbarmory/mk2]: ./configs/usbarmory
+[virt/docker]: ./configs/virt/docker
+[virt/qemu]: ./configs/virt/qemu
+[virt/virtualbox]: ./configs/virt/virtualbox
+[virt/wsl]: ./configs/virt/wsl
 
 All targets marked "tested" use automated end-to-end testing on real hardware.
 Targets marked "Obsolete" are discontinued by their manufacturer but still have
