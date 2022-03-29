@@ -168,11 +168,11 @@ Here are the boards/systems currently supported:
 | [Pi 3] + 1, 2        | [pi/3]             | N/A              | ✔ rpi-5.15.27  | ✔ Tested      |
 | [Pi 4]               | [pi/4]             | N/A              | ✔ rpi-5.15.27  | ✔ Tested      |
 | [Pi 4] (32bit mode)  | [pi/4x32]          | N/A              | ✔ rpi-5.15.27  | ✔ Tested      |
-| [Pine64 H64]         | [pine64/h64]       | ✔ U-Boot         | ✔ megi-5.17    |               |
-| [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ megi-5.17    | ✔ Tested      |
-| [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17    | ✔ Tested      |
-| [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17    | ✔ Tested      |
-| [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ megi-5.17    | ✔ Tested      |
+| [Pine64 H64]         | [pine64/h64]       | ✔ U-Boot         | ✔ megi-5.17.1  |               |
+| [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
+| [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
+| [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17.1  | ✔ Tested      |
+| [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
 | [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.16.18      | ✔ Tested      |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
