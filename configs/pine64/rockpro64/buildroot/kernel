@@ -1,12 +1,17 @@
 # 5.13.0-1150-ayufan
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/ayufan-rock64/linux-mainline-kernel/archive/7a7e95f6664887f189de280fff4e3e3f80fa02e9/linux-rock64-5.13.0-1150-ayufan.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,ayufan-rock64,linux-mainline-kernel,7a7e95f6664887f189de280fff4e3e3f80fa02e9)/linux-rock64-5.13.0-1150-ayufan.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
 
 # skiff-rockpro64-5.13.19
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/skiffos/linux/archive/d8dc95442653764d4bf47b7e51fdd3453f2a89fd/linux-skiff-rockpro64-5.13.19-r1.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,d8dc95442653764d4bf47b7e51fdd3453f2a89fd)/linux-skiff-rockpro64-5.13.19-r1.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
-# BR2_LINUX_KERNEL_DEFCONFIG="rockchip_linux"
 
-BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
+# skiff-rockpro64-5.15.y
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,aaefd5f902f8576248b1688211e00800fffee771)/linux-skiff-rockpro64-5.15.32-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_15=y
+
+# BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG is not set
+BR2_LINUX_KERNEL_DEFCONFIG="rockchip_linux"
+
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="rockchip/rk3399-rockpro64"
