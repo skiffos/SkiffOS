@@ -1,9 +1,11 @@
 #!/bin/bash
 
 source ../scripts/utils.sh
-echo -e "\e[7;49;31m"
+echo ""
+# echo -e "\e[7;49;31m"
 cat ../resources/text/logo.ascii
-echo -e "\e[0m"
+echo ""
+# echo -e "\e[0m"
 
 printf "\033[0;32mWelcome to SkiffOS ${SKIFF_VERSION}!\033[0m\n"
 echo ""
