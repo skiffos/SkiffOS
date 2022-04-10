@@ -149,8 +149,8 @@ Here are the boards/systems currently supported:
 | [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.19      |               |
 | [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.16.19      | ✔ Tested      |
 | [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.16.19      | ✔ Tested      |
-| [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
-| [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
+| [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ [nv-4.9.307] | ✔ Tested      |
+| [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.307] | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10 | ✔ tb-5.16.19   | ⚠ Obsolete    |
 | [Odroid C4]          | [odroid/c4]        | ✔ U-Boot 2022.01 | ✔ tb-5.16.19   | ✔ Tested      |
 | [Odroid HC1]         | [odroid/xu]        | ✔ U-Boot 2019.04 | ✔ tb-5.16.19   | ✔ Tested      |
@@ -208,7 +208,7 @@ Here are the boards/systems currently supported:
 [RockPro64]: https://www.pine64.org/rockpro64/
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
-[nv-4.9.309]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
+[nv-4.9.307]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 [rEFInd]: https://www.rodsbooks.com/refind/
 
 [apple/macbook]: ./configs/apple/macbook
