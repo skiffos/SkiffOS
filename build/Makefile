@@ -56,19 +56,19 @@ graph: graph-build graph-size
 
 legal-info: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$$(tput smso)Preparing legal info...$$(tput sgr0)"
-	cd $$BUILDROOT_DIR && make legal-info
+	cd $$BUILDROOT_DIR && $(MAKE) legal-info
 
 # Build
 compile: ensure-sane verify-skiff-config maybe-build-configs
 	@echo "$$(tput smso)Kicking off Buildroot build...$$(tput sgr0)"
-	cd $$BUILDROOT_DIR && make $(SKIFF_BUILD_TARGET_OVERRIDE)
+	cd $$BUILDROOT_DIR && $(MAKE) $(SKIFF_BUILD_TARGET_OVERRIDE)
 	@echo "$$(tput smso)Compilation complete!$$(tput sgr0)"
 
 # Check
 check: ensure-sane verify-skiff-config maybe-build-configs check-package-buildroot-ext
 	@echo "$$(tput smso)Downloading and hashing all sources...$$(tput sgr0)"
-	cd $$BUILDROOT_DIR && make source
+	cd $$BUILDROOT_DIR && $(MAKE) source
 	@echo "$$(tput smso)Building legal information...$$(tput sgr0)"
-	cd $$BUILDROOT_DIR && make legal-info
+	cd $$BUILDROOT_DIR && $(MAKE) legal-info
 	@echo "$$(tput smso)Checks complete.$$(tput sgr0)"
 
