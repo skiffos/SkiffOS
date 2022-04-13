@@ -139,16 +139,16 @@ Here are the boards/systems currently supported:
 | **Board**            | **Config Package** | **Bootloader**   | **Kernel**     | **Notes**     |
 |----------------------|--------------------|------------------|----------------|---------------|
 | [Docker Img]         | [virt/docker]      | N/A              | N/A            | Run in Docker |
-| [Qemu]               | [virt/qemu]        | N/A              | ✔ 5.16.19      | Run in QEmu   |
-| VirtualBox           | [virt/virtualbox]  | N/A              | ✔ 5.16.19      | Run in VM     |
+| [Qemu]               | [virt/qemu]        | N/A              | ✔ 5.16.20      | Run in QEmu   |
+| VirtualBox           | [virt/virtualbox]  | N/A              | ✔ 5.16.20      | Run in VM     |
 | [WSL] on Windows     | [virt/wsl]         | N/A              | N/A            | Run in WSL2   |
 |----------------------|--------------------|------------------|----------------|---------------|
-| [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]       | ✔ 5.16.19      | ✔ Tested      |
-| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.19      | ⚠ Obsolete    |
-| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10 | ✔ 5.16.19      | ⚠ Obsolete    |
-| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.19      |               |
-| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.16.19      | ✔ Tested      |
-| [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.16.19      | ✔ Tested      |
+| [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]       | ✔ 5.16.20      | ✔ Tested      |
+| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.20      | ⚠ Obsolete    |
+| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10 | ✔ 5.16.20      | ⚠ Obsolete    |
+| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.16.20      |               |
+| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.16.20      | ✔ Tested      |
+| [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.16.20      | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]        | ✔ U-Boot 2020.10 | ✔ tb-5.16.19   | ⚠ Obsolete    |
@@ -159,10 +159,10 @@ Here are the boards/systems currently supported:
 | [Odroid U]           | [odroid/u]         | ✔ U-Boot 2016.03 | ✔ tb-5.16.19   | ⚠ Obsolete    |
 | [Odroid XU3]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.19   | ⚠ Obsolete    |
 | [Odroid XU4]         | [odroid/xu]        | ✔ U-Boot 2017.05 | ✔ tb-5.16.19   | ✔ Tested      |
-| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05 | ✔ 5.16.19      |               |
-| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07 | ✔ 5.16.19      |               |
-| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07 | ✔ 5.16.19      |               |
-| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot       | ✔ 5.16.19      |               |
+| [OrangePi Lite]      | [orangepi/lite]    | ✔ U-Boot 2018.05 | ✔ 5.16.20      |               |
+| [OrangePi Zero]      | [orangepi/zero]    | ✔ U-Boot 2018.07 | ✔ 5.16.20      |               |
+| [PcDuino 3]          | [pcduino/3]        | ✔ U-Boot 2019.07 | ✔ 5.16.20      |               |
+| [PcEngines APU2]     | [pcengines/apu2]   | ✔ CoreBoot       | ✔ 5.16.20      |               |
 | [Pi 0]               | [pi/0]             | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
 | [Pi 1]               | [pi/1]             | N/A              | ✔ rpi-5.15.33  |               |
 | [Pi 3] + 1, 2        | [pi/3]             | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
@@ -173,7 +173,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17.1  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
-| [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.16.19      | ✔ Tested      |
+| [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.16.20      | ✔ Tested      |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
