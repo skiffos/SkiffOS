@@ -172,7 +172,7 @@ Here are the boards/systems currently supported:
 | [PineBook Pro]       | [pine64/book]      | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
 | [PinePhone]          | [pine64/phone]     | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]    | ✔ U-Boot         | ✔ megi-5.17.1  | ✔ Tested      |
-| [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ megi-5.17.1  | ✔ Tested      |
+| [RockPro64]          | [pine64/rockpro64] | ✔ U-Boot (bin)   | ✔ sk-5.15.32   | ✔ Tested      |
 | [USBArmory Mk2]      | [usbarmory/mk2]    | ✔ U-Boot 2020.10 | ✔ 5.17.3       | ✔ Tested      |
 
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
