@@ -116,14 +116,15 @@ int main(int argc, char *argv[]) {
     // mkdir -p /dev
     if (stat("/dev", &st) == -1) {
       mkdir("/dev", 0755);
-      if (mount("devtmpfs", "/dev", "devtmpfs", 0, NULL) != 0) {
-        res = errno;
-        fprintf(logfd,
-                "SkiffOS init: failed to mount root /dev devtmpfs: (%d) %s\n",
-                res, strerror(res));
-        res = 0; // ignore for now
-        // return res;
-      }
+    }
+
+    // mount devtmpfs: if not already mounted
+    if (mount("devtmpfs", "/dev", "devtmpfs", 0, NULL) != 0) {
+      res = errno;
+      fprintf(logfd,
+              "SkiffOS init: failed to mount root /dev devtmpfs: (%d) %s\n",
+              res, strerror(res));
+      res = 0; // ignore for now
     }
 
     logfd = fopen(pid1_log, "w");
@@ -135,6 +136,8 @@ int main(int argc, char *argv[]) {
       setbuf(logfd, NULL);
       closeLogFd = 1;
     }
+
+    fprintf(logfd, "SkiffOS init: mounted devtmpfs to /dev\n");
   }
 
   // clear the init PID early
@@ -291,6 +294,10 @@ int main(int argc, char *argv[]) {
     res = 0;
   }
 #endif
+
+  if (stat("/dev/loop-control", &st) == -1) {
+    fprintf(logfd, "SkiffOS init: warning: /dev/loop-control does not exist\n");
+  }
 
   char *root_loop = NULL;
   fprintf(logfd, "SkiffOS init: finding unused loop device...\n");
