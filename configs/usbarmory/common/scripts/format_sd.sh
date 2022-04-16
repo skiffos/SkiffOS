@@ -44,21 +44,18 @@ set -x
 set -e
 
 echo "Formatting device..."
-sudo dd if=/dev/zero of=$USBARMORY_SD bs=1M count=8
-sync
-sleep 1
-partprobe $USBARMORY_SD || true
+sudo dd if=/dev/zero of=$USBARMORY_SD bs=8k count=13 oflag=dsync
 
-echo "Making partition table..."
+echo "Creating partitions..."
+sudo partprobe ${USBARMORY_SD} || true
 sudo parted $USBARMORY_SD mklabel msdos
-
 partprobe $USBARMORY_SD || true
-sleep 1
 
 echo "Making persist partition..."
 sudo parted -a optimal $USBARMORY_SD -- mkpart primary ext4 "2048s" "-1s"
 
 echo "Waiting for partprobe..."
+sync && sync
 partprobe $USBARMORY_SD || true
 sleep 2
 partprobe $USBARMORY_SD || true
