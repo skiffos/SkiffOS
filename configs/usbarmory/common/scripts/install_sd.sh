@@ -73,12 +73,14 @@ rsync -rv \
       ./skiff-release ./rootfs.squashfs \
       ${BOOT_DIR}/
 
-PERSIST_SWAP=${PERSIST_DIR}/primary.swap
-if [ ! -f ${PERSIST_SWAP} ]; then
-    echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
-    dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
-else
-    echo "Swapfile already exists, skipping allocation step."
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${PERSIST_DIR}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    else
+        echo "Swapfile already exists, skipping allocation step."
+    fi
 fi
 
 enable_silent() {
