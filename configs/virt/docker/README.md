@@ -1,13 +1,12 @@
-# Skiff in Docker
+# Containerized: Docker
 
-This config is designed to run a full SkiffOS system inside a Docker container.
+This package builds a SkiffOS system for use as a container image.
 
 Example use cases include simulation, testing, or use as a containerized
-environment (optionally with Skiff Core).
+environment (optionally with Skiff Core and nested containers).
 
-Because systemd and docker both have to run inside a Docker container, starting
-the container requires some special flags, which are included in the container
-start script.
+Starting the container requires some additional flags for systemd support, which
+are included in the container start script.
 
 ## Example
 
@@ -24,4 +23,3 @@ $ make cmd/virt/docker/exec
 # alternatively
 $ docker exec -it skiff sh
 ```
-
