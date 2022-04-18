@@ -1,3 +1,0 @@
-# BR2_x86_corei7 is not set
-# BR2_x86_atom=y
-BR2_x86_nocona=y

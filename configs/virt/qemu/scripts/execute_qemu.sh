@@ -10,6 +10,7 @@ GENIMAGE_CFG=${SKIFF_CURRENT_CONF_DIR}/resources/qemu-genimage.cfg
 GENIMAGE_TMP=${QEMU_DIR}/genimage.tmp
 
 mkdir -p ${QEMU_DIR}
+
 cd ${IMAGES_DIR}
 if [ ! -f ${ROOTFS_IMAGE} ]; then
 	mkdir -p ${QEMU_DIR}/fakeroot
@@ -32,14 +33,31 @@ if [ ! -f ${ROOTFS_DISK} ]; then
     qemu-img convert -f raw -O qcow2 ${ROOTFS_IMAGE} ${ROOTFS_DISK}
 fi
 
+KERNEL_IMAGE=Image
+if [ ! -f ${KERNEL_IMAGE} ]; then
+    KERNEL_IMAGE=zImage
+fi
+if [ ! -f ${KERNEL_IMAGE} ]; then
+    KERNEL_IMAGE=bzImage
+fi
+if [ ! -f ${KERNEL_IMAGE} ]; then
+    echo "kernel image not found, is the system compiled?"
+    exit 1
+fi
+
+# other args:
+# Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
+
+# run the target architecture qemu-system
 mkdir -p ${SHARED_DIR}
-qemu-system-x86_64 \
+${BUILDROOT_DIR}/host/bin/qemu-system \
+  -machine virt \
   -nographic -serial mon:stdio \
-	-kernel bzImage \
+	-kernel ${KERNEL_IMAGE} \
 	-initrd rootfs.cpio.lz4 -m size=1024 \
-	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
+	-append "console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \
+  -bios default \
 	-net nic,model=virtio \
 	-net user
-	# Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic

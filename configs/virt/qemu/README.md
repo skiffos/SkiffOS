@@ -1,9 +1,11 @@
-# Qemu Virtualization
+# Virtualization: Qemu
 
-This package allows Skiff to run in a virtualized qemu system.
+This package enables compiling & running a qemu virtual machine.
+
+Builds both the host qemu VM and the target OS.
 
 ```sh
-$ SKIFF_CONFIG=virt/qemu make configure compile
+$ SKIFF_CONFIG=intel/x64,virt/qemu make configure compile
 $ make cmd/virt/qemu/run
 ```
 
@@ -13,22 +15,5 @@ stop emulation.
 
 Log in as "root" for the default Skiff setup.
 
-The full qemu command is:
-
-```
-qemu-system-x86_64 \
-  -nographic -serial mon:stdio \
-	-kernel bzImage \
-	-initrd rootfs.cpio.lz4 -m size=512 \
-	-append "nokaslr norandmaps console=ttyS0 console=tty root=/dev/ram0" \
-	-drive file=${ROOTFS_DISK},if=virtio \
-	-net nic,model=virtio \
-	-net user 
-	# For compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
-```
-
-Within the `workspaces/myworkspace/images` directory.
-
-Note: the default qemu configuration is adjusted slightly such that "root" will
-sign in without a password prompt on the serial console.
-
+The `intel/x64` portion of `SKIFF_CONFIG` can be replaced with any of the
+SkiffOS targets, including the arm and riscv64 systems.
