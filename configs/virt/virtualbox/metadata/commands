@@ -1,2 +1,1 @@
 run Emulate the system in a VirtualBox VM.
-buildimage Build a vbox vmdk disk image.
