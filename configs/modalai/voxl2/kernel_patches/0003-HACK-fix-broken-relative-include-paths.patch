@@ -1,0 +1,105 @@
+From 904bf99b70a9c30f31b070b5268c649b140f7078 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Tue, 17 May 2022 04:23:38 -0700
+Subject: [PATCH] HACK: fix broken relative include paths
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Makefile                                                    | 2 ++
+ drivers/hid/hid-trace.h                                     | 2 +-
+ techpack/camera/drivers/cam_core/cam_context.h              | 2 +-
+ .../cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h        | 2 +-
+ techpack/camera/drivers/cam_utils/cam_trace.h               | 6 +++---
+ techpack/display/pll/pll_trace.h                            | 2 +-
+ 6 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 2c1315b81caf..5bb4687e72d4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -411,6 +411,7 @@ USERINCLUDE    := \
+ # Use LINUXINCLUDE when you must reference the include/ directory.
+ # Needed to be compatible with the O= option
+ LINUXINCLUDE    := \
++		-I$(srctree) \
+ 		-I$(srctree)/arch/$(SRCARCH)/include \
+ 		-I$(objtree)/arch/$(SRCARCH)/include/generated \
+ 		$(if $(KBUILD_SRC), -I$(srctree)/include) \
+@@ -423,6 +424,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+ 		   -Werror-implicit-function-declaration \
+ 		   -Wno-format \
+ 		   -Wno-format-security \
++		   -D__CHECK_ENDIAN__ \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_AFLAGS_KERNEL :=
+diff --git a/drivers/hid/hid-trace.h b/drivers/hid/hid-trace.h
+index 721b3906e8ff..e3be178c1351 100644
+--- a/drivers/hid/hid-trace.h
++++ b/drivers/hid/hid-trace.h
+@@ -18,7 +18,7 @@
+ #undef TRACE_SYSTEM
+ #define TRACE_SYSTEM hid
+ #undef TRACE_INCLUDE_PATH
+-#define TRACE_INCLUDE_PATH .
++#define TRACE_INCLUDE_PATH ./drivers/hid
+ #undef TRACE_INCLUDE_FILE
+ #define TRACE_INCLUDE_FILE hid-trace
+ 
+diff --git a/techpack/camera/drivers/cam_core/cam_context.h b/techpack/camera/drivers/cam_core/cam_context.h
+index 770451faadf2..e8b10af0e9d1 100644
+--- a/techpack/camera/drivers/cam_core/cam_context.h
++++ b/techpack/camera/drivers/cam_core/cam_context.h
+@@ -9,7 +9,7 @@
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/kref.h>
+-#include "cam_req_mgr_interface.h"
++#include "../cam_req_mgr/cam_req_mgr_interface.h"
+ #include "cam_hw_mgr_intf.h"
+ 
+ /* Forward declarations */
+diff --git a/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h b/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
+index def8be55bc8b..74f4eff076c3 100644
+--- a/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
++++ b/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
+@@ -9,7 +9,7 @@
+ #include <linux/delay.h>
+ #include <media/v4l2-subdev.h>
+ #include <media/cam_sensor.h>
+-#include "cam_cci_dev.h"
++#include "../cam_cci/cam_cci_dev.h"
+ #include "cam_sensor_io.h"
+ 
+ #define I2C_POLL_TIME_MS 5
+diff --git a/techpack/camera/drivers/cam_utils/cam_trace.h b/techpack/camera/drivers/cam_utils/cam_trace.h
+index c564b1582a3a..809c5b2afe2b 100644
+--- a/techpack/camera/drivers/cam_utils/cam_trace.h
++++ b/techpack/camera/drivers/cam_utils/cam_trace.h
+@@ -15,9 +15,9 @@
+ 
+ #include <linux/tracepoint.h>
+ #include <media/cam_req_mgr.h>
+-#include "cam_req_mgr_core.h"
+-#include "cam_req_mgr_interface.h"
+-#include "cam_context.h"
++#include "../cam_req_mgr/cam_req_mgr_core.h"
++#include "../cam_req_mgr/cam_req_mgr_interface.h"
++#include "../cam_core/cam_context.h"
+ 
+ TRACE_EVENT(cam_context_state,
+ 	TP_PROTO(const char *name, struct cam_context *ctx),
+diff --git a/techpack/display/pll/pll_trace.h b/techpack/display/pll/pll_trace.h
+index d847920c99c5..7094d83b0c91 100644
+--- a/techpack/display/pll/pll_trace.h
++++ b/techpack/display/pll/pll_trace.h
+@@ -105,5 +105,5 @@ TRACE_EVENT(mdss_pll_trace_counter,
+ 
+ /* This part must be outside protection */
+ #undef TRACE_INCLUDE_PATH
+-#define TRACE_INCLUDE_PATH .
++#define TRACE_INCLUDE_PATH ./techpack/display/pll
+ #include <trace/define_trace.h>
+-- 
+2.35.1
+

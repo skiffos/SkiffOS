@@ -1,0 +1,31 @@
+# disable some features
+
+# CONFIG_AUDIT is not set
+# CONFIG_BPF is not set
+# CONFIG_BPF_JIT is not set
+# CONFIG_BPF_SYSCALL is not set
+# CONFIG_BTRFS_FS is not set
+# CONFIG_F2FS_FS is not set
+# CONFIG_XFS_FS is not set
+# CONFIG_FS_VERITY is not set
+# CONFIG_DM_VERITY is not set
+# CONFIG_SECURITY_APPARMOR is not set
+# CONFIG_SECURITY_NETWORK is not set
+# CONFIG_INTEGRITY is not set
+# CONFIG_SECCOMP is not set
+# CONFIG_SECCOMP_FILTER is not set
+# CONFIG_6LOWPAN is not set
+# CONFIG_BATMAN_ADV is not set
+# CONFIG_SECURITY is not set
+
+# cause errors in dmesg
+# CONFIG_MSM_SERVICE_LOCATOR is not set
+# CONFIG_MSM_ADSPRPC is not set
+
+CONFIG_AUDIT=n
+CONFIG_SECURITY=n
+CONFIG_SECURITY_NETWORK=n
+CONFIG_DEFAULT_SECURITY_SELINUX=n
+CONFIG_SECURITY_SELINUX=n
+
+

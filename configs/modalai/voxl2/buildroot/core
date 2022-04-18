@@ -1,0 +1,2 @@
+# Use skiff-core-voxl2 as the default.
+BR2_PACKAGE_SKIFF_CORE_VOXL2=y

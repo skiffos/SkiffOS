@@ -1,0 +1,9 @@
+# Relocation causes build error: "-z norelro ignored"
+# CONFIG_RELOCATABLE is not set
+# CONFIG_RANDOMIZE_BASE is not set
+
+# CONFIG_MODULE_COMPRESS is not set
+# CONFIG_MODULE_SIG is not set
+
+CONFIG_CRYPTO_LZ4=y
+CONFIG_CRYPTO_LZ4HC=y

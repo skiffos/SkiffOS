@@ -1,0 +1,25 @@
+From 9a876374a59ef58e0bec84f73690dec5195a0f1b Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 14 May 2022 21:21:08 -0700
+Subject: [PATCH] makefile: remove wformat errors
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 0e34fd39f037..2c1315b81caf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -421,6 +421,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__
+ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar \
+ 		   -Werror-implicit-function-declaration \
++		   -Wno-format \
+ 		   -Wno-format-security \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+-- 
+2.35.1
+

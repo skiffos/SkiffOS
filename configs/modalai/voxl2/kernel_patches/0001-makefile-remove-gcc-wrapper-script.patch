@@ -1,0 +1,36 @@
+From 61df4ca247256a4738ad657f1a5cc49a6d395b40 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 14 May 2022 21:20:45 -0700
+Subject: [PATCH] makefile: remove gcc-wrapper script
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ Makefile | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7fe1d5363ace..0e34fd39f037 100644
+--- a/Makefile
++++ b/Makefile
+@@ -370,6 +370,7 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+ # Make variables (CC, etc...)
+ AS		= $(CROSS_COMPILE)as
+ LD		= $(CROSS_COMPILE)ld
++CC		= $(CROSS_COMPILE)gcc
+ REAL_CC		= $(CROSS_COMPILE)gcc
+ CPP		= $(CC) -E
+ AR		= $(CROSS_COMPILE)ar
+@@ -389,10 +390,6 @@ PYTHON2		= python2
+ PYTHON3		= python3
+ CHECK		= sparse
+ 
+-# Use the wrapper for the compiler.  This wrapper scans for new
+-# warnings and causes the build to stop upon encountering them
+-CC		= $(PYTHON) $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
+-
+ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+ 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
+ NOSTDINC_FLAGS  =
+-- 
+2.35.1
+
