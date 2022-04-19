@@ -11,7 +11,7 @@ $ make cmd/virt/qemu/run
 
 You can press ctrl+a and then c (followed by return) to switch between the
 serial output and the qemu monitor. The "stop" command in the monitor shell will
-stop emulation.
+stop emulation, or you can use `killall qemu-system`.
 
 Log in as "root" for the default Skiff setup.
 
