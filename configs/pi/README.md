@@ -11,7 +11,7 @@ There are specific packages tuned to each Pi model.
 | [Pi 0]          | pi/0               |
 | [Pi 0 V2]       | pi/0v2             |
 | [Pi 1]          | pi/1               |
-| [Pi 2]          | pi/3               |
+| [Pi 2]          | pi/2               |
 | [Pi 3]          | pi/3               |
 | [Pi 4]          | pi/4x64 or pi/4    |
 | [Pi 4] - 32bit  | pi/4x32            |
