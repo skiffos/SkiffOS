@@ -60,7 +60,6 @@ fi
 
 mkdir -p $SYSTEMD_CONFD
 mkdir -p $DOCKER_CONFD
-# echo "Mounting persist partition
 mkdir -p $PERSIST_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_MNT_FLAGS $PERSIST_DEVICE $PERSIST_MNT; then
   echo "Persist drive is at $PERSIST_MNT path $PERSIST_ROOT"
@@ -102,9 +101,8 @@ else
   mkdir -p /var/log/journal
 fi
 
-# Attempt to resize disk if necessary.
-if [ -z "${DISABLE_RESIZE_PERSIST}" ]; then
-    embiggen-disk ${PERSIST_MNT} || echo "Failed to resize persist partition, continuing anyway."
+if [ -n "$ROOTFS_DEVICE_MKDIR" ]; then
+    mkdir -p ${ROOTFS_DEVICE} || echo "Unable to mkdir for rootfs rbind."
 fi
 
 mkdir -p $ROOTFS_MNT
@@ -112,6 +110,10 @@ if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $ROOTFS_MNT || mount $ROOTFS_MNT_FLA
   echo "Rootfs drive at $ROOTFS_MNT"
 else
   echo "Unable to find drive ${ROOTFS_DEVICE}!"
+fi
+
+if [ -n "$BOOT_DEVICE_MKDIR" ]; then
+    mkdir -p ${BOOT_DEVICE} || echo "Unable to mkdir for boot rbind."
 fi
 
 if [ -f $DOCKER_SERVICE ]; then
@@ -177,6 +179,13 @@ fi
 
 systemctl daemon-reload
 hostname -F /etc/hostname # change transient hostname
+
+# Attempt to resize disk, if necessary.
+# Note: this is an online resize, no re-mount required.
+if [ -z "${DISABLE_RESIZE_PERSIST}" ]; then
+    echo "Resizing ${PERSIST_MNT} if necessary..."
+    embiggen-disk ${PERSIST_MNT} || echo "Failed to resize persist partition, continuing anyway."
+fi
 
 # Run any additional final setup scripts.
 for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do
