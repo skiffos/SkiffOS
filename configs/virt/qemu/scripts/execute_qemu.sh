@@ -47,17 +47,21 @@ fi
 
 # other args:
 # Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
+# Host: -cpu host
+# Faster networking, but needs root: -nic tap
 
 # run the target architecture qemu-system
 mkdir -p ${SHARED_DIR}
 ${BUILDROOT_DIR}/host/bin/qemu-system \
+  -bios default \
   -machine virt \
+  -netdev user,id=vmnic \
+  -device virtio-net,netdev=vmnic \
+  -device virtio-rng-pci \
   -nographic -serial mon:stdio \
 	-kernel ${KERNEL_IMAGE} \
 	-initrd rootfs.cpio.lz4 -m size=1024 \
 	-append "console=ttyS0 console=tty root=/dev/ram0 crashkernel=256M" \
 	-drive file=${ROOTFS_DISK},if=virtio \
 	-virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=passthrough,id=host0 \
-  -bios default \
-	-net nic,model=virtio \
 	-net user
