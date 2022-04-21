@@ -284,7 +284,9 @@ images to be defined and built.
 Any existing GNU/Linux system with compatibility with the running kernel version
 can be loaded as a Docker image with the `docker import` command.
 
-All core configurations work with all target platforms:
+All core configurations work with all target platforms.
+
+The primary distributions and images supported are:
 
 | **Distribution**           | **Config Package**            | **Notes**                 |
 | ---------------            | -----------------             | ----------------------    |
@@ -292,12 +294,16 @@ All core configurations work with all target platforms:
 | [Debian] Bullseye          | [core/debian]                 |                           |
 | [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
+| [NixOS]                    | core/nixos                    |                           |
+
+Other less frequently updated images:
+
+| **Distribution**           | **Config Package**            | **Notes**                 |
+| ---------------            | -----------------             | ----------------------    |
 | [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
 | [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
-| [NixOS]                    | core/nixos                    |                           |
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
 | [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
-| [Ubuntu]                   | skiff/core                    | With minimal desktop GUI  |
 | PineBook [Manjaro] KDE     | core/pinebook_manjaro_kde     | KDE Variant               |
 | PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon     |
 | PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
