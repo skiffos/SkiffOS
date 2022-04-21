@@ -292,16 +292,16 @@ The primary distributions and images supported are:
 | ---------------            | -----------------             | ----------------------    |
 | [Alpine] Linux             | core/alpine                   | OpenRC                    |
 | [Debian] Bullseye          | [core/debian]                 |                           |
-| [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
 | [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
-| [NixOS]                    | core/nixos                    |                           |
 
 Other less frequently updated images:
 
 | **Distribution**           | **Config Package**            | **Notes**                 |
-| ---------------            | -----------------             | ----------------------    |
+|----------------------------|-------------------------------|---------------------------|
+| [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
 | [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
 | [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
+| [NixOS]                    | core/nixos                    |                           |
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
 | [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
 | PineBook [Manjaro] KDE     | core/pinebook_manjaro_kde     | KDE Variant               |
