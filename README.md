@@ -145,10 +145,11 @@ Here are the boards/systems currently supported:
 |----------------------|--------------------|------------------|----------------|---------------|
 | [Allwinner Nezha]    | [allwinner/nezha]  | ✔ U-boot 2022.04 | ✔ sm-5.14-rc4  | RISC-V D1     |
 | [Apple Macbook]      | [apple/macbook]    | ✔ [rEFInd]       | ✔ 5.17.3       | ✔ Tested      |
-| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2020.10 | ✔ 5.17.3       | ⚠ Obsolete    |
-| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2020.10 | ✔ 5.17.3       | ⚠ Obsolete    |
-| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2020.10 | ✔ 5.17.3       |               |
-| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2020.10 | ✔ 5.17.3       | ✔ Tested      |
+| [BananaPi M1+/Pro]   | [bananapi/m1plus]  | ✔ U-Boot 2022.04 | ✔ 5.17.3       | ⚠ Obsolete    |
+| [BananaPi M1]        | [bananapi/m1]      | ✔ U-Boot 2022.04 | ✔ 5.17.3       | ⚠ Obsolete    |
+| [BananaPi M2]        | [bananapi/m2]      | ✔ U-Boot 2022.04 | ✔ 5.17.3       | ⚠ Obsolete    |
+| [BananaPi M2+]       | [bananapi/m2plus]  | ✔ U-Boot 2022.04 | ✔ 5.17.3       |               |
+| [BananaPi M3]        | [bananapi/m3]      | ✔ U-Boot 2022.04 | ✔ 5.17.3       | ✔ Tested      |
 | [Intel x86/64]       | [intel/x64]        | ✔ Grub           | ✔ 5.17.3       | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]      | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]       | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
@@ -180,6 +181,7 @@ Here are the boards/systems currently supported:
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
+[BananaPi M2]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
 [Docker Img]: ./docker 
@@ -216,6 +218,7 @@ Here are the boards/systems currently supported:
 [allwinner/nezha]: ./configs/allwinner/nezha
 [apple/macbook]: ./configs/apple/macbook
 [bananapi/m1]: ./configs/bananapi/m1
+[bananapi/m2]: ./configs/bananapi/m2
 [bananapi/m1plus]: ./configs/bananapi/m1plus
 [bananapi/m2plus]: ./configs/bananapi/m2plus
 [bananapi/m3]: ./configs/bananapi/m3
