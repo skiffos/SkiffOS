@@ -2,9 +2,8 @@
 
 PERSIST_DEVICE="LABEL=persist"
 ROOTFS_DEVICE="LABEL=rootfs"
-PERSIST_SUBDIR=/
-ROOTFS_SUBDIR=/
 SYSTEMD_CONFD=/etc/systemd/system
+PERSIST_SUBDIR=/
 PERSIST_MNT=/mnt/persist
 ROOTFS_MNT=/mnt/rootfs
 SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
@@ -30,15 +29,18 @@ if [ -z "$DISABLE_ROOT_REMOUNT_RW" ]; then
     fi
 fi
 
-PERSIST_ROOT=$PERSIST_MNT/$PERSIST_SUBDIR
+PERSIST_ROOT=$PERSIST_MNT
+if [ -n "${PERSIST_SUBDIR}" ] && [[ "${PERSIST_SUBDIR}" != "/" ]]; then
+    PERSIST_ROOT=${PERSIST_ROOT}/${PERSIST_SUBDIR}
+fi
+
 SKIFF_PERSIST=$PERSIST_ROOT/skiff
+SKIFF_OVERLAYS=$PERSIST_ROOT/skiff-overlays
 KEYS_PERSIST=$SKIFF_PERSIST/keys
 SSH_PERSIST=$SKIFF_PERSIST/ssh
 JOURNAL_PERSIST=$SKIFF_PERSIST/journal
+
 SKIFF_RELEASE_FILE=/etc/skiff-release
-
-overlay_workdir=${PERSIST_ROOT}/skiff-overlays
-
 if [ -f $SKIFF_RELEASE_FILE ]; then
     BUILD_DATE=$(cat /etc/skiff-release  | grep BUILD_DATE | cut -d\" -f2)
     BUILD_DATE_UTC=$(date --utc --date="$BUILD_DATE" +%s)
@@ -58,18 +60,21 @@ if [ -f $DOCKER_SERVICE ]; then
     DOCKER_EXECSTART=$(cat $DOCKER_SERVICE | grep '^ExecStart=.*$' | sed -e "s/ExecStart=//")
 fi
 
-mkdir -p $SYSTEMD_CONFD
-mkdir -p $DOCKER_CONFD
-mkdir -p $PERSIST_MNT
+mkdir -p \
+      $SYSTEMD_CONFD \
+      $DOCKER_CONFD \
+      $PERSIST_MNT
 if [ -f $SKIP_MOUNT_FLAG ] || mountpoint -q $PERSIST_MNT || mount $PERSIST_MNT_FLAGS $PERSIST_DEVICE $PERSIST_MNT; then
   echo "Persist drive is at $PERSIST_MNT path $PERSIST_ROOT"
-  mkdir -p $PERSIST_ROOT/internal
-  mkdir -p $SKIFF_PERSIST
-  mkdir -p $DOCKER_PERSIST
-  mkdir -p $JOURNAL_PERSIST
-  mkdir -p $SSH_PERSIST
+  mkdir -p \
+        $DOCKER_PERSIST \
+        $JOURNAL_PERSIST \
+        $PERSIST_ROOT/internal \
+        $SKIFF_PERSIST \
+        $SSH_PERSIST
   if [ -f $DOCKER_SERVICE ]; then
     echo "Configuring Docker to use $DOCKER_PERSIST"
+    DOCKER_PERSIST=$(realpath ${DOCKER_PERSIST})
     DOCKER_EXECSTART+=" --data-root=\"$DOCKER_PERSIST\""
 
     echo "Configuring Docker to use systemd-journald"
@@ -145,7 +150,7 @@ if ! mountpoint /etc/NetworkManager/system-connections ; then
   # chmod all files to 0600 or NetworkManager will not read them.
   chmod 600 ${PERSIST_ROOT}/skiff/connections/*
   mkdir -p /etc/NetworkManager/system-connections
-  connections_workdir=${overlay_workdir}/nm_connections
+  connections_workdir=${SKIFF_OVERLAYS}/nm_connections
   mkdir -p $connections_workdir
   mount -t overlay -o lowerdir=/etc/NetworkManager/system-connections,upperdir=${PERSIST_ROOT}/skiff/connections,workdir=$connections_workdir overlay /etc/NetworkManager/system-connections
 fi
