@@ -10,7 +10,7 @@ setenv condev "earlyprintk=sunxi-uart,0x02500000 console=ttyS0,115200 console=tt
 setenv bootmem "root=/dev/mmcblk0p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
-setenv baseconfig "fsck.repair=yes net.ifnames=0 selinux=0 rhgb"
+setenv baseconfig "fsck.repair=yes net.ifnames=0 rhgb"
 
 # CPU Governor Selection
 # Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
