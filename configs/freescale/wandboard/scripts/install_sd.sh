@@ -70,7 +70,7 @@ fi
 cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
 rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 rsync -rv \
-      ./*.dtb ./Image \
+      ./*.dtb ./*Image \
       ./skiff-release ./rootfs.squashfs \
       ${BOOT_DIR}/
 
@@ -94,7 +94,7 @@ enable_silent() {
 echo "Compiling boot.txt..."
 cp ${SKIFF_CURRENT_CONF_DIR}/resources/boot-scripts/boot.txt ${BOOT_DIR}/boot.txt
 enable_silent ${BOOT_DIR}/boot.txt
-mkimage -A riscv -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${BOOT_DIR}/boot.scr
+mkimage -A arm -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${BOOT_DIR}/boot.scr
 cd -
 
 cleanup
