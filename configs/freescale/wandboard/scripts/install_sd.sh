@@ -84,17 +84,6 @@ if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
     fi
 fi
 
-enable_silent() {
-    if [ -f "${IMAGES_DIR}/.disable-serial-console" ]; then
-        echo "Disabling serial console and enabling silent mode..."
-        sed -i -e "/^setenv condev/s/^/# /" -e "s/# setenv silent/setenv silent/" $1
-    fi
-}
-
-echo "Compiling boot.txt..."
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/boot-scripts/boot.txt ${BOOT_DIR}/boot.txt
-enable_silent ${BOOT_DIR}/boot.txt
-mkimage -A arm -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${BOOT_DIR}/boot.scr
+mkdir -p $boot_dir/boot/extlinux
+cp $boot_conf_extlinux $boot_dir/boot/extlinux/extlinux.conf
 cd -
-
-cleanup
