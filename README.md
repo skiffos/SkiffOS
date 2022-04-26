@@ -53,9 +53,6 @@ updates across multiple hardware combinations.
 
 [Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
 
-The `SKIFF_CONFIG` comma-separated environment variable selects which
-configuration layers should be merged together to configure the build.
-
 This example uses `pi/4`, which can be replaced with any of the hardware support
 packages listed in the [Supported Systems](#supported-systems) table.
 
@@ -67,7 +64,7 @@ $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
-After you run `make configure` your SKIFF_CONFIG selection will be saved and
+After you run `make configure` your `SKIFF_CONFIG` selection will be saved and
 automatically restored in future sessions. The compile command builds the OS.
 
 The optional `SKIFF_WORKSPACE` variable defaults to `default`, but is useful for
