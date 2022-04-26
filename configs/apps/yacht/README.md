@@ -9,6 +9,8 @@
 [Yacht](https://yacht.sh) is a web interface for managing docker containers with
 an emphasis on templating to provide one-click deployments.
 
+The default login is **admin@yacht.local**.
+
 ## Configuring with the OS Image
 
 To automatically start it on your SkiffOS host, include the `apps/yacht` layer:
@@ -20,7 +22,7 @@ export SKIFF_WORKSPACE=pi4
 make configure compile
 ```
 
-The image used is the original `selfhostedpro/yacht` image mirrored to `quay.io`.
+The Docker image is multi-architecture and built from the project Dockerfile.
 
 ## Running on a Existing System
 
@@ -34,8 +36,8 @@ $ docker run \
   --restart=always \
   -d -p 8000:8000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /mnt/persist/yaght-config:/config \
-  selfhostedpro/yacht
+  -v /mnt/persist/yacht-config:/config \
+  quay.io/skiffos/selfhostedpro-yacht:latest
 ```
 
 The container will start on port 8000.
