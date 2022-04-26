@@ -1,0 +1,2 @@
+# disable rngd on qemu (unnecessary)
+# BR2_PACKAGE_RNG_TOOLS is not set
