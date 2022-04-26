@@ -9,7 +9,7 @@
 [Yacht](https://yacht.sh) is a web interface for managing docker containers with
 an emphasis on templating to provide one-click deployments.
 
-The default login is **admin@yacht.local**.
+The default login is **admin@yacht.local** password **pass** - change it right away.
 
 ## Configuring with the OS Image
 
