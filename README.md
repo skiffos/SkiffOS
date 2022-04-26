@@ -49,6 +49,10 @@ updates across multiple hardware combinations.
 
 [![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
 
+[Buildroot dependencies] must be installed as a prerequisite.
+
+[Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
+
 The `SKIFF_CONFIG` comma-separated environment variable selects which
 configuration layers should be merged together to configure the build.
 
