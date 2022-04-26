@@ -16,7 +16,7 @@ These commands require root and may need to be run with `sudo bash`.
 
 ```
 export SKIFF_WORKSPACE=wandboard
-export ALLWINNER_SD=/dev/sdx # make sure this is correct - i.e. /dev/sdb
+export WANDBOARD_SD=/dev/sdx # make sure this is correct - i.e. /dev/sdb
 make cmd/freescale/wandboard/format
 make cmd/freescale/wandboard/install
 ```
@@ -38,7 +38,7 @@ sudo bash
 # set your skiff workspace
 export SKIFF_WORKSPACE=wandboard
 # set the output path
-export ALLWINNER_IMAGE=./wandboard.img
+export WANDBOARD_IMAGE=./wandboard.img
 # make the image
 make cmd/freescale/wandboard/buildimage
 ```
