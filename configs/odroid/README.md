@@ -6,6 +6,11 @@ board/series.
 
 **If using the n2, set the boot switch to MMC.**
 
+Reference:
+
+ - https://github.com/tobetter/linux/commits/odroid-5.18.y
+ - https://github.com/armbian/build/tree/master/patch/kernel/archive/meson64-5.17
+
 ## Getting Started
 
 Set the comma-separated `SKIFF_CONFIG` variable:

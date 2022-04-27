@@ -1,0 +1,5 @@
+# CONFIG_DRM_ETNAVIV is not set
+# CONFIG_DRM_NOUVEAU is not set
+# CONFIG_DRM_ROCKCHIP is not set
+# CONFIG_DRM_TEGRA is not set
+# CONFIG_DRM_VC4 is not set
