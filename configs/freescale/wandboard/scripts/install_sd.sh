@@ -84,6 +84,6 @@ if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
     fi
 fi
 
-mkdir -p ${BOOT_DIR}/boot/extlinux
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/boot-scripts/extlinux.conf ${BOOT_DIR}/boot/extlinux/extlinux.conf
+mkdir -p ${BOOT_DIR}/extlinux
+cp ${SKIFF_CURRENT_CONF_DIR}/resources/boot-scripts/extlinux.conf ${BOOT_DIR}/extlinux/extlinux.conf
 cd -
