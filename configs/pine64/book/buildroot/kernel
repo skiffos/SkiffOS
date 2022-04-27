@@ -3,7 +3,12 @@
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
 # BR2_LINUX_KERNEL_DEFCONFIG="rockchip_linux"
 
+# branch: orange-pi-5.17
+# megous kernel for pinebook
+# upstream: https://github.com/megous/linux/commits/orange-pi-5.17
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,d03d9bce98c524a443bbea0f6c1aeae8200531eb)/linux-megous-5.17.4-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
+BR2_KERNEL_HEADERS_AS_KERNEL=y
+
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="pinebook_pro"
-BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="rockchip/rk3399-pinebook-pro"

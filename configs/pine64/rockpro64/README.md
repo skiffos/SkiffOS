@@ -1,11 +1,11 @@
 # RockPro64
 
-This configuration package `pine64/rockpro64` compiles a Skiff base operating
-system for the RockPro64.
+This config layer configures Buildroot to produce a BSP image for the RockPro64.
 
 References: 
 
 - https://wiki.pine64.org/index.php/ROCKPro64
+- https://salsa.debian.org/kernel-team/linux/-/tree/master/debian
 
 ## Getting Started
 
