@@ -114,7 +114,6 @@ setenv bootargs "${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=
 
 fatload mmc ${devno}:1 ${kernel_addr_r} Image
 fatload mmc ${devno}:1 ${initramfs_addr_r} rootfs.cpio.uboot
-# fatload mmc ${devno}:1 ${dtb_addr_r} meson64_odroidc2.dtb
 fatload mmc ${devno}:1 ${dtb_addr_r} meson-gxbb-odroidc2.dtb
 fdt addr ${dtb_addr_r}
 

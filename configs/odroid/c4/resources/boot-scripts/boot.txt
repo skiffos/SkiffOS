@@ -7,15 +7,14 @@ setenv condev "console=tty1 console=ttyAML0,115200n8"
 setenv verify 0
 setenv bootlogo "false"
 
+setenv board "odroidc4"
+
+setenv dtb_addr_r "0x1000000"
 setenv kernel_addr_r "0x40008000"
 setenv initramfs_addr_r "0x46000000"
-setenv dtb_addr_r "0x44000000"
 
 # boot to memory for skiff
-setenv bootmem "root=/dev/initrd ro ramdisk_size=100000"
-
-# Auto Detection of Monitor settings based on your Screen information
-setenv display_autodetect "true"
+setenv bootmem "root=/dev/ram0 ro"
 
 # HDMI Mode
 # Resolution Configuration
@@ -58,6 +57,7 @@ setenv display_autodetect "true"
 #    "2560x1440p60hz"   | 2560x1440 Progressive 60Hz
 #    "2560x1600p60hz"   | 2560x1600 Progressive 60Hz
 #    "3440x1440p60hz"   | 3440x1440 Progressive 60Hz
+# setenv hdmimode "1024x600p60hz"
 setenv hdmimode "1080p60hz"
 
 # Monitor output
@@ -98,21 +98,30 @@ setenv max_freq_a55 "1908"    # 1.908 GHz, default value
 # max cpu-cores
 setenv maxcpus "4"
 
-# Display splash logo
-setenv bootlogo "false"
+# Wake-On-Lan support (0=disable, 1=enable)
+setenv enable_wol "0"
 
-### Normal HDMI Monitors
+# normal HDMI monitors
 if test "${hdmimode}" = "custombuilt"; then setenv cmode "modeline=${modeline}"; fi
+
+# force hdmi to use rgb
+setenv hdmi_forcergb "1"
+
+# cec and hdmitx
+setenv hdmitx "hdmitx=cec0"
+if test "${cec}" = "true"; then setenv hdmitx "hdmitx=cec3f"; fi
+if test "${hdmi_forcergb}" = "1"; then setenv hdmitx "${hdmitx},forcergb"; fi
 
 # VU7 Settings
 if test "${disable_vu7}" = "false"; then setenv hid_quirks "usbhid.quirks=0x0eef:0x0005:0x0004"; fi
 
 # Boot Args
-setenv bootargs "${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${cec_enable} ${bootsplash} sdrmode=${sdrmode} consoleblank=0"
+setenv bootargs "coherent_pool=2M ${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${hdmitx} ${bootsplash} sdrmode=${sdrmode} enable_wol=${enable_wol}"
 
 fatload mmc ${devnum}:1 ${kernel_addr_r} Image
 fatload mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot
-fatload mmc ${devnum}:1 ${dtb_addr_r} meson64_odroidc4.dtb
+fatload mmc ${devnum}:1 ${dtb_addr_r} meson-sm1-odroid-c4.dtb
+
 fdt addr ${dtb_addr_r}
 
 # boot
