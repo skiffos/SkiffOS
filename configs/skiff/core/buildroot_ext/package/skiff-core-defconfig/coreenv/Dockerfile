@@ -1,13 +1,18 @@
-FROM ubuntu:focal as stage1
+FROM ubuntu:jammy as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
     LC_ALL=en_US.UTF-8 \
+    DEBIAN_FRONTEND=noninteractive \
     container=docker
 
+# download packages list
+# note: we remove the lists later & flatten the image.
+RUN apt-get update
+
 # Core packages, including ubuntu-desktop-minimal.
-RUN export DEBIAN_FRONTEND=noninteractive; \
-  apt-get update && \
+# Run "unminimize" to restore a full Ubuntu system.
+RUN \
   apt-get dist-upgrade -y && \
   apt-get install -y  \
   --no-install-recommends \
@@ -21,8 +26,10 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   fonts-ubuntu \
   git \
   htop \
+  less \
   locales \
   lsb-release \
+  mesa-utils \
   nano \
   ncurses-term \
   neofetch \
@@ -37,19 +44,27 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   unzip \
   usbutils \
   vim \
-  xorg \
   xserver-xorg-input-all \
   yaru-theme-gnome-shell \
   yaru-theme-gtk \
   yaru-theme-icon \
   yaru-theme-sound \
   wget && \
+  apt-get autoremove -y
+
+# unminimize the system: restore GUI components.
+RUN (yes | unminimize)
+
+# remove unnecessary content
+RUN \
   apt-get autoremove -y && \
   apt-get clean -y && \
   rm -rf /var/lib/apt/lists/*
 
+# ensure default locale is generated
 RUN locale-gen "en_US.UTF-8"
 
+# flatten image
 FROM scratch as stage2
 
 COPY --from=stage1 / /
