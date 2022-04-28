@@ -13,7 +13,6 @@ containers:
     entrypoint: ["/lib/systemd/systemd"]
     mounts:
       - /dev:/dev
-      - /etc/resolv.conf:/etc/resolv.conf:ro
       - /etc/hostname:/etc/hostname:ro
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
