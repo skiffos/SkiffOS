@@ -13,7 +13,6 @@ containers:
       - /dev:/dev
       - /etc/fstab:/etc/fstab:ro
       - /etc/machine-id:/etc/machine-id:ro
-      - /etc/resolv.conf:/etc/resolv.conf:ro
       - /etc/hostname:/etc/hostname:ro
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt

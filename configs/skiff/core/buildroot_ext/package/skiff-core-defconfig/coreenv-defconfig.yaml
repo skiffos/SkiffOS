@@ -21,7 +21,6 @@ containers:
     dns: ["1.1.1.1", "8.8.8.8"]
     mounts:
       - /dev:/dev
-      - /etc/resolv.conf:/etc/resolv.conf:ro
       - /etc/hostname:/etc/hostname:ro
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
