@@ -17,6 +17,8 @@ containers:
     tty: true
     disableInit: true
     workingDirectory: /
+    # default DNS servers
+    dns: ["1.1.1.1", "8.8.8.8"]
     mounts:
       - /dev:/dev
       - /etc/resolv.conf:/etc/resolv.conf:ro
