@@ -24,20 +24,25 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
   locales \
   lsb-release \
   nano \
-  net-tools \
   ncurses-term \
+  neofetch \
+  net-tools \
   openssh-client \
   rsync \
   software-properties-common \
   sudo \
   systemd \
   ubuntu-desktop-minimal \
+  ubuntu-standard \
   unzip \
   usbutils \
-  ubuntu-standard \
   vim \
   xorg \
   xserver-xorg-input-all \
+  yaru-theme-gnome-shell \
+  yaru-theme-gtk \
+  yaru-theme-icon \
+  yaru-theme-sound \
   wget && \
   apt-get autoremove -y && \
   apt-get clean -y && \
