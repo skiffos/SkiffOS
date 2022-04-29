@@ -1,4 +1,5 @@
-FROM ubuntu:jammy as stage1
+# FROM debian:bullseye as stage1
+FROM debian:sid as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
@@ -6,60 +7,49 @@ ENV LANG=C.UTF-8 \
     DEBIAN_FRONTEND=noninteractive \
     container=docker
 
-# download packages list
-# note: we remove the lists later & flatten the image.
-RUN apt-get update
+# Download apt cache
+RUN rm -rf /var/lib/apt/lists/* && \
+    apt-get update
 
-# Core packages, including ubuntu-desktop-minimal.
-# Run "unminimize" to restore a full Ubuntu system.
+# Minimal desktop environment.
 RUN \
-  apt-get dist-upgrade -y && \
-  apt-get install -y  \
-  --no-install-recommends \
-  -o "Dpkg::Options::=--force-confdef"  \
-  -o "Dpkg::Options::=--force-confnew"  \
-  autotools-dev \
-  build-essential \
-  cups \
-  curl \
-  firefox \
-  fonts-ubuntu \
-  git \
-  htop \
-  less \
-  locales \
-  lsb-release \
-  mesa-utils \
-  nano \
-  ncurses-term \
-  neofetch \
-  net-tools \
-  openssh-client \
-  rsync \
-  software-properties-common \
-  sudo \
-  systemd \
-  ubuntu-desktop-minimal \
-  ubuntu-standard \
-  unzip \
-  usbutils \
-  vim \
-  xserver-xorg-input-all \
-  yaru-theme-gnome-shell \
-  yaru-theme-gtk \
-  yaru-theme-icon \
-  yaru-theme-sound \
-  wget && \
-  apt-get autoremove -y
-
-# unminimize the system: restore GUI components.
-RUN (yes | unminimize)
+    apt-get dist-upgrade -y && \
+    apt-get install -y  \
+    --no-install-recommends \
+    -o "Dpkg::Options::=--force-confdef"  \
+    -o "Dpkg::Options::=--force-confnew"  \
+    autotools-dev \
+    build-essential \
+    chromium \
+    cups \
+    curl \
+    git \
+    htop \
+    less \
+    lightdm \
+    locales \
+    lsb-release \
+    mesa-utils \
+    nano \
+    ncurses-term \
+    net-tools \
+    openssh-client \
+    rsync \
+    software-properties-common \
+    sudo \
+    systemd \
+    task-xfce-desktop \
+    unzip \
+    usbutils \
+    vim \
+    wget \
+    x11vnc
 
 # remove unnecessary content
 RUN \
-  apt-get autoremove -y && \
-  apt-get clean -y && \
-  rm -rf /var/lib/apt/lists/*
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # ensure default locale is generated
 RUN locale-gen "en_US.UTF-8"
@@ -69,10 +59,17 @@ FROM scratch as stage2
 
 COPY --from=stage1 / /
 
+# Note: this section identical to skiff-core-defconfig
+
 ENV container=docker \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8
+
+# Show the user list in lightdm
+RUN \
+  mkdir -p /etc/lightdm/lightdm.conf.d && \
+  printf '[Seat:*]\ngreeter-hide-users=false\n' > /etc/lightdm/lightdm.conf.d/01-enable-users.conf
 
 # Create the user 'core' which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
@@ -113,4 +110,3 @@ RUN systemctl set-default graphical.target && \
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
-

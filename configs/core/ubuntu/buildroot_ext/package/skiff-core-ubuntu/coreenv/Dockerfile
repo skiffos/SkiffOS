@@ -1,57 +1,72 @@
-# Based on the skiff/core defconfig (Ubuntu) Dockerfile, with modifications for
-# Debian.
-
-FROM debian:bullseye as stage1
+FROM ubuntu:jammy as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
     LC_ALL=en_US.UTF-8 \
+    DEBIAN_FRONTEND=noninteractive \
     container=docker
 
-# Download apt cache
-RUN rm -rf /var/lib/apt/lists/* && \
-    apt-get update
+# download packages list
+# note: we remove the lists later & flatten the image.
+RUN apt-get update
 
-# Core packages
-RUN export DEBIAN_FRONTEND=noninteractive; \
-    apt-get dist-upgrade -y && \
-    apt-get install -y  \
-    --no-install-recommends \
-    -o "Dpkg::Options::=--force-confdef"  \
-    -o "Dpkg::Options::=--force-confnew"  \
-    autotools-dev \
-    build-essential \
-    cups \
-    curl \
-    git \
-    htop \
-    locales \
-    lsb-release \
-    ncurses-term \
-    nano \
-    net-tools \
-    openssh-client \
-    rsync \
-    software-properties-common \
-    sudo \
-    systemd \
-    unzip \
-    usbutils \
-    vim \
-    wget && \
-    apt-get autoremove -y
+# Core packages, including ubuntu-desktop-minimal.
+# Run "unminimize" to restore a full Ubuntu system.
+RUN \
+  apt-get dist-upgrade -y && \
+  apt-get install -y  \
+  --no-install-recommends \
+  -o "Dpkg::Options::=--force-confdef"  \
+  -o "Dpkg::Options::=--force-confnew"  \
+  autotools-dev \
+  build-essential \
+  cups \
+  curl \
+  fonts-ubuntu \
+  git \
+  htop \
+  less \
+  locales \
+  lsb-release \
+  mesa-utils \
+  nano \
+  ncurses-term \
+  neofetch \
+  net-tools \
+  openssh-client \
+  rsync \
+  software-properties-common \
+  sudo \
+  systemd \
+  ubuntu-desktop-minimal \
+  ubuntu-standard \
+  unzip \
+  usbutils \
+  vim \
+  xserver-xorg-input-all \
+  yaru-theme-gnome-shell \
+  yaru-theme-gtk \
+  yaru-theme-icon \
+  yaru-theme-sound \
+  wget && \
+  apt-get autoremove -y
 
-# Cleanup any data we don't need.
-RUN rm -rf /var/lib/apt/lists/*
+# unminimize the system: restore GUI components.
+RUN (yes | unminimize)
 
-# Locale-gen
+# remove unnecessary content
+RUN \
+  apt-get autoremove -y && \
+  apt-get clean -y && \
+  rm -rf /var/lib/apt/lists/*
+
+# ensure default locale is generated
 RUN locale-gen "en_US.UTF-8"
 
+# flatten image
 FROM scratch as stage2
 
 COPY --from=stage1 / /
-
-# Note: this section identical to skiff-core-defconfig
 
 ENV container=docker \
   LANG=en_US.UTF-8 \
