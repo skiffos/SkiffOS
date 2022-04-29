@@ -1,16 +1,10 @@
-# Debian
+# Ubuntu
 
-> Base configuration for Debian.
+> Base configuration for Ubuntu.
 
 ## Introduction
 
-This package `core/debian` includes a base system for Debian.
-
-The default username is **core** and there is no default password.
-
-This is the default configuration for `skiff/core`.
-
-## Example
+This package `core/ubuntu` includes a base system for Ubuntu.
 
 This example is for the Raspberry Pi 4.
 
@@ -19,7 +13,7 @@ configuration layers should be merged together to configure the build.
 
 ```sh
 $ make                             # lists all available layers
-$ export SKIFF_CONFIG=pi/4,core/debian
+$ export SKIFF_CONFIG=pi/4,core/ubuntu
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -49,14 +43,7 @@ including Docker state and system configuration, will not be modified.
 
 ## Desktop Environment
 
-To enable a xfce desktop environment, ssh to the `core` user and run:
-
-```
-sudo apt update
-sudo apt install -y task-xfce-desktop lightdm
-```
-
-This is included in the default SkiffOS pre-compiled image.
+The image comes with a minimal desktop environment.
 
 ## Connecting to the System
 

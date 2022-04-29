@@ -1,6 +1,6 @@
 containers:
-  core:
-    image: skiffos/skiff-core-debian:latest
+  core: # name of the docker container
+    image: skiffos/skiff-core-ubuntu:latest
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
@@ -8,6 +8,8 @@ containers:
     tty: true
     disableInit: true
     workingDirectory: /
+    # default DNS servers
+    dns: ["1.1.1.1", "8.8.8.8"]
     mounts:
       - /dev:/dev
       - /etc/hostname:/etc/hostname:ro
@@ -15,6 +17,7 @@ containers:
       - /mnt:/mnt
       - /run/udev:/run/udev
       - /mnt/persist/skiff/core/repos/apt:/var/lib/apt
+      - /mnt/persist/skiff/core/repos/snapd:/var/lib/snapd
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
@@ -40,7 +43,7 @@ users: # can add unlimited users
     auth:
       copyRootKeys: true
 images:
-  skiffos/skiff-core-debian:latest:
+  skiffos/skiff-core-ubuntu:latest:
     pull:
       # images are provided for arm64, arm, amd64
       # also an option: policy: ifbuildfails
@@ -48,4 +51,4 @@ images:
       # avoid docker hub rate limits
       registry: quay.io
     build:
-      source: /opt/skiff/coreenv/skiff-core-debian
+      source: /opt/skiff/coreenv/base

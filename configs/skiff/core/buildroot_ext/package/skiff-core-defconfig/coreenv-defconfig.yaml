@@ -1,15 +1,15 @@
-# see other Skiff packages for more advanced defaults:
+# other skiff-core configurations:
 #  - core/alpine
+#  - core/debian
 #  - core/dietpi
 #  - core/gentoo
 #  - core/manjaro
 #  - core/nixos
 #  - core/ubuntu
 # Documented at https://github.com/skiffos/skiff-core
-
 containers:
   core: # name of the docker container
-    image: skiffos/skiff-core-ubuntu:latest
+    image: skiffos/skiff-core-debian:latest
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
@@ -26,7 +26,6 @@ containers:
       - /mnt:/mnt
       - /run/udev:/run/udev
       - /mnt/persist/skiff/core/repos/apt:/var/lib/apt
-      - /mnt/persist/skiff/core/repos/snapd:/var/lib/snapd
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
@@ -52,7 +51,7 @@ users: # can add unlimited users
     auth:
       copyRootKeys: true
 images:
-  skiffos/skiff-core-ubuntu:latest:
+  skiffos/skiff-core-debian:latest:
     pull:
       # images are provided for arm64, arm, amd64
       # also an option: policy: ifbuildfails

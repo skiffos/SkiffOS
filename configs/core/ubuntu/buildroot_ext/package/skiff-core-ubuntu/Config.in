@@ -1,5 +1,5 @@
-config BR2_PACKAGE_SKIFF_CORE_DEBIAN
-	bool "skiff-core-debian"
+config BR2_PACKAGE_SKIFF_CORE_UBUNTU
+	bool "skiff-core-ubuntu"
 	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
 	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
 	depends on BR2_TOOLCHAIN_HAS_THREADS
@@ -8,4 +8,5 @@ config BR2_PACKAGE_SKIFF_CORE_DEBIAN
 	select BR2_PACKAGE_SKIFF_CORE
 	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	help
-	  Skiff Core environment for Debian Bullseye.
+	  Skiff Core environment for Ubuntu Jammy.
+

@@ -272,15 +272,17 @@ The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
 any of the core environment packages, automatically configures mappings between
 users and containerized environments. It maps incoming SSH sessions accordingly:
 
- - Configured using a YAML configuration file `skiff-core.yaml`.
+ - Configured using a YAML configuration file `skiff-core.yaml**.
  - The container image is either pulled or built from scratch.
  - systemd and/or other init systems operate as PID 1 inside the container.
 
-This allows virtually any workflow to be migrated to Skiff. The config file
-structure is flexible, and allows for any number of containers, users, and
-images to be defined and built.
+This allows any distribution to be run as a containerized guest with Skiff. The
+config file structure is flexible, and allows for any number of containers,
+users, and images to be defined and built. Desktop environments work as expected.
 
 ### Environment Presets
+
+**skiff/core** comes with Debian Sid with a XFCE desktop on default.
 
 Any existing GNU/Linux system with compatibility with the running kernel version
 can be loaded as a Docker image with the `docker import` command.
@@ -289,11 +291,12 @@ All core configurations work with all target platforms.
 
 The primary distributions and images supported are:
 
-| **Distribution**           | **Config Package**            | **Notes**                 |
-| ---------------            | -----------------             | ----------------------    |
-| [Alpine] Linux             | core/alpine                   | OpenRC                    |
-| [Debian] Bullseye          | [core/debian]                 |                           |
-| [Gentoo]                   | core/gentoo                   | Based on latest stage3    |
+| **Distribution**  | **Config Package** | **Notes**              |
+|-------------------|--------------------|------------------------|
+| [Alpine] Linux    | core/alpine        | OpenRC                 |
+| [Debian] Bullseye | [core/debian]      | XFCE desktop           |
+| [Gentoo]          | core/gentoo        | Based on latest stage3 |
+| Ubuntu            | skiff/core         | Ubuntu Jammy desktop   |
 
 Other less frequently updated images:
 
