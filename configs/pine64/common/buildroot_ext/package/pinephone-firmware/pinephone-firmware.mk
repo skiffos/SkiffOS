@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PINEPHONE_FIRMWARE_VERSION = 4ec2645b007ba4c3f2962e38b50c06f274abbf7c
+PINEPHONE_FIRMWARE_VERSION = 6e8e591e17e207644dfe747e51026967bb1edab5
 PINEPHONE_FIRMWARE_SITE = $(call github,paralin,megous-linux-firmware,$(PINEPHONE_FIRMWARE_VERSION))
 
 PINEPHONE_FIRMWARE_DEPENDENCIES = linux-firmware
@@ -20,7 +20,7 @@ PINEPHONE_FIRMWARE_FILES += \
 	hm5065-init.bin \
 	ov5640_af.bin \
 	rtl_bt/rtl8723bs_config-pine64.bin \
-	rtl_bt/rtl8723cs_xx_config-pinephone.bin \
+	rtl_bt/rtl8723cs_xx_config.bin \
 	rtl_bt/rtl8723cs_xx_fw.bin \
 	rtlwifi/rtl8188eufw.bin
 

@@ -4,4 +4,3 @@ source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/pinephone-crust-blobs/Config.in
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/pinephone-firmware/Config.in"
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rk3399-firmware-blobs/Config.in"
 source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723bt-firmware/Config.in"
-source "$BR2_EXTERNAL_PINE64_COMMON_PATH/package/rtl8723cs/Config.in"

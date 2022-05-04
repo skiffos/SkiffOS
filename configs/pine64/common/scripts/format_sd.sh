@@ -75,7 +75,8 @@ sudo parted $PINE64_SD mklabel msdos
 sudo partprobe ${PINE64_SD} || true
 
 echo "Making persist partition..."
-sudo parted -a optimal $PINE64_SD -- mkpart primary ext4 128MiB "100%"
+# sudo parted -a optimal $PINE64_SD -- mkpart primary ext4 128MiB "100%"
+sudo parted -a optimal $PINE64_SD -- mkpart primary ext2 128MiB "100%"
 
 echo "Waiting for partprobe..."
 sync && sync
@@ -93,7 +94,8 @@ if [ ! -b ${PINE64_SD_SFX}1 ]; then
 fi
 
 echo "Formatting persist partition..."
-mkfs.ext4 -F -L "persist" ${PINE64_SD_SFX}1
+# mkfs.ext4 -F -L "persist" ${PINE64_SD_SFX}1
+mkfs.ext2 -F -L "persist" ${PINE64_SD_SFX}1
 
 sync && sync
 
@@ -103,6 +105,6 @@ if [ -n "$idbloader" ]; then
     dd iflag=dsync oflag=dsync if=$idbloader of=$PINE64_SD seek=64 ${SD_FUSE_DD_ARGS}
     dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=16384 ${SD_FUSE_DD_ARGS}
 else
-    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=8 bs=1024 ${SD_FUSE_DD_ARGS}
+    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
 fi
 cd -

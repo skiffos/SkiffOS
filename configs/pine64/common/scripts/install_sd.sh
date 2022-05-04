@@ -109,11 +109,11 @@ enable_silent() {
 }
 
 if [ -n "$boot_conf_extlinux" ]; then
-    mkdir -p $BOOT_DIR/boot/extlinux/
-    cp -v $boot_conf_extlinux $BOOT_DIR/boot/extlinux/extlinux.conf
+    mkdir -p $BOOT_DIR/extlinux
+    cp -v $boot_conf_extlinux $BOOT_DIR/extlinux/extlinux.conf
 else
     echo "Compiling boot.txt..."
     cp $boot_conf $BOOT_DIR/boot.txt
     enable_silent $BOOT_DIR/boot.txt
-    mkimage -A arm -C none -T script -n 'SkiffOS' -d $BOOT_DIR/boot.txt $BOOT_DIR/boot.scr
+    mkimage -A arm -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${PERSIST_DIR}/boot.scr
 fi

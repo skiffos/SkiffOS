@@ -1,6 +1,0 @@
-BR2_PACKAGE_RTL8723BT_FIRMWARE=y
-
-# Realtek RTL8723CS SDIO or SPI WiFi driver (2017)
-# Currently supplied by kernel: CONFIG_RTL8723CS_NEW
-BR2_PACKAGE_RTL8723CS=n
-

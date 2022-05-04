@@ -1,0 +1,57 @@
+# turn LEDs on
+gpio set 98
+gpio set 114
+
+# if test ${mmc_bootdev} -eq 0 ; then
+#   echo "Booting from SD";
+#   setenv bootdev 0;
+# else
+#   echo "Booting from eMMC";
+#   setenv bootdev 2;
+# fi;
+
+echo "Booting from SD";
+setenv bootdev 0;
+
+# setenv silent 1
+setenv condev "console=ttyS0,115200n8 console=tty0 earlycon=uart,mmio32,0x01c28000"
+
+# use /init script to deferred mount /
+setenv bootmem "root=/dev/mmcblk${bootdev}p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
+
+# base kernel config options
+setenv baseconfig "audit=0 consoleblank=0 no_console_suspend cma=256M fsck.repair=yes net.ifnames=0 loglevel=7"
+
+# CPU Governor Selection
+# Available governors: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# final boot args
+setenv bootargs "${condev} ${bootmem} ${baseconfig} governor=${governor}"
+
+# Load images
+echo Loading DTB
+# load mmc ${mmc_bootdev}:1 ${fdt_addr_r} /boot/${fdtfile}
+ext2load mmc ${mmc_bootdev}:1 ${fdt_addr_r} /boot/sun50i-a64-pinephone-1.2.dtb
+
+echo Loading kernel
+# load mmc ${mmc_bootdev}:1 ${kernel_addr_r} /boot/Image
+ext2load mmc ${mmc_bootdev}:1 ${kernel_addr_r} /boot/Image
+
+gpio set 115
+
+# fdt adjustments
+echo Resizing FDT
+fdt addr ${fdt_addr_r}
+fdt resize
+
+# echo Adding FTD RAM clock
+# fdt mknode / memory
+# fdt set /memory ram_freq ${ram_freq}
+# fdt list /memory
+
+echo Booting kernel
+gpio set 116
+gpio clear 98
+
+booti ${kernel_addr_r} - ${fdt_addr_r}

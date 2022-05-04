@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PINEPHONE_CRUST_BLOBS_VERSION = crust-20220504
+PINEPHONE_CRUST_BLOBS_VERSION = crust-20220505
 PINEPHONE_CRUST_BLOBS_SITE = $(call github,skiffos,pinephone-crust-blobs,$(PINEPHONE_CRUST_BLOBS_VERSION))
 PINEPHONE_CRUST_BLOBS_LICENSE = BSD-3-Clause, GPL-2.0+
 

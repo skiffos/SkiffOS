@@ -1,8 +1,8 @@
 # setenv silent 1
-setenv condev "console=ttyS0,115200 rootwaitconsole=ttyS0,115200n8 console=tty0"
+setenv condev "console=ttyS0,115200n8 console=tty0"
 
 # use /init script to deferred mount /
-setenv bootmem "rw init=/boot/skiff-init/skiff-init-squashfs"
+setenv bootmem "rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
 setenv baseconfig "fsck.repair=yes"

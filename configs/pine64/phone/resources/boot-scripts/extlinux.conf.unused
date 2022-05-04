@@ -1,0 +1,6 @@
+# FDTDIR /boot
+
+LABEL SkiffOS
+  KERNEL /boot/Image
+  FDT /boot/sun50i-a64-pinephone-1.2.dtb
+  APPEND root=PARTUUID=${uuid} rw rootwait audit=0 init=/boot/skiff-init/skiff-init-squashfs console=tty0 console=tty1 console=ttyS0,115200 earlycon=uart,mmio32,0x01c28000 consoleblank=0 no_console_suspend cma=256M fsck.repair=yes net.ifnames=0 loglevel=7
