@@ -11,7 +11,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # branch: orange-pi-5.17
 # megous kernel for pinephone, pinebook, orangepi
 # upstream: https://github.com/megous/linux/commits/orange-pi-5.17
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,1a72e4104b8bf8d042068e80d1ceb8d6618bceaa)/linux-megous-5.17.3-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,3508d5fd2af1b74c370f86863aa99933537826b6)/linux-megous-5.17.5-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
