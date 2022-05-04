@@ -3,12 +3,12 @@ config BR2_PACKAGE_RK3399_FIRMWARE_BLOBS
 	help
 	  Binary blobs for rk3399 bl31
 
-	  https://gitlab.com/skiffos/rk3399-firmware-blobs
+	  https://github.com/skiffos/rk3399-firmware-blobs
 
 if BR2_PACKAGE_RK3399_FIRMWARE_BLOBS
 
 config BR2_PACKAGE_RK3399_FIRMWARE_BLOBS_VARIANT
 	string "board variant"
-	default "pinebook-pro" # or rockpro64
+	default "pinebook-pro"
 
 endif # BR2_PACKAGE_RK3399_FIRMWARE_BLOBS

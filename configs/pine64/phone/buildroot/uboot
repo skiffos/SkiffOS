@@ -2,7 +2,7 @@
 # BR2_TARGET_UBOOT is not set
 
 # SkiffOS: To support crust firmware, we need a or1k cross-compiler.
-# Buildroot can only use 1 toolchain at a time (as of early 2021).
+# Buildroot can only use 1 toolchain at a time (as of early 2022).
 # Workaround: pre-build crust, u-boot with crust-meta and store blobs:
 # see https://github.com/skiffos/pinephone-crust-blobs
 BR2_PACKAGE_PINEPHONE_CRUST_BLOBS=y

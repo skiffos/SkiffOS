@@ -1,6 +1,9 @@
-# Disabled due to compiler incompatibility:
-# (requires 32 bit arm compiler)
+# SkiffOS: To support crust firmware, we need a arm32 cross-compiler.
+# Buildroot can only use 1 toolchain at a time (as of early 2022).
+# Workaround: pre-build crust, u-boot with crust-meta and store blobs:
+# see https://github.com/skiffos/pinephone-crust-blobs
+BR2_PACKAGE_PINEPHONE_CRUST_BLOBS=y
+
+# BR2_TARGET_UBOOT is not set
 # BR2_TARGET_UBOOT_USE_DEFCONFIG=y
 # BR2_TARGET_UBOOT_BOARD_DEFCONFIG="pinebook-pro-rk3399"
-
-BR2_TARGET_UBOOT=n

@@ -18,13 +18,12 @@ if [ ! -b "$PINE64_SD" ]; then
 fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-outp_path="${BUILDROOT_DIR}/output"
-images_path="${outp_path}/images"
+IMAGES_DIR=${BUILDROOT_DIR}/images
 
-img_path="${images_path}/Image"
-zimg_path="${images_path}/zImage"
-uinit_path="${images_path}/rootfs.cpio.uboot"
-dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
+img_path="${IMAGES_DIR}/Image"
+zimg_path="${IMAGES_DIR}/zImage"
+uinit_path="${IMAGES_DIR}/rootfs.cpio.uboot"
+dtb_path=$(find ${IMAGES_DIR}/ -name '*.dtb' -print -quit)
 
 source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
@@ -58,71 +57,63 @@ fi
 }
 trap cleanup EXIT
 
-boot_dir="${WORK_DIR}/boot"
-rootfs_dir="${WORK_DIR}/rootfs"
-persist_dir="${WORK_DIR}/persist"
-
 PINE64_SD_SFX=$PINE64_SD
 if [ -b ${PINE64_SD}p1 ]; then
-  PINE64_SD_SFX=${PINE64_SD}p
+    PINE64_SD_SFX=${PINE64_SD}p
 fi
 
-mkdir -p $boot_dir
-echo "Mounting ${PINE64_SD_SFX}1 to $boot_dir..."
-mounts+=("$boot_dir")
-mount ${PINE64_SD_SFX}1 $boot_dir
+mount_persist_dir="${WORK_DIR}/persist"
+BOOT_DIR=${mount_persist_dir}/boot
+ROOTFS_DIR=${mount_persist_dir}/rootfs
+PERSIST_DIR=${mount_persist_dir}/
 
-echo "Mounting ${PINE64_SD_SFX}2 to $rootfs_dir..."
-mkdir -p $rootfs_dir
-mounts+=("$rootfs_dir")
-mount ${PINE64_SD_SFX}2 $rootfs_dir
+echo "Mounting ${PINE64_SD_SFX}1 to $mount_persist_dir..."
+mkdir -p $mount_persist_dir
+mounts+=("$mount_persist_dir")
+sudo mount ${PINE64_SD_SFX}1 $mount_persist_dir
 
-echo "Mounting ${PINE64_SD_SFX}3 to $persist_dir..."
-mkdir -p $persist_dir
-mounts+=("$persist_dir")
-mount ${PINE64_SD_SFX}3 $persist_dir
+echo "Copying files..."
 
-echo "Copying kernel image..."
-sync
-rsync -rav --no-perms --no-owner --no-group $img_path $boot_dir/
-sync
-
-echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $uinit_path $boot_dir/rootfs.cpio.uboot
-sync
-
-if [ -d "$outp_path/images/rootfs_part" ]; then
-  echo "Copying rootfs_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/rootfs_part/ $rootfs_dir/
-  sync
+cd ${IMAGES_DIR}
+mkdir -p ${BOOT_DIR}/skiff-init ${ROOTFS_DIR}/
+if [ -d ${IMAGES_DIR}/rootfs_part/ ]; then
+    rsync -rav ${IMAGES_DIR}/rootfs_part/ ${ROOTFS_DIR}/
 fi
+if [ -d ${IMAGES_DIR}/persist_part/ ]; then
+    rsync -rav ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
+fi
+if [ -f ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ]; then
+    cp -v ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
+fi
+rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
+rsync -rv \
+      ./*.dtb ./Image \
+      ./skiff-release ./rootfs.squashfs \
+      ${BOOT_DIR}/
 
-if [ -d "$outp_path/images/persist_part" ]; then
-  echo "Copying persist_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/persist_part/ $persist_dir/
-  sync
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${PERSIST_DIR}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    else
+        echo "Swapfile already exists, skipping allocation step."
+    fi
 fi
 
 enable_silent() {
-  if [ -f "$images_path/.disable-serial-console" ]; then
+  if [ -f "$IMAGES_DIR/.disable-serial-console" ]; then
     echo "Disabling serial console and enabling silent mode..."
     sed -i -e "/^setenv condev/s/^/# /" -e "s/# setenv silent/setenv silent/" $1
   fi
 }
 
 if [ -n "$boot_conf_extlinux" ]; then
-    mkdir -p $boot_dir/boot/extlinux/
-    cp $boot_conf_extlinux $boot_dir/boot/extlinux/extlinux.conf
+    mkdir -p $BOOT_DIR/boot/extlinux/
+    cp -v $boot_conf_extlinux $BOOT_DIR/boot/extlinux/extlinux.conf
 else
     echo "Compiling boot.txt..."
-    cp $boot_conf $boot_dir/boot.txt
-    enable_silent $boot_dir/boot.txt
-    mkimage -A arm -C none -T script -n 'SkiffOS' -d $boot_dir/boot.txt $boot_dir/boot.scr
+    cp $boot_conf $BOOT_DIR/boot.txt
+    enable_silent $BOOT_DIR/boot.txt
+    mkimage -A arm -C none -T script -n 'SkiffOS' -d $BOOT_DIR/boot.txt $BOOT_DIR/boot.scr
 fi
-sync
-
-echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group ${images_path}/*.dtb $boot_dir/
-sync
-
-cleanup

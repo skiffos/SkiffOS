@@ -172,10 +172,10 @@ Here are the boards/systems currently supported:
 | [Pi 3] + 1, 2        | [pi/3]                | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
 | [Pi 4]               | [pi/4]                | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
 | [Pi 4] (32bit mode)  | [pi/4x32]             | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
-| [Pine64 H64]         | [pine64/h64]          | ✔ U-Boot         | ✔ megi-5.17.5  |               |
+| [Pine64 H64]         | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.17.5  |               |
 | [PineBook Pro]       | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
-| [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot         | ✔ megi-5.17.5  | ✔ Tested      |
+| [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.5  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ sk-5.15.32   | ✔ Tested      |
 | [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.4       | ✔ Tested      |
 
