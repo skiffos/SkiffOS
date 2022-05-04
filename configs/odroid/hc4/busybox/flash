@@ -1,0 +1,2 @@
+# enable flash_eraseall tool
+CONFIG_FLASH_ERASEALL=y

@@ -6,8 +6,8 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,22e1b9192fcd3407eea8ceca4e14dc3291ff6af1)/linux-skiff-odroid-5.18.0-rc5-r1.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
-# skiff-odroid-5.18.y-4
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,d302139224b22e1363532d001b9b82b460cc51b1)/linux-skiff-odroid-5.18.1-r1.tar.gz"
+# skiff-odroid-5.18.y-5
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,ce44f4f5c25366a6a89ab482bf433d1e6ebcb6c0)/linux-skiff-odroid-5.18.1-r2.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y

@@ -16,7 +16,7 @@ Reference:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=odroid/xu
+$ export SKIFF_CONFIG=odroid/n2,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -46,6 +46,7 @@ tested by the developers unless otherwise noted.
 | [c2]           | odroid/c2          |              |
 | [c4]           | odroid/c4          | Reboot issue |
 | [hc2]          | odroid/xu          |              |
+| [hc4]          | odroid/hc4         | Reboot issue |
 | [m1]           | odroid/m1          |              |
 | [n2]           | odroid/n2          | Includes n2+ |
 | [u] + u2       | odroid/u           | Discontinued |
@@ -60,6 +61,7 @@ tested by the developers unless otherwise noted.
 [m1]: https://www.hardkernel.com/shop/odroid-m1-with-8gbyte-ram/
 [c2]: https://www.hardkernel.com/shop/odroid-c2/
 [c4]: https://www.hardkernel.com/shop/odroid-c4/
+[hc4]: https://www.hardkernel.com/shop/odroid-hc4/
 
 ## SD Card Compatibility
 
@@ -78,13 +80,25 @@ Some SD cards may not work as well with the Odroid hardware.
 
 ## Bootup Process
 
-**If using the n2, set the boot switch to MMC.**
-
 All Odroid boards use u-boot. U-boot is flashed to the beginning of the SD card,
 before the first partition. It loads and executes a boot.ini configuration.
 
 Note: there may be some binary bootloader blobs used that are provided by the
 vendor & signed, and cannot be compiled by Skiff, depending on the board.
+
+## Odroid N2
+
+**If using the n2, set the boot switch to MMC.**
+
+## Odroid HC4
+
+**If using the hc4, petitboot must be bypassed.**
+
+See the details in the [odroid/hc4](./hc4) docs.
+
+On default, the HC4 boots from SPI, which contains petitboot. If the black
+button on the bottom of the device (the "boot select" switch) is pressed, the
+board will use u-boot from the MicroSD card.
 
 ## Acknowledgments
 

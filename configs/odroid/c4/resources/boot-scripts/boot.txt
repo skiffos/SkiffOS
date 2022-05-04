@@ -116,7 +116,7 @@ if test "${hdmi_forcergb}" = "1"; then setenv hdmitx "${hdmitx},forcergb"; fi
 if test "${disable_vu7}" = "false"; then setenv hid_quirks "usbhid.quirks=0x0eef:0x0005:0x0004"; fi
 
 # Boot Args
-setenv bootargs "coherent_pool=2M ${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${hdmitx} ${bootsplash} sdrmode=${sdrmode} enable_wol=${enable_wol}"
+setenv bootargs "coherent_pool=2M ${bootmem} ${condev} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${hdmitx} sdrmode=${sdrmode} enable_wol=${enable_wol}"
 
 fatload mmc ${devnum}:1 ${kernel_addr_r} Image
 fatload mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot

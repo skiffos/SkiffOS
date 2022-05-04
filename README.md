@@ -162,6 +162,7 @@ Here are the boards/systems currently supported:
 | [Odroid C4]          | [odroid/c4]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    |               |
 | [Odroid HC1]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ⚠ Obsolete    |
 | [Odroid HC2]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ✔ Tested      |
+| [Odroid HC4]         | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-5.18.1    |               |
 | [Odroid N2]+         | [odroid/n2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ✔ Tested      |
 | [Odroid M1]          | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.1    |               |
 | [Odroid U]           | [odroid/u]            | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ⚠ Obsolete    |
@@ -203,6 +204,7 @@ Here are the boards/systems currently supported:
 [Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
 [Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
+[Odroid HC4]: https://www.hardkernel.com/shop/odroid-hc4/
 [Odroid M1]: https://wiki.odroid.com/odroid-m1/odroid-m1
 [Odroid N2]: https://wiki.odroid.com/odroid-n2/odroid-n2
 [Odroid U]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
@@ -248,6 +250,7 @@ Here are the boards/systems currently supported:
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
 [odroid/m1]: ./configs/odroid
+[odroid/hc4]: ./configs/odroid
 [odroid/n2]: ./configs/odroid
 [odroid/u]: ./configs/odroid
 [odroid/xu]: ./configs/odroid
