@@ -132,9 +132,13 @@ echo "Put your SSH keys (*.pub) here." > $KEYS_PERSIST/readme
 mkdir -p /tmp/skiff_ssh_keys
 mkdir -p /root/.ssh
 touch /root/.ssh/authorized_keys
-cp $KEYS_PERSIST/*.pub /tmp/skiff_ssh_keys 2>/dev/null || true
-cp /etc/skiff/authorized_keys/*.pub /tmp/skiff_ssh_keys 2>/dev/null || true
-if [ "$(ls -A /tmp/skiff_ssh_keys)" ]; then
+if find ${KEYS_PERSIST} -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
+  cp $KEYS_PERSIST/*.pub /tmp/skiff_ssh_keys/ 2>/dev/null || true
+fi
+if find /etc/skiff/authorized_keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
+  cp /etc/skiff/authorized_keys/*.pub /tmp/skiff_ssh_keys/ 2>/dev/null || true
+fi
+if find /tmp/skiff_ssh_keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
   cat /tmp/skiff_ssh_keys/*.pub > /root/.ssh/authorized_keys
 else
   echo "No ssh keys present."
