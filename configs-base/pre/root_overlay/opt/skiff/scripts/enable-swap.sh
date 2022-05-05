@@ -50,9 +50,9 @@ fi
 # Allocate swap file if it doesn't exist
 if [ ! -f $SWAPFILE_PATH ]; then
   echo "Allocating swapfile at $SWAPFILE_PATH of size $SWAPFILE_SIZE"
-  # fallocate: does not work against ext4, due to "swapfile has holes"
-  # fallocate -l ${SWAPFILE_SIZE}Mb $SWAPFILE_PATH 
-  dd if=/dev/zero of=$SWAPFILE_PATH bs=1M count=${SWAPFILE_SIZE}
+  # fallocate: does not work: swapfile cannot have holes
+  # fallocate -l ${SWAPFILE_SIZE}Mb $SWAPFILE_PATH
+  ionice -c 3 dd if=/dev/zero of=$SWAPFILE_PATH bs=1M count=${SWAPFILE_SIZE}
   echo "Done allocating swapfile."
 fi
 
