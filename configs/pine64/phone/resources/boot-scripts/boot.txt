@@ -2,22 +2,19 @@
 gpio set 98
 gpio set 114
 
-# if test ${mmc_bootdev} -eq 0 ; then
-#   echo "Booting from SD";
-#   setenv bootdev 0;
-# else
-#   echo "Booting from eMMC";
-#   setenv bootdev 2;
-# fi;
-
-echo "Booting from SD";
-setenv bootdev 0;
+if test ${mmc_bootdev} -eq 0 ; then
+  echo "Booting from SD";
+  setenv bootdev 0;
+else
+  echo "Booting from eMMC";
+  setenv bootdev 2;
+fi;
 
 # setenv silent 1
-setenv condev "console=ttyS0,115200n8 console=tty0 earlycon=uart,mmio32,0x01c28000"
+setenv condev "console=ttyS0,115200n8 earlycon=uart,mmio32,0x01c28000"
 
 # use /init script to deferred mount /
-setenv bootmem "root=/dev/mmcblk${bootdev}p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
+setenv bootmem "root=/dev/mmcblk${bootdev}p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs console=tty0"
 
 # base kernel config options
 setenv baseconfig "audit=0 consoleblank=0 no_console_suspend cma=256M fsck.repair=yes net.ifnames=0 loglevel=7"
@@ -32,11 +29,11 @@ setenv bootargs "${condev} ${bootmem} ${baseconfig} governor=${governor}"
 # Load images
 echo Loading DTB
 # load mmc ${mmc_bootdev}:1 ${fdt_addr_r} /boot/${fdtfile}
-ext2load mmc ${mmc_bootdev}:1 ${fdt_addr_r} /boot/sun50i-a64-pinephone-1.2.dtb
+ext4load mmc ${mmc_bootdev}:1 ${fdt_addr_r} /boot/sun50i-a64-pinephone-1.2.dtb
 
 echo Loading kernel
 # load mmc ${mmc_bootdev}:1 ${kernel_addr_r} /boot/Image
-ext2load mmc ${mmc_bootdev}:1 ${kernel_addr_r} /boot/Image
+ext4load mmc ${mmc_bootdev}:1 ${kernel_addr_r} /boot/Image
 
 gpio set 115
 
