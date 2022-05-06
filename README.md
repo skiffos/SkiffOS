@@ -300,24 +300,21 @@ The primary distributions and images supported are:
 
 Other less frequently updated images:
 
-| **Distribution**           | **Config Package**            | **Notes**                 |
-|----------------------------|-------------------------------|---------------------------|
-| [DietPi]                   | [core/dietpi]                 | DietPi applications tool  |
-| [NASA cFS] Framework       | [core/nasa_cfs]               | Flight software framework |
-| [NASA Fprime] Framework    | [core/nasa_fprime]            | Flight software framework |
-| [NixOS]                    | core/nixos                    |                           |
-| [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
-| [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
-| PineBook [Manjaro] KDE     | core/pinebook_manjaro_kde     | KDE Variant               |
-| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
-| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant             |
+| **Distribution**        | **Config Package** | **Notes**                 |
+|-------------------------|--------------------|---------------------------|
+| [DietPi]                | [core/dietpi]      | DietPi applications tool  |
+| [NASA cFS] Framework    | [core/nasa_cfs]    | Flight software framework |
+| [NASA Fprime] Framework | [core/nasa_fprime] | Flight software framework |
+| [NixOS]                 | core/nixos         |                           |
+| [NixOS] with [XFCE]     | core/nixos_xfce    |                           |
+
+There are also core images specific to [pine64/phone] and [pine64/book].
 
 [Debian]: https://debian.org/
 [DietPi]: https://github.com/MichaIng/DietPi
 [Alpine]: https://www.alpinelinux.org/
 [Gentoo]: https://www.gentoo.org/
 [KDE Neon]: https://neon.kde.org/
-[Manjaro]: https://manjaro.org/
 [NASA cFS]: https://github.com/nasa/cFS
 [NASA Fprime]: https://github.com/nasa/fprime
 [NixOS]: https://nixos.org
@@ -329,6 +326,8 @@ Other less frequently updated images:
 [core/dietpi]: ./configs/core/dietpi
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
+[pine64/book]: ./configs/pine64/book
+[pine64/phone]: ./configs/pine64/phone
 
 ### Customize Config
 

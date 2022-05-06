@@ -2,6 +2,8 @@
 
 This is a skiff core setup based on the Manjaro Phosh for PinePhone build.
 
+The default passcode is empty, just press the "enter" key to log in.
+
 ## Building the Base Image
 
 The base image is downloaded automatically from Docker Hub from
@@ -24,4 +26,3 @@ Then, mount it as a loop-back device, and build the docker image:
   cd /opt/skiff/coreenv/skiff-core-pinephone-manjaro-phosh/
   docker build -t skiffos/skiff-core-pinephone-manjaro-phosh:latest .
 ```
-

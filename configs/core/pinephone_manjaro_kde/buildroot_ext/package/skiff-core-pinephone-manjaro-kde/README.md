@@ -2,6 +2,8 @@
 
 This is a skiff core setup based on the Manjaro KDE for Pinephone distribution.
 
+The default passcode is **12345**.
+
 https://manjaro.org
 
 ## Building the Base Image

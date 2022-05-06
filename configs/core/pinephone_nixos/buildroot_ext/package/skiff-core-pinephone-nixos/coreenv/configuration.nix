@@ -24,8 +24,8 @@
   systemd.services.rescue.enable = false;
 
   mobile.quirks.u-boot.additionalCommands = lib.mkForce "";
-  mobile.boot.stage-1.kernel.package = lib.mkForce {};
-  mobile.quirks.u-boot.package = lib.mkForce {};
+  mobile.boot.stage-1.kernel.package = lib.mkForce null;
+  mobile.quirks.u-boot.package = lib.mkForce null;
 
   boot.isContainer = true;
   boot.growPartition = false;

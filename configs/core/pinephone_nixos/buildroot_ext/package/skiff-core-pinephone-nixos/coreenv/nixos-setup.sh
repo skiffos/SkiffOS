@@ -3,8 +3,12 @@ set -eo pipefail
 
 source /usr/local/etc/profile.d/nix.sh
 
-NIX_MOBILE_VERSION=6675a044d57e6147490e472388e7b29dc9dc4d91
-NIX_MOBILE_HASH=cac67777b96c830a45bc3e0f1ae3645ecee262dcca43d83d4fa782a4cf5861c6
+# NIX_MOBILE_VERSION=6675a044d57e6147490e472388e7b29dc9dc4d91
+# NIX_MOBILE_HASH=cac67777b96c830a45bc3e0f1ae3645ecee262dcca43d83d4fa782a4cf5861c6
+
+NIX_MOBILE_VERSION=c45932ae53aa0c5da9cfddd25e7cbb503f472147
+NIX_MOBILE_HASH=d16dd15476bc745a2bb18f6b0cb4290e06d40cf85ff1ce344a57e83462b869dc
+
 NIX_MOBILE_SOURCE=https://github.com/NixOS/mobile-nixos/archive/${NIX_MOBILE_VERSION}/nixos-${NIX_MOBILE_VERSION}.tar.gz
 
 echo "Downloading mobile-nixos version ${NIX_MOBILE_VERSION}..."

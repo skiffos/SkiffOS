@@ -4,6 +4,8 @@ This configuration package `pine64/phone` compiles a Skiff base operating system
 for the Pine64 PinePhone. Most of the other distributions are available as core
 configurations.
 
+The default passcode is empty, just press the "enter" key to log in.
+
 References: 
 
  - https://linux-sunxi.org/PinePhone
@@ -34,12 +36,14 @@ approaches, please see the "Flashing" section in the [common readme].
 
 ## Skiff Core: Available Variants
 
-| **Distribution**           | **Config Package**            | **Notes**              |
-| ---------------            | -----------------             | ---------------------- |
-| PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
-| PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
+| **Distribution**          | **Config Package**           | **Notes**     |
+|---------------------------|------------------------------|---------------|
+| PinePhone [Manjaro] KDE   | core/pinephone_manjaro_kde   | KDE Variant   |
+| PinePhone [Manjaro] Phosh | core/pinephone_manjaro_phosh | Phosh variant |
+| PinePhone [NixOS]         | core/pinephone_nixos         | NixOS variant |
 
 [Manjaro]: https://manjaro.org/
+[NixOS]: https://github.com/NixOS/nixpkgs/
 
 ## Using Jumpdrive
 

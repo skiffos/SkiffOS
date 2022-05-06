@@ -27,11 +27,12 @@ approaches, please see the "Flashing" section in the [common readme].
 
 [common readme]: ../
 
+
 ## GentooLTO with KDE for Pinebook
 
 Add `core/pinebook_gentoo` to enable the GentooLTO based KDE for Pinebook Pro.
 
-Downloads the `skiffos/skiff-core-gentoo-kde:pinebook-lto` image at first boot,
+The gentoo configuration downloads the `skiffos/skiff-core-gentoo-kde:pinebook-lto` image at first boot,
 which contains an up-to-date GentooLTO (optimizations O3) installation with a
 variety of kde desktop apps, and lightdm / x11 pre-configured with Panfrost
 hardware acceleration.
@@ -40,6 +41,19 @@ hardware acceleration.
 
 Add `core/nixos_xfce` to SKIFF_CONFIG to enable "Skiff Core" with XFCE Desktop
 configured.
+
+## Manjaro with KDE
+
+Add `core/pinebook_manjaro_kde` to SKIFF_CONFIG to enable the core w/ 
+
+
+| **Distribution**       | **Config Package**        | **Notes**    |
+|------------------------|---------------------------|--------------|
+| PineBook [Manjaro] KDE | core/pinebook_manjaro_kde | KDE Variant  |
+| [NixOS]                | core/nixos_xfce           | XFCE Variant |
+
+[Manjaro]: https://manjaro.org/
+[NixOS]: https://nixos.org
 
 ## Flashing U-boot to Internal Emmc
 
