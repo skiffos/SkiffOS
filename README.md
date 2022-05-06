@@ -309,11 +309,8 @@ Other less frequently updated images:
 | [NixOS] for PinePhone      | core/pinephone_nixos          |                           |
 | [NixOS] with [XFCE]        | core/nixos_xfce               |                           |
 | PineBook [Manjaro] KDE     | core/pinebook_manjaro_kde     | KDE Variant               |
-| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon     |
 | PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant               |
-| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant            |
 | PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant             |
-| PinePhone [UBTouch]        | core/pinephone_ubtouch        | Ubuntu touch              |
 
 [Debian]: https://debian.org/
 [DietPi]: https://github.com/MichaIng/DietPi

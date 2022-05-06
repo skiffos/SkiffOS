@@ -5,8 +5,6 @@
 # the SkiffOS images are periodically updated using the package manager.
 FROM skiffos/skiff-core-pinephone-manjaro-kde:base
 
-ADD ./fstab /etc/fstab
-
 # setup environment
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
@@ -14,12 +12,16 @@ ENV LANG=en_US.UTF-8 \
     container=docker
 
 RUN \
+  echo "" > /etc/fstab && \
   pacman --noconfirm -Rdd linux-firmware anx7688-firmware \
-    ov5640-firmware rtl8723bt-firmware-megi && \
+    ov5640-firmware rtl8723bt-firmware-megi linux-pinephone \
+    linux-pinephone-headers && \
   pacman --noconfirm -Syu && \
   rm -rf /var/cache/*
+
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
+    systemctl mask eg25-manager && \
     rm /usr/lib/systemd/system/systemd-remount-fs.service || true; \
     ln -fs /dev/null /usr/lib/systemd/system/systemd-remount-fs.service; \
     find /etc/systemd/system \

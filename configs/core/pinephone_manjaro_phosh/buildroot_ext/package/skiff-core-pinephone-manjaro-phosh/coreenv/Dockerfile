@@ -5,8 +5,6 @@
 # the SkiffOS images are periodically updated using the package manager.
 FROM skiffos/skiff-core-pinephone-manjaro-phosh:base as stage1
 
-ADD ./fstab /etc/fstab
-
 # setup environment
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
@@ -15,9 +13,10 @@ ENV LANG=en_US.UTF-8 \
 
 # remove unnecessary packages
 # TODO: pacman just adds them back again, ignore them.
-#RUN \
-#    pacman --noconfirm -Rc linux-firmware anx7688-firmware uboot-firmware \
-#      ov5640-firmware rtl8723bt-firmware-megi linux-pinephone
+RUN \
+    echo "" > /etc/fstab && \
+    pacman --noconfirm -Rc linux-firmware anx7688-firmware uboot-firmware \
+      ov5640-firmware rtl8723bt-firmware-megi linux-pinephone linux-pinephone-headers
 
 RUN pacman --noconfirm -Syu && \
     rm -rf /boot/*
@@ -29,7 +28,7 @@ RUN mkdir -p /etc/NetworkManager/conf.d; \
 
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
-    systemctl disable pinephone-post-install.service && \
+    systemctl mask eg25-manager pinephone-post-install.service && \
     rm /usr/lib/systemd/system/systemd-remount-fs.service || true; \
     ln -fs /dev/null /usr/lib/systemd/system/systemd-remount-fs.service; \
     find /etc/systemd/system \

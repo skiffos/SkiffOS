@@ -7,7 +7,7 @@ This is a skiff core setup based on the Manjaro Phosh for PinePhone build.
 The base image is downloaded automatically from Docker Hub from
 `skiffos/skiff-core-pinephone-manjaro-phosh:latest`. To build this image:
 
-Fetch the latest download: https://osdn.net/projects/manjaro-arm/storage/pinephone/phosh/dev/
+Fetch the latest download: https://github.com/manjaro-pinephone/phosh-dev
 
 Then, mount it as a loop-back device, and build the docker image:
 

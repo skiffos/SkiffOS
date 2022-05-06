@@ -36,28 +36,10 @@ approaches, please see the "Flashing" section in the [common readme].
 
 | **Distribution**           | **Config Package**            | **Notes**              |
 | ---------------            | -----------------             | ---------------------- |
-| PinePhone [KDE Neon]       | core/pinephone_neon           | Ubuntu-based KDE Neon  |
 | PinePhone [Manjaro] KDE    | core/pinephone_manjaro_kde    | KDE Variant            |
-| PinePhone [Manjaro] Lomiri | core/pinephone_manjaro_lomiri | Lomiri variant         |
 | PinePhone [Manjaro] Phosh  | core/pinephone_manjaro_phosh  | Phosh variant          |
-| PinePhone [UBTouch]        | core/pinephone_ubtouch        | Ubuntu Touch           |
 
-[KDE Neon]: https://neon.kde.org/
 [Manjaro]: https://manjaro.org/
-[UBPorts]: https://ubuntu-touch.io/
-
-## Ubuntu Touch
-
-The [Ubuntu Touch] core `core/pinephone_ubtouch` adds additional kernel options
-and support packages. Ubuntu Touch runs elements of Android which require
-specific kernel features and other system-level customizations.
-
-Unfortunately, this means the Ubuntu Touch image will not work unless SkiffOS
-was compiled with the `core/pinephone_ubtouch` config enabled.
-
-This is a work in progress at present and not all features work (yet).
-
-[Ubuntu Touch]: https://devices.ubuntu-touch.io/device/pinephone
 
 ## Using Jumpdrive
 

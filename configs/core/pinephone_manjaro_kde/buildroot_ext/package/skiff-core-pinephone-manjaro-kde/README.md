@@ -9,7 +9,7 @@ https://manjaro.org
 The base image is downloaded automatically from Docker Hub from
 `skiffos/skiff-core-pinephone-manjaro-kde:latest`. To build this image:
 
-Fetch the latest download: https://osdn.net/projects/manjaro-arm/storage/pinephone/plasma-mobile/dev/
+Fetch the latest download: https://github.com/manjaro-pinephone/plasma-mobile-dev
 
 Then, mount it as a loop-back device, and build the docker image:
 
