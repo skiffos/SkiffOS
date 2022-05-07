@@ -33,6 +33,8 @@ RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
     systemctl mask NetworkManager ModemManager && \
     systemctl mask eg25-manager pinephone-post-install.service && \
+    systemctl mask pinephone-modem-scripts.pinephone-modem-setup.service && \
+    systemctl mask pp-prepare-fstab.service zswap-arm.service && \
     rm /usr/lib/systemd/system/systemd-remount-fs.service || true; \
     ln -fs /dev/null /usr/lib/systemd/system/systemd-remount-fs.service; \
     find /etc/systemd/system \
