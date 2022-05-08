@@ -35,6 +35,13 @@
 // To disable the mutable / overlayfs:
 // #define NO_MUTABLE_OVERLAY
 
+// Controls the maximum memory usage of the tmpfs /.
+// Used as the upper layer of the overlayfs.
+// Ignored if NO_MUTABLE_OVERLAY is set.
+#ifndef MUTABLE_OVERLAY_SIZE
+#define MUTABLE_OVERLAY_SIZE "1G"
+#endif
+
 // To disable the moving mountpoint to /
 // #define NO_MOVE_MOUNTPOINT_ROOT
 
@@ -89,8 +96,7 @@ const char *persist_parent_mnt = "/mnt/persist";
 const char *image_mountpoint = SKIFF_MOUNTS_DIR "/image";
 
 #ifndef NO_MUTABLE_OVERLAY
-const char *overlay_upper_mountpoint = SKIFF_MOUNTS_DIR "/system-upper";
-const char *overlay_work_mountpoint = SKIFF_MOUNTS_DIR "/system-tmp";
+const char *overlay_tmp_mountpoint = SKIFF_MOUNTS_DIR "/system-tmp";
 #endif
 
 // Set BIND_HOST_DIRS to a space-separated list of paths to bind mount:
@@ -339,21 +345,38 @@ int main(int argc, char *argv[]) {
 
   // Mount a temporary directory on persist overlayfs over mountpoint
 #ifndef NO_MUTABLE_OVERLAY
+  // mount a tmpfs for the new upper mountpoint & workdir
+  // this makes all changes to / ephemeral and in-RAM
+  // this is similar behavior to loading the system as an initramfs.
+  char* overlayTmpfsArgs = NULL;
+  const char* overlayTmpfsSize = MUTABLE_OVERLAY_SIZE;
+  asprintf(&overlayTmpfsArgs, "size=%s,uid=0,gid=0,mode=0755", overlayTmpfsSize);
+  fprintf(logfd, "SkiffOS init: mounting tmpfs %s to %s...\n", overlayTmpfsArgs,
+          overlay_tmp_mountpoint);
+  if (mount("tmpfs", overlay_tmp_mountpoint, "tmpfs", 0, overlayTmpfsArgs) < 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS: failed to mount overlay tmpfs: %s: (%d) %s\n",
+            overlayTmpfsArgs, res, strerror(res));
+    return res;
+  }
+  free(overlayTmpfsArgs);
+
+  // Create the upper & work mountpoints within the tmpfs.
+  char *overlay_upper_mountpoint = NULL;
+  asprintf(&overlay_upper_mountpoint, "%s/upper", overlay_tmp_mountpoint);
   if (stat(overlay_upper_mountpoint, &st) == -1) {
     mkdir(overlay_upper_mountpoint, 0755);
   }
+
+  char *overlay_work_mountpoint = NULL;
+  asprintf(&overlay_work_mountpoint, "%s/work", overlay_tmp_mountpoint);
   if (stat(overlay_work_mountpoint, &st) == -1) {
     mkdir(overlay_work_mountpoint, 0755);
   }
 
-  // move the squashfs to the new lower mountpoint
-  // TODO better to mount ramfs to upper mountpoint?
-  // TODO wipe upper and workdir if already exist?
-  // mount overlayfs for mutable root
-  char *overlayArgs = (char *)malloc(60 + strlen(image_mountpoint) +
-                                     strlen(overlay_upper_mountpoint) +
-                                     strlen(overlay_work_mountpoint));
-  sprintf(overlayArgs, "lowerdir=%s,upperdir=%s,workdir=%s",
+  // Mount overlayfs for the root filesystem
+  char *overlayArgs = NULL;
+  asprintf(&overlayArgs, "lowerdir=%s,upperdir=%s,workdir=%s",
           image_mountpoint, overlay_upper_mountpoint,
           overlay_work_mountpoint);
   fprintf(logfd, "SkiffOS init: mounting overlayfs %s to %s...\n", overlayArgs, mountpoint);
@@ -364,7 +387,8 @@ int main(int argc, char *argv[]) {
     return res;
   }
   free(overlayArgs);
-
+  free(overlay_upper_mountpoint);
+  free(overlay_work_mountpoint);
 #endif
 
   // chmod the mountpoint so non-root users can use it
