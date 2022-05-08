@@ -15,20 +15,24 @@ References:
 
 There are specific packages tuned to each model:
 
-| **Board**       | **Config Package** |
-| --------------- | -----------------  |
-| [H64]           | [pine64/h64]       |
-| [PineBook]      | [pine64/book]      |
-| [PinePhone]     | [pine64/phone]     |
-| [RockPro64]     | [pine64/rockpro64] |
+| **Board**   | **Config Package** |
+|-------------|--------------------|
+| [H64]       | [pine64/h64]       |
+| [PineBook]  | [pine64/book]      |
+| [PinePhone] | [pine64/phone]     |
+| [Rock64]    | [pine64/rock64]    |
+| [RockPro64] | [pine64/rockpro64] |
 
 [H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[Rock64]: https://www.pine64.org/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
+
 [pine64/h64]: ./h64
 [pine64/book]: ./book
 [pine64/phone]: ./phone
+[pine64/rock64]: ./rock64
 [pine64/rockpro64]: ./rockpro64
 
 # Flashing
