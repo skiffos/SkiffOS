@@ -46,15 +46,16 @@ usually only happen between major Skiff/Buildroot releases if so.
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**      | **Config Package** | Status       |
-|----------------|--------------------|--------------|
-| [u] + u2       | odroid/u           | Discontinued |
-| [c2]           | odroid/c2          |              |
-| [xu3]          | odroid/xu          | Discontinued |
-| [xu4] (+ xu4q) | odroid/xu          |              |
-| [hc2]          | odroid/xu          |              |
-| [n2]           | odroid/n2          | Includes n2+ |
-| [c4]           | odroid/c4          | Reboot issue |
+| **Board**      | **Config Package** | Status         |
+|----------------|--------------------|----------------|
+| [u] + u2       | odroid/u           | Discontinued   |
+| [c2]           | odroid/c2          |                |
+| [xu3]          | odroid/xu          | Discontinued   |
+| [xu4] (+ xu4q) | odroid/xu          |                |
+| [hc2]          | odroid/xu          |                |
+| [n2]           | odroid/n2          | Includes n2+   |
+| [c4]           | odroid/c4          | Reboot issue   |
+| [go] Super     | odroid/go          | Rk3326 gamepad |
 
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [xu3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
@@ -63,6 +64,7 @@ tested by the developers unless otherwise noted.
 [n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
 [c2]: https://www.hardkernel.com/shop/odroid-c2/
 [c4]: https://www.hardkernel.com/shop/odroid-c4/
+[go]: https://wiki.odroid.com/odroid_go_super/start
 
 ## SD Card Compatibility
 

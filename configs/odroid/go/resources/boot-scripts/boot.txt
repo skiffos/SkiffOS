@@ -1,0 +1,39 @@
+# odroidgoa-uboot-config
+
+# U-Boot Parameters
+setenv initrd_high "0xffffffff"
+setenv fdt_high "0xffffffff"
+
+# setenv silent 1
+setenv condev "console=tty1 console=ttyFIQ0,115200n8"
+setenv verify 0
+setenv bootlogo "false"
+
+setenv kernel_addr_r "0x40008000"
+setenv initramfs_addr_r "0x46000000"
+setenv dtb_addr_r "0x44000000"
+
+# Mac address configuration
+# setenv macaddr "00:1e:06:61:7a:39"
+# setenv macaddrconfig "smsc95xx.macaddr=${macaddr}"
+
+#---------------------------------
+# Boots from memory.
+# --------------------------------
+setenv bootmem "root=/dev/initrd ro ramdisk_size=100000"
+
+# base kernel config options
+setenv baseconfig "fbcon=rotate:3 fsck.repair=yes consoleblank=0 net.ifnames=0 no_console_suspend"
+
+# Load kernel, initrd and dtb
+fatload mmc 0:1 ${kernel_addr_r} Image
+fatload mmc 0:1 ${initramfs_addr_r} rootfs.cpio.uboot
+fatload mmc 0:1 ${dtb_addr_r} rk3326-odroidgo3-linux.dtb
+
+fdt addr ${dtb_addr_r}
+
+# final boot args
+setenv bootargs "${bootmem} ${condev} ${baseconfig} ${macaddrconfig}"
+
+# Boot the board
+booti ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}

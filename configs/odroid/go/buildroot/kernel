@@ -1,0 +1,4 @@
+# skiffos odroid-5.18.y- branch: tobetter fork w/ xu4 support
+# skiff-odroid-5.18.y-odroidgo-retro
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,ce4b7ae5676593b26bbf419da578db4f7e5ce716)/linux-skiff-odroid-go-retro-5.18.0-rc4-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_16=y
