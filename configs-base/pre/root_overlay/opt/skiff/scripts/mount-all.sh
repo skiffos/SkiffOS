@@ -129,23 +129,25 @@ fi
 echo "Building SSH key list..."
 mkdir -p $KEYS_PERSIST
 echo "Put your SSH keys (*.pub) here." > $KEYS_PERSIST/readme
-mkdir -p /tmp/skiff_ssh_keys
+
 mkdir -p /root/.ssh
+chmod 700 /root/.ssh
 touch /root/.ssh/authorized_keys
+chmod 600 /root/.ssh/authorized_keys
+mkdir -p /root/.ssh/tmp-keys
+chmod 700 /root/.ssh/tmp-keys
 if find ${KEYS_PERSIST} -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
-  cp $KEYS_PERSIST/*.pub /tmp/skiff_ssh_keys/ 2>/dev/null || true
+  cp $KEYS_PERSIST/*.pub /root/.ssh/tmp-keys/ 2>/dev/null || true
 fi
 if find /etc/skiff/authorized_keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
-  cp /etc/skiff/authorized_keys/*.pub /tmp/skiff_ssh_keys/ 2>/dev/null || true
+  cp /etc/skiff/authorized_keys/*.pub /root/.ssh/tmp-keys/ 2>/dev/null || true
 fi
-if find /tmp/skiff_ssh_keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
-  cat /tmp/skiff_ssh_keys/*.pub > /root/.ssh/authorized_keys
+if find /root/.ssh/tmp-keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
+  cat /root/.ssh/tmp-keys/*.pub > /root/.ssh/authorized_keys
 else
   echo "No ssh keys present."
 fi
-rm -rf /tmp/skiff_ssh_keys
-chmod 700 /root/.ssh
-chmod 600 /root/.ssh/authorized_keys
+rm -rf /root/.ssh/tmp-keys
 
 mkdir -p /etc/NetworkManager/system-connections
 if ! mountpoint /etc/NetworkManager/system-connections ; then
