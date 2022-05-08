@@ -345,6 +345,10 @@ int main(int argc, char *argv[]) {
 
   // Mount a temporary directory on persist overlayfs over mountpoint
 #ifndef NO_MUTABLE_OVERLAY
+  if (stat(overlay_tmp_mountpoint, &st) == -1) {
+    mkdir(overlay_tmp_mountpoint, 0755);
+  }
+
   // mount a tmpfs for the new upper mountpoint & workdir
   // this makes all changes to / ephemeral and in-RAM
   // this is similar behavior to loading the system as an initramfs.
