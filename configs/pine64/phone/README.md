@@ -36,11 +36,11 @@ approaches, please see the "Flashing" section in the [common readme].
 
 ## Skiff Core: Available Variants
 
-| **Distribution**          | **Config Package**           | **Notes**     |
-|---------------------------|------------------------------|---------------|
-| PinePhone [Manjaro] KDE   | core/pinephone_manjaro_kde   | KDE Variant   |
-| PinePhone [Manjaro] Phosh | core/pinephone_manjaro_phosh | Phosh variant |
-| PinePhone [NixOS]         | core/pinephone_nixos         | NixOS variant |
+| **Distribution**          | **Config Package**           | **Notes**        |
+|---------------------------|------------------------------|------------------|
+| PinePhone [Manjaro] KDE   | core/pinephone_manjaro_kde   |                  |
+| PinePhone [Manjaro] Phosh | core/pinephone_manjaro_phosh | ⚠ Needs updating |
+| PinePhone [NixOS]         | core/pinephone_nixos         |                  |
 
 [Manjaro]: https://manjaro.org/
 [NixOS]: https://github.com/NixOS/nixpkgs/
