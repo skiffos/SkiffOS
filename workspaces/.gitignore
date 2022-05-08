@@ -1,3 +1,4 @@
 .config_*/
+.ccache/
 */
 !.gitignore
