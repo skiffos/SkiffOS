@@ -14,7 +14,7 @@ if ! docker inspect portainer > /dev/null; then
            --restart=always \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v portainer_data:/data \
-           cr.portainer.io/portainer/portainer-ce:2.11.0
+           cr.portainer.io/portainer/portainer-ce:2.13.0
 else
     echo "Portainer server already running."
     docker start portainer || true
@@ -28,7 +28,7 @@ if ! docker inspect portainer_agent > /dev/null; then
            --name portainer_agent \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v /var/lib/docker/volumes:/var/lib/docker/volumes \
-           cr.portainer.io/portainer/agent:2.11.0
+           cr.portainer.io/portainer/agent:2.13.0
 else
     echo "Portainer agent already running."
     docker start portainer_agent || true
