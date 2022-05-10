@@ -42,5 +42,6 @@ images:
       policy: ifnotexists
       # avoid docker hub rate limits
       registry: quay.io
-    build:
-      source: /opt/skiff/coreenv/skiff-core-pinephone-nixos
+    # avoid building on the phone itself.
+    # build:
+    #   source: /opt/skiff/coreenv/skiff-core-pinephone-nixos
