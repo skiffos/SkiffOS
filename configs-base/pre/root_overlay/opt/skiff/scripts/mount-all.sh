@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -a
 
 BOOT_DEVICE="LABEL=boot"
 PERSIST_DEVICE="LABEL=persist"
