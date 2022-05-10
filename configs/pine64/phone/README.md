@@ -40,7 +40,7 @@ approaches, please see the "Flashing" section in the [common readme].
 |---------------------------|------------------------------|------------------|
 | PinePhone [Manjaro] KDE   | core/pinephone_manjaro_kde   |                  |
 | PinePhone [Manjaro] Phosh | core/pinephone_manjaro_phosh | ⚠ Needs updating |
-| PinePhone [NixOS]         | core/pinephone_nixos         |                  |
+| PinePhone [NixOS]         | core/pinephone_nixos         | ⚠ Demo only      |
 
 [Manjaro]: https://manjaro.org/
 [NixOS]: https://github.com/NixOS/nixpkgs/
