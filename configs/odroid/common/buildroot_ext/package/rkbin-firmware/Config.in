@@ -1,0 +1,16 @@
+config BR2_PACKAGE_RKBIN_FIRMWARE
+	bool "rkbin-firmware"
+	help
+	  Rockchip boot firmware.
+
+	  https://github.com/skiffos/rkbin
+
+if BR2_PACKAGE_RKBIN_FIRMWARE
+
+config BR2_PACKAGE_RKBIN_FIRMWARE_TARGET
+	string "rkbin target name"
+	default "rk35"
+	help
+	  Target and subdirectory name in rkbin.
+
+endif # BR2_PACKAGE_RKBIN_FIRMWARE

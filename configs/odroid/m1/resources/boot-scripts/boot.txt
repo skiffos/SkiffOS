@@ -1,0 +1,43 @@
+setenv board odroid${variant}
+
+echo "SkiffOS for Odroid M1 board ${board} starting..."
+
+# setenv silent 1
+setenv condev "console=tty1 earlycon=uart8250,mmio32,0xfe660000 console=ttyS2,1500000 loglevel=7"
+setenv verify 0
+setenv bootlogo "false"
+
+# setenv kernel_addr_r "0x40008000"
+# setenv ramdisk_addr_r "0x46000000"
+# setenv fdt_addr_r "0x44000000"
+
+#---------------------------------
+# Boots from memory.
+# --------------------------------
+setenv bootmem "root=/dev/ram0 rw"
+
+# base kernel config options
+setenv mtdconfig "mtdparts=sfc_nor:0x20000@0xe0000(env),0x200000@0x100000(uboot),0x100000@0x300000(splash),0xc00000@0x400000(firmware)"
+setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 pci=nomsi mem=4096M ${mtdconfig}"
+
+# CPU Governor Selection
+# Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# final boot args
+setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
+
+# Load kernel, initrd and dtb in that sequence
+echo "Loading Image..."
+fatload mmc ${devnum}:1 ${kernel_addr_r} Image
+
+echo "Loading rootfs.cpio.uboot..."
+fatload mmc ${devnum}:1 ${ramdisk_addr_r} rootfs.cpio.uboot
+
+echo "Loading rk3568-odroid-m1.dtb"
+fatload mmc ${devnum}:1 ${fdt_addr_r} rk3568-odroid-m1.dtb
+
+fdt addr ${fdt_addr_r}
+
+# Boot the board
+booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}

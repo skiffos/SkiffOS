@@ -1,0 +1,31 @@
+# Note: currently we do not flash u-boot to the Odroid M1, and instead rely on
+# the built-in bootloader.
+
+# compiling requires x86 closed-source rockchip tools
+# see: https://github.com/skiffos/odroidm1-uboot-blobs
+# BR2_PACKAGE_ODROIDM1_UBOOT_BLOBS=y
+
+# BR2_TARGET_UBOOT is not set
+# BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
+
+# firmware
+# BR2_PACKAGE_RKBIN_FIRMWARE=y
+# BR2_PACKAGE_RKBIN_FIRMWARE_TARGET="rk35"
+
+# odroidm1-v2017.09
+# BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
+# BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,2ab3a3576e556a2fa9ab6a289f12ab0196bfd718)/u-boot-odroidm1-v2017.09-r1.tar.gz"
+
+# BR2_TARGET_UBOOT_USE_DEFCONFIG=y
+# BR2_TARGET_UBOOT_USE_CUSTOM_CONFIG is not set
+# BR2_TARGET_UBOOT_BOARD_DEFCONFIG="odroid_rk3568"
+
+# BR2_TARGET_UBOOT_NEEDS_DTC=y
+# BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
+
+# BR2_TARGET_UBOOT_FORMAT_BIN is not set
+# BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
+# BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot.img rk356x_spl_loader_v1.05.108.bin"
+
+# BR2_TARGET_UBOOT_SPL=y
+# BR2_TARGET_UBOOT_SPL_NAME="rk356x_spl_loader_v1.05.108.bin"
