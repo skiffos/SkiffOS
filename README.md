@@ -140,22 +140,22 @@ Here are the boards/systems currently supported:
 | **Board**            | **Config Package**    | **Bootloader**   | **Kernel**     | **Notes**     |
 |----------------------|-----------------------|------------------|----------------|---------------|
 | [Docker Img]         | [virt/docker]         | N/A              | N/A            | Run in Docker |
-| [Qemu]               | [virt/qemu]           | N/A              | ✔ 5.17.4       | Run in QEmu   |
-| VirtualBox           | [virt/virtualbox]     | N/A              | ✔ 5.17.4       | Run in VM     |
+| [Qemu]               | [virt/qemu]           | N/A              | ✔ 5.17.6       | Run in QEmu   |
+| VirtualBox           | [virt/virtualbox]     | N/A              | ✔ 5.17.6       | Run in VM     |
 | [WSL] on Windows     | [virt/wsl]            | N/A              | N/A            | Run in WSL2   |
 |----------------------|-----------------------|------------------|----------------|---------------|
 | [Allwinner Nezha]    | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.14-rc4  | RISC-V D1     |
-| [Apple Macbook]      | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.17.4       | ✔ Tested      |
-| [BananaPi M1+/Pro]   | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ⚠ Obsolete    |
-| [BananaPi M1]        | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ⚠ Obsolete    |
-| [BananaPi M2]        | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ⚠ Obsolete    |
-| [BananaPi M2+]       | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.4       |               |
-| [BananaPi M3]        | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.17.4       | ✔ Tested      |
+| [Apple Macbook]      | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.17.6       | ✔ Tested      |
+| [BananaPi M1+/Pro]   | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.6       | ⚠ Obsolete    |
+| [BananaPi M1]        | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.17.6       | ⚠ Obsolete    |
+| [BananaPi M2]        | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.17.6       | ⚠ Obsolete    |
+| [BananaPi M2+]       | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.6       |               |
+| [BananaPi M3]        | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.17.6       | ✔ Tested      |
 | [BeagleBone AI]      | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBone Black]   | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBoard X15]    | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
-| [Wandboard]          | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.17.4       |               |
-| [Intel x86/64]       | [intel/x64]           | ✔ Grub           | ✔ 5.17.4       | ✔ Tested      |
+| [Wandboard]          | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.17.6       |               |
+| [Intel x86/64]       | [intel/x64]           | ✔ Grub           | ✔ 5.17.6       | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [Odroid C2]          | [odroid/c2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc5  | ⚠ Obsolete    |
@@ -166,10 +166,10 @@ Here are the boards/systems currently supported:
 | [Odroid U]           | [odroid/u]            | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc5  | ⚠ Obsolete    |
 | [Odroid XU3]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc5  | ⚠ Obsolete    |
 | [Odroid XU4]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc5  | ✔ Tested      |
-| [OrangePi Lite]      | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 5.17.4       |               |
-| [OrangePi Zero]      | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.17.4       |               |
-| [PcDuino 3]          | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.17.4       |               |
-| [PcEngines APU2]     | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 5.17.4       |               |
+| [OrangePi Lite]      | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 5.17.6       |               |
+| [OrangePi Zero]      | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.17.6       |               |
+| [PcDuino 3]          | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.17.6       |               |
+| [PcEngines APU2]     | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 5.17.6       |               |
 | [Pi 0]               | [pi/0]                | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
 | [Pi 1]               | [pi/1]                | N/A              | ✔ rpi-5.15.33  |               |
 | [Pi 3] + 1, 2        | [pi/3]                | N/A              | ✔ rpi-5.15.33  | ✔ Tested      |
@@ -180,7 +180,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.5  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
-| [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.4       | ✔ Tested      |
+| [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.6       | ✔ Tested      |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
