@@ -7,12 +7,6 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,012f5a3d01be6d44e32c74bb3637ec281790b297)/linux-riscv-d1-5.14.0-rc4.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_14=y
 
-# branch: riscv-d1-5.18.x
-# source: https://github.com/smaeul/linux/commits/riscv/d1-wip
-# untested
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,cc63db754b218d3ef9b529a82e04b66252e9bca1)/linux-riscv-d1-5.18.0-rc1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_16=y
-
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="nezha"
 BR2_KERNEL_HEADERS_AS_KERNEL=y
