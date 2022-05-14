@@ -48,6 +48,11 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_FSTYPE
 	help
 	  Overrides the default value of vfat for /mnt/boot
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_BIND
+	string "mount /mnt/boot as a bind mount"
+	help
+	  Mounts the MOUNT_BOOT path as a bind mount to /mnt/boot.
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_PROC
 	bool "mount /proc in the target fs"
 	default y

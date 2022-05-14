@@ -38,6 +38,9 @@
 // To mount a device to /mnt/boot before the rootfs.
 // #define MOUNT_BOOT "/dev/mmcblk0p1"
 
+// To mount / to /mnt/boot before the rootfs.
+// #define MOUNT_BOOT_ROOT
+
 // To disable resizing persist
 // #define NO_RESIZE_PERSIST
 
@@ -311,7 +314,11 @@ int main(int argc, char *argv[]) {
     mkdir(boot_parent_mnt, 0755);
   }
   fprintf(logfd, "SkiffOS init: mounting %s to %s...\n", mount_boot_device, boot_parent_mnt);
-  if (mount(mount_boot_device, boot_parent_mnt, mount_boot_fstype, 0, NULL) != 0) {
+  unsigned long mount_boot_opts = 0;
+#ifdef MOUNT_BOOT_BIND
+  mount_boot_opts = MS_BIND|MS_SHARED;
+#endif
+  if (mount(mount_boot_device, boot_parent_mnt, mount_boot_fstype, mount_boot_opts, NULL) != 0) {
     res = errno;
     fprintf(logfd, "Failed to mount %s fstype %s to mount point %s: %s\n",
             mount_boot_device, mount_boot_fstype, boot_parent_mnt, strerror(res));
