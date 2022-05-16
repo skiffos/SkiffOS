@@ -5,6 +5,8 @@ Allwinner Nezha Risc-V Board (and similar).
 
 **Note: this is a RISC-V architecture CPU, not all Docker images will support it.**
 
+![](../../../resources/images/nezha-screenshot.png)
+
 References:
 
  - https://linux-sunxi.org/Allwinner_Nezha
