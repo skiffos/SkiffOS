@@ -2,6 +2,7 @@
 set -e
 
 # TODO: switch to systemd.swap utility
+# TODO: https://github.com/systemd/zram-generator
 
 if [ ! -d "/opt/skiff" ]; then
   echo "Non-skiff system detected, bailing out!"
@@ -11,7 +12,7 @@ fi
 # Enable ZRAM if not already enabled.
 # This will compress contents of RAM to avoid using the swapfile.
 SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
-ZRAM_SIZE="2048M"
+ZRAM_SIZE="${ZRAM_SIZE:-2048M}"
 if ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
     echo "Enabling ZRAM at /dev/zram0..."
     modprobe zram || true
