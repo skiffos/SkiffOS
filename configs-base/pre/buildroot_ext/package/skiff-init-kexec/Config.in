@@ -1,0 +1,48 @@
+config BR2_PACKAGE_SKIFF_INIT_KEXEC
+	bool "skiff-init-kexec"
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_TOOLCHAIN_USES_UCLIBC
+	depends on BR2_USE_MMU
+	select BR2_PACKAGE_STATIC_KEXEC
+	help
+	  Statically linked init binary to kexec the system.
+
+if BR2_PACKAGE_SKIFF_INIT_KEXEC
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_PATH
+	string "path to static kexec"
+	default "/boot/skiff-init/kexec"
+	help
+	  Path to the kexec binary to run.
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_KERNEL
+	string "path to the kernel image"
+	default "/boot/Image"
+	help
+	  Path to load as the new kernel Image.
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE
+	string "cmdline for the kernel"
+	help
+	  Set the command line args for the new kernel.
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE_APPEND
+	bool "append to cmdline"
+  default y
+	help
+	  Append to the command line instead of override.
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE_REUSE
+	bool "reuse cmdline from previous kernel"
+	default y
+	help
+	  Reuse the command line from the existing kernel.
+
+config BR2_PACKAGE_SKIFF_INIT_KEXEC_INITRD
+	string "initrd for the kernel"
+	help
+	  Path to load as the new kernel initramfs.
+	  
+	  example: /boot/rootfs.cpio
+
+endif # BR2_PACKAGE_SKIFF_INIT_KEXEC

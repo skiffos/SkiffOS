@@ -1,0 +1,52 @@
+################################################################################
+#
+# skiff-init-kexec
+#
+################################################################################
+
+SKIFF_INIT_KEXEC_INSTALL_IMAGES = YES
+
+SKIFF_INIT_KEXEC_PATH = $(call qstrip,$(BR2_PACKAGE_SKIFF_INIT_KEXEC_PATH))
+SKIFF_INIT_KEXEC_KERNEL = $(call qstrip,$(BR2_PACKAGE_SKIFF_INIT_KEXEC_KERNEL))
+SKIFF_INIT_KEXEC_CFLAGS = $(TARGET_CFLAGS) -static \
+	-DKEXEC_PATH='"$(SKIFF_INIT_KEXEC_PATH)"' \
+	-DKEXEC_KERNEL='"$(SKIFF_INIT_KEXEC_KERNEL)"'
+
+SKIFF_INIT_KEXEC_CMDLINE = $(call qstrip,$(BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE))
+ifneq ($(SKIFF_INIT_KEXEC_CMDLINE),)
+SKIFF_INIT_KEXEC_CFLAGS += \
+	-DKEXEC_CMDLINE='"$(SKIFF_INIT_KEXEC_CMDLINE)"'
+endif
+
+ifeq ($(BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE_APPEND),y)
+SKIFF_INIT_KEXEC_CFLAGS += -DKEXEC_CMDLINE_APPEND
+endif
+
+ifeq ($(BR2_PACKAGE_SKIFF_INIT_KEXEC_CMDLINE_REUSE),y)
+SKIFF_INIT_KEXEC_CFLAGS += -DKEXEC_CMDLINE_REUSE
+endif
+
+SKIFF_INIT_KEXEC_INITRD = $(call qstrip,$(BR2_PACKAGE_SKIFF_INIT_KEXEC_INITRD))
+ifneq ($(SKIFF_INIT_KEXEC_INITRD),)
+SKIFF_INIT_KEXEC_CFLAGS += \
+	-DKEXEC_INITRD='"$(SKIFF_INIT_KEXEC_INITRD)"'
+endif
+
+define SKIFF_INIT_KEXEC_BUILD_CMDS
+	$(TARGET_CC) $(SKIFF_INIT_KEXEC_CFLAGS) -o $(@D)/skiff-init-kexec \
+		$(SKIFF_INIT_KEXEC_PKGDIR)/skiff-init-kexec.c
+	$(TARGET_STRIP) -s $(@D)/skiff-init-kexec
+endef
+
+define SKIFF_INIT_KEXEC_INSTALL_IMAGES_CMDS
+	mkdir -p $(BINARIES_DIR)/skiff-init
+	$(INSTALL) -m 755 -D $(@D)/skiff-init-kexec \
+		$(BINARIES_DIR)/skiff-init/skiff-init-kexec
+endef
+
+define SKIFF_INIT_KEXEC_LINUX_CONFIG_FIXUPS
+	$(call KCONFIG_ENABLE_OPT,CONFIG_KEXEC_FILE)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_RELOCATABLE)
+endef
+
+$(eval $(generic-package))
