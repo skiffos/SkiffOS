@@ -70,6 +70,11 @@ fi
 if [ -f ${WS}/skiff-init.img ]; then
     $RS ${WS}/skiff-init.img $SSHSTR:/mnt/boot/skiff-init.img
 fi
+
+if [ -d ${WS}/boot_part ]; then
+    $RS ${WS}/boot_part/ $SSHSTR:/mnt/boot/
+fi
+
 if [ -d ${WS}/rootfs_part ]; then
     $RS ${WS}/rootfs_part/ $SSHSTR:/mnt/rootfs/
 fi
