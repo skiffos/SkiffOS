@@ -226,6 +226,7 @@ Here are the boards/systems currently supported:
 [nv-4.9.309]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 [rEFInd]: https://www.rodsbooks.com/refind/
 
+[allwinner/licheerv]: ./configs/allwinner/licheerv
 [allwinner/nezha]: ./configs/allwinner/nezha
 [apple/macbook]: ./configs/apple/macbook
 [bananapi/m1]: ./configs/bananapi/m1
@@ -259,7 +260,6 @@ Here are the boards/systems currently supported:
 [pine64/phone]: ./configs/pine64/phone
 [pine64/rock64]: ./configs/pine64/rock64
 [pine64/rockpro64]: ./configs/pine64/rockpro64
-[sipeed/licheerv]: ./configs/sipeed/licheerv
 [usbarmory/mk2]: ./configs/usbarmory
 [virt/docker]: ./configs/virt/docker
 [virt/qemu]: ./configs/virt/qemu
