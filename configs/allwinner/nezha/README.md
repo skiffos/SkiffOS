@@ -23,8 +23,8 @@ These commands require root and may need to be run with `sudo bash`.
 ```
 export SKIFF_WORKSPACE=nezha
 export ALLWINNER_SD=/dev/sdx # make sure this is correct - i.e. /dev/sdb
-make cmd/allwinner/nezha/format
-make cmd/allwinner/nezha/install
+make cmd/allwinner/d1/format
+make cmd/allwinner/d1/install
 ```
 
 The "format" command creates the partition layout and installs u-boot. This only
@@ -46,7 +46,7 @@ export SKIFF_WORKSPACE=nezha
 # set the output path
 export ALLWINNER_IMAGE=./nezha.img
 # make the image
-make cmd/allwinner/nezha/buildimage
+make cmd/allwinner/d1/buildimage
 ```
 
 The image can then be flashed to the target:
