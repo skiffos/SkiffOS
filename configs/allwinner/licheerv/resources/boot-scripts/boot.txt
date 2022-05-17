@@ -10,7 +10,7 @@ setenv condev "earlycon=sbi console=ttyS0,115200n8 loglevel=8"
 setenv bootmem "root=/dev/mmcblk0p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
-setenv baseconfig "fsck.repair=yes net.ifnames=0 cma=96M"
+setenv baseconfig "fsck.repair=yes net.ifnames=0 cma=96M video=HDMI-A-1:D fbcon=map:0"
 
 # final boot args
 setenv bootargs "${bootmem} ${condev} ${baseconfig}"
