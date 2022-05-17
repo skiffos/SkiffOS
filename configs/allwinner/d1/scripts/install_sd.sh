@@ -33,6 +33,8 @@ MOUNTS_DIR=${outp_path}/mounts
 mkdir -p ${MOUNTS_DIR}
 WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
 
+source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
+
 # deletes the temp directory
 function cleanup {
 sync || true
@@ -67,7 +69,9 @@ fi
 if [ -d ${IMAGES_DIR}/persist_part/ ]; then
     rsync -rav ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
 fi
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
+if [ -f ${boot_conf_root}/resources/resize2fs.conf ]; then
+    cp ${boot_conf_root}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
+fi
 rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 rsync -rv \
       ./*.dtb ./Image \
@@ -92,7 +96,7 @@ enable_silent() {
 }
 
 echo "Compiling boot.txt..."
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/boot-scripts/boot.txt ${BOOT_DIR}/boot.txt
+cp ${boot_conf_root}/resources/boot-scripts/boot.txt ${BOOT_DIR}/boot.txt
 enable_silent ${BOOT_DIR}/boot.txt
 mkimage -A riscv -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${BOOT_DIR}/boot.scr
 cd -
