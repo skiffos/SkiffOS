@@ -4,31 +4,24 @@ echo "SkiffOS U-Boot for Allwinner Nezha loaded from ${devtype} ${devnum}"
 setenv verify 0
 setenv bootlogo "false"
 
-setenv condev "earlyprintk=sunxi-uart,0x02500000 console=ttyS0,115200 console=tty0 loglevel=8"
+setenv condev "earlyprintk=sunxi-uart,0x02500000 earlycon=sbi console=ttyS0,115200 loglevel=8"
 
 # use /init script to deferred mount /
 setenv bootmem "root=/dev/mmcblk0p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
-setenv baseconfig "fsck.repair=yes net.ifnames=0"
-
-# CPU Governor Selection
-# Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
-setenv governor "schedutil"
+setenv baseconfig "fsck.repair=yes net.ifnames=0 cma=96M"
 
 # final boot args
-setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
+setenv bootargs "${bootmem} ${condev} ${baseconfig}"
 
 # Load kernel and dtb
 echo "Loading Image..."
 ext4load ${devtype} ${devnum}:1 ${kernel_addr_r} /boot/Image
 
-echo "Loading sun20i-d1-nezha.dtb..."
-ext4load ${devtype} ${devnum}:1 ${fdt_addr_r} /boot/sun20i-d1-nezha.dtb
+# echo "Loading sun20i-d1-nezha.dtb..."
+# ext4load ${devtype} ${devnum}:1 ${fdt_addr_r} /boot/sun20i-d1-nezha.dtb
+# booti ${kernel_addr_r} - ${fdt_addr_r}
 
-# fdt adjustments
-fdt addr ${fdt_addr_r}
-fdt resize
-
-# Boot the board
-booti ${kernel_addr_r} - ${fdt_addr_r}
+# Boot the board, re-using the u-boot fdt
+booti ${kernel_addr_r} - ${fdtcontroladdr}

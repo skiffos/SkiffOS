@@ -4,6 +4,7 @@ BR2_TARGET_SUN20I_D1_SPL=y
 # opensbi
 BR2_TARGET_OPENSBI=y
 BR2_TARGET_OPENSBI_PLAT="generic"
+BR2_TARGET_OPENSBI_BUILD_FW_PIC=y
 # BR2_TARGET_OPENSBI_INSTALL_JUMP_IMG is not set
 
 # d1-wip: opensbi with support for d1 cpu
