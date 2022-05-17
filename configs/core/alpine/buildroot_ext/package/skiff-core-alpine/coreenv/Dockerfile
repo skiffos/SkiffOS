@@ -1,5 +1,6 @@
 # multi-architecture image
-FROM alpine:edge as builder
+ARG DISTRO
+FROM ${DISTRO:-alpine:edge} as stage1
 
 RUN apk upgrade --no-cache
 RUN apk add --no-cache \
@@ -9,10 +10,11 @@ RUN apk add --no-cache \
     bash
 RUN rm /var/cache/apk/* || true
 
-FROM scratch
 
 # flatten the image to one layer
-COPY --from=builder / /
+# RUN rm /var/cache/apk/* || true
+# FROM scratch
+# COPY --from=stage1 / /
 
 ENTRYPOINT ["/sbin/init"]
 CMD []
