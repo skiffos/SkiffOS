@@ -8,6 +8,7 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 # source: https://github.com/smaeul/u-boot/commits/d1-wip
 BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,7446a47204fd8923b99ced0091667979c4fd27fa)/u-boot-2022.04-nezha-7446a4-r1.tar.gz"
 
+# Default to nezha config, overridden in board config.
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="nezha"
 
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set

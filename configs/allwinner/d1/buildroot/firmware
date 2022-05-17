@@ -3,10 +3,10 @@ BR2_TARGET_SUN20I_D1_SPL=y
 
 # opensbi
 BR2_TARGET_OPENSBI=y
-BR2_TARGET_OPENSBI_CUSTOM_TARBALL=y
 BR2_TARGET_OPENSBI_PLAT="generic"
 # BR2_TARGET_OPENSBI_INSTALL_JUMP_IMG is not set
 
 # d1-wip: opensbi with support for d1 cpu
 # source: https://github.com/smaeul/opensbi/tree/d1-wip
+BR2_TARGET_OPENSBI_CUSTOM_TARBALL=y
 BR2_TARGET_OPENSBI_CUSTOM_TARBALL_LOCATION="$(call github,smaeul,opensbi,4bcaf9aa1dbc69ccb68998c7d462ef895163d493)/opensbi-nezha-4bcaf9.tar.gz"
