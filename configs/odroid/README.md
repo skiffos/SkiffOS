@@ -31,15 +31,10 @@ $ make cmd/odroid/common/format  # tell skiff to format the device
 $ make cmd/odroid/common/install # tell skiff to install the os
 ```
 
-You only need to run the `format` step once. It will create the partition table
-and flash u-boot to the beginning of the drive. The `install` step will
-overwrite the current Skiff installation on the card, taking care to not touch
-any persistent data (from the persist partition). It's safe to upgrade Skiff
-independently from your containerized environments.
-
-Note: if Docker is upgraded between Skiff versions, we can't vouch for Docker
-not breaking backwards compatibility at that time, however; this change would
-usually only happen between major Skiff/Buildroot releases if so.
+You only need to run the `format` step once. It will create the partition table.
+The `install` step will overwrite the current Skiff installation on the card,
+taking care to not touch any persistent data (from the persist partition). It's
+safe to upgrade Skiff independently from your persistent data.
 
 ## Board Compatibility
 

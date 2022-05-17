@@ -11,29 +11,32 @@ References:
 
  - https://linux-sunxi.org/Allwinner_Nezha
  - https://ovsienko.info/D1/
+
+## Getting Started
+
+Set the comma-separated `SKIFF_CONFIG` variable:
+
+```sh
+$ export SKIFF_CONFIG=allwinner/nezha,skiff/core
+$ make configure                   # configure the system
+$ make compile                     # build the system
+```
+
+Once the build is complete, we will flash to a MicroSD card to boot. You will
+need to `sudo bash` for this on most systems.
+
+```sh
+$ sudo bash             # switch to root
+$ export ALLWINNER_SD=/dev/sdz # make sure this is right! (usually sdb)
+$ make cmd/allwinner/d1/format  # tell skiff to format the device
+$ make cmd/allwinner/d1/install # tell skiff to install the os
+```
+
+You only need to run the `format` step once. It will create the partition table.
+The `install` step will overwrite the current Skiff installation on the card,
+taking care to not touch any persistent data (from the persist partition). It's
+safe to upgrade Skiff independently from your persistent data.
  
-# Flashing
-
-Skiff is easiest installed to a SD card. A tool can be used to flash the OS to
-the internal EMMC once booted to the SD card. The Nezha system will boot from
-the SD card if it is present and contains u-boot.
-
-These commands require root and may need to be run with `sudo bash`.
-
-```
-export SKIFF_WORKSPACE=nezha
-export ALLWINNER_SD=/dev/sdx # make sure this is correct - i.e. /dev/sdb
-make cmd/allwinner/d1/format
-make cmd/allwinner/d1/install
-```
-
-The "format" command creates the partition layout and installs u-boot. This only
-needs to be run once. The "install" command copies the latest Image, dtb, boot
-script, initramfs, and modules image to the boot and rootfs partitions. The root
-system can be updated without touching the "persist" partition by running
-"install" again whenever necessary.
-
-
 ## Building an Image
 
 It's possible to create a .img file instead of directly flashing a SD.
