@@ -144,7 +144,7 @@ Here are the boards/systems currently supported:
 | VirtualBox           | [virt/virtualbox]     | N/A              | ✔ 5.17.7       | Run in VM     |
 | [WSL] on Windows     | [virt/wsl]            | N/A              | N/A            | Run in WSL2   |
 |----------------------|-----------------------|------------------|----------------|---------------|
-| [Allwinner Nezha]    | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.14-rc4  | RISC-V D1     |
+| [Allwinner Nezha]    | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.18-rc4  | RISC-V D1     |
 | [Apple Macbook]      | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.17.7       | ✔ Tested      |
 | [BananaPi M1+/Pro]   | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.17.7       | ⚠ Obsolete    |
 | [BananaPi M1]        | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.17.7       | ⚠ Obsolete    |
@@ -180,7 +180,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.5  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
-| [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-boot 2022.04 | ✔ sm-5.14-rc4  | RISC-V D1     |
+| [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-boot 2022.04 | ✔ sm-5.18-rc4  | RISC-V D1     |
 | [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.7       | ✔ Tested      |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha

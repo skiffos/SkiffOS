@@ -1,15 +1,11 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# branch: riscv-d1-5.14.x
-# from nezha_defconfig in buildroot
-# source: https://github.com/smaeul/linux
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,012f5a3d01be6d44e32c74bb3637ec281790b297)/linux-riscv-d1-5.14.0-rc4.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_14=y
+# branch: riscv-d1
+# source: https://github.com/smaeul/linux branch d1-wip
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,f4bce410a6b47606557cb0d291572afc4c240c85)/linux-riscv-d1-5.18-rc4-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="nezha"
 BR2_KERNEL_HEADERS_AS_KERNEL=y
-
-BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun20i-d1-nezha"
