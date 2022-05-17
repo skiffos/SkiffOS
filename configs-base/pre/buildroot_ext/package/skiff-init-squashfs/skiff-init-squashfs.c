@@ -44,12 +44,8 @@
 // To enable resizing persist
 // #define RESIZE_PERSIST
 
-// To disable the mutable / overlayfs:
-// #define NO_MUTABLE_OVERLAY
-
 // Controls the maximum memory usage of the tmpfs /.
 // Used as the upper layer of the overlayfs.
-// Ignored if NO_MUTABLE_OVERLAY is set.
 #ifndef MUTABLE_OVERLAY_SIZE
 #define MUTABLE_OVERLAY_SIZE "1G"
 #endif
@@ -112,10 +108,7 @@ const char *persist_mnt = SKIFF_MOUNTPOINT "/mnt/persist";
 const char *boot_parent_mnt = "/mnt/boot";
 const char *persist_parent_mnt = "/mnt/persist";
 const char *image_mountpoint = SKIFF_MOUNTS_DIR "/image";
-
-#ifndef NO_MUTABLE_OVERLAY
 const char *overlay_tmp_mountpoint = SKIFF_MOUNTS_DIR "/system-tmp";
-#endif
 
 #ifdef MOUNT_BOOT
 #ifndef MOUNT_BOOT_FSTYPE
@@ -409,7 +402,6 @@ int main(int argc, char *argv[]) {
   }
 
   // Mount a temporary directory on persist overlayfs over mountpoint
-#ifndef NO_MUTABLE_OVERLAY
   if (stat(overlay_tmp_mountpoint, &st) == -1) {
     mkdir(overlay_tmp_mountpoint, 0755);
   }
@@ -458,7 +450,6 @@ int main(int argc, char *argv[]) {
   free(overlayArgs);
   free(overlay_upper_mountpoint);
   free(overlay_work_mountpoint);
-#endif
 
   // chmod the mountpoint so non-root users can use it
   if (chmod(mountpoint, 0755) != 0) {

@@ -99,6 +99,13 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_MAKE_SHARED
 	help
 	  Ensures that / is a shared mount on startup.
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MUTABLE_OVERLAY_SIZE
+	string "set the upper limit for the / tmpfs"
+	help
+	  Sets the upper limit for the / tmpfs size.
+	  
+	  Default: 1G, can specify as a % of RAM: e.x. 50%.
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_WRITE_SKIFF_INIT_PID
 	bool "write skiff-init pid file"
 	help
