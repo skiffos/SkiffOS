@@ -5,6 +5,8 @@ Sipeed LicheeRV Dock Risc-V Board (and similar).
 
 **Note: this is a RISC-V architecture CPU, not all Docker images will support it.**
 
+![](../../../resources/images/licheerv-screenshot.png)
+
 References:
 
  - https://linux-sunxi.org/Sipeed_Lichee_RV
