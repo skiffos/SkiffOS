@@ -1,4 +1,4 @@
-From 798ae737a1a72fec487b2cccb5a045bd52514d00 Mon Sep 17 00:00:00 2001
+From 67222b537bbe2c428f8c596be93934b91911a47c Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Thu, 14 Apr 2022 19:38:54 -0700
 Subject: [PATCH] sunxi-common: increase kernel size for risc-v
