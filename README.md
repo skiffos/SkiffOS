@@ -180,6 +180,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.5  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.17.5  | ✔ Tested      |
+| [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-boot 2022.04 | ✔ sm-5.14-rc4  | RISC-V D1     |
 | [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.7       | ✔ Tested      |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
@@ -218,6 +219,7 @@ Here are the boards/systems currently supported:
 [Qemu]: ./configs/virt/qemu
 [Rock64]: https://www.pine64.org/devices/single-board-computers/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
+[Sipeed LicheeRV]: https://linux-sunxi.org/Sipeed_Lichee_RV
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [Wandboard]: https://elinux.org/Wandboard
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
@@ -257,6 +259,7 @@ Here are the boards/systems currently supported:
 [pine64/phone]: ./configs/pine64/phone
 [pine64/rock64]: ./configs/pine64/rock64
 [pine64/rockpro64]: ./configs/pine64/rockpro64
+[sipeed/licheerv]: ./configs/sipeed/licheerv
 [usbarmory/mk2]: ./configs/usbarmory
 [virt/docker]: ./configs/virt/docker
 [virt/qemu]: ./configs/virt/qemu
