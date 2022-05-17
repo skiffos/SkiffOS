@@ -1,5 +1,5 @@
-# FROM debian:bullseye as stage1
-FROM debian:sid as stage1
+ARG DISTRO
+FROM ${DISTRO:-debian:sid} as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \

@@ -1,0 +1,39 @@
+ARG DISTRO
+FROM ${DISTRO} as stage1
+
+# Note: this section identical to skiff-core-defconfig
+ENV container=docker \
+  LANG=en_US.UTF-8 \
+  LANGUAGE=en_US:en \
+  LC_ALL=en_US.UTF-8
+
+# Create the user 'core' which will be the usual userspace account
+# Also allow core to run stuff as sudo without a password.
+RUN \
+  adduser -D \
+    -g "SkiffOS Core" \
+    -s "/bin/bash" \
+    core && \
+  echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# mask conflicting services
+RUN (systemctl mask tmp.mount dhcpd.service || true) && \
+    (systemctl mask NetworkManager wpa_supplicant || true) && \
+    find /etc/systemd/system \
+         /lib/systemd/system \
+         \( -path '*.wants/*' \
+         -name '*swapon*' \
+         -or -name '*ntpd*' \
+         -or -name '*resolved*' \
+         -or -name '*udev*' \
+         -or -name '*freedesktop*' \
+         -or -name '*remount-fs*' \
+         -or -name '*getty*' \
+         -or -name '*systemd-sysctl*' \
+         -or -name '*.mount' \
+         -or -name '*remote-fs*' \) \
+         -exec echo \{} \; \
+         -exec rm \{} \;
+
+WORKDIR /
+ENTRYPOINT ["/lib/systemd/systemd"]
