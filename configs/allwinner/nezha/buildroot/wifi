@@ -1,1 +1,4 @@
-BR2_PACKAGE_XR819_XRADIO=y
+# note: this package does /not/ work with the XR829.
+# https://github.com/anchao/zblue/blob/master/port/chip/xr829/xr829.c
+# Tina linux has a driver, but none for mainline linux currently.
+# BR2_PACKAGE_XR819_XRADIO is not set
