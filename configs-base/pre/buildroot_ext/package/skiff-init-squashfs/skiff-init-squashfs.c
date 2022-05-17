@@ -41,8 +41,8 @@
 // To mount / to /mnt/boot before the rootfs.
 // #define MOUNT_BOOT_ROOT
 
-// To disable resizing persist
-// #define NO_RESIZE_PERSIST
+// To enable resizing persist
+// #define RESIZE_PERSIST
 
 // To disable the mutable / overlayfs:
 // #define NO_MUTABLE_OVERLAY
@@ -242,7 +242,7 @@ int main(int argc, char *argv[]) {
   // it is assumed that root= was set to the "persist" partition and that the
   // boot data is stored in /boot. this may be changed later to support more
   // exotic setups.
-#ifndef NO_RESIZE_PERSIST
+#ifdef RESIZE_PERSIST
   if (stat(resize2fs_path, &st) == 0 && stat(resize2fs_conf, &st) == 0) {
     // read the path(s) to resize from the conf file.
     // all lines not starting with # are assumed to be paths to device files.
