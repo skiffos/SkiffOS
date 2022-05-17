@@ -82,8 +82,12 @@ if [ ! -b ${ALLWINNER_SD_SFX}1 ]; then
     echo "Warning: it appears your kernel has not created partition files at ${ALLWINNER_SD_SFX}."
 fi
 
-echo "Formatting persist partition..."
-mkfs.ext4 -F -L "persist" ${ALLWINNER_SD_SFX}1
+if [ -z "$KEEP_PERSIST" ]; then
+    echo "Formatting persist partition..."
+    mkfs.ext4 -F -L "persist" ${ALLWINNER_SD_SFX}1
+else
+    echo "Keeping existing persist partition: KEEP_PERSIST is set."
+fi
 
 sync && sync
 
