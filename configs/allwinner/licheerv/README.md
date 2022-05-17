@@ -1,7 +1,7 @@
-# Allwinner LicheeRV Dock
+# Sipeed LicheeRV Dock
 
 This configuration package series configures Buildroot to produce a BSP image for the
-Allwinner Nezha Risc-V Board (and similar).
+Sipeed LicheeRV Dock Risc-V Board (and similar).
 
 **Note: this is a RISC-V architecture CPU, not all Docker images will support it.**
 
