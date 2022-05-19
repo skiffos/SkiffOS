@@ -24,8 +24,6 @@
 #define MNT_DETACH 0x00000002
 #endif
 
-#define MAX_RESIZE2FS_DEV_LEN 256
-
 // To wait for a file to exist before starting:
 // #define WAIT_EXISTS "/dev/mmcblk0"
 
@@ -40,9 +38,6 @@
 
 // To mount / to /mnt/boot before the rootfs.
 // #define MOUNT_BOOT_ROOT
-
-// To enable resizing persist
-// #define RESIZE_PERSIST
 
 // Controls the maximum memory usage of the tmpfs /.
 // Used as the upper layer of the overlayfs.
@@ -87,9 +82,6 @@ const char *init_pid_path = SKIFF_INIT_PID;
 FILE *logfd;
 const char *pid1_log = "/dev/kmsg";
 const char *squashfs_file = SKIFF_INIT_FILE;
-
-const char *resize2fs_path = "/boot/skiff-init/resize2fs";
-const char *resize2fs_conf = "/boot/skiff-init/resize2fs.conf";
 
 #ifndef SKIFF_MOUNTS_DIR
 #define SKIFF_MOUNTS_DIR "/skiff-overlays"
@@ -228,76 +220,6 @@ int main(int argc, char *argv[]) {
 
     fprintf(logfd, "SkiffOS: waiting for path to exist (x%d): %s\n", waiti, wait_exists_path);
     sleep(1.0);
-  }
-#endif
-
-  // resize root filesystem if necessary
-  // it is assumed that root= was set to the "persist" partition and that the
-  // boot data is stored in /boot. this may be changed later to support more
-  // exotic setups.
-#ifdef RESIZE_PERSIST
-  if (stat(resize2fs_path, &st) == 0 && stat(resize2fs_conf, &st) == 0) {
-    // read the path(s) to resize from the conf file.
-    // all lines not starting with # are assumed to be paths to device files.
-    // all lines must have a /dev prefix.
-    FILE *r2conf = fopen(resize2fs_conf, "r");
-    char *linebuf = (char *)malloc(MAX_RESIZE2FS_DEV_LEN * sizeof(char));
-    while (fgets(linebuf, MAX_RESIZE2FS_DEV_LEN - 1, r2conf)) {
-      linebuf[MAX_RESIZE2FS_DEV_LEN - 1] = 0;
-      if (linebuf[0] == '#') {
-        continue;
-      }
-      linebuf[strcspn(linebuf, "\n")] = 0;
-      linebuf[strcspn(linebuf, " ")] = 0;
-      if (strlen(linebuf) < 6) {
-        fprintf(logfd, "SkiffOS resize2fs: %s: line too short: %s\n",
-                resize2fs_conf, linebuf);
-        continue;
-      }
-      if (memcmp(linebuf, "/dev/", 5) != 0) {
-        fprintf(logfd, "SkiffOS resize2fs: %s: expected /dev/ prefix: %s\n",
-                resize2fs_conf, linebuf);
-        continue;
-      }
-
-      fprintf(logfd, "SkiffOS resize2fs: resizing persist filesystem: %s\n",
-              linebuf);
-      pid_t id1 = fork();
-      if (id1 == 0) {
-        dup2(fileno(logfd), fileno(stdout));
-        dup2(fileno(logfd), fileno(stderr));
-
-        // re-use environment (in child process)
-        char **r2fsargv = (char **)malloc(4 * sizeof(const char *));
-        r2fsargv[0] = (char *)resize2fs_path;
-        r2fsargv[1] = (char *)"-F";
-        r2fsargv[2] = linebuf;
-        r2fsargv[3] = NULL;
-        res = execve(resize2fs_path, r2fsargv, environ);
-        free(r2fsargv);
-        if (res != 0) {
-          res = errno;
-          fprintf(logfd,
-                  "SkiffOS resize2fs: failed to exec resize2fs process on %s: "
-                  "(%d) %s\n",
-                  linebuf, res, strerror(res));
-        }
-        return res;
-      }
-
-      // wait for resize2fs
-      waitpid(id1, NULL, 0);
-    }
-
-    free(linebuf);
-    fclose(r2conf);
-  } else {
-    res = errno;
-    fprintf(
-        logfd,
-        "SkiffOS init: cannot find resize2fs, skipping: %s and %s: (%d) %s\n",
-        resize2fs_path, resize2fs_conf, res, strerror(res));
-    res = 0;
   }
 #endif
 
