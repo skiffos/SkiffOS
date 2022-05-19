@@ -183,13 +183,17 @@ systemctl daemon-reload
 
 # Attempt to resize disk, if necessary.
 # Note: this is an online resize, no re-mount required.
+RESIZE_DISK=(embiggen-disk -verbose -ignore-resize-partition)
+if [ -n "${DISABLE_RESIZE_PARTITION}" ]; then
+    RESIZE_DISK+=(-no-resize-partition)
+fi
 if [ -z "${DISABLE_RESIZE_PERSIST}" ]; then
     echo "Resizing ${PERSIST_MNT} with embiggen-disk..."
-    if ! embiggen-disk ${PERSIST_MNT}; then
+    if ! ${RESIZE_DISK[@]} ${PERSIST_MNT}; then
         # This will only work with /dev/ paths.
         if [ -b ${PERSIST_DEVICE} ]; then
             echo "Failed to resize via mountpoint, trying via ${PERSIST_DEVICE}..."
-            embiggen-disk ${PERSIST_DEVICE} || echo "Failed to resize persist. Continuing anyway."
+            ${RESIZE_DISK[@]} ${PERSIST_DEVICE} || echo "Failed to resize persist. Continuing anyway."
         else
             echo "Failed to resize persist via mountpoint and via device path. Continuing anyway."
         fi
