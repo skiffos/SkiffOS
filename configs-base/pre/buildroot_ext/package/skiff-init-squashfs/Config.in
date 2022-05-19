@@ -78,7 +78,8 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_MOVE_MOUNTPOINT_ROOT
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE_PERSIST
 	bool "resize persist partition"
-	select BR2_PACKAGE_SKIFF_INIT_RESIZE2FS
+	select BR2_PACKAGE_UTIL_LINUX
+	select BR2_PACKAGE_UTIL_LINUX_BINARIES # fdisk, sfdisk
 	default y
 	help
 	  Run resize2fs according to resize2fs.conf

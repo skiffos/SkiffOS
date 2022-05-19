@@ -1,8 +1,8 @@
-# based on BR2_SKIFF_INIT_BUSYBOX
+# based on BR2_STATIC_BUSYBOX
 # compiles busybox as static binary
 
-menuconfig BR2_PACKAGE_SKIFF_INIT_BUSYBOX
-	bool "skiff-init-busybox"
+menuconfig BR2_PACKAGE_STATIC_BUSYBOX
+	bool "static-busybox"
 	help
 	  Build static busybox binary and copy to images dir (for target).
 

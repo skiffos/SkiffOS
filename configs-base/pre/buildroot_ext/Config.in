@@ -1,3 +1,4 @@
-source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-busybox/Config.in"
+source "$BR2_EXTERNAL_SKIFFOS_PATH/package/static-busybox/Config.in"
+source "$BR2_EXTERNAL_SKIFFOS_PATH/package/static-kexec/Config.in"
+source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-kexec/Config.in"
 source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-squashfs/Config.in"
-source "$BR2_EXTERNAL_SKIFFOS_PATH/package/skiff-init-resize2fs/Config.in"
