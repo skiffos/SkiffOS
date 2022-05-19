@@ -51,11 +51,11 @@ sudo parted $BEAGLEBONE_SD mklabel msdos
 partprobe $BEAGLEBONE_SD || true
 
 echo "Making boot partition..."
-sudo parted -a optimal $BEAGLEBONE_SD -- mkpart primary fat32 10MiB 1024MiB
+sudo parted -a optimal $BEAGLEBONE_SD -- mkpart primary fat32 10MiB 2048MiB
 sudo parted $BEAGLEBONE_SD set 1 boot on
 
 echo "Making persist partition..."
-sudo parted -a optimal $BEAGLEBONE_SD -- mkpart primary ext4 1024MiB "100%"
+sudo parted -a optimal $BEAGLEBONE_SD -- mkpart primary ext4 2048MiB "100%"
 
 echo "Waiting for partprobe..."
 sync && sync
@@ -78,25 +78,5 @@ fatlabel ${BEAGLEBONE_SD_SFX}1 boot
 
 echo "Formatting persist partition..."
 mkfs.ext4 -F -L "persist" ${BEAGLEBONE_SD_SFX}2
-
-# NOTE: We will use fat32 boot instead: this way we can remote update the MLO & u-boot.
-# resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-# ubootimg="$BUILDROOT_DIR/images/u-boot.img"
-# bootmlo="$BUILDROOT_DIR/images/MLO"
-
-# if [ ! -f "$ubootimg" ]; then
-#     echo "can't find u-boot image at $ubootimg"
-#     exit 1
-# fi
-
-# if [ ! -f "$bootmlo" ]; then
-#     echo "can't find MLO at $bootmlo"
-#     exit 1
-# fi
-
-# echo "Flashing MLO..."
-# dd iflag=dsync oflag=dsync if=$bootmlo of=$BEAGLEBONE_SD bs=512 seek=256 count=256 ${SD_FUSE_DD_ARGS}
-# echo "Flashing u-boot..."
-# dd iflag=dsync oflag=dsync if=$ubootimg of=$BEAGLEBONE_SD bs=512 seek=768 ${SD_FUSE_DD_ARGS}
 
 sync
