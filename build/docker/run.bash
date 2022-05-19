@@ -8,6 +8,8 @@ fi
 CONTAINER_NAME=$1
 if [ -z "$CONTAINER_NAME" ]; then
     CONTAINER_NAME="skiff-build"
+else
+    shift
 fi
 
 echo "Using container name $CONTAINER_NAME"
@@ -19,4 +21,4 @@ docker run --rm -it --name=$CONTAINER_NAME \
        -e SKIFF_CONFIG="$SKIFF_CONFIG" \
        --workdir=/home/buildroot/skiff \
        -v ${PROJECT_ROOT}:/home/buildroot/skiff \
-       skiff/build:latest sh
+       skiff/build:latest /bin/bash -i $@
