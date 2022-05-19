@@ -81,10 +81,6 @@ rsync -rv \
       ./skiff-release ./rootfs.squashfs \
       ${BOOT_DIR}/
 
-# contained in skiff-init.img
-# cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
-# rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
-
 enable_silent() {
     if [ -f "${IMAGES_DIR}/.disable-serial-console" ]; then
         echo "Disabling serial console and enabling silent mode..."

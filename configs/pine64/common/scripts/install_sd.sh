@@ -82,9 +82,6 @@ fi
 if [ -d ${IMAGES_DIR}/persist_part/ ]; then
     rsync -rav ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
 fi
-if [ -f ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ]; then
-    cp -v ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
-fi
 rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 rsync -rv \
       ./*.dtb ./Image \

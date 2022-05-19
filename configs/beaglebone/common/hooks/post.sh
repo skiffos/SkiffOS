@@ -1,10 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
-IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/images
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ${IMAGES_DIR}/skiff-init/resize2fs.conf
-
 # Build the initrd with skiff-init-squashfs.
+IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/images
 INITRD=${IMAGES_DIR}/skiff-init.img
 INITRD_TMP=${IMAGES_DIR}/skiff-init.img.tmp
 INITRD_DIR=${SKIFF_BUILDROOT_DIR}/extra_images/skiff-init

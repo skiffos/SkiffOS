@@ -24,8 +24,6 @@
 #define MNT_DETACH 0x00000002
 #endif
 
-#define MAX_RESIZE2FS_DEV_LEN 256
-
 #ifndef SKIFF_MOUNTPOINT
 #define SKIFF_MOUNTPOINT "/skiff-overlays/system"
 #endif
