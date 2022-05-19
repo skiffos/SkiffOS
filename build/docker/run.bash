@@ -1,6 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
+if [ -d ./build/docker ]; then
+    cd ./build/docker
+fi
+
 CONTAINER_NAME=$1
 if [ -z "$CONTAINER_NAME" ]; then
     CONTAINER_NAME="skiff-build"
