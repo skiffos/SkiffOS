@@ -92,6 +92,7 @@ RUN \
 
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
+    (systemctl mask NetworkManager ModemManager wpa_supplicant) && \
     find /etc/systemd/system \
          /lib/systemd/system \
          \( -path '*.wants/*' \
