@@ -25,14 +25,37 @@ if [ ! -b "$ODROID_SD" ]; then
   exit 1
 fi
 
+if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
+    read -p "Are you sure? This will completely destroy all data. [y/N] " -n 1 -r
+    echo
+    if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+        exit 1
+    fi
+fi
+
+if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
+    read -p "Verify that '$ODROID_SD' is the correct device. Be sure. [y/N] " -n 1 -r
+    echo
+    if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+        exit 1
+    fi
+fi
+
+ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse"
+sd_format_scr="${ubootscripts}/format_sd.sh"
+if [ -f "$sd_format_scr" ]; then
+    echo "Using board-specific format_sd.sh"
+    source ${sd_format_scr}
+    exit 0
+fi
+
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 ubootimg="$BUILDROOT_DIR/output/images/u-boot-signed.bin.sd.bin"
 ubootimga="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootimgb="$BUILDROOT_DIR/output/images/u-boot-dtb.bin"
 ubootimgc="$BUILDROOT_DIR/output/images/u-boot.bin"
-ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse/"
-sd_fuse_scr="${ubootscripts}/sd_fusing.sh"
 
+sd_fuse_scr="${ubootscripts}/sd_fusing.sh"
 if [ ! -f "$sd_fuse_scr" ]; then
   echo "Cannot find $sd_fuse_scr, make sure Buildroot is compiled."
   exit 1
@@ -49,26 +72,8 @@ fi
 if [ ! -f "$ubootimg" ]; then
   ubootimg=$ubootimgc
 fi
-
 if [ ! -f "$ubootimg" ]; then
-  echo "can't find u-boot image at $ubootimg"
-  exit 1
-fi
-
-if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
-  read -p "Are you sure? This will completely destroy all data. [y/N] " -n 1 -r
-  echo
-  if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-    exit 1
-  fi
-fi
-
-if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
-  read -p "Verify that '$ODROID_SD' is the correct device. Be sure. [y/N] " -n 1 -r
-  echo
-  if ! [[ $REPLY =~ ^[Yy]$ ]]; then
-    exit 1
-  fi
+  echo "can't find u-boot image at $ubootimg - below scripts may fail!"
 fi
 
 MKEXT4="mkfs.ext4 -F -O ^64bit"

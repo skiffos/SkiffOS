@@ -40,6 +40,14 @@ if [ ! -f "$img_path" ]; then
   exit 1
 fi
 
+ubootscripts="${BUILDROOT_DIR}/output/images/hk_sd_fuse"
+sd_install_scr="${ubootscripts}/install_sd.sh"
+if [ -f "$sd_install_scr" ]; then
+    echo "Using board-specific install_sd.sh"
+    source ${sd_install_scr}
+    exit 0
+fi
+
 mounts=()
 WORK_DIR=`mktemp -d -p "$DIR"`
 # deletes the temp directory
