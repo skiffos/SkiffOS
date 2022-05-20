@@ -21,7 +21,7 @@ sudo partprobe ${ODROID_SD} || true
 sudo parted $ODROID_SD mklabel gpt
 
 # boot
-sudo parted -a optimal $ODROID_SD mkpart boot fat32 3MiB 2048MiB
+sudo parted -a optimal $ODROID_SD mkpart boot ext2 3MiB 2048MiB
 sudo parted $ODROID_SD set 1 boot on
 
 # persist
@@ -43,10 +43,9 @@ if [ ! -b ${ODROID_SD_SFX}1 ]; then
 fi
 
 echo "Formatting boot partition..."
-MKEXT4="mkfs.ext4 -F"
-$MKEXT4 -L "boot" ${ODROID_SD_SFX}1
+mkfs.ext2 -F -L "boot" ${ODROID_SD_SFX}1
 
 echo "Formatting persist partition..."
-$MKEXT4 -L "persist" ${ODROID_SD_SFX}2
+mkfs.ext4 -F -L "persist" ${ODROID_SD_SFX}2
 
 sync
