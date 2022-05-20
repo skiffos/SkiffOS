@@ -59,5 +59,6 @@ images:
       policy: ifnotexists
       # avoid docker hub rate limits
       registry: quay.io
-    build:
-      source: /opt/skiff/coreenv/skiff-core-gentoo
+    # uncomment to build on the device
+    # build:
+    #   source: /opt/skiff/coreenv/skiff-core-gentoo
