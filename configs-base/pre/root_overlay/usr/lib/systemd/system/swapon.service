@@ -5,4 +5,4 @@ After=skiff-init.service
 
 [Service]
 Type=simple
-ExecStart=/opt/skiff/scripts/enable-swap.sh
+ExecStart=-/opt/skiff/scripts/enable-swap.sh
