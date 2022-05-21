@@ -1,4 +1,4 @@
-#jk Allwinner Nezha
+# Allwinner Nezha
 
 This configuration package series configures Buildroot to produce a BSP image for the
 Allwinner Nezha Risc-V Board (and similar).
