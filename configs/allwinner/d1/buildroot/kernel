@@ -3,7 +3,6 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
 # branch: riscv-d1
 # source: https://github.com/smaeul/linux branch d1-wip
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,f4bce410a6b47606557cb0d291572afc4c240c85)/linux-riscv-d1-5.18-rc4-r1.tar.gz"
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,7298b675adab5c69cd95d69041949b219246c7ed)/linux-riscv-d1-5.18-rc7-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
