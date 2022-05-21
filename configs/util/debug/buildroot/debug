@@ -1,0 +1,4 @@
+# BR2_CCACHE is not set
+# BR2_STRIP_strip is not set
+BR2_OPTIMIZE_G=y
+BR2_ENABLE_DEBUG=y
