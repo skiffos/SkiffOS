@@ -73,10 +73,10 @@ from the others and can have a completely different configuration. The build can
 be interrupted and resumed with `make compile` as needed.
 
 You will need a SSH public key to access the system. If you don't have one,
-[create a SSH key] on your development machine. Add the public key (usually
-located at `~/.ssh/id_rsa.pub`) to your build by copying it to
+[create a SSH key] on your development machine. Add the public key (located at
+`~/.ssh/id_ed25519.pub`) to your build by copying it to
 `overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`. The keys can also
-be added to a configuration layer for future use.
+be added to a configuration layer (instead of `overrides`).
 
 [create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 
@@ -530,7 +530,7 @@ It takes SSH public key files (`*.pub`) from these locations:
  - `/etc/skiff/authorized_keys` from inside the image
  - `skiff/keys` from inside the persist partition
  
-Your SSH public key will usually be located at `~/.ssh/id_rsa.pub`.
+Your SSH public key will usually be located at `~/.ssh/id_ed25519.pub`.
 
 ### Mount a Disk to a Container
 
