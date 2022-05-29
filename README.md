@@ -372,14 +372,6 @@ The config format is defined in [the skiff-core repo].
 [the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
 [full example config]: ./configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml
 
-## Release Channels
-
-There are three release channels: **next**, **master**, and **stable**.
-
-Skiff can be upgraded or downgraded (rolled back) independently from the
-persistent storage partition. This allows for easy OTA, and significant
-improvements in confidence when upgrading system components.
-
 ## Configuration Layers
 
 Skiff supports modular configuration layers. A configuration directory contains
