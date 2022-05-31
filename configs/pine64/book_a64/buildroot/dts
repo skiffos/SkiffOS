@@ -1,0 +1,1 @@
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun50i-a64-pinebook"
