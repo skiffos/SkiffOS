@@ -1,0 +1,5 @@
+# BR2_TARGET_ARM_TRUSTED_FIRMWARE is not set
+# BR2_TARGET_UBOOT is not set
+
+# pre-compiled with support for crust
+BR2_PACKAGE_PINEBOOK_A64_UBOOT=y

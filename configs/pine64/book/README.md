@@ -1,9 +1,11 @@
-# Pine64 PineBook
+# Pine64 PineBook Pro
 
 ![](../../../resources/images/pinebook-screenshot.png)
 
 This configuration package `pine64/book` compiles a Skiff base operating system
 for the PineBook Pro.
+
+The original A64 based PineBook is available in [pine64/book_a64](../book_a64).
 
 References: 
 

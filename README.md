@@ -177,6 +177,7 @@ Here are the boards/systems currently supported:
 | [Pi 4]               | [pi/4]                | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
 | [Pi 4] (32bit mode)  | [pi/4x32]             | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
 | [Pine64 H64]         | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.17.9  |               |
+| [PineBook A64]       | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.17.9  | ⚠ Obsolete    |
 | [PineBook Pro]       | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.17.9  | ✔ Tested      |
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.9  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.9  | ✔ Tested      |
@@ -216,6 +217,7 @@ Here are the boards/systems currently supported:
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 [Pine64 H64]: https://www.pine64.org/pine-h64-ver-b/
+[PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
 [Qemu]: ./configs/virt/qemu
@@ -258,6 +260,7 @@ Here are the boards/systems currently supported:
 [pi/3]: ./configs/pi
 [pi/4]: ./configs/pi
 [pi/4x32]: ./configs/pi
+[pine64/book_a64]: ./configs/pine64/book_a64
 [pine64/book]: ./configs/pine64/book
 [pine64/h64]: ./configs/pine64/h64
 [pine64/phone]: ./configs/pine64/phone

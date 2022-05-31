@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PINEBOOK_A64_UBOOT
+	bool "pinebook-a64 crust u-boot blobs"
+	help
+	  Binary blobs for Pinebook A64 U-boot with crust
+
+	  https://dl.slarm64.org/slackware/images/pinebook/
