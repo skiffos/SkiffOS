@@ -503,9 +503,6 @@ writing the desired hostname to `/etc/hostname`.
 
 ### NetworkManager
 
-Network configurations are loaded from `/etc/NetworkManager/system-connections`
-or from the persist partition at `skiff/connections`.
-
 You can use `nmcli` on the device to manage `NetworkManager`, and any connection
 definitions written by `nmcli device wifi connect` or similar will automatically
 be written to the persist partition and persisted to future boots.
@@ -515,6 +512,41 @@ To connect to WiFi: `nmcli device wifi connect myssid password mypassword.`
 The configuration file format for these connections is [documented
 here](http://manpages.ubuntu.com/manpages/wily/man5/nm-settings-keyfile.5.html)
 with examples.
+
+Example for a WiFi network called `mywifi` with password `mypassword`:
+
+```
+[connection]
+id=mywifi
+uuid=12f6c21d-f077-4b95-a4cb-bf41555d87a5
+type=wifi
+
+[wifi]
+mode=infrastructure
+ssid=mywifi
+
+[wifi-security]
+key-mgmt=wpa-psk
+psk=mypassword
+
+[ipv4]
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=auto
+```
+
+Network configuration files are plaintext files located at either of:
+
+ - `/etc/NetworkManager/system-connections/` inside the build image
+ - `/mnt/persist/skiff/connections/` on the persist partition.
+
+To add the above example to your build:
+
+ - `gedit ./overrides/root_overlay/etc/NetworkManager/system-connections/mywifi`
+ - paste the above plaintext & save
+ - run "make compile" to update the image with the changes.
 
 ### SSH Keys
 
