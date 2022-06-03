@@ -2,7 +2,7 @@ setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 setenv devno "2" #sd card
 
-setenv condev "console=tty1 console=ttySAC1,115200n8"
+setenv condev "console=tty0 console=ttySAC1,115200n8"
 setenv verify 0
 setenv bootlogo "false"
 

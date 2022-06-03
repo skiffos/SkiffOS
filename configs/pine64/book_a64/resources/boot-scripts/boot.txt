@@ -8,7 +8,7 @@ setenv condev "console=ttyS0,115200n8 earlyprintk"
 setenv bootmem "root=/dev/mmcblk${bootdev}p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
-setenv baseconfig "console=tty1 fsck.repair=yes net.ifnames=0 loglevel=7"
+setenv baseconfig "console=tty0 fsck.repair=yes net.ifnames=0 loglevel=7"
 
 # final boot args
 setenv bootargs "${condev} ${bootmem} ${baseconfig}"
