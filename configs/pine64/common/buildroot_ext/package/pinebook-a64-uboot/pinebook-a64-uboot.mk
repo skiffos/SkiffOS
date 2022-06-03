@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PINEBOOK_A64_UBOOT_VERSION = 20200214
+PINEBOOK_A64_UBOOT_VERSION = 20220531
 PINEBOOK_A64_UBOOT_SITE = https://dl.slarm64.org/slackware/images/pinebook
 PINEBOOK_A64_UBOOT_SOURCE = boot-$(PINEBOOK_A64_UBOOT_VERSION).tar.xz
 PINEBOOK_A64_UBOOT_LICENSE = GPL-2.0+
