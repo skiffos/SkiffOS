@@ -3,7 +3,7 @@ setenv board odroid${variant}
 echo "SkiffOS for Odroid M1 board ${board} starting..."
 
 # setenv silent 1
-setenv condev "console=tty0 earlycon=uart8250,mmio32,0xfe660000 console=ttyS2,1500000 loglevel=7"
+setenv condev "console=tty1 earlycon=uart8250,mmio32,0xfe660000 console=ttyS2,1500000 loglevel=7"
 setenv verify 0
 setenv bootlogo "false"
 
