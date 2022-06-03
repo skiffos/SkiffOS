@@ -1,0 +1,5 @@
+config BR2_PACKAGE_RTK_HCIATTACH
+	bool "rtk-hciattach"
+	depends on !BR2_TOOLCHAIN_USES_UCLIBC
+	help
+	  Realtek H5 bluetooth support
