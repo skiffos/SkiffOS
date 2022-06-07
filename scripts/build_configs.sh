@@ -111,6 +111,11 @@ br_conf=$br_dir/config
 mkdir -p $br_dir
 touch $br_conf
 
+busybox_dir=$SKIFF_FINAL_CONFIG_DIR/busybox
+busybox_conf=$busybox_dir/config
+mkdir -p $busybox_dir
+touch $busybox_conf
+
 # Iterate over skiff config paths.
 # Add the post path
 cd $SKIFF_BRCONF_WORK_DIR
@@ -129,6 +134,7 @@ confpaths=(${SKIFF_CONFIG_PATH[@]})
 for confp in "${confpaths[@]}"; do
   echo "Merging Skiff config at $confp"
   br_confp=$confp/buildroot
+  busybox_confp=$confp/busybox
   cflags_confp=$confp/cflags
   kern_confp=$confp/kernel
   uboot_confp=$confp/uboot
@@ -156,6 +162,15 @@ for confp in "${confpaths[@]}"; do
       sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
       mv .config $br_conf
     done
+  fi
+  if [ -d "$busybox_confp" ]; then
+      for file in $(ls -v $busybox_confp); do
+          echo "Merging in Busybox config file $file"
+          printf "\n# Configuration from ${busybox_confp}/${file}\n" >> $busybox_conf
+          $domerge $busybox_conf $busybox_confp/$file
+          sed -i -e "s#SKIFF_CONFIG_ROOT#$confp#g" .config
+          mv .config $busybox_conf
+      done
   fi
   if [ -d "$cflags_confp" ]; then
       for file in $(ls -v $cflags_confp); do
@@ -235,6 +250,7 @@ addl_target_cflags=${addl_target_cflags[@]}
 # Touch up the buildroot configurations
 # these are defined in configs-base/post
 sed -i "s@REPLACEME_BR_PATCHES@$br_patches@g" $br_conf
+sed -i "s@REPLACEME_BUSYBOX_FRAGMENTS@$busybox_conf@g" $br_conf
 sed -i "s@REPLACEME_KERNEL_FRAGMENTS@$kern_conf@g" $br_conf
 sed -i "s@REPLACEME_KERNEL_PATCHES@$kern_patches@g" $br_conf
 sed -i "s@REPLACEME_UBOOT_FRAGMENTS@$uboot_conf@g" $br_conf

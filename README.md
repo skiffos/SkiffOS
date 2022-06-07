@@ -390,6 +390,7 @@ configuration would be `pi/4` and Docker is `apps/docker`.
 ├── buildroot_patches: extra Buildroot global patches
 │   ├── <packagename>: patch files for Buildroot <packagename>
 │   └── <packagename>/<version>: patches for package version
+├── busybox:        busybox configuration fragments
 ├── extensions:     extra commands to add to the build system
 │   └── Makefile
 ├── hooks:          scripts hooking pre/post build steps
