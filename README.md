@@ -158,15 +158,15 @@ Here are the boards/systems currently supported:
 | [Intel x86/64]       | [intel/x64]           | ✔ Grub           | ✔ 5.17.12      | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
-| [Odroid C2]          | [odroid/c2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc7  | ⚠ Obsolete    |
-| [Odroid C4]          | [odroid/c4]           | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc7  |               |
-| [Odroid HC1]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc7  | ⚠ Obsolete    |
-| [Odroid HC2]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc7  | ✔ Tested      |
-| [Odroid N2]+         | [odroid/n2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc7  | ✔ Tested      |
-| [Odroid M1]          | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18-rc7  |               |
-| [Odroid U]           | [odroid/u]            | ✔ U-Boot 2022.04 | ✔ tb-5.18-rc7  | ⚠ Obsolete    |
-| [Odroid XU3]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc7  | ⚠ Obsolete    |
-| [Odroid XU4]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18-rc7  | ✔ Tested      |
+| [Odroid C2]          | [odroid/c2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ⚠ Obsolete    |
+| [Odroid C4]          | [odroid/c4]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    |               |
+| [Odroid HC1]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ⚠ Obsolete    |
+| [Odroid HC2]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ✔ Tested      |
+| [Odroid N2]+         | [odroid/n2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ✔ Tested      |
+| [Odroid M1]          | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.1    |               |
+| [Odroid U]           | [odroid/u]            | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ⚠ Obsolete    |
+| [Odroid XU3]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ⚠ Obsolete    |
+| [Odroid XU4]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ✔ Tested      |
 | [OrangePi Lite]      | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 5.17.12      |               |
 | [OrangePi Zero]      | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.17.12      |               |
 | [PcDuino 3]          | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.17.12      |               |
