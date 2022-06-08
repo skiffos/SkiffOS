@@ -46,7 +46,7 @@ tested by the developers unless otherwise noted.
 | [c2]           | odroid/c2          |              |
 | [c4]           | odroid/c4          | Reboot issue |
 | [hc2]          | odroid/xu          |              |
-| [hc4]          | odroid/hc4         | Reboot issue |
+| [hc4]          | odroid/hc4         |              |
 | [m1]           | odroid/m1          |              |
 | [n2]           | odroid/n2          | Includes n2+ |
 | [u] + u2       | odroid/u           | Discontinued |
