@@ -183,7 +183,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]          | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.17.9  | ✔ Tested      |
 | [Rock64] rk3328      | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.17.9  | ✔ Tested      |
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.17.9  | ✔ Tested      |
-| [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1     |
+| [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1     |
 | [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.17.13      | ✔ Tested      |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
