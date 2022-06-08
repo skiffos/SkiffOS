@@ -16,8 +16,8 @@ setenv bootmem "root=/dev/ram0 ro"
 
 # max cpu frequency for little core, A55 in MHz unit
 # setenv max_freq_a55 "2016"  # 2.016 Ghz
-setenv max_freq_a55 "1908"    # 1.908 GHz, default value
-# setenv max_freq_a55 "1800"  # 1.8 Ghz
+# setenv max_freq_a55 "1908"    # 1.908 GHz
+setenv max_freq_a55 "1800"  # 1.8 Ghz
 # setenv max_freq_a55 "1704"  # 1.704 GHz
 
 # max cpu-cores

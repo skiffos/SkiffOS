@@ -51,6 +51,10 @@ flash_eraseall /dev/mtd1
 flash_eraseall /dev/mtd2
 flash_eraseall /dev/mtd3
 ```
+
+### Disabling After Boot
+
+**Note: currently /dev/mtd0 does not work, so this method is unavailable.**
  
 Alternatively, boot to SkiffOS using the black button on the bottom of the
 device while booting, then use the following command to erase the SPI:
