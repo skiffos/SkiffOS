@@ -6,6 +6,8 @@ setenv bootdev 0;
 # itest.b *0x10028 == 0x02 && echo "U-boot loaded from eMMC or secondary SD"
 # itest.b *0x10028 == 0x03 && echo "U-boot loaded from SPI"
 
+setenv disp_mode "1920x1080p60"
+
 # setenv silent 1
 setenv condev "console=ttyS0,115200n8 earlyprintk"
 
@@ -15,8 +17,11 @@ setenv bootmem "root=/dev/mmcblk${bootdev}p1 rootwait rw init=/boot/skiff-init/s
 # base kernel config options
 setenv baseconfig "console=tty1 fsck.repair=yes net.ifnames=0 consoleblank=0 loglevel=7"
 
+# display options
+setenv displayconfig "disp.screen0_output_mode=${disp_mode}"
+
 # final boot args
-setenv bootargs "${condev} ${bootmem} ${baseconfig}"
+setenv bootargs "${condev} ${bootmem} ${baseconfig} ${displayconfig}"
 
 # Load images
 echo Loading DTB
