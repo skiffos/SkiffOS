@@ -410,10 +410,17 @@ configuration would be `pi/4` and Docker is `apps/docker`.
 ├── resources:     files used by the configuration package
 ├── scripts:       any scripts used by the extensions
 ├── uboot:         u-boot configuration fragments
-└── uboot_patches: u-boot .patch files
+├── uboot_patches: u-boot .patch files
+└── users:         additional buildroot user config files
 ```
 
 All files are optional.
+
+### Custom Users
+
+To add custom users, add files in the "users" dir with the [makeuser syntax].
+
+[makeuser syntax]: https://buildroot.org/downloads/manual/manual.html#makeuser-syntax
 
 ### Out-of-tree configuration packages
 
