@@ -1,0 +1,2 @@
+# Fixes Marvell 88SE9230
+ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1b4b", ATTR{device}=="0x9230", RUN+="/bin/bash -c 'echo 0000:01:00.0 > /sys/bus/pci/drivers/ahci/bind'"
