@@ -1,0 +1,111 @@
+# enable wifi built-in
+CONFIG_BRCMFMAC=y
+CONFIG_BRCMUTIL=y
+CONFIG_CFG80211=y
+# CONFIG_CFG80211_WEXT is not set
+# CONFIG_MAC80211 is not set
+# CONFIG_MACVLAN is not set
+
+# enable bt built-in
+CONFIG_BT=y
+CONFIG_BT_BNEP=y
+# CONFIG_BT_BNEP_MC_FILTER is not set
+# CONFIG_BT_BNEP_PROTO_FILTER is not set
+# CONFIG_BT_HCIBTUSB is not set
+CONFIG_BT_HCIUART=y
+# CONFIG_BT_HCIVHCI is not set
+CONFIG_BT_HIDP=y
+CONFIG_BT_RFCOMM=y
+
+# ipv6 + bpf causes some errors
+# CONFIG_CGROUP_BPF is not set
+# CONFIG_NET_CLS_BPF is not set
+
+# bring config closer to visionfive_defconfig
+# CONFIG_BINFMT_MISC is not set
+# CONFIG_BLK_CGROUP is not set
+# CONFIG_BRIDGE is not set
+# CONFIG_CGROUP_DEVICE is not set
+# CONFIG_CGROUP_FREEZER is not set
+# CONFIG_CGROUP_NET_CLASSID is not set
+# CONFIG_CGROUP_NET_PRIO is not set
+# CONFIG_CGROUP_PERF is not set
+# CONFIG_CHECKPOINT_RESTORE is not set
+# CONFIG_CPUSETS is not set
+# CONFIG_CRC_CCITT is not set
+CONFIG_CRYPTO_ZSTD=y
+# CONFIG_DCB is not set
+# CONFIG_DUMMY is not set
+# CONFIG_INET_DIAG is not set
+# CONFIG_INET_ESP is not set
+CONFIG_LZO_COMPRESS=y
+CONFIG_LZO_DECOMPRESS=y
+# CONFIG_MEDIA_SUPPORT is not set
+# CONFIG_MEMCG is not set
+# CONFIG_MPLS is not set
+# CONFIG_MSDOS_FS is not set
+# CONFIG_NETFILTER is not set
+# CONFIG_NETLINK_DIAG is not set
+# CONFIG_NET_9P is not set
+# CONFIG_NET_CLS_BPF is not set
+# CONFIG_NET_CLS_CGROUP is not set
+# CONFIG_NET_CLS_FLOW is not set
+# CONFIG_NET_CLS_FW is not set
+# CONFIG_NET_CLS_MATCHALL is not set
+# CONFIG_NET_CLS_ROUTE4 is not set
+# CONFIG_NET_CLS_RSVP is not set
+# CONFIG_NET_CLS_RSVP6 is not set
+# CONFIG_NET_CLS_TCINDEX is not set
+# CONFIG_NET_CLS_U32 is not set
+# CONFIG_NET_EMATCH is not set
+CONFIG_NET_IP_TUNNEL=y
+# CONFIG_NET_KEY is not set
+# CONFIG_NET_NSH is not set
+# CONFIG_NET_SCH_HFSC is not set
+# CONFIG_NET_SCH_HTB is not set
+# CONFIG_NET_SCH_NETEM is not set
+# CONFIG_NET_SCH_PRIO is not set
+# CONFIG_NET_SCH_SFQ is not set
+# CONFIG_NET_SCH_TAPRIO is not set
+# CONFIG_NET_SCH_TBF is not set
+# CONFIG_NET_SCH_TEQL is not set
+CONFIG_NET_UDP_TUNNEL=y
+# CONFIG_OPENVSWITCH is not set
+# CONFIG_PACKET_DIAG is not set
+# CONFIG_PCI is not set
+# CONFIG_PROC_CHILDREN is not set
+CONFIG_RAID6_PQ=y
+CONFIG_REGMAP_SPI=y
+CONFIG_SND=y
+CONFIG_SND_DMAENGINE_PCM=y
+# CONFIG_SND_HRTIMER is not set
+CONFIG_SND_PCM=y
+# CONFIG_SND_SEQUENCER is not set
+CONFIG_SND_SIMPLE_CARD=y
+CONFIG_SND_SIMPLE_CARD_UTILS=y
+CONFIG_SND_SOC=y
+CONFIG_SND_SOC_HDMI_CODEC=y
+CONFIG_SND_SOC_I2C_AND_SPI=y
+CONFIG_SND_STARFIVE_PWMDAC=y
+CONFIG_SND_TIMER=y
+# CONFIG_TCG_TPM is not set
+# CONFIG_TCP_CONG_ADVANCED is not set
+# CONFIG_UHID is not set
+# CONFIG_USB_ACM is not set
+# CONFIG_USB_CATC is not set
+# CONFIG_USB_EZUSB_FX2 is not set
+# CONFIG_USB_GADGET is not set
+# CONFIG_USB_KAWETH is not set
+# CONFIG_USB_SERIAL is not set
+# CONFIG_USB_STORAGE_CYPRESS_ATACB is not set
+# CONFIG_USB_STORAGE_ENE_UB6250 is not set
+# CONFIG_USB_STORAGE_REALTEK is not set
+# CONFIG_USB_STORAGE_SDDR55 is not set
+# CONFIG_USB_STORAGE_USBAT is not set
+CONFIG_USB_UAS=y
+# CONFIG_USER_NS is not set
+# CONFIG_VETH is not set
+# CONFIG_VIRTIO_CONSOLE is not set
+# CONFIG_VSOCKETS is not set
+# CONFIG_VXLAN is not set
+# CONFIG_XFRM_USER is not set
