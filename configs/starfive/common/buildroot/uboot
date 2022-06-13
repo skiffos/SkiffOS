@@ -1,0 +1,25 @@
+BR2_TARGET_UBOOT=y
+BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
+
+# BR2_TARGET_UBOOT_LATEST_VERSION=y
+BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
+
+# branch: starfive
+# HEAD of the starfive-tech:Fedora_VIC_7100_2021.04 branch
+# source: https://github.com/starfive-tech/u-boot
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,64ead5b83959da8eb87b6963843addf5942e6ed4)/u-boot-2021.04-starfive-64ead5-r1.tar.gz"
+
+# Default to nezha config, overridden in board config.
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_vic7100_beagle_v_smode"
+
+# BR2_TARGET_UBOOT_FORMAT_CUSTOM is not set
+BR2_TARGET_UBOOT_FORMAT_BIN=y
+BR2_TARGET_UBOOT_FORMAT_DTB=y
+
+# BR2_TARGET_UBOOT_NEEDS_DTC is not set
+# BR2_TARGET_UBOOT_NEEDS_PYTHON3 is not set
+# BR2_TARGET_UBOOT_NEEDS_PYLIBFDT is not set
+# BR2_TARGET_UBOOT_NEEDS_PYELFTOOLS is not set
+# BR2_TARGET_UBOOT_NEEDS_OPENSSL is not set
+# BR2_TARGET_UBOOT_NEEDS_LZOP is not set
+# BR2_TARGET_UBOOT_NEEDS_OPENSBI is not set

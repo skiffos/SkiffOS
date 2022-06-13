@@ -1,0 +1,4 @@
+# minimze packages list
+# BR2_PACKAGE_SMARTMONTOOLS is not set
+# BR2_PACKAGE_MODEM_MANAGER is not set
+# BR2_PACKAGE_MODEM_MANAGER_LIBQMI is not set

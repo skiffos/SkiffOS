@@ -17,11 +17,12 @@ References:
 
 There are specific layers tuned to each model.
 
-| **Board** | **Config Layer** |
-|-----------|------------------|
-| [AI]      | beaglebone/ai    |
-| [Black]   | beaglebone/black |
-| [X15]     | beaglebone/x15   |
+| **Board** | **Config Layer**      |
+|-----------|-----------------------|
+| [AI]      | beaglebone/ai         |
+| [Black]   | beaglebone/black      |
+| [X15]     | beaglebone/x15        |
+| [beaglev] | [starfive/visionfive] |
 
 Most boards similar to the BeagleBone Black including PocketBeagle are also
 supported by the `beaglebone/black` configuration.
@@ -29,6 +30,8 @@ supported by the `beaglebone/black` configuration.
 [AI]: http://beagleboard.org/ai
 [Black]: http://beagleboard.org/black
 [X15]: https://beagleboard.org/x15
+[beaglev]: ../starfive
+[starfive/visionfive]: ../starfive/visionfive
 
 ## Compiling SkiffOS
 
