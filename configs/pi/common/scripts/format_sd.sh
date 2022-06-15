@@ -53,7 +53,6 @@ sudo parted -a optimal $PI_SD -- mkpart primary ext4 700MiB "-1s"
 echo "Waiting for partprobe..."
 sudo partprobe $PI_SD || true
 sleep 2
-sudo partprobe $PI_SD || true
 
 PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then

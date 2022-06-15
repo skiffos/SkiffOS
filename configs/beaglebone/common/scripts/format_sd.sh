@@ -61,7 +61,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $BEAGLEBONE_SD || true
 sleep 2
-partprobe $BEAGLEBONE_SD || true
 
 BEAGLEBONE_SD_SFX=$BEAGLEBONE_SD
 if [ -b ${BEAGLEBONE_SD}p1 ]; then

@@ -57,7 +57,6 @@ parted -a optimal "$PCDUINO_SD" -- mkpart primary ext4 600MiB -1s
 echo "Waiting for partprobe..."
 partprobe $PCDUINO_SD || true
 sleep 2
-partprobe $PCDUINO_SD || true
 
 PCDUINO_SD_SFX=$PCDUINO_SD
 if [ -b "${PCDUINO_SD}p1" ]; then

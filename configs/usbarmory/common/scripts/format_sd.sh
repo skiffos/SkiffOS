@@ -58,7 +58,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $USBARMORY_SD || true
 sleep 2
-partprobe $USBARMORY_SD || true
 
 USBARMORY_SD_SFX=$USBARMORY_SD
 if [ -b ${USBARMORY_SD}p1 ]; then

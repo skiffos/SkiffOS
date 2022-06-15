@@ -49,7 +49,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $ODROID_SD || true
 sleep 2
-partprobe $ODROID_SD || true
 
 ODROID_SD_SFX=$ODROID_SD
 if [ -b ${ODROID_SD}p1 ]; then
@@ -65,9 +64,6 @@ dd iflag=dsync oflag=dsync if=${ubootimg} of=${ODROID_SD_SFX}1
 
 echo "Formatting boot partition..."
 $MKEXT4 -L "boot" ${ODROID_SD_SFX}2
-
-# echo "Formatting rootfs partition..."
-# $MKEXT4 -L "rootfs" ${ODROID_SD_SFX}3
 
 echo "Formatting persist partition..."
 $MKEXT4 -L "persist" ${ODROID_SD_SFX}3

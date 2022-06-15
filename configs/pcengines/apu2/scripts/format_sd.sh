@@ -58,7 +58,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $PCDUINO_SD || true
 sleep 2
-partprobe $PCDUINO_SD || true
 
 PCDUINO_SD_SFX=$PCDUINO_SD
 if [ -b "${PCDUINO_SD}p1" ]; then

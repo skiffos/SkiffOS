@@ -87,7 +87,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $PINE64_SD || true
 sleep 2
-partprobe $PINE64_SD || true
 
 PINE64_SD_SFX=$PINE64_SD
 if [ -b ${PINE64_SD}p1 ]; then

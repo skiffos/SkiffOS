@@ -70,7 +70,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $WANDBOARD_SD || true
 sleep 2
-partprobe $WANDBOARD_SD || true
 
 WANDBOARD_SD_SFX=$WANDBOARD_SD
 if [ -b ${WANDBOARD_SD}p1 ]; then

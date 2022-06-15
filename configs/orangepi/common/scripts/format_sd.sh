@@ -70,7 +70,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $PI_SD || true
 sleep 2
-partprobe $PI_SD || true
 
 PI_SD_SFX=$PI_SD
 if [ -b ${PI_SD}p1 ]; then

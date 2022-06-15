@@ -31,7 +31,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $ODROID_SD || true
 sleep 2
-partprobe $ODROID_SD || true
 
 ODROID_SD_SFX=$ODROID_SD
 if [ -b ${ODROID_SD}p1 ]; then

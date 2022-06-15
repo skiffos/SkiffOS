@@ -71,7 +71,6 @@ echo "Waiting for partprobe..."
 sync && sync
 partprobe $ALLWINNER_SD || true
 sleep 2
-partprobe $ALLWINNER_SD || true
 
 ALLWINNER_SD_SFX=$ALLWINNER_SD
 if [ -b ${ALLWINNER_SD}p1 ]; then
