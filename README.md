@@ -148,13 +148,12 @@ Here are the boards/systems currently supported:
 | [Apple Macbook]      | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.18.5       | ✔ Tested      |
 | [BananaPi M1+/Pro]   | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.18.5       | ⚠ Obsolete    |
 | [BananaPi M1]        | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.18.5       | ⚠ Obsolete    |
-| [BananaPi M2]        | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.18.5       | ⚠ Obsolete    |
 | [BananaPi M2+]       | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.18.5       |               |
+| [BananaPi M2]        | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.18.5       | ⚠ Obsolete    |
 | [BananaPi M3]        | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.18.5       | ✔ Tested      |
+| [BeagleBoard X15]    | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBone AI]      | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBone Black]   | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
-| [BeagleBoard X15]    | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
-| [Wandboard]          | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.18.5       |               |
 | [Intel x86/64]       | [intel/x64]           | ✔ Grub           | ✔ 5.18.5       | ✔ Tested      |
 | [NVIDIA Jetson Nano] | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]  | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
@@ -163,8 +162,8 @@ Here are the boards/systems currently supported:
 | [Odroid HC1]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ⚠ Obsolete    |
 | [Odroid HC2]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ✔ Tested      |
 | [Odroid HC4]         | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-5.18.1    |               |
-| [Odroid N2]+         | [odroid/n2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ✔ Tested      |
 | [Odroid M1]          | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.1    |               |
+| [Odroid N2]+         | [odroid/n2]           | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ✔ Tested      |
 | [Odroid U]           | [odroid/u]            | ✔ U-Boot 2022.04 | ✔ tb-5.18.1    | ⚠ Obsolete    |
 | [Odroid XU3]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ⚠ Obsolete    |
 | [Odroid XU4]         | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.1    | ✔ Tested      |
@@ -185,6 +184,7 @@ Here are the boards/systems currently supported:
 | [RockPro64]          | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ✔ Tested      |
 | [Sipeed LicheeRV]    | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1     |
 | [USBArmory Mk2]      | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.18.5       | ✔ Tested      |
+| [Wandboard]          | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.18.5       |               |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
