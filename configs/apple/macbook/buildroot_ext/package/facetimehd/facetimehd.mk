@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FACETIMEHD_VERSION = 8431504df5a1d058fc5888f6bb695de859dbf22f
+FACETIMEHD_VERSION = 75a2a5800aa46cbd679847b4d0863a5e3cef3b9e
 FACETIMEHD_SITE = $(call github,patjak,facetimehd,$(FACETIMEHD_VERSION))
 FACETIMEHD_LICENSE = GPL-2.0
 FACETIMEHD_LICENSE_FILES = LICENSE
