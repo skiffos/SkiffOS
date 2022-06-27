@@ -16,6 +16,7 @@ RUN \
     apt-get dist-upgrade -y && \
     apt-get install -y  \
     --no-install-recommends \
+    --ignore-missing \
     -o "Dpkg::Options::=--force-confdef"  \
     -o "Dpkg::Options::=--force-confnew"  \
     autotools-dev \
