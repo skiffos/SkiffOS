@@ -7,10 +7,14 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 # branch: starfive
 # HEAD of the starfive-tech:Fedora_VIC_7100_2021.04 branch
 # source: https://github.com/starfive-tech/u-boot
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,64ead5b83959da8eb87b6963843addf5942e6ed4)/u-boot-2021.04-starfive-64ead5-r1.tar.gz"
+# BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,64ead5b83959da8eb87b6963843addf5942e6ed4)/u-boot-2021.04-starfive-64ead5-r1.tar.gz"
+# BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_vic7100_beagle_v_smode"
 
-# Default to nezha config, overridden in board config.
-BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_vic7100_beagle_v_smode"
+# branch: visionfive
+# HEAD of the starfive-tech:JH7100_VisionFive_devel branch
+# source: https://github.com/starfive-tech/u-boot
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,e095428f8aaef8b317c352e42972111e0d44b75d)/u-boot-2022.04-visonfive-e09542-r1.tar.gz"
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_jh7100_visionfive_smode"
 
 # BR2_TARGET_UBOOT_FORMAT_CUSTOM is not set
 BR2_TARGET_UBOOT_FORMAT_BIN=y
