@@ -154,7 +154,7 @@ Here are the boards/systems currently supported:
 | [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
 | [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |               |
-| [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V        |
+| [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2022.04 | ✔ sv-5.19-rc3  | RISC-V        |
 | [Intel x86/64]        | [intel/x64]           | ✔ Grub           | ✔ 5.18.7       | ✔ Tested      |
 | [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested      |
