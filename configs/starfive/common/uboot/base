@@ -1,0 +1,55 @@
+# local version string
+CONFIG_LOCALVERSION="-VisionFive-SkiffOS"
+
+# reduce boot delay
+CONFIG_BOOTDELAY=0
+CONFIG_SHOW_BOOT_PROGRESS=y
+
+# set boot commands
+CONFIG_USE_PREBOOT=y
+CONFIG_PREBOOT="setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};"
+CONFIG_DEFAULT_FDT_FILE="jh7100-starfive-visionfive-v1.dtb"
+CONFIG_USE_BOOTCOMMAND=y
+CONFIG_BOOTCOMMAND="run bootcmd_mmc0"
+
+# disable unneeded bootm targets
+CONFIG_BOOTM_LINUX=y
+# CONFIG_BOOTM_NETBSD is not set
+# CONFIG_BOOTM_OPENRTOS is not set
+# CONFIG_BOOTM_PLAN9 is not set
+# CONFIG_BOOTM_RTEMS is not set
+# CONFIG_BOOTM_VXWORKS is not set
+# CONFIG_CMD_BOOTEFI_HELLO is not set
+# CONFIG_CMD_BOOTEFI_SELFTEST is not set
+
+# disable saving env
+CONFIG_ENV_IS_NOWHERE=y
+# CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG is not set
+# CONFIG_ENV_IS_IN_SPI_FLASH is not set
+
+# ensure serial is set
+CONFIG_SERIAL=y
+CONFIG_BAUDRATE=115200
+
+# other options
+# CONFIG_AES is not set
+# CONFIG_AMIGA_PARTITION is not set
+# CONFIG_BOOTP_NTPSERVER is not set
+# CONFIG_CHROMEOS is not set
+# CONFIG_CHROMEOS_VBOOT is not set
+# CONFIG_CMD_AES is not set
+# CONFIG_CMD_EXT4_WRITE is not set
+# CONFIG_CMD_HASH is not set
+# CONFIG_CMD_SQUASHFS is not set
+# CONFIG_CMD_UNZIP is not set
+# CONFIG_CONSOLE_RECORD is not set
+# CONFIG_EXT4_WRITE is not set
+# CONFIG_FS_CBFS is not set
+# CONFIG_FS_CRAMFS is not set
+# CONFIG_FS_SQUASHFS is not set
+# CONFIG_HASH_VERIFY is not set
+# CONFIG_ISO_PARTITION is not set
+# CONFIG_NETCONSOLE is not set
+# CONFIG_SERVERIP_FROM_PROXYDHCP is not set
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+CONFIG_OF_SEPARATE=y
