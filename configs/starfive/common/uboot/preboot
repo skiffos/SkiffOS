@@ -1,0 +1,3 @@
+# disable the mmcbootenv command
+# CONFIG_USE_PREBOOT is not set
+# CONFIG_PREBOOT is not set
