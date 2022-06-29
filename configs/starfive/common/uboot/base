@@ -1,14 +1,17 @@
 # local version string
 CONFIG_LOCALVERSION="-VisionFive-SkiffOS"
 
+# default fdt
+CONFIG_OF_SEPARATE=y
+CONFIG_DEFAULT_FDT_FILE="jh7100-starfive-visionfive-v1.dtb"
+
 # reduce boot delay
 CONFIG_BOOTDELAY=0
 CONFIG_SHOW_BOOT_PROGRESS=y
 
 # set boot commands
-CONFIG_USE_PREBOOT=y
-CONFIG_PREBOOT="setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};"
-CONFIG_DEFAULT_FDT_FILE="jh7100-starfive-visionfive-v1.dtb"
+# CONFIG_USE_PREBOOT is not set
+# CONFIG_PREBOOT is not set
 CONFIG_USE_BOOTCOMMAND=y
 CONFIG_BOOTCOMMAND="run bootcmd_mmc0"
 
@@ -52,4 +55,3 @@ CONFIG_BAUDRATE=115200
 # CONFIG_NETCONSOLE is not set
 # CONFIG_SERVERIP_FROM_PROXYDHCP is not set
 CONFIG_CC_OPTIMIZE_FOR_SIZE=y
-CONFIG_OF_SEPARATE=y
