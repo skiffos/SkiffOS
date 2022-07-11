@@ -1,0 +1,1475 @@
+From 42e6ebba74f001e822f164182379cf40d36cf4cb Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Mon, 11 Jul 2022 05:04:17 -0700
+Subject: [PATCH] dts: changes for auvidea j121
+
+---
+ .../tegra186-display-e3320-1000-a00.dtsi      |  12 +-
+ .../tegra186-quill-common-p3310-1000-a00.dtsi |   4 +-
+ ...86-quill-power-tree-p3310-1000-a00-00.dtsi |   8 +-
+ ...6-quill-p3310-1000-a00-plugin-manager.dtsi |  58 ++-
+ .../tegra186-camera-imx219-a00-auvidea.dtsi   | 350 ++++++++++++++
+ ...ra186-quill-camera-imx219-a00-auvidea.dtsi |  40 ++
+ .../tegra186-p3636-0001-p3509-0000-a01.dts    |  18 +-
+ .../tegra186-p3636-0002-p3509-0000-a01.dts    |   3 +-
+ .../platform/t18x/quill/kernel-dts/Makefile   |  10 +-
+ .../tegra186-quill-p3310-1000-a00-00-base.dts |  41 +-
+ .../tegra186-quill-p3310-1000-c03-00-base.dts | 456 +++++++++++++++++-
+ .../tegra194-p2888-0006-p2822-0000.dts        |  40 ++
+ .../tegra-platforms-audio-dmic3-5-switch.dtsi |   5 +
+ .../kernel-dts/overlays/jetson-mcp251x.dts    |   6 +-
+ 14 files changed, 983 insertions(+), 68 deletions(-)
+ create mode 100644 nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-camera-imx219-a00-auvidea.dtsi
+ create mode 100644 nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-quill-camera-imx219-a00-auvidea.dtsi
+ create mode 100644 nvidia/platform/t19x/galen/kernel-dts/tegra194-p2888-0006-p2822-0000.dts
+
+diff --git a/nvidia/platform/t18x/common/kernel-dts/t18x-common-modules/tegra186-display-e3320-1000-a00.dtsi b/nvidia/platform/t18x/common/kernel-dts/t18x-common-modules/tegra186-display-e3320-1000-a00.dtsi
+index f800c498b825..901563625cd5 100644
+--- a/nvidia/platform/t18x/common/kernel-dts/t18x-common-modules/tegra186-display-e3320-1000-a00.dtsi
++++ b/nvidia/platform/t18x/common/kernel-dts/t18x-common-modules/tegra186-display-e3320-1000-a00.dtsi
+@@ -18,7 +18,7 @@
+ #include <dt-bindings/gpio/tegra186-gpio.h>
+ #include <dt-bindings/spi/lr388k7_platform.h>
+ / {
+-	spi@c260000 {
++	/*spi@c260000 {						//removed for SPI on auvidea boards(fd)
+ 		status = "okay";
+ 		spi-max-frequency = <12000000>;
+ 		prod-settings {
+@@ -29,13 +29,13 @@
+ 		spi-touch-sharp19x12@0 {
+ 			status = "okay";
+ 			compatible = "sharp,lr388k7_ts";
+-			reg = <0>; /* spi chip select 0 */
++			reg = <0>; // spi chip select 0 
+ 			spi-max-frequency = <12000000>;
+ 			irq-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(AA, 7) 0x01>;
+ 			interrupt-parent = <&tegra_aon_gpio>;
+-			interrupts = <TEGRA_AON_GPIO(AA, 7) 0x01>; /* GPIO_PAA7 */
+-			reset-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(S, 3) 0>; /* GPIO_PS3 */
+-			clock-sel-gpio = <&gpio_i2c_0_21 1 0>; /* tca6408 7h21 pin1 */
++			interrupts = <TEGRA_AON_GPIO(AA, 7) 0x01>; // GPIO_PAA7 
++			reset-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(S, 3) 0>; // GPIO_PS3 
++			clock-sel-gpio = <&gpio_i2c_0_21 1 0>; // tca6408 7h21 pin1 
+ 			x-max = <9600>;
+ 			y-max = <15360>;
+ 			z-max = <65535>;
+@@ -44,7 +44,7 @@
+ 			touch-num-max = <10>;
+ 			platform-id = <K7_PLATFORM_HAWKEYE>;
+ 		};
+-	};
++	};*/
+ 
+ 	i2c@3160000 {
+ 		gpio_i2c_0_21: gpio@21 {
+diff --git a/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-common-p3310-1000-a00.dtsi b/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-common-p3310-1000-a00.dtsi
+index 7f1bace4ae36..e805e4dcd1bb 100644
+--- a/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-common-p3310-1000-a00.dtsi
++++ b/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-common-p3310-1000-a00.dtsi
+@@ -40,7 +40,7 @@
+ 		};
+ 	};
+ 
+-	spi@3210000 {
++	/*spi@3210000 {						//removed for SPI on auvidea boards(fd)
+ 		status = "okay";
+ 	};
+ 
+@@ -66,7 +66,7 @@
+ 				nvidia,tx-clk-tap-delay = <0x16>;
+ 			};
+ 		};
+-	};
++	};*/
+ 
+ 	gpio@2200000 {
+ 		wifi_over_pcie {
+diff --git a/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-power-tree-p3310-1000-a00-00.dtsi b/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-power-tree-p3310-1000-a00-00.dtsi
+index f604a600be56..022aa80a9a40 100644
+--- a/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-power-tree-p3310-1000-a00-00.dtsi
++++ b/nvidia/platform/t18x/common/kernel-dts/t18x-common-platforms/tegra186-quill-power-tree-p3310-1000-a00-00.dtsi
+@@ -106,8 +106,8 @@
+ 	pinctrl@3520000 {
+ 		vbus-0-supply = <&vdd_usb0_5v>;
+ 		vbus-1-supply = <&vdd_usb1_5v>;
+-		vbus-2-supply = <&vdd_usb2_5v>;
+-		vbus-3-supply = <&battery_reg>;
++		vbus-2-supply = <&vdd_usb2_5v>; //vdd_usb2_5v
++		vbus-3-supply = <&battery_reg>;	//battery_reg
+ 		vddio-hsic-supply = <&battery_reg>;
+ 		avdd_usb-supply = <&spmic_sd3>;
+ 		vclamp_usb-supply = <&spmic_sd2>;
+@@ -120,12 +120,12 @@
+ 		avdd_pll_erefeut-supply = <&spmic_sd2>;
+ 	};
+ 
+-	spi@c260000 {
++	/*spi@c260000 {					//removed for SPI on auvidea boards(fd) 
+ 		spi-touch-sharp19x12@0 {
+ 			avdd-supply = <&en_vdd_ts_hv_3v3>;
+ 			dvdd-supply = <&en_vdd_ts_1v8>;
+ 		};
+-	};
++	};*/
+ 
+ 	pcie-controller@10003000 {
+ 		dvdd-pex-supply = <&spmic_ldo7>;
+diff --git a/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi b/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
+index 0f453f9a99d6..54a59ebacc3a 100644
+--- a/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
++++ b/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
+@@ -85,21 +85,21 @@
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+-					ports {
++					/*ports {						//removed for J121(fd)
+ 						usb3-0 {
+ 							status = "okay";
+ 						};
+-					};
++					};*/
+ 				};
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					e3325-usb3-std-A-HS {
++					/*e3325-usb3-std-A-HS {					//removed for J121(fd)
+ 						status = "okay";
+ 					};
+ 					e3325-usb3-std-A-SS {
+ 						status = "okay";
+-					};
++					};*/
+ 				};
+ #endif
+ 			};
+@@ -157,10 +157,10 @@
+ 				target = <&tegra_pcie>;
+ 				_overlay_ {
+ 					pci@1,0 {
+-						nvidia,num-lanes = <4>;
++						nvidia,num-lanes = <2>;			//changed for J121(fd)
+ 					};
+ 					pci@2,0 {
+-						nvidia,num-lanes = <0>;
++						nvidia,num-lanes = <1>;			//changed for J121(fd)
+ 					};
+ 					pci@3,0 {
+ 						nvidia,num-lanes = <1>;
+@@ -212,16 +212,18 @@
+ 					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 						<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+ 						<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
+-						<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>;
+-					phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0";
++						<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>,
++						<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;			//added for J121(fd)
++					phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0", "usb3-1";			//changed for J121(fd)
+ 				};
+ #else
+ 				_overlay_ {
+ 					phys = <&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(0)>,
+ 						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(1)>,
+ 						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(2)>,
+-						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>;
+-					phy-names = "utmi-0", "utmi-1", "utmi-2", "usb3-0";
++						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>,
++						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(1)>;			//added for J121(fd)
++					phy-names = "utmi-0", "utmi-1", "utmi-2", "usb3-0", "usb3-1";			//changed for J121(fd)
+ 				};
+ #endif
+ 			};
+@@ -229,25 +231,25 @@
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+-					ports {
++					/*ports {
+ 						usb3-1 {
+-							status = "disabled";
++							status = "disabled";					//removed for J121(fd)
+ 						};
+ 						usb3-0 {
+-							nvidia,usb2-companion = <1>;
++							nvidia,usb2-companion = <1>;				//removed for J121(fd)
+ 							status = "okay";
+ 						};
+-					};
++					};*/
+ 				};
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					usb3-std-A-port2 {
++					/*usb3-std-A-port2 {					//removed for J121(fd)
+ 						nvidia,lanes = "usb3-0";
+ 					};
+ 					e3325-usb3-std-A-HS {
+ 						status = "okay";
+-					};
++					};*/
+ 				};
+ #endif
+ 			};
+@@ -260,17 +262,21 @@
+ 				target = <&{/xhci@3530000}>;
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				_overlay_ {
+-					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
++					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,		//changed for J121(fd)
+ 						<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+-						<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>;
+-					phy-names = "usb2-0", "usb2-1", "usb2-2";
++						<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
++						<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>,
++						<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;
++					phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0", "usb3-1";
+ 				};
+ #else
+ 				_overlay_ {
+-					phys = <&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(0)>,
++					phys = <&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(0)>,			//changed for J121(fd)
+ 						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(1)>,
+-						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(2)>;
+-					phy-names = "utmi-0", "utmi-1", "utmi-2";
++						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(2)>,
++						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>,
++						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(1)>;
++					phy-names = "utmi-0", "utmi-1", "utmi-2", "usb3-0", "usb3-1";
+ 				};
+ #endif
+ 			};
+@@ -278,18 +284,18 @@
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+-					ports {
++					/*ports {						//removed for J121(fd)
+ 						usb3-0 {
+ 							status = "disabled";
+ 						};
+-					};
++					};*/
+ 				};
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					usb3-std-A-port2 {
++					/*usb3-std-A-port2 {					//removed for J121(fd)
+ 						status = "disabled";
+-					};
++					};*/
+ 				};
+ #endif
+ 			};
+diff --git a/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-camera-imx219-a00-auvidea.dtsi b/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-camera-imx219-a00-auvidea.dtsi
+new file mode 100644
+index 000000000000..fa8d916c0faa
+--- /dev/null
++++ b/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-camera-imx219-a00-auvidea.dtsi
+@@ -0,0 +1,350 @@
++/*
++ * Copyright (c) 2016-2019, NVIDIA CORPORATION.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++//file is new: for imx219 camera(fd)
++
++/ {
++	host1x {
++		vi@15700000 {
++			num-channels = <1>;
++			status="okay";
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status="okay";
++				/delete-node/ port@0;
++				port@0 {
++					status="okay";
++					reg = <0>;
++					rbpcv2_imx219_vi_in0: endpoint {
++						status="okay";
++						port-index = <0>;
++						bus-width = <2>;
++						remote-endpoint = <&rbpcv2_imx219_csi_out0>;
++					};
++				};
++			};
++		};
++
++		nvcsi@150c0000 {
++			status="okay";
++			num-channels = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			/delete-node/ channel@0;
++			channel@0 {
++				reg = <0>;
++				ports {
++					status="okay";
++					#address-cells = <1>;
++					#size-cells = <0>;
++					port@0 {
++						reg = <0>;
++						status="okay";
++						rbpcv2_imx219_csi_in0: endpoint@0 {
++							port-index = <0>;
++							bus-width = <2>;
++							remote-endpoint = <&rbpcv2_imx219_dual_out0>;
++							status="okay";
++						};
++					};
++					port@1 {
++						reg = <1>;
++						status="okay";
++						rbpcv2_imx219_csi_out0: endpoint@1 {
++							remote-endpoint = <&rbpcv2_imx219_vi_in0>;
++							status="okay";
++						};
++					};
++				};
++			};
++		};
++	};
++
++	i2c@c250000 {									
++		status="okay";
++		imx219_cam0: rbpcv2_imx219_e@10 {
++			status="okay";
++			compatible = "nvidia,imx219";
++			reg = <0x10>;
++
++			devnode = "video0";
++
++			physical_w = "3.680";
++			physical_h = "2.760";
++
++			sensor_model = "imx219";
++
++			use_sensor_mode_id = "true";
++
++			mode0 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "3264";
++				active_h = "2464";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "21000000"; 
++				step_framerate = "1";
++				default_framerate = "21000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode1 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "3264";
++				active_h = "1848";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "28000000"; 
++				step_framerate = "1";
++				default_framerate = "28000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode2 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1920";
++				active_h = "1080";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "30000000"; 
++				step_framerate = "1";
++				default_framerate = "30000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode3 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1280";
++				active_h = "720";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "60000000"; 
++				step_framerate = "1";
++				default_framerate = "60000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode4 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1280";
++				active_h = "720";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "169600000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "120000000"; 
++				step_framerate = "1";
++				default_framerate = "120000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status="okay";
++
++				port@0 {
++					reg = <0>;
++					status="okay";
++					rbpcv2_imx219_dual_out0: endpoint {
++						status="okay";
++						port-index = <0>;
++						bus-width = <2>;
++						remote-endpoint = <&rbpcv2_imx219_csi_in0>;
++					};
++				};
++			};
++		};
++	};
++	lens_imx219@RBPCV2 {
++		status="okay";
++		min_focus_distance = "0.0";
++		hyper_focal = "0.0";
++		focal_length = "3.04";
++		f_number = "2.0";
++		aperture = "0.0";
++	};
++};
++
++
++
++/ {
++
++	tegra-camera-platform {
++		compatible = "nvidia, tegra-camera-platform";
++
++		num_csi_lanes = <4>;
++		max_lane_speed = <1500000>;
++		min_bits_per_pixel = <10>;
++		vi_peak_byte_per_pixel = <2>;
++		vi_bw_margin_pct = <25>;
++		max_pixel_rate = <240000>;
++		isp_peak_byte_per_pixel = <5>;
++		isp_bw_margin_pct = <25>;
++
++		modules {
++			status="okay";
++			cam_module0: module0 {
++				badge = "porg_front_RBPCV2";
++				position = "front";
++				orientation = "1";
++				status="okay";
++				cam_module0_drivernode0: drivernode0 {
++					status="okay";
++					pcl_id = "v4l2_sensor";
++					devname = "imx219 7-0010";
++					proc-device-tree = "/proc/device-tree/i2c@c250000/rbpcv2_imx219_e@10";	
++				};
++				cam_module0_drivernode1: drivernode1 {
++					status="okay";
++					pcl_id = "v4l2_lens";
++					proc-device-tree = "/proc/device-tree/lens_imx219@RBPCV2/";
++				};
++			};
++		};
++	};
++};
+diff --git a/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-quill-camera-imx219-a00-auvidea.dtsi b/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-quill-camera-imx219-a00-auvidea.dtsi
+new file mode 100644
+index 000000000000..b1fd9a2669fa
+--- /dev/null
++++ b/nvidia/platform/t18x/lanai/kernel-dts/common/tegra186-quill-camera-imx219-a00-auvidea.dtsi
+@@ -0,0 +1,40 @@
++/*
++ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++//file is new: for imx219 camera(fd)
++#include "tegra186-camera-imx219-a00-auvidea.dtsi"
++#include "dt-bindings/clock/tegra186-clock.h"
++
++#define CAM0_RST_L	TEGRA_MAIN_GPIO(R, 5)
++#define CAM0_PWDN	TEGRA_MAIN_GPIO(R, 0)
++#define CAM1_RST_L	TEGRA_MAIN_GPIO(R, 1)
++#define CAM1_PWDN	TEGRA_MAIN_GPIO(L, 6)
++#define CAMERA_I2C_MUX_BUS(x) (0x1E + x)
++
++
++/* camera control gpio definitions */
++
++/ {
++
++	i2c@c250000 {						
++		status="okay";
++		rbpcv2_imx219_e@10 {
++			status = "okay";
++			reset-gpios = <&tegra_main_gpio CAM1_RST_L GPIO_ACTIVE_HIGH>;
++		};
++	};
++};
+diff --git a/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0001-p3509-0000-a01.dts b/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0001-p3509-0000-a01.dts
+index c2ce0d4045bc..7028f7810b28 100644
+--- a/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0001-p3509-0000-a01.dts
++++ b/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0001-p3509-0000-a01.dts
+@@ -16,7 +16,8 @@
+ #include "common/tegra186-p3509-0000-cvb.dtsi"
+ #include "common/tegra186-p3509-0000-a00-fixed-regulator.dtsi"
+ #include "common/tegra186-p3636-0001-a00-prod.dtsi"
+-#include "common/tegra186-camera-lanai-rbpcv2-imx219.dtsi"
++//#include "common/tegra186-camera-lanai-rbpcv2-imx219.dtsi"		//replaced with auvidea imx219 camera dtsi(fd) 
++#include "common/tegra186-quill-camera-imx219-a00-auvidea.dtsi"		//replacment for the lanai imx219 dtsi(fd) 
+ 
+ /* plugin manager */
+ #include "common/tegra186-super-module-e2614-p3509-0000-a00.dtsi"
+@@ -61,8 +62,9 @@
+ 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
++			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;
+-		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-1";
++		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0", "usb3-1";
+ 	};
+ 
+ 	xusb_padctl@3520000 {
+@@ -87,6 +89,10 @@
+ 			};
+ 			usb3 {
+ 				lanes {
++					usb3-0 {
++						nvidia,function = "xusb";
++						status = "okay";
++					};
+ 					usb3-1 {
+ 						nvidia,function = "xusb";
+ 						status = "okay";
+@@ -108,6 +114,10 @@
+ 				status = "okay";
+ 				mode = "host";
+ 			};
++			usb3-0 {
++				nvidia,usb2-companion = <2>;
++				status = "okay";
++			};
+ 			usb3-1 {
+ 				nvidia,usb2-companion = <1>;
+ 				status = "okay";
+@@ -204,10 +214,6 @@
+ 			status = "okay";
+ 		};
+ 	};
+-
+-	i2c@c250000 {
+-		status = "okay";
+-	};
+ };
+ #if LINUX_VERSION >= 414
+ #include <tegra186-linux-4.14.dtsi>
+diff --git a/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0002-p3509-0000-a01.dts b/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0002-p3509-0000-a01.dts
+index 6e9584f74da6..4f5ea864db85 100644
+--- a/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0002-p3509-0000-a01.dts
++++ b/nvidia/platform/t18x/lanai/kernel-dts/tegra186-p3636-0002-p3509-0000-a01.dts
+@@ -16,7 +16,8 @@
+ #include "common/tegra186-p3509-0000-cvb.dtsi"
+ #include "common/tegra186-p3509-0000-a00-fixed-regulator.dtsi"
+ #include "common/tegra186-p3636-0001-a00-prod.dtsi"
+-#include "common/tegra186-camera-lanai-rbpcv2-imx219.dtsi"
++//#include "common/tegra186-camera-lanai-rbpcv2-imx219.dtsi"		//replaced with auvidea imx219 camera dtsi(fd) 
++#include "common/tegra186-quill-camera-imx219-a00-auvidea.dtsi"		//replacment for the lanai imx219 dtsi(fd) 
+ 
+ /* plugin manager */
+ #include "common/tegra186-super-module-e2614-p3509-0000-a00.dtsi"
+diff --git a/nvidia/platform/t18x/quill/kernel-dts/Makefile b/nvidia/platform/t18x/quill/kernel-dts/Makefile
+index 05fd374cb7d5..83f856ca9770 100644
+--- a/nvidia/platform/t18x/quill/kernel-dts/Makefile
++++ b/nvidia/platform/t18x/quill/kernel-dts/Makefile
+@@ -14,20 +14,20 @@ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-dsi-dp.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-hdmi-primary-p3310-1000-c03-00.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-hdmi-primary-p3310-1000-a00-00.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-base-mods-display.dtb
+-dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-imx274.dtb
+-dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-imx185_v1.dtb
+-dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-lc898212.dtb
++#dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-imx274.dtb
++#dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-imx185_v1.dtb
++#dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-a00-00-lc898212.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-hdmi-primary-p3310-1000-a00-00-imx274.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-hdmi-primary-p3310-1000-c03-00-imx274.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-ape-cam.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-base.dtb
+-dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-imx185_v1.dtb
++#dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-imx185_v1.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-dsi-dp.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-dsi-hdmi-hdmi.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-dsi-hdmi-hdmi-imx274-hdmiin.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c03-00-null_dsi-2hdmi-imx274-hdmiin.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3310-1000-c00-00-auo-1080p-edp.dtb
+-dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-e3313-1000-a00-00-e2598.dtb
++#dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-e3313-1000-a00-00-e2598.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3489-1000-a00-00-ucm1.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3489-1000-a00-00-ucm2.dtb
+ dtb-$(CONFIG_ARCH_TEGRA_18x_SOC) += tegra186-quill-p3489-1000-a00-00-e2598.dtb
+diff --git a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
+index b8fad4c0875a..e74d4645a355 100644
+--- a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
++++ b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
+@@ -15,7 +15,7 @@
+ 
+ #include <t18x-common-platforms/tegra186-quill-common-p3310-1000-a00.dtsi>
+ #include <t18x-common-platforms/tegra186-quill-power-tree-p3310-1000-a00-00.dtsi>
+-#include <t18x-common-platforms/tegra186-quill-camera-modules.dtsi>
++//#include <t18x-common-platforms/tegra186-quill-camera-modules.dtsi>
+ #include <t18x-common-modules/tegra186-display-e3320-1000-a00.dtsi>
+ 
+ /* comms dtsi file should be included after gpio dtsi file */
+@@ -24,7 +24,7 @@
+ #include <t18x-common-modules/tegra186-super-module-e2614-p2597-1000-a00.dtsi>
+ #include <t18x-common-plugin-manager/tegra186-quill-display-plugin-manager.dtsi>
+ #include <t18x-common-prod/tegra186-priv-quill-p3310-1000-a00-prod.dtsi>
+-#include <t18x-common-plugin-manager/tegra186-quill-camera-plugin-manager.dtsi>
++//#include <t18x-common-plugin-manager/tegra186-quill-camera-plugin-manager.dtsi>
+ 
+ / {
+ 	model = "quill";
+@@ -122,16 +122,19 @@
+ 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
++			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>,	//added usb3.0 for second usb3 port on auvidea boards(fd)
+ 			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;
+-		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-1";
++		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0", "usb3-1";
+ 	};
+ #else
+ 	xhci@3530000 {
+ 		status = "okay";
+ 		phys = <&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(0)>,
+ 			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(1)>,
++			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(2)>,
++			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>,	//added usb3.0 for second usb3 port on auvidea boards(fd)
+ 			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(1)>;
+-		phy-names = "utmi-0", "utmi-1", "usb3-1";
++		phy-names = "utmi-0", "utmi-1", "utmi-2", "usb3-0", "usb3-1";
+ 		nvidia,boost_cpu_freq = <800>;
+ 	};
+ #endif
+@@ -200,13 +203,15 @@
+ 			usb2-2 {
+ 				status = "okay";
+ 				mode = "host";
+-				vbus-supply = <&vdd_usb2_5v>;
++				vbus-supply = <&battery_reg>;
++				nvidia,oc-pin = <1>;
+ 			};
+ 			usb3-0 {
+-				nvidia,usb2-companion = <2>;
++				nvidia,usb2-companion = <1>;
++				status = "okay";
+ 			};
+ 			usb3-1 {
+-				nvidia,usb2-companion = <1>;
++				nvidia,usb2-companion = <2>;
+ 				status = "okay";
+ 			};
+ 		};
+@@ -228,24 +233,40 @@
+ 		tegra_xusb_padctl_pinmux_default: pinmux {
+ 			/* Quill does not support usb3-micro AB */
+ 			usb2-micro-AB {
++				status = "okay";
+ 				nvidia,lanes = "otg-0";
+ 				nvidia,function = "xusb";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_OTG_CAP>;
+ 				nvidia,oc-pin = <0>;
+ 			};
+ 			usb2-std-A-port2 {
++				status = "okay";
+ 				nvidia,lanes = "otg-1";
+ 				nvidia,function = "xusb";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				nvidia,oc-pin = <1>;
+ 			};
++			usb2-std-A-port3 {					//added usb3.0 for second usb3 port on auvidea boards(fd)
++				status = "okay"; 
++				nvidia,lanes = "otg-2";
++				nvidia,function = "xusb";
++				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
++				nvidia,oc-pin = <1>;
++			};
+ 			usb3-std-A-port2 {
++				status = "okay";
+ 				nvidia,lanes = "usb3-1";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				nvidia,oc-pin = <1>;
+ 			};
++			usb3-std-A-port3 {					//added usb3.0 for second usb3 port on auvidea boards(fd)
++				status = "okay";
++				nvidia,lanes = "usb3-0";
++				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
++				nvidia,oc-pin = <1>;
++			};
+ 
+-			e3325-usb3-std-A-HS {
++			/*e3325-usb3-std-A-HS {
+ 				nvidia,lanes = "otg-2";
+ 				nvidia,function = "xusb";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+@@ -256,7 +277,7 @@
+ 				nvidia,lanes = "usb3-0";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				status = "disabled";
+-			};
++			};*/
+ 		};
+ 	};
+ 	pcie-controller@10003000 {
+@@ -267,7 +288,7 @@
+ 		};
+ 		pci@2,0 {
+ 			nvidia,num-lanes = <1>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 		pci@3,0 {
+ 			nvidia,num-lanes = <1>;
+diff --git a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
+index c276c56c4e22..cdccc6543431 100644
+--- a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
++++ b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
+@@ -141,11 +141,11 @@
+ 
+ 	pcie-controller@10003000 {
+ 		pci@1,0 {
+-			nvidia,num-lanes = <4>;
++			nvidia,num-lanes = <2>;
+ 			nvidia,disable-clock-request;
+ 		};
+ 		pci@2,0 {
+-			nvidia,num-lanes = <0>;
++			nvidia,num-lanes = <1>;
+ 		};
+ 		pci@3,0 {
+ 			nvidia,num-lanes = <1>;
+@@ -156,15 +156,16 @@
+ 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
+-			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>;
+-		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0";
++			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>,
++			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;
++		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0", "usb3-1";
+ 		nvidia,boost_cpu_freq = <1200>;
+ 	};
+ 
+ 	xusb_padctl@3520000 {
+ 		ports {
+ 			usb3-1 {
+-				status = "disabled";
++				status = "okay";
+ 			};
+ 			usb3-0 {
+ 				nvidia,usb2-companion = <1>;
+@@ -173,6 +174,451 @@
+ 		};
+ 	};
+ 
++	/delete-node/ spi@c260000;
++	spi1: spi@c260000 {					//new for spi on tx2 and auvidea board(fd)
++		status="okay";
++		compatible = "nvidia,tegra186-spi";
++		reg = <0x0 0x0c260000 0x0 0x10000>;
++		interrupts = <0 37 0x04>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		iommus = <&smmu TEGRA_SID_GPCDMA_0>;
++		dmas = <&gpcdma 16>, <&gpcdma 16>;
++		dma-names = "rx", "tx";
++		nvidia,clk-parents = "pll_p", "osc";
++		spi-max-frequency = <25000000>;
++		clocks = <&tegra_car TEGRA186_CLK_SPI2>,
++			<&tegra_car TEGRA186_CLK_PLLP_OUT0>,
++			<&tegra_car TEGRA186_CLK_OSC>;
++		clock-names = "spi", "pll_p", "osc";
++		resets = <&tegra_car TEGRA186_RESET_SPI2>;
++		reset-names = "spi";
++			
++		spi1_0 {
++			status = "okay";
++			#address-cells = <0x1>;
++			#size-cells = <0x0>;
++			compatible = "spidev";
++			reg = <0>;
++			spi-max-frequency = <25000000>;
++			nvidia,enable-hw-based-cs;
++			nvidia,cs-setup-clk-count = <0x1e>;
++			nvidia,cs-hold-clk-count = <0x1e>;
++			nvidia,rx-clk-tap-delay = <0x1f>;
++			nvidia,tx-clk-tap-delay = <0x0>;			
++
++			irq-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(AA, 2) 0x01>;
++			interrupt-parent = <&tegra_aon_gpio>;
++			interrupts = <TEGRA_AON_GPIO(AA, 2) 0x01>; // GPIO_PAA2
++		};
++	};
++
++	spi@3230000 {			//new(fd)
++		status="okay";
++		spi2_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi2_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
++
++	spi@3240000 {			//new(fd)
++		status="okay";
++		spi3_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi3_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
++
++	fixed-regulators {					//added for fan control on auvidea boards(fd)
++		/delete-node/ regulator@13;
++		vdd_fan: regulator@13 {
++			compatible = "regulator-fixed-sync";
++			reg = <13>;
++			regulator-name = "vdd-fan";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&tegra_main_gpio TEGRA_MAIN_GPIO(J, 6) GPIO_ACTIVE_LOW>;  
++		};
++	};
++
++
++	/delete-node/ pfsd;
++	pwm_fan_shared_data: pfsd {
++		status = "okay";
++		num_resources = <0>;
++		secret = <47>;
++		active_steps = <10>;
++		active_rpm = <0 1000 2000 3000 4000 5000 6000 7000 10000 11000>;
++		rpm_diff_tolerance = <2>;
++		active_rru = <40 2 1 1 1 1 1 1 1 1>;
++		active_rrd = <40 2 1 1 1 1 1 1 1 1>;
++		state_cap_lookup = <2 2 2 2 3 3 3 4 4 4>;
++		pwm_period = <45334>;
++		pwm_id = <3>;
++		step_time = <100>; // mesecs
++		state_cap = <7>;
++		active_pwm_max = <256>;
++		tach_period = <1000>;
++		pwm_gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(V, 6) GPIO_ACTIVE_LOW>; // TEGRA_MAIN_GPIO_PV6 
++		//pwm_gpio = <&tegra_main_gpio TEGRA_MAIN_GPIO(J, 6) GPIO_ACTIVE_LOW>; // TEGRA_MAIN_GPIO_PJ6 
++	};
++	/delete-node/ pwm-fan;
++	pwm-fan {
++		status = "okay";
++		compatible = "pwm-fan";
++		#pwm-cells = <1>;
++		pwms = <&tegra_pwm4 0 45334>;
++		shared_data = <&pwm_fan_shared_data>;
++		active_pwm = <0 80 120 160 255 255 255 255 255 255>;
++	};
++
++//######################################################################################################################
++
++	host1x {
++		vi_base: vi@15700000 {
++			num-channels = <1>;
++			status="okay";
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status="okay";
++				//delete-node/ port@0;
++				port@0 {
++					status="okay";
++					reg = <0>;
++					rbpcv2_imx219_vi_in0: endpoint {
++						status="okay";
++						port-index = <4>;
++						bus-width = <2>;
++						remote-endpoint = <&rbpcv2_imx219_csi_out0>;
++					};
++				};
++			};
++		};
++
++		nvcsi@150c0000 {
++			status="okay";
++			num-channels = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			//delete-node/ channel@0;
++			channel@0 {
++				reg = <0>;
++				ports {
++					status="okay";
++					#address-cells = <1>;
++					#size-cells = <0>;
++					port@0 {
++						reg = <0>;
++						status="okay";
++						rbpcv2_imx219_csi_in0: endpoint@0 {
++							port-index = <4>;
++							bus-width = <2>;
++							remote-endpoint = <&rbpcv2_imx219_out0>;
++							status="okay";
++						};
++					};
++					port@1 {
++						reg = <1>;
++						status="okay";
++						rbpcv2_imx219_csi_out0: endpoint@1 {
++							remote-endpoint = <&rbpcv2_imx219_vi_in0>;
++							status="okay";
++						};
++					};
++				};
++			};
++		};
++	};
++
++	i2c@c250000 {									
++		status="okay";
++		imx219_cam0: rbpcv2_imx219_e@10 {
++			status="okay";
++			reset-gpios = <&tegra_main_gpio TEGRA_MAIN_GPIO(R, 1) GPIO_ACTIVE_HIGH>;
++			compatible = "nvidia,imx219";
++			reg = <0x10>;
++
++			devnode = "video0";
++
++			physical_w = "3.680";
++			physical_h = "2.760";
++
++			sensor_model = "imx219";
++
++			use_sensor_mode_id = "true";
++
++			mode0 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "3264";
++				active_h = "2464";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "21000000"; 
++				step_framerate = "1";
++				default_framerate = "21000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode1 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "3264";
++				active_h = "1848";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "28000000"; 
++				step_framerate = "1";
++				default_framerate = "28000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode2 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1920";
++				active_h = "1080";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "30000000"; 
++				step_framerate = "1";
++				default_framerate = "30000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode3 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1280";
++				active_h = "720";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "182400000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "60000000"; 
++				step_framerate = "1";
++				default_framerate = "60000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++			mode4 { 
++				mclk_khz = "24000";
++				num_lanes = "2";
++				tegra_sinterface = "serial_e";
++				phy_mode = "DPHY";
++				discontinuous_clk = "yes";
++				dpcm_enable = "false";
++				cil_settletime = "0";
++
++				active_w = "1280";
++				active_h = "720";
++				pixel_t = "bayer_rggb";
++				readout_orientation = "90";
++				line_length = "3448";
++				inherent_gain = "1";
++				mclk_multiplier = "9.33";
++				pix_clk_hz = "169600000";
++
++				gain_factor = "16";
++				framerate_factor = "1000000";
++				exposure_factor = "1000000";
++				min_gain_val = "16"; 
++				max_gain_val = "170"; 
++				step_gain_val = "1";
++				default_gain = "16"; 
++				min_hdr_ratio = "1";
++				max_hdr_ratio = "1";
++				min_framerate = "2000000"; 
++				max_framerate = "120000000"; 
++				step_framerate = "1";
++				default_framerate = "120000000"; 
++				min_exp_time = "13"; 
++				max_exp_time = "683709"; 
++				step_exp_time = "1";
++				default_exp_time = "2495"; 
++
++				embedded_metadata_height = "2";
++			};
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status="okay";
++
++				port@0 {
++					reg = <0>;
++					status="okay";
++					rbpcv2_imx219_out0: endpoint {
++						status="okay";
++						port-index = <4>;
++						bus-width = <2>;
++						remote-endpoint = <&rbpcv2_imx219_csi_in0>;
++					};
++				};
++			};
++		};
++	};
++	lens_imx219@RBPCV2 {
++		status="okay";
++		min_focus_distance = "0.0";
++		hyper_focal = "0.0";
++		focal_length = "3.04";
++		f_number = "2.0";
++		aperture = "0.0";
++	};
++
++	tegra-camera-platform {
++		compatible = "nvidia, tegra-camera-platform";
++
++		num_csi_lanes = <2>;
++		max_lane_speed = <1500000>;
++		min_bits_per_pixel = <10>;
++		vi_peak_byte_per_pixel = <2>;
++		vi_bw_margin_pct = <25>;
++		max_pixel_rate = <240000>;
++		isp_peak_byte_per_pixel = <5>;
++		isp_bw_margin_pct = <25>;
++
++		modules {
++			status="okay";
++			cam_module0: module0 {
++				badge = "porg_front_RBPCV2";
++				position = "front";
++				orientation = "1";
++				status="okay";
++				cam_module0_drivernode0: drivernode0 {
++					status="okay";
++					pcl_id = "v4l2_sensor";
++					devname = "imx219 7-0010";
++					proc-device-tree = "/proc/device-tree/i2c@c250000/rbpcv2_imx219_e@10";	
++				};
++				cam_module0_drivernode1: drivernode1 {
++					status="okay";
++					pcl_id = "v4l2_lens";
++					proc-device-tree = "/proc/device-tree/lens_imx219@RBPCV2/";
++				};
++			};
++		};
++	};
++//######################################################################################################################
++
+        bluedroid_pm {
+ 		bluedroid_pm,reset-gpio = <&tegra_main_gpio TEGRA_MAIN_GPIO(H, 5) 0>;
+         };
+diff --git a/nvidia/platform/t19x/galen/kernel-dts/tegra194-p2888-0006-p2822-0000.dts b/nvidia/platform/t19x/galen/kernel-dts/tegra194-p2888-0006-p2822-0000.dts
+new file mode 100644
+index 000000000000..98dfa36de33b
+--- /dev/null
++++ b/nvidia/platform/t19x/galen/kernel-dts/tegra194-p2888-0006-p2822-0000.dts
+@@ -0,0 +1,40 @@
++/*
++ * Top level DTS file for CVM:P2888-0005 and CVB:P2822-0000.
++ *
++ * Copyright (c) 2019, NVIDIA CORPORATION.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; version 2 of the License.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++
++#include "common/tegra194-p2888-0001-p2822-0000-common.dtsi"
++#include "common/tegra194-p2822-camera-modules.dtsi"
++#include "t19x-common-modules/tegra194-camera-plugin-manager.dtsi"
++#include "common/tegra194-p2888-0006-p2822-common.dtsi"
++
++/ {
++	model = "NVIDIA Jetson AGX Xavier 8GB Developer Kit";
++	compatible = "nvidia,p2822-0000+p2888-0006", "nvidia,p2972-0006", "nvidia,tegra194";
++
++	pcie@14180000 {
++		nvidia,max-speed = <3>;
++	};
++
++	pcie@14140000 {
++		nvidia,max-speed = <3>;
++	};
++
++	pcie@141a0000 {
++		nvidia,max-speed = <3>;
++	};
++
++	pcie_ep@141a0000 {
++		nvidia,max-speed = <3>;
++	};
++};
+diff --git a/nvidia/platform/tegra/common/kernel-dts/audio/tegra-platforms-audio-dmic3-5-switch.dtsi b/nvidia/platform/tegra/common/kernel-dts/audio/tegra-platforms-audio-dmic3-5-switch.dtsi
+index 6e7eb55b26ef..b6b1a62abcf0 100644
+--- a/nvidia/platform/tegra/common/kernel-dts/audio/tegra-platforms-audio-dmic3-5-switch.dtsi
++++ b/nvidia/platform/tegra/common/kernel-dts/audio/tegra-platforms-audio-dmic3-5-switch.dtsi
+@@ -49,3 +49,8 @@
+ 	};
+ };
+ 
++&tegra_dmic3 {
++	pinctrl-names = "dap_active", "dap_inactive";
++	pinctrl-0 = <&dmic3_dap_active_state>;
++	pinctrl-1 = <&dmic3_dap_inactive_state>;
++};
+diff --git a/nvidia/platform/tegra/common/kernel-dts/overlays/jetson-mcp251x.dts b/nvidia/platform/tegra/common/kernel-dts/overlays/jetson-mcp251x.dts
+index b977660a227f..6605ce62abc0 100644
+--- a/nvidia/platform/tegra/common/kernel-dts/overlays/jetson-mcp251x.dts
++++ b/nvidia/platform/tegra/common/kernel-dts/overlays/jetson-mcp251x.dts
+@@ -61,7 +61,7 @@
+ 					nvidia,function = HDR40_SPI;
+ 					nvidia,pull = <TEGRA_PIN_PULL_DOWN>;
+ 					nvidia,tristate = <TEGRA_PIN_DISABLE>;
+-					nvidia,enable-input = <TEGRA_PIN_ENABLE>;
++					nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+ 				};
+ 				hdr40-pin21 {
+ 					nvidia,pins = HDR40_PIN21;
+@@ -82,14 +82,14 @@
+ 					nvidia,function = HDR40_SPI;
+ 					nvidia,pull = <TEGRA_PIN_PULL_UP>;
+ 					nvidia,tristate = <TEGRA_PIN_DISABLE>;
+-					nvidia,enable-input = <TEGRA_PIN_ENABLE>;
++					nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+ 				};
+ 				hdr40-pin26 {
+ 					nvidia,pins = HDR40_PIN26;
+ 					nvidia,function = HDR40_SPI;
+ 					nvidia,pull = <TEGRA_PIN_PULL_UP>;
+ 					nvidia,tristate = <TEGRA_PIN_DISABLE>;
+-					nvidia,enable-input = <TEGRA_PIN_ENABLE>;
++					nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+ 				};
+ 			};
+ 		};
+-- 
+2.35.1
+
