@@ -1,0 +1,9 @@
+[Unit]
+Description=ADB Daemon
+
+[Service]
+Restart=always
+ExecStart=/opt/skiff/scripts/start-adbd.sh
+
+[Install]
+WantedBy=multi-user.target
