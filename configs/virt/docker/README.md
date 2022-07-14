@@ -12,7 +12,7 @@ are included in the container start script.
 
 ```bash
 SKIFF_CONFIG=virt/docker make configure compile # Compile the system
-make cmd/virt/docker/build-image
+make cmd/virt/docker/buildimage
 make cmd/virt/docker/run
 ```
 
