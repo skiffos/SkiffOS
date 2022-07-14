@@ -4,8 +4,6 @@
 # platforms, and/or are necessary to keep at the latest version for best
 # performance and compatibility.
 
-=sys-apps/systemd-249.4-r3 ~arm
-
 app-admin/haskell-updater ~ARCH
 app-arch/bzip2 ~ARCH
 app-arch/p7zip ~ARCH
@@ -35,7 +33,6 @@ dev-haskell/pandoc-citeproc ~ARCH
 dev-java/openjdk-bin ~ARCH
 dev-lang/ghc ~ARCH
 dev-lang/go ~ARCH
-dev-lang/python ~ARCH
 dev-lang/rust ~ARCH
 dev-lang/spidermonkey ~ARCH
 dev-libs/boost ~ARCH
@@ -145,7 +142,6 @@ sys-power/acpid ~ARCH
 virtual/ffmpeg ~ARCH
 virtual/jdk ~ARCH
 virtual/jre ~ARCH
-virtual/perl-libnet ~ARCH
 virtual/rust ~ARCH
 www-client/chromium ~ARCH
 www-client/firefox ~ARCH
