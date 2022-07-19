@@ -172,11 +172,11 @@ Here are the boards/systems currently supported:
 | [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.18.12      |               |
 | [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.18.12      |               |
 | [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 5.18.12      |               |
-| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
-| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.44  |               |
-| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
-| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
-| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.44  | ✔ Tested      |
+| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
+| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.55  |               |
+| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
+| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
+| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
 | [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.18.4  |               |
 | [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ⚠ Obsolete    |
 | [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ✔ Tested      |
