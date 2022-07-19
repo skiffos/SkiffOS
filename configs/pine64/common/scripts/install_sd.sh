@@ -41,9 +41,10 @@ if [ ! -f "$img_path" ]; then
   exit 1
 fi
 
-mounts=()
 WORK_DIR=`mktemp -d -p "$DIR"`
-# deletes the temp directory
+RS="rsync -rav --no-perms --no-owner --no-group --progress --inplace"
+
+mounts=()
 function cleanup {
 sync || true
 for mount in "${mounts[@]}"; do
@@ -77,13 +78,13 @@ echo "Copying files..."
 cd ${IMAGES_DIR}
 mkdir -p ${BOOT_DIR}/skiff-init ${ROOTFS_DIR}/
 if [ -d ${IMAGES_DIR}/rootfs_part/ ]; then
-    rsync -rav ${IMAGES_DIR}/rootfs_part/ ${ROOTFS_DIR}/
+    ${RS} ${IMAGES_DIR}/rootfs_part/ ${ROOTFS_DIR}/
 fi
 if [ -d ${IMAGES_DIR}/persist_part/ ]; then
-    rsync -rav ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
+    ${RS} ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
 fi
-rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
-rsync -rv \
+${RS} ./skiff-init/ ${BOOT_DIR}/skiff-init/
+${RS} \
       ./*.dtb ./Image \
       ./skiff-release ./rootfs.squashfs \
       ${BOOT_DIR}/

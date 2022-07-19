@@ -43,6 +43,7 @@ mounts=()
 MOUNTS_DIR=${outp_path}/mounts
 mkdir -p ${MOUNTS_DIR}
 WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
+RS="rsync -rav --no-perms --no-owner --no-group --progress --inplace"
 
 # deletes the temp directory
 function cleanup {
@@ -78,11 +79,11 @@ mounts+=("$persist_dir")
 mount ${PI_SD_SFX}3 $persist_dir
 
 echo "Copying kernel..."
-rsync -v $uimg_path $boot_dir/
+${RS} $uimg_path $boot_dir/
 sync
 
 echo "Copying rpi-firmware..."
-rsync -rav --no-perms --no-owner --no-group $firm_path/ $boot_dir/
+${RS} $firm_path/ $boot_dir/
 sync
 
 echo "Copying rpi-firmware touchups..."
@@ -92,22 +93,22 @@ sync
 
 if [ -d "$outp_path/images/rootfs_part" ]; then
   echo "Copying rootfs_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/rootfs_part/ $rootfs_dir/
+  ${RS} $outp_path/images/rootfs_part/ $rootfs_dir/
   sync
 fi
 
 if [ -d "$outp_path/images/persist_part" ]; then
   echo "Copying persist_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/persist_part/ $persist_dir/
+   ${RS} $outp_path/images/persist_part/ $persist_dir/
   sync
 fi
 
 echo "Copying device tree(s)..."
-rsync -rav --no-perms --no-owner --no-group $outp_path/images/*.dtb $boot_dir/
+${RS} $outp_path/images/*.dtb $boot_dir/
 sync
 
 echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $cpio_path $boot_dir/rootfs.cpio.lz4
+${RS} $cpio_path $boot_dir/rootfs.cpio.lz4
 sync
 
 cleanup
