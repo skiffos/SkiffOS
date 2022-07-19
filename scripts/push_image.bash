@@ -9,7 +9,7 @@ usage() {
 }
 
 SSHSTR=$1
-RS="rsync -rv --progress --inplace"
+RS="rsync -rv --progress --sparse"
 
 if [ -z "$SSHSTR" ]; then
     usage
