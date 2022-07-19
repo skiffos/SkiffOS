@@ -1,6 +1,7 @@
 #!/bin/bash
 set -a
 
+WAIT_PATHS_EXIST=()
 BOOT_DEVICE="LABEL=boot"
 PERSIST_DEVICE="LABEL=persist"
 ROOTFS_DEVICE="LABEL=rootfs"
@@ -54,14 +55,49 @@ if [ -f $SKIFF_RELEASE_FILE ]; then
     fi
 fi
 
+# Wait for udev to settle
+udevadm settle --timeout=30s || echo "Udev settle timed out! Continuing..."
+
+# If we have not configured any devices to wait
+if [ ${#WAIT_PATHS_EXIST[@]} -eq 0 ]; then
+    if [[ "${PERSIST_DEVICE}" =~ "^LABEL=.*" ]]; then
+        # If we are mounting LABEL=foo, wait for /dev/disk/by-label/foo
+        WAIT_PATHS_EXIST+=("/dev/disk/by-label/${PERSIST_DEVICE:6}")
+    elif [[ "${PERSIST_DEVICE}" =~ "^/dev/.*" ]]; then
+        # If we are mounting /dev/..., wait for that file to exist.
+        WAIT_PATHS_EXIST+=("${PERSIST_DEVICE}")
+    fi
+fi
+
+# Wait for files to exist, if configured.
+if ! [ ${#WAIT_PATHS_EXIST[@]} -eq 0 ]; then
+    for wait_path in "${WAIT_PATHS_EXIST[@]}"; do
+        if [ -e "${wait_path}" ]; then
+            continue
+        fi
+
+        echo "Waiting for ${wait_path} to exist..."
+        while ! [ -e "${wait_path}" ]; do
+            sleep 0.25
+        done
+    done
+fi
+
 # Mount persist device, if applicable.
 mkdir -p $SYSTEMD_CONFD $PERSIST_MNT
-if [ -f $SKIP_MOUNT_FLAG ] || \
-       mountpoint -q $PERSIST_MNT || \
-       mount $PERSIST_MNT_FLAGS $PERSIST_DEVICE $PERSIST_MNT; then
-    echo "Persist drive is at $PERSIST_MNT path $PERSIST_ROOT"
-else
-    echo "Unable to mount ${PERSIST_DEVICE}, continuing."
+if ! [ -f ${SKIP_MOUNT_FLAG} ] && ! mountpoint -q ${PERSIST_MNT}; then
+    attempts=0
+    while ! mountpoint -q ${PERSIST_MNT}; do
+        echo "Mounting ${PERSIST_DEVICE} to ${PERSIST_MNT}"
+        mount $PERSIST_MNT_FLAGS $PERSIST_DEVICE $PERSIST_MNT || echo "Failed to mount ${PERSIST_DEVICE}"
+        attempts=$((attempts + 1))
+        if [ $attempts -gt 60 ]; then
+            echo "Waited too long for ${PERSIST_DEVICE}, continuing without."
+            break
+        fi
+        echo "Will retry mounting ${PERSIST_DEVICE}..."
+        sleep 1
+    done
 fi
 
 # Create some dirs.
@@ -87,7 +123,6 @@ fi
 if ! mountpoint -q /etc/ssh; then
     mount --bind $SSH_PERSIST /etc/ssh
 fi
-
 
 # mount /mnt/boot but only if MOUNT_BOOT_DEVICE is set.
 if [ -n "$BOOT_DEVICE_MKDIR" ]; then
