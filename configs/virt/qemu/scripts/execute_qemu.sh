@@ -53,6 +53,10 @@ if [ ! -f ${KERNEL_IMAGE} ]; then
     exit 1
 fi
 
+if [ -z "${QEMU_CPUS}" ]; then
+    QEMU_CPUS="$(nproc)"
+fi
+
 if [ -z "${QEMU_MEMORY}" ]; then
     QEMU_MEMORY="2G"
 fi
@@ -66,7 +70,7 @@ ${BUILDROOT_DIR}/host/bin/qemu-system \
   -bios default \
   -machine virt \
   -netdev user,id=vmnic \
-  -smp $(nproc) \
+  -smp ${QEMU_CPUS} \
   -m "size=${QEMU_MEMORY}" \
   -device virtio-net,netdev=vmnic \
   -device virtio-rng-pci \
