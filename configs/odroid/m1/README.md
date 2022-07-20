@@ -58,3 +58,15 @@ dd if=odroid.img of=/dev/sdX status=progress oflag=sync
 This is equivalent to using the format and install scripts.
 
 The persist partition will be resized to fill the available space on first boot.
+
+## Using Emmc for Persist
+
+An easy way to setup the M1 for storing data on the EMMC card is to:
+
+ 1. Flash & install to a MicroSD card as described above.
+ 2. Delete the "persist" partition from the MicroSD card.
+ 3. Create an ext4 partition labeled "persist" on the EMMC.
+ 4. Attach both the MicroSD and the EMMC to the Odroid M1.
+ 
+The "boot" and "rootfs" partitions on the microSD card will be used for the
+boot-up files, and the "persist" partition on the EMMC will be used for data.
