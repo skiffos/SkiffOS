@@ -177,12 +177,12 @@ Here are the boards/systems currently supported:
 | [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
 | [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
 | [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.55  | ✔ Tested      |
-| [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.18.4  |               |
-| [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ⚠ Obsolete    |
-| [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ✔ Tested      |
-| [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ✔ Tested      |
-| [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.18.4  | ✔ Tested      |
-| [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.18.4  | ✔ Tested      |
+| [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.18.12 |               |
+| [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.18.12 | ⚠ Obsolete    |
+| [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.18.12 | ✔ Tested      |
+| [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.18.12 | ✔ Tested      |
+| [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.18.12 | ✔ Tested      |
+| [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.18.12 | ✔ Tested      |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1     |
 | [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V        |
 | [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.18.12      | ✔ Tested      |
