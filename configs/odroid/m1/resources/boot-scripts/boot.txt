@@ -18,7 +18,7 @@ setenv bootmem "root=/dev/ram0 rw"
 
 # base kernel config options
 setenv mtdconfig "mtdparts=sfc_nor:0x20000@0xe0000(env),0x200000@0x100000(uboot),0x100000@0x300000(splash),0xc00000@0x400000(firmware)"
-setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 pci=nomsi mem=4096M ${mtdconfig}"
+setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 pci=nomsi ${mtdconfig}"
 
 # CPU Governor Selection
 # Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
