@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 echo "virt/wsl: removing some systemd targets..."
 TARGET_DIR=${SKIFF_BUILDROOT_DIR}/target

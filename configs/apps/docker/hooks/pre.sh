@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 echo "[apps/docker] Merging Docker daemon.json fragments..."
 SRC_DJSON=$SKIFF_CURRENT_CONF_DIR/resources/docker/daemon.json
