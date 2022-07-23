@@ -21,6 +21,12 @@ if [ ! -b $1 ]; then
     exit 1
 fi
 
+####################################
+# fusing images
+
+uboot_position=1
+device=$1
+
 # Get the U-Boot blob
 if [ ! -f $ubootimg ]; then
   echo "U-Boot blob not found."
@@ -29,7 +35,8 @@ fi
 
 #<u-boot fusing>
 echo "u-boot fusing"
-dd conv=fsync,notrunc if=$ubootimg of=$device bs=512 seek=1
+dd iflag=dsync oflag=dsync if=$ubootimg of=$device seek=$uboot_position bs=512 skip=1 seek=1 ${SD_FUSE_DD_ARGS}
+dd iflag=dsync oflag=dsync if=$ubootimg of=$device seek=$uboot_position bs=1 count=444 ${SD_FUSE_DD_ARGS}
 
 ####################################
 #<Message Display>
