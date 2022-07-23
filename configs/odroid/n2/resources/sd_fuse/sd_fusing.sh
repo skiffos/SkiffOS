@@ -15,6 +15,7 @@ if [ -z $1 ]; then
     exit 1
 fi
 
+device=$1
 ubootimg=$2
 if [ ! -b $1 ]; then
     echo "$1 not found, unable to fuse bootloader."
