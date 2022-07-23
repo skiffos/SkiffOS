@@ -1,3 +1,4 @@
 source "$BR2_EXTERNAL_ODROID_COMMON_PATH/package/amlogic-boot-fip/Config.in"
 source "$BR2_EXTERNAL_ODROID_COMMON_PATH/package/odroidm1-uboot-blobs/Config.in"
+source "$BR2_EXTERNAL_ODROID_COMMON_PATH/package/odroidn2-uboot-blobs/Config.in"
 source "$BR2_EXTERNAL_ODROID_COMMON_PATH/package/rkbin-firmware/Config.in"

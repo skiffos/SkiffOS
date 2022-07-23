@@ -1,0 +1,4 @@
+config BR2_PACKAGE_ODROIDN2_UBOOT_BLOBS
+	bool "odroidn2-uboot-blobs"
+	help
+	  Pre-compiled u-boot for odroid n2.
