@@ -16,22 +16,20 @@ if [ -z $1 ]; then
 fi
 
 device=$1
-ubootimg=$2
-if [ ! -b $1 ]; then
-    echo "$1 not found, unable to fuse bootloader."
+if [ ! -b $device ]; then
+    echo "$1 not found, unable to write bootloader."
     exit 1
 fi
 
-# Get the U-Boot blob
+ubootimg=$2
 if [ ! -f $ubootimg ]; then
-  echo "U-Boot blob not found."
+  echo "U-Boot blob not found: $ubootimg"
   exit 1
 fi
 
-#<u-boot fusing>
+# https://github.com/LibreELEC/LibreELEC.tv/blob/7/projects/Amlogic/bootloader/mkimage#L8
 echo "u-boot fusing"
-dd conv=fsync,notrunc if=$ubootimg of=$device bs=512 seek=1
+dd conv=fsync,notrunc if=$ubootimg of=$device bs=1 count=440 ${SD_FUSE_DD_ARGS}
+dd conv=fsync,notrunc if=$ubootimg of=$device bs=512 skip=1 seek=1 ${SD_FUSE_DD_ARGS}
 
-####################################
-#<Message Display>
-echo "U-boot image is fused successfully."
+echo "U-boot image was written successfully."
