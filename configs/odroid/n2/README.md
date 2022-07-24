@@ -1,14 +1,14 @@
-# Odroid M1
+# Odroid N2
 
 This configuration package series configures Buildroot to produce a BSP image for the
-Odroid M1.
+Odroid N2.
 
 ## Getting Started
 
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=odroid/m1,skiff/core
+$ export SKIFF_CONFIG=odroid/n2,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -28,11 +28,6 @@ The `install` step will overwrite the current Skiff installation on the card,
 taking care to not touch any persistent data (from the persist partition). It's
 safe to upgrade Skiff independently from your persistent data.
 
-## Uart
-
-Unlike the other odroid boards, which use baudrate 115200, the odroid m1 uses
-baudrate 1500000.
- 
 ## Building an Image
 
 It's possible to create a .img file instead of directly flashing a SD.
@@ -66,12 +61,12 @@ Emmc card instead without changes.
 
 ## Using Emmc for Persist
 
-An alternative way to setup the M1 for storing data on the EMMC card is to:
+An alternative way to setup the N2 for storing data on the EMMC card is to:
 
  1. Flash & install to a MicroSD card as described above.
  2. Delete the "persist" partition from the MicroSD card.
  3. Create an ext4 partition labeled "persist" on the EMMC.
- 4. Attach both the MicroSD and the EMMC to the Odroid M1.
+ 4. Attach both the MicroSD and the EMMC to the Odroid N2.
  
 The "boot" and "rootfs" partitions on the microSD card will be used for the
 boot-up files, and the "persist" partition on the EMMC will be used for data.
