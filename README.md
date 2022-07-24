@@ -164,7 +164,7 @@ Here are the boards/systems currently supported:
 | [Odroid HC2]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ✔ Tested      |
 | [Odroid HC4]          | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   |               |
 | [Odroid M1]           | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.12   |               |
-| [Odroid N2]+          | [odroid/n2]           | ✔ U-Boot 2015.01 | ✔ tb-5.18.12   | ✔ Tested      |
+| [Odroid N2]+          | [odroid/n2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ✔ Tested      |
 | [Odroid U]            | [odroid/u]            | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ⚠ Obsolete    |
 | [Odroid XU3]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ⚠ Obsolete    |
 | [Odroid XU4]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ✔ Tested      |
