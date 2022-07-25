@@ -317,12 +317,12 @@ All core configurations work with all target platforms.
 
 The primary distributions and images supported are:
 
-| **Distribution**  | **Config Package** | **Notes**              |
-|-------------------|--------------------|------------------------|
-| [Alpine] Linux    | core/alpine        | OpenRC                 |
-| [Debian] Bullseye | [core/debian]      | XFCE desktop           |
-| [Gentoo]          | core/gentoo        | Based on latest stage3 |
-| Ubuntu            | skiff/core         | Ubuntu Jammy desktop   |
+| **Distribution** | **Config Package** | **Notes**              |
+|------------------|--------------------|------------------------|
+| [Alpine] Linux   | core/alpine        | OpenRC                 |
+| [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
+| [Gentoo]         | core/gentoo        | Based on latest stage3 |
+| [Ubuntu]         | core/ubuntu        | Snaps & Ubuntu Desktop |
 
 Other less frequently updated images:
 
@@ -334,7 +334,7 @@ Other less frequently updated images:
 | [NixOS]                 | core/nixos         |                           |
 | [NixOS] with [XFCE]     | core/nixos_xfce    |                           |
 
-There are also core images specific to [pine64/phone] and [pine64/book].
+There are also core images specific to [pine64/phone] and [pine64/book] and [jetson/common].
 
 [Debian]: https://debian.org/
 [DietPi]: https://github.com/MichaIng/DietPi
@@ -354,6 +354,7 @@ There are also core images specific to [pine64/phone] and [pine64/book].
 [core/nasa_fprime]: ./configs/core/nasa_fprime
 [pine64/book]: ./configs/pine64/book
 [pine64/phone]: ./configs/pine64/phone
+[jetson/common]: ./configs/jetson/common
 
 ### Customize Config
 
