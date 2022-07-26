@@ -1,5 +1,5 @@
 # Entropy source for headless system (rngd)
 # Note: a patch is added to make rngd.service start early.
-BR2_PACKAGE_HAVEGED=n
+# BR2_PACKAGE_HAVEGED is not set
 BR2_PACKAGE_RNG_TOOLS=y
 
