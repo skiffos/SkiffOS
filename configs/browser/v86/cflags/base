@@ -1,0 +1,2 @@
+# v86 supports sse2
+-msse -msse2
