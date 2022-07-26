@@ -9,11 +9,19 @@ if [ ! -d "/opt/skiff" ]; then
   exit 1
 fi
 
+ENV_PATH=/etc/skiff-swap.env
+PERSIST_MNT=/mnt/persist
+SWAPFILE_PATH=$PERSIST_MNT/primary.swap
+if [ -f ${ENV_PATH} ]; then
+    source ${ENV_PATH}
+fi
+
+SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
+
 # Enable ZRAM if not already enabled.
 # This will compress contents of RAM to avoid using the swapfile.
-SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
 ZRAM_SIZE="${ZRAM_SIZE:-2048M}"
-if ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
+if [ -z "${DISABLE_ZRAM}" ] && ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
     echo "Enabling ZRAM at /dev/zram0..."
     modprobe zram || true
     zramctl -s ${ZRAM_SIZE} /dev/zram0 || true
@@ -28,19 +36,17 @@ if ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
 fi
 
 # Swap file, in case we run out of RAM.
-PERSIST_MNT=/mnt/persist
+SWAPFILE_SIZE=${SWAPFILE_SIZE:-2048}
+if [ -n "${DISABLE_SWAPFILE}" ] || [ -z "${SWAPFILE_PATH}" ]; then
+    echo "Swapfile is disabled."
+    exit 0
+fi
+
 if mountpoint -q $PERSIST_MNT; then
   echo "Found persist drive at $PERSIST_MNT"
 else
-  echo "Cannot find persist mount point, bailing."
-  exit 1
-fi
-
-SWAPFILE_PATH=$PERSIST_MNT/primary.swap
-# in mb
-SWAPFILE_SIZE=2048
-if [ -f /etc/skiff-swap.env ]; then
-    source /etc/skiff-swap.env
+  echo "Cannot find persist mount point, skipping swapfile."
+  exit 0
 fi
 
 if swapon -s | grep -q "${SWAPFILE_PATH}" ; then
