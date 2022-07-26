@@ -1,9 +1,10 @@
-# SkiffOS in the Web Browser: V86 Emulator
+# V86 Emulator
 
-This configuration package series configures Buildroot to produce a BSP image
-for the [V86 Emulator], which can run the system in the web browser.
+**Runs SkiffOS in the web browser with the [V86 Emulator].**
 
 [V86 Emulator]: https://github.com/copy/v86
+
+![](../../../resources/images/browser-v86-screenshot.png)
 
 ## Getting Started
 
