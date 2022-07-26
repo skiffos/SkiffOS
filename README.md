@@ -7,7 +7,7 @@
 
 [SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
-[Apple MacBook]), [Phones], [Cloud VMs], and more. It is:
+[Apple MacBook]), [Phones], [Cloud VMs], and even [Web Browsers]. It is:
 
  - **Familiar**: uses simple Makefile and KConfig language for configuration.
  - **Flexible**: supports any OS distribution inside containers w/ ssh drop-in.
@@ -43,6 +43,7 @@ updates across multiple hardware combinations.
 [Odroid]: https://linux-hardware.org/?probe=927be03a24
 [Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
+[Web Browsers]: ./configs/browser/v86
 [SkiffOS]: ./resources/paper.pdf
 
 ## Getting started
