@@ -1,0 +1,2 @@
+CONFIG_CMDLINE_BOOL=y
+CONFIG_CMDLINE="tsc=reliable mitigations=off random.trust_cpu=on"
