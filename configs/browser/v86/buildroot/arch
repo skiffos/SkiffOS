@@ -1,2 +1,5 @@
 BR2_i386=y
-BR2_x86_pentium4=y
+BR2_x86_pentium3=y
+
+# While SSE2 is supported, it's less performant.
+# BR2_x86_pentium4=y

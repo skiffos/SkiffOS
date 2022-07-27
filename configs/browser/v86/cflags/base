@@ -1,2 +1,4 @@
 # v86 supports sse2
--msse -msse2
+# however: it's less performant than without.
+# commented here for now.
+# -msse -msse2
