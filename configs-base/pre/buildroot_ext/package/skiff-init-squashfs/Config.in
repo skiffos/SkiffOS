@@ -39,19 +39,19 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_WAIT_EXISTS
 	  Waits for the given path to exist before starting.
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT
-	string "mount /mnt/boot before the rootfs squashfs"
+	string "mount /mnt/boot with device or path"
 	help
 	  Mounts the given device at /mnt/boot if set.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_BIND
+	bool "mount /mnt/boot with a bind mount"
+	help
+	  Mounts the MOUNT_BOOT option as a bind mount.
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_FSTYPE
 	string "set the fstype for the /mnt/boot mount"
 	help
 	  Overrides the default value of vfat for /mnt/boot
-
-config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_BOOT_BIND
-	string "mount /mnt/boot as a bind mount"
-	help
-	  Mounts the MOUNT_BOOT path as a bind mount to /mnt/boot.
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_MOUNT_PROC
 	bool "mount /proc in the target fs"
@@ -75,6 +75,14 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_NO_MOVE_MOUNTPOINT_ROOT
 	bool "disable moving mountpoint to /"
 	help
 	  Disable moving skiff mountpoint to /
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS
+	bool "resize filesystems with resize2fs"
+	select BR2_PACKAGE_SKIFF_INIT_RESIZE2FS # resize2fs
+	select BR2_PACKAGE_UTIL_LINUX
+	select BR2_PACKAGE_UTIL_LINUX_BINARIES # fdisk, sfdisk
+	help
+	  Run resize2fs on disks defined in resize2fs.conf
     
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	bool "inherit / to /mnt/persist from the root fs"
@@ -83,9 +91,10 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	  Mounts / into the chroot system at /mnt/persist
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_BOOT
-	bool "inherit / to /mnt/boot from the root fs"
+	depends on !BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
+	bool "inherit /mnt/boot from root fs to /mnt/boot in chroot"
 	help
-	  Mounts / into the chroot system at /mnt/boot
+	  Mounts /mnt/boot into the chroot system at /mnt/boot
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_MAKE_SHARED
 	bool "ensure that the / mount is shared"

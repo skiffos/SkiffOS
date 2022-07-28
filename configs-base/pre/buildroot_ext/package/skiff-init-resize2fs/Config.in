@@ -1,0 +1,11 @@
+# based on BR2_PACKAGE_E2FSPROGS
+# compiles resize2fs as static binary
+
+menuconfig BR2_PACKAGE_SKIFF_INIT_RESIZE2FS
+	bool "skiff-init-resize2fs"
+	depends on BR2_USE_MMU # util-linux/libblkid
+	help
+	  Build resize2fs static binary and copy to images dir (for target).
+
+	  http://e2fsprogs.sourceforge.net
+
