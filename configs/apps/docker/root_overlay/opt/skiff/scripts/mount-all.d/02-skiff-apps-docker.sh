@@ -21,5 +21,5 @@ if [ -f $DOCKER_SERVICE ]; then
     DOCKER_EXECSTART+=" --log-driver=journald"
 
     echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
-    printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
+    printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART\n" > $DOCKER_CONFD/execstart.conf
 fi
