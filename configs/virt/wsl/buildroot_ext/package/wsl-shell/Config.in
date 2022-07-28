@@ -7,6 +7,12 @@ config BR2_PACKAGE_WSL_SHELL
 
 if BR2_PACKAGE_WSL_SHELL
 
+config BR2_PACKAGE_WSL_SHELL_START_INIT
+	bool "start the init process"
+	default y
+	help
+	  start /boot/skiff-init/skiff-init-squashfs
+
 config BR2_PACKAGE_WSL_SHELL_CHROOT_TARGET
 	bool "chroot into target fs"
 	default y

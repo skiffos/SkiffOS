@@ -57,8 +57,11 @@
 #define WAIT_PID_MAX_ATTEMPTS 10
 #endif
 
+// Set to disable starting skiff-init-squashfs
+// #define NO_START_INIT
+
 // Set to disable restoring OLDPWD inside the target (if exists)
-// #ifndef NO_RESTORE_PWD
+// #define NO_RESTORE_PWD
 
 // To disable chroot before running shell
 // #define NO_CHROOT_TARGET
@@ -106,22 +109,26 @@ int main(int argc, char *argv[]) {
     startingWd = strdup("/");
   }
 
+#ifndef NO_START_INIT
   // step 1: wait for PID file for the target to appear without doing anything.
-  usleep(200 * 1000); // 200ms delay for pid file to be deleted on start
+  // 200ms delay for pid file to be deleted on start
+  usleep(200 * 1000);
   for (int i = 0; i < INIT_WAIT_PID_MAX / WAIT_PID_POLL_DUR; i++) {
     if (stat(init_pid_path, &st) == 0) {
       break;
     }
     usleep(WAIT_PID_POLL_DUR * 1000);
   }
+#endif
 
   // step 2: find PID file, check PID exists
   // find the PID file for the target
   // possibly loop several times
   int attempts = 0;
+  int startedInit = 0;
   do {
     if (attempts++ >= WAIT_PID_MAX_ATTEMPTS) {
-      fprintf(logfd, "SkiffOS: failed to nsenter, run 'wsl.exe --shutdown' and try again.\n");
+      fprintf(logfd, "SkiffOS: init failed, run 'wsl.exe --shutdown' and try again.\n");
       return res;
     }
 
@@ -142,12 +149,7 @@ int main(int argc, char *argv[]) {
       } else { // file opened
         int sres = fscanf(pidf, "%d", &pidi);
         fclose(pidf);
-        if (sres == 0 || pidi < 1) {
-          fprintf(logfd, "SkiffOS: could not read init pid: %s: file empty\n",
-                  init_pid_path);
-          return 1;
-        }
-        if (pidi > 0) {
+        if (sres != 0 && pidi > 0) {
           target_pid = pidi;
         }
       }
@@ -160,6 +162,32 @@ int main(int argc, char *argv[]) {
       }
       target_pid = 0;
     }
+
+    // start the init process
+#ifndef NO_START_INIT
+    if (!startedInit) {
+      const char *init_proc = "/boot/skiff-init/skiff-init-squashfs";
+      fprintf(logfd, "SkiffOS init: executing init process: %s\n", init_proc);
+      startedInit = 1;
+
+      int childPid = fork();
+      if (childPid == -1) {
+        fprintf(logfd, "SkiffOS: failed to start init: %s\n", strerror(errno));
+      } else if (childPid == 0) {
+        // re-use environment
+        char **initargv = (char **)malloc(2*sizeof(char *));
+        initargv[0] = strdup(init_proc);
+        initargv[1] = NULL;
+        if (execve(init_proc, initargv, environ) != 0) {
+          res = errno;
+          fprintf(logfd, "Failed to exec init process\n");
+          fprintf(logfd, "Error (%d) %s\n", res, strerror(res));
+          return res;
+        }
+        return 0;
+      }
+    }
+#endif
 
     // wait for pid file (basic polling implementation)
     int didStart = 0;
