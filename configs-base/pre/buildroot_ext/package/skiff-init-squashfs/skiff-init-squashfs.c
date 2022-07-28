@@ -24,6 +24,8 @@
 #define MNT_DETACH 0x00000002
 #endif
 
+#define MAX_RESIZE2FS_DEV_LEN 256
+
 // To wait for a file to exist before starting:
 // #define WAIT_EXISTS "/dev/mmcblk0"
 
@@ -33,11 +35,14 @@
 // To mount / to /mnt/boot
 // #define ROOT_AS_BOOT
 
-// To mount a device to /mnt/boot before the rootfs.
+// To mount a path or device to /mnt/boot before the rootfs.
 // #define MOUNT_BOOT "/dev/mmcblk0p1"
 
-// To mount / to /mnt/boot before the rootfs.
-// #define MOUNT_BOOT_ROOT
+// To mount the path using a bind mount.
+// #define MOUNT_BOOT_BIND
+
+// To enable reading resize2fs.conf
+// #define RESIZE2FS
 
 // Controls the maximum memory usage of the tmpfs /.
 // Used as the upper layer of the overlayfs.
@@ -82,6 +87,9 @@ const char *init_pid_path = SKIFF_INIT_PID;
 FILE *logfd;
 const char *pid1_log = "/dev/kmsg";
 const char *squashfs_file = SKIFF_INIT_FILE;
+
+const char *resize2fs_path = "/boot/skiff-init/resize2fs";
+const char *resize2fs_conf = "/boot/skiff-init/resize2fs.conf";
 
 #ifndef SKIFF_MOUNTS_DIR
 #define SKIFF_MOUNTS_DIR "/skiff-overlays"
@@ -223,6 +231,76 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
+  // resize filesystems if necessary
+  // it is assumed that root= was set to the "persist" partition and that the
+  // boot data is stored in /boot. this may be changed later to support more
+  // exotic setups.
+#ifdef RESIZE2FS
+  if (stat(resize2fs_path, &st) == 0 && stat(resize2fs_conf, &st) == 0) {
+    // read the path(s) to resize from the conf file.
+    // all lines not starting with # are assumed to be paths to device files.
+    // all lines must have a /dev prefix.
+    FILE *r2conf = fopen(resize2fs_conf, "r");
+    char *linebuf = (char *)malloc(MAX_RESIZE2FS_DEV_LEN * sizeof(char));
+    while (fgets(linebuf, MAX_RESIZE2FS_DEV_LEN - 1, r2conf)) {
+      linebuf[MAX_RESIZE2FS_DEV_LEN - 1] = 0;
+      if (linebuf[0] == '#') {
+        continue;
+      }
+      linebuf[strcspn(linebuf, "\n")] = 0;
+      linebuf[strcspn(linebuf, " ")] = 0;
+      if (strlen(linebuf) < 6) {
+        fprintf(logfd, "SkiffOS resize2fs: %s: line too short: %s\n",
+                resize2fs_conf, linebuf);
+        continue;
+      }
+      if (memcmp(linebuf, "/dev/", 5) != 0) {
+        fprintf(logfd, "SkiffOS resize2fs: %s: expected /dev/ prefix: %s\n",
+                resize2fs_conf, linebuf);
+        continue;
+      }
+
+      fprintf(logfd, "SkiffOS resize2fs: resizing persist filesystem: %s\n",
+              linebuf);
+      pid_t id1 = fork();
+      if (id1 == 0) {
+        dup2(fileno(logfd), fileno(stdout));
+        dup2(fileno(logfd), fileno(stderr));
+
+        // re-use environment (in child process)
+        char **r2fsargv = (char **)malloc(4 * sizeof(const char *));
+        r2fsargv[0] = (char *)resize2fs_path;
+        r2fsargv[1] = (char *)"-F";
+        r2fsargv[2] = linebuf;
+        r2fsargv[3] = NULL;
+        res = execve(resize2fs_path, r2fsargv, environ);
+        free(r2fsargv);
+        if (res != 0) {
+          res = errno;
+          fprintf(logfd,
+                  "SkiffOS resize2fs: failed to exec resize2fs process on %s: "
+                  "(%d) %s\n",
+                  linebuf, res, strerror(res));
+        }
+        return res;
+      }
+
+      // wait for resize2fs
+      waitpid(id1, NULL, 0);
+    }
+
+    free(linebuf);
+    fclose(r2conf);
+  } else {
+    res = errno;
+    fprintf(
+        logfd,
+        "SkiffOS init: cannot find resize2fs, skipping: %s and %s: (%d) %s\n",
+        resize2fs_path, resize2fs_conf, res, strerror(res));
+    res = 0;
+  }
+#endif
+
   // mount /mnt/boot if set
 #ifdef MOUNT_BOOT
   if (stat(boot_parent_mnt, &st) == -1) {
@@ -231,13 +309,13 @@ int main(int argc, char *argv[]) {
   fprintf(logfd, "SkiffOS init: mounting %s to %s...\n", mount_boot_device, boot_parent_mnt);
   unsigned long mount_boot_opts = 0;
 #ifdef MOUNT_BOOT_BIND
-  mount_boot_opts = MS_BIND|MS_SHARED;
+  mount_boot_opts = MS_BIND|MS_SHARED|MS_REC;
 #endif
   if (mount(mount_boot_device, boot_parent_mnt, mount_boot_fstype, mount_boot_opts, NULL) != 0) {
     res = errno;
     fprintf(logfd, "Failed to mount %s fstype %s to mount point %s: %s\n",
             mount_boot_device, mount_boot_fstype, boot_parent_mnt, strerror(res));
-    return res;
+    res = 0;
   }
 #endif
 
@@ -399,20 +477,6 @@ int main(int argc, char *argv[]) {
   }
 #endif // ROOT_AS_PERSIST
 
-  // Bind mount / to /mnt/boot before mounting /mnt to target.
-#ifdef ROOT_AS_BOOT
-  fprintf(logfd, "SkiffOS init: mounting old / to %s\n", boot_parent_mnt);
-  if (stat(boot_parent_mnt, &st) == -1) {
-    mkdir(boot_parent_mnt, 0755);
-  }
-  if (mount("/", boot_parent_mnt, NULL, MS_BIND, NULL) != 0) {
-    res = errno;
-    fprintf(logfd, "SkiffOS: warning: failed to mount old / as %s: (%d) %s\n",
-            boot_parent_mnt, res, strerror(res));
-    res = 0; // ignore
-  }
-#endif // ROOT_AS_PERSIST
-
   fprintf(logfd, "SkiffOS init: mounting old /mnt to %s...\n", mnt_mnt);
   if (stat(mnt_mnt, &st) == -1) {
     mkdir(mnt_mnt, 0755);
@@ -445,18 +509,19 @@ int main(int argc, char *argv[]) {
 
   // Mount boot into the target chroot only.
 #ifdef ROOT_AS_BOOT
-  fprintf(logfd, "SkiffOS init: mounting / to %s...\n", boot_mnt);
+  fprintf(logfd, "SkiffOS init: mounting parent %s to %s...\n", boot_parent_mnt, boot_mnt);
   if (stat(boot_mnt, &st) == -1) {
     mkdir(boot_mnt, 0755);
   }
   // NOTE: MS_SHARED ?
-  if (mount("/", boot_mnt, NULL, MS_BIND|MS_SHARED, NULL) != 0) { // MS_REC - rbind
+  if (mount(boot_parent_mnt, boot_mnt, NULL, MS_BIND|MS_SHARED|MS_REC, NULL) != 0) { // MS_REC - rbind
     res = errno;
-    fprintf(logfd, "SkiffOS: warning: failed to mount / as %s: (%d) %s\n",
-            boot_mnt, res, strerror(res));
+    fprintf(logfd, "SkiffOS: warning: failed to mount %s as %s: (%d) %s\n",
+            boot_parent_mnt, boot_mnt,
+            res, strerror(res));
     res = 0; // ignore
   }
-#endif // ROOT_AS_PERSIST
+#endif // ROOT_AS_BOOT
 
 #endif // !BIND_ROOT_MNT
 
@@ -474,7 +539,7 @@ int main(int argc, char *argv[]) {
     res = errno;
     fprintf(logfd, "SkiffOS: failed to mount proc in chroot: (%d) %s\n", res,
             strerror(res));
-    return res;
+    res = 0;
   }
 #endif
 
@@ -485,7 +550,7 @@ int main(int argc, char *argv[]) {
     res = errno;
     fprintf(logfd, "SkiffOS: failed to mount /sys in chroot: (%d) %s\n", res,
             strerror(res));
-    return res;
+    res = 0;
   }
 #else
   fprintf(logfd, "SkiffOS init: mounting sysfs to %s...\n", sys_mnt);
@@ -493,7 +558,7 @@ int main(int argc, char *argv[]) {
     res = errno;
     fprintf(logfd, "SkiffOS: failed to mount sys in chroot: (%d) %s\n", res,
             strerror(res));
-    return res;
+    res = 0;
   }
 #endif
 #endif
