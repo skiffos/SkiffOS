@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-WSLU_VERSION = v3.2.1
+WSLU_VERSION = v3.2.4
 WSLU_SITE = $(call github,wslutilities,wslu,$(WSLU_VERSION))
 WSLU_LICENSE = GPL-3.0+
 WSLU_LICENSE_FILES = LICENSE
