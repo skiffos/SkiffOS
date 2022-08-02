@@ -1,0 +1,8 @@
+# lto currently breaks glibc
+# -flto=auto -fdevirtualize-at-ltrans -fipa-pta 
+-fno-lto -fno-fast-math
+# use bfd linker
+-fuse-ld=bfd -fuse-linker-plugin
+# graphite
+-fgraphite-identity -floop-nest-optimize
+-fno-semantic-interposition
