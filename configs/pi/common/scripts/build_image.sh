@@ -18,7 +18,7 @@ if [[ "$PI_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1G $PI_IMAGE
+fallocate -l 1.5G $PI_IMAGE
 
 echo "Setting up loopback device..."
 export PI_SD=$(losetup --show -fP $PI_IMAGE)
@@ -40,4 +40,3 @@ export SKIFF_NO_INTERACTIVE=1
 echo "Using loopback device at ${PI_SD}"
 $SKIFF_CURRENT_CONF_DIR/scripts/format_sd.sh
 $SKIFF_CURRENT_CONF_DIR/scripts/install_sd.sh
-
