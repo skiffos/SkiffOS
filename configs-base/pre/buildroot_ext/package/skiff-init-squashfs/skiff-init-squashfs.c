@@ -335,16 +335,16 @@ int main(int argc, char *argv[]) {
               mountpoint);
 #ifdef WRITE_SKIFF_INIT_PID
       write_skiff_init_pid(getpid());
-#endif
+#endif // WRITE_SKIFF_INIT_PID
       chmod(mountpoint, 0755);
       chdir(mountpoint);
 #ifndef NO_CHROOT_TARGET
       chroot(mountpoint);
       chdir("/");
-#endif
+#endif // NO_CHROOT_TARGET
       goto exec_init_proc;
     }
-#endif
+#endif // NO_MOVE_MOUNTPOINT_ROOT
   }
 
 #ifdef ROOT_MAKE_SHARED

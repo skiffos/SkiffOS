@@ -1,21 +1,7 @@
+BR2_LINUX_KERNEL_VMLINUX=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y
-BR2_LINUX_KERNEL_VMLINUX=y
 
-# linux-msft-wsl-4.19.y
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/microsoft/WSL2-Linux-Kernel/archive/db998769a92eb01159c74b1f461b502a49cc3aa2/linux-WSL2-4.19.84.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_19=y
-
-# linux-msft-wsl-5.4.y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/microsoft/WSL2-Linux-Kernel/archive/807335635710b9038f2bb95019878d846130501a/linux-WSL2-5.4.91.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_4=y
-
-# Compatibility with WSL1
-# on Windows Server 1809
-# uname -a reports: Linux 4.4.0-17763-Microsoft
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_4=y
-BR2_KERNEL_HEADERS_VERSION=y
-BR2_DEFAULT_KERNEL_VERSION="4.4"
-
-# NOTE: vmlinux does not load currently, disabling to save build time.
-BR2_LINUX_KERNEL=n
+# linux-msft-wsl-5.10.y
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://github.com/microsoft/WSL2-Linux-Kernel/archive/d489414c23af0cf54edd196b5400bb831fc35b02/linux-WSL2-5.10.102-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
