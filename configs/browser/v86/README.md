@@ -6,7 +6,7 @@
 
 ![](../../../resources/images/browser-v86-screenshot.png)
 
-## Demo
+## Demos
 
 A [pre-built demo image] is available.
 
@@ -19,6 +19,12 @@ Load the ISO into the v86 emulator:
  3. Increase the memory size to at least 512MB.
  4. Click "CD image" and select the ISO.
  5. Click "start."
+
+After the system boots, in the serial terminal below:
+
+ 1. Enter `root` as username to login and press enter.
+ 2. Run `docker ps` to view the list of containers.
+ 3. Run `su - core` to switch into the Alpine Linux environment.
 
 ## Compiling from Source
 
