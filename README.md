@@ -158,6 +158,7 @@ Here are the boards/systems currently supported:
 | [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                |
 | [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V         |
 | [Intel x86/64]        | [intel/x64]           | ✔ Grub           | ✔ 5.18.16      | ✔ Tested       |
+| [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125 |                |
 | [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested       |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested       |
 | [Odroid C2]           | [odroid/c2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ⚠ Obsolete     |
@@ -203,6 +204,7 @@ Here are the boards/systems currently supported:
 [BeagleBoard BeagleV]: https://beagleboard.org/static/beagleV/beagleV.html
 [Docker Img]: ./docker 
 [Intel x86/64]: ./configs/intel/x64
+[ModalAI Voxl2]: https://www.modalai.com/products/voxl-2
 [NVIDIA Jetson Nano]: ./configs/jetson
 [NVIDIA Jetson TX2]: ./configs/jetson
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
@@ -255,6 +257,7 @@ Here are the boards/systems currently supported:
 [intel/x64]: ./configs/intel/x64
 [jetson/nano]: ./configs/jetson/nano
 [jetson/tx2]: ./configs/jetson/tx2
+[modalai/voxl2]: ./configs/modalai/voxl2
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
 [odroid/m1]: ./configs/odroid

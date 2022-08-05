@@ -1,9 +1,10 @@
 [Unit]
-Description=ADB Daemon
+Description=Android Debug Bridge Daemon
 
 [Service]
 Restart=always
-ExecStart=/opt/skiff/scripts/start-adbd.sh
+ExecStartPre=-/opt/skiff/scripts/init-adbd.sh
+ExecStart=/usr/bin/adbd
 
 [Install]
 WantedBy=multi-user.target

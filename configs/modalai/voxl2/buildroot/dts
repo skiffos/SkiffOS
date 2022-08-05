@@ -1,0 +1,4 @@
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+BR2_LINUX_KERNEL_USE_INTREE_DTS=y
+# BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT is not set
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="vendor/qcom/m0054-kona-v2.1-iot-rb5 vendor/qcom/m0054-kona-v2.1-qrd vendor/qcom/m0054-kona-v2-qrd vendor/qcom/m0054-kona-v2-mtp vendor/qcom/m0054-kona-v2.1-mtp vendor/qcom/m0054-qrb5165-iot-rb5 vendor/qcom/m0054-qrb5165n-iot-rb5"

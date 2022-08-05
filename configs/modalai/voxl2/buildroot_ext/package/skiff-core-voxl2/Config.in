@@ -1,0 +1,8 @@
+config BR2_PACKAGE_SKIFF_CORE_VOXL2
+	bool "skiff-core-voxl2"
+	select BR2_PACKAGE_SKIFF_CORE
+	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
+	help
+	  Skiff Core environment defconfig for Voxl2.
+
+	  https://gitlab.com/voxl-public/support/documentation

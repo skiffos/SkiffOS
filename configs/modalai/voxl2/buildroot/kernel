@@ -1,0 +1,31 @@
+BR2_LINUX_KERNEL=y
+BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
+BR2_LINUX_KERNEL_GZIP=y
+
+# voxl2-14.1a
+# https://gitlab.com/voxl-public/system-image-build/qrb5165-kernel
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://gitlab.com/voxl-public/system-image-build/qrb5165-kernel/-/archive/e1617d02/linux-voxl2-4.19.125-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_19=y
+
+# voxl2-14.1a with required patches merged in
+# https://github.com/skiffos/linux-qrb5165/tree/modalai-voxl2
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux-qrb5165,6bf6d1b08bae000c2039d3207da5003ba0120bcf)/linux-modalai-voxl2-4.19.157-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_19=y
+
+# voxl2 dev branch
+# https://gitlab.com/voxl-public/system-image-build/qrb5165-kernel/-/tree/dev/
+# 77dc6142c762531a48e4c4c91309640b4c9116ec
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux-qrb5165,77dc6142c762531a48e4c4c91309640b4c9116ec)/linux-modalai-voxl2-dev-4.19.125-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_19=y
+
+# use non-android 4.19.x kernel headers
+# BR2_KERNEL_HEADERS_AS_KERNEL is not set
+BR2_KERNEL_HEADERS_4_19=y
+BR2_PACKAGE_GLIBC_KERNEL_COMPAT=y
+
+BR2_LINUX_KERNEL_USE_DEFCONFIG=y
+# BR2_LINUX_KERNEL_DEFCONFIG="vendor/m0054-kona-perf"
+BR2_LINUX_KERNEL_DEFCONFIG="vendor/m0054-kona"
+
+# BR2_LINUX_KERNEL_IMAGE_TARGET_CUSTOM is not set
+BR2_LINUX_KERNEL_IMAGEGZ=y

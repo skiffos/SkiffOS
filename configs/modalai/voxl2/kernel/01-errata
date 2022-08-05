@@ -1,0 +1,18 @@
+# Relocation causes build error: "-z norelro ignored"
+# CONFIG_RELOCATABLE is not set
+# CONFIG_RANDOMIZE_BASE is not set
+
+# apparmor is disabled
+# CONFIG_SECURITY_APPARMOR is not set
+
+# selinux causes kernel build failure
+# CONFIG_DEFAULT_SECURITY_SELINUX is not set
+# CONFIG_SECURITY_SELINUX is not set
+CONFIG_DEFAULT_SECURITY_SELINUX=n
+CONFIG_SECURITY_SELINUX=n
+CONFIG_DEFAULT_SECURITY_DAC=y
+CONFIG_DEFAULT_SECURITY=""
+
+# causes errors in dmesg
+# CONFIG_MSM_SERVICE_LOCATOR is not set
+# CONFIG_MSM_ADSPRPC is not set
