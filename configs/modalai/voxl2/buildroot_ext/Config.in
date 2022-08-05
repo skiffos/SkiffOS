@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_MODALAI_VOXL2_PATH/package/skiff-core-voxl2/Config.in"

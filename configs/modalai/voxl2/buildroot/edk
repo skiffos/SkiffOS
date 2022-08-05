@@ -1,0 +1,3 @@
+# Building the bootloader is not yet implemented.
+# BR2_TARGET_EDK2 is not set
+# BR2_TARGET_UBOOT is not set
