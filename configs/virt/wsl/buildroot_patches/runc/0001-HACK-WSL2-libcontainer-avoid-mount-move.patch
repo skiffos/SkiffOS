@@ -1,0 +1,149 @@
+From 7b65e7c8894aebaecab3d573e2096154d272987b Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Mon, 25 Jan 2021 04:34:09 -0800
+Subject: [PATCH] HACK: WSL2: libcontainer: avoid mount --move
+
+In WSL2, the following command will fail silently:
+
+mount --move /path/to/mountpoint /
+
+It appears to succeed, but the mountpoint is not actually moved.
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ libcontainer/rootfs_linux.go     | 47 ++++++++++++++++++++++----------
+ libcontainer/setns_init_linux.go | 15 ++++++++++
+ libcontainer/wsl.go              | 15 ++++++++++
+ 3 files changed, 63 insertions(+), 14 deletions(-)
+ create mode 100644 libcontainer/wsl.go
+
+diff --git a/libcontainer/rootfs_linux.go b/libcontainer/rootfs_linux.go
+index 51660f5e..b1425bdb 100644
+--- a/libcontainer/rootfs_linux.go
++++ b/libcontainer/rootfs_linux.go
+@@ -53,6 +53,9 @@ func needsSetupDev(config *configs.Config) bool {
+ // finalizeRootfs after this function to finish setting up the rootfs.
+ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig, mountFds []int) (err error) {
+ 	config := iConfig.Config
++
++	// WSL2: NOTE: currently we are in /, and not the chroot.
++
+ 	if err := prepareRoot(config); err != nil {
+ 		return fmt.Errorf("error preparing rootfs: %w", err)
+ 	}
+@@ -133,13 +136,21 @@ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig, mountFds []int) (err
+ 		return err
+ 	}
+ 
+-	if config.NoPivotRoot {
+-		err = msMoveRoot(config.Rootfs)
+-	} else if config.Namespaces.Contains(configs.NEWNS) {
+-		err = pivotRoot(config.Rootfs)
+-	} else {
+-		err = chroot()
+-	}
++	// WSL2 Errata: mount --move /path / fails silently.
++	// This breaks pivotRoot and msMoveRoot.
++	// Instead, just use chroot directly.
++	err = chroot()
++
++	/*
++		if config.NoPivotRoot {
++			err = msMoveRoot(config.Rootfs)
++		} else if config.Namespaces.Contains(configs.NEWNS) {
++			err = pivotRoot(config.Rootfs)
++		} else {
++			err = chroot()
++		}
++	*/
++
+ 	if err != nil {
+ 		return fmt.Errorf("error jailing process inside rootfs: %w", err)
+ 	}
+@@ -178,11 +189,14 @@ func finalizeRootfs(config *configs.Config) (err error) {
+ 	}
+ 
+ 	// set rootfs ( / ) as readonly
+-	if config.Readonlyfs {
+-		if err := setReadonly(); err != nil {
+-			return fmt.Errorf("error setting rootfs as readonly: %w", err)
++	// WSL2: disable as this does not work properly.
++	/*
++		if config.Readonlyfs {
++			if err := setReadonly(); err != nil {
++				return fmt.Errorf("error setting rootfs as readonly: %w", err)
++			}
+ 		}
+-	}
++	*/
+ 
+ 	if config.Umask != nil {
+ 		unix.Umask(int(*config.Umask))
+@@ -950,9 +964,14 @@ func msMoveRoot(rootfs string) error {
+ 	}
+ 
+ 	// Move the rootfs on top of "/" in our mount namespace.
+-	if err := mount(rootfs, "/", "", "", unix.MS_MOVE, ""); err != nil {
+-		return err
+-	}
++	// WSL2: mount --move {path} / fails silently.
++	// The chroot() still works (changes dir to ., which is rootfs).
++	// Therefore the container still starts, but "exec" will be in the wrong place.
++	/*
++		if err := mount(rootfs, "/", "", "", unix.MS_MOVE, ""); err != nil {
++			return err
++		}
++	*/
+ 	return chroot()
+ }
+ 
+diff --git a/libcontainer/setns_init_linux.go b/libcontainer/setns_init_linux.go
+index 09ab552b..4eea4574 100644
+--- a/libcontainer/setns_init_linux.go
++++ b/libcontainer/setns_init_linux.go
+@@ -30,6 +30,21 @@ func (l *linuxSetnsInit) getSessionRingName() string {
+ }
+ 
+ func (l *linuxSetnsInit) Init() error {
++	// HACK: WSL2: awkward chroot, cannot override root /.
++	if err := wslChroot(); err != nil {
++		return err
++	}
++
++	// HACK: WSL2: second chroot to enter rootfs path.
++	if l.config.Config != nil && l.config.Config.Rootfs != "" {
++		if err := unix.Chroot(l.config.Config.Rootfs); err != nil {
++			return fmt.Errorf("wsl2: join container rootfs: %w", err)
++		}
++	}
++	if err := unix.Chdir("/"); err != nil {
++		return err
++	}
++
+ 	if !l.config.Config.NoNewKeyring {
+ 		if err := selinux.SetKeyLabel(l.config.ProcessLabel); err != nil {
+ 			return err
+diff --git a/libcontainer/wsl.go b/libcontainer/wsl.go
+new file mode 100644
+index 00000000..ede2bc5e
+--- /dev/null
++++ b/libcontainer/wsl.go
+@@ -0,0 +1,15 @@
++// +build linux
++
++package libcontainer
++
++import "golang.org/x/sys/unix"
++
++// HACK: Skiff: we currently hard-code the WSL chroot.
++const wslRoot = "/skiff-overlays/system"
++
++func wslChroot() error {
++	if err := unix.Chroot(wslRoot); err != nil {
++		return err
++	}
++	return unix.Chdir("/")
++}
+-- 
+2.35.1
+
