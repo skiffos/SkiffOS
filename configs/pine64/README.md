@@ -47,6 +47,7 @@ SD card if it is present and contains u-boot.
 These commands require root and may need to be run with `sudo bash`.
 
 ```
+# set SKIFF_WORKSPACE if you previously set it while compiling.
 export SKIFF_WORKSPACE=myworkspace
 export PINE64_SD=/dev/sdx # make sure this is correct - i.e. /dev/sdb
 make cmd/pine64/common/format
