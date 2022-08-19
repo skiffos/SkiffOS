@@ -19,9 +19,10 @@ RUN \
 # Add voxl2 package sources and keys.
 # WARNING: This URL is HTTP (not secure) & the packages are unsigned!
 # To force apt to use the unsigned packages, set trusted=yes.
-# Hopefully this repository will be updated to be secure.
-# RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 dev staging sdk-0.8 stable' > /etc/apt/sources.list.d/modalai.list
-RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 stable' > /etc/apt/sources.list
+# Hopefully this repository will be updated to be more secure in future.
+#
+# RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 stable' > /etc/apt/sources.list
+RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 sdk-0.8 staging stable' > /etc/apt/sources.list.d/modalai.list
 
 
 # Add voxl packages.
