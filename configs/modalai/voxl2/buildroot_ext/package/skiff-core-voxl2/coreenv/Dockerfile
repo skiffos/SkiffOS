@@ -1,3 +1,4 @@
+# Matches the Ubuntu version from the Voxl system image.
 FROM ubuntu:18.04
 
 # Install / upgrade base packages first.
@@ -19,16 +20,18 @@ RUN \
 # WARNING: This URL is HTTP (not secure) & the packages are unsigned!
 # To force apt to use the unsigned packages, set trusted=yes.
 # Hopefully this repository will be updated to be secure.
-# RUN add-apt-repository 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 dev staging stable'
-# RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 dev staging stable' >> /etc/apt/sources.list
-RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 stable' > /etc/apt/sources.list.d/modalai.list
+# RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 dev staging sdk-0.8 stable' > /etc/apt/sources.list.d/modalai.list
+RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 stable' > /etc/apt/sources.list
 
 
 # Add voxl packages.
 # Subject to the ModalAI EULAs and licenses.
 # Note: more packages are available, see full list:
-# http://voxl-packages.modalai.com/dists/qrb5165/dev/binary-arm64/
+# http://voxl-packages.modalai.com/dists/qrb5165/stable/binary-arm64/
 # Stub systemd so that systemctl doesn't fail.
+# Currently not installable packages:
+#  - voxl-px4: requires libfc-sensor (missing)
+#  - voxl-suite: requires voxl-px4
 RUN \
   mv /bin/systemctl /bin/systemctl.bak && \
   printf "#!/bin/bash\nexit 0\n" > /bin/systemctl && \
@@ -39,12 +42,11 @@ RUN \
   apt-get install -y  \
   -o "Dpkg::Options::=--force-confdef"  \
   -o "Dpkg::Options::=--force-confnew"  \
-    qrb5165-camera-server \
+    multiarch-support \
     qrb5165-dfs-server \
     qrb5165-imu-server \
-    qrb5165-system-tweaks \
     qrb5165-tflite \
-    voxl-suite \
+    voxl-camera-server \
     voxl-utils \
   && apt-get autoremove -y && \
   mv /bin/systemctl.bak /bin/systemctl

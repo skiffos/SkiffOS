@@ -42,7 +42,7 @@ users:
       copyRootKeys: true
 images:
   skiffos/skiff-core-voxl2:latest:
-    # note: always build from source: downloads debs from ModalAI:
+    # note: downloads debs from ModalAI:
     # http://voxl-packages.modalai.com/
     build:
       source: /opt/skiff/coreenv/skiff-core-voxl2
