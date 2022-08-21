@@ -20,6 +20,9 @@ if [ -f $PODMAN_SERVICE ]; then
     echo "Configuring Podman to use crun"
     PODMAN_EXECSTART+=" --runtime=crun"
 
+    echo "Configuring Podman to use NoPivotRoot"
+    PODMAN_EXECSTART+=" --no-pivot"
+
     echo "Configuring Podman to start with '$PODMAN_EXECSTART'"
     printf "[Service]\nExecStart=\nExecStart=$PODMAN_EXECSTART\n" > $PODMAN_CONFD/execstart.conf
 fi

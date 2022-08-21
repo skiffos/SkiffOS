@@ -1,0 +1,26 @@
+From 49e21aa8c06057a16a341fd97a4d006378837341 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 20 Aug 2022 23:37:17 -0700
+Subject: [PATCH] podman: set no-pivot to default
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ cmd/podman/root.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmd/podman/root.go b/cmd/podman/root.go
+index 440d52166..b0a512aa2 100644
+--- a/cmd/podman/root.go
++++ b/cmd/podman/root.go
+@@ -418,7 +418,7 @@ func rootFlags(cmd *cobra.Command, opts *entities.PodmanConfig) {
+ 		noPivotFlagName := "no-pivot"
+ 		pFlags.BoolVar(
+ 			&opts.NoPivot,
+-			noPivotFlagName, false,
++			noPivotFlagName, true,
+ 			"Disable the pivot_root syscall",
+ 		)
+ 
+-- 
+2.37.2
+

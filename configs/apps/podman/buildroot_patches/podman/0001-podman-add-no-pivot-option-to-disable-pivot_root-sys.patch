@@ -1,0 +1,63 @@
+From 5f23632d1157f6a17dddefd1646cc8e66ff16a83 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Sat, 20 Aug 2022 23:19:50 -0700
+Subject: [PATCH] podman: add no-pivot option to disable pivot_root syscall
+
+Adds a new flag no-pivot which enables WithNoPivotRoot.
+
+NoPivotRoot is necessary in situations where pivot_root fails.
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ cmd/podman/root.go                 | 7 +++++++
+ pkg/domain/entities/engine.go      | 1 +
+ pkg/domain/infra/runtime_libpod.go | 3 +++
+ 3 files changed, 11 insertions(+)
+
+diff --git a/cmd/podman/root.go b/cmd/podman/root.go
+index 48f8470be..440d52166 100644
+--- a/cmd/podman/root.go
++++ b/cmd/podman/root.go
+@@ -415,6 +415,13 @@ func rootFlags(cmd *cobra.Command, opts *entities.PodmanConfig) {
+ 		pFlags.StringVar(&opts.Runroot, runrootFlagName, "", "Path to the 'run directory' where all state information is stored")
+ 		_ = cmd.RegisterFlagCompletionFunc(runrootFlagName, completion.AutocompleteDefault)
+ 
++		noPivotFlagName := "no-pivot"
++		pFlags.BoolVar(
++			&opts.NoPivot,
++			noPivotFlagName, false,
++			"Disable the pivot_root syscall",
++		)
++
+ 		runtimeFlagName := "runtime"
+ 		pFlags.StringVar(&opts.RuntimePath, runtimeFlagName, cfg.Engine.OCIRuntime, "Path to the OCI-compatible binary used to run containers.")
+ 		_ = cmd.RegisterFlagCompletionFunc(runtimeFlagName, completion.AutocompleteDefault)
+diff --git a/pkg/domain/entities/engine.go b/pkg/domain/entities/engine.go
+index 32faa74af..e336f9c17 100644
+--- a/pkg/domain/entities/engine.go
++++ b/pkg/domain/entities/engine.go
+@@ -41,6 +41,7 @@ type PodmanConfig struct {
+ 	MaxWorks       int        // maximum number of parallel threads
+ 	MemoryProfile  string     // Hidden: Should memory profile be taken
+ 	NoOut          bool       // Don't output to stdout
++	NoPivot        bool       // Set the no-pivot flag to disable pivot_root
+ 	RegistriesConf string     // allows for specifying a custom registries.conf
+ 	Remote         bool       // Connection to Podman API Service will use RESTful API
+ 	RuntimePath    string     // --runtime flag will set Engine.RuntimePath
+diff --git a/pkg/domain/infra/runtime_libpod.go b/pkg/domain/infra/runtime_libpod.go
+index f76fab4ea..373dbfd49 100644
+--- a/pkg/domain/infra/runtime_libpod.go
++++ b/pkg/domain/infra/runtime_libpod.go
+@@ -156,6 +156,9 @@ func getRuntime(ctx context.Context, fs *flag.FlagSet, opts *engineOpts) (*libpo
+ 	if len(storageOpts.RunRoot) > 50 {
+ 		return nil, errors.New("the specified runroot is longer than 50 characters")
+ 	}
++	if cfg.NoPivot {
++		options = append(options, libpod.WithNoPivotRoot())
++	}
+ 	if fs.Changed("storage-driver") {
+ 		storageSet = true
+ 		storageOpts.GraphDriverName = cfg.StorageDriver
+-- 
+2.37.2
+
