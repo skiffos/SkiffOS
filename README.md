@@ -129,6 +129,10 @@ $ ./scripts/push_image.bash root@my-ip-address
 
 The SkiffOS upgrade (or downgrade) will take effect on next reboot.
 
+### Podman
+
+Use the `apps/podman` configuration layer to enable Podman support.
+
 ## Supported Systems
 
 ![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
