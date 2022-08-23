@@ -324,14 +324,13 @@ users, and images to be defined and built. Desktop environments work as expected
 Any existing GNU/Linux system with compatibility with the running kernel version
 can be loaded as a Docker image with the `docker import` command.
 
-All core configurations work with all target platforms.
-
 The primary distributions and images supported are:
 
 | **Distribution** | **Config Package** | **Notes**              |
 |------------------|--------------------|------------------------|
-| [Alpine] Linux   | core/alpine        | OpenRC                 |
+| [Alpine]         | core/alpine        | OpenRC                 |
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
+| [Fedora]         | core/fedora        | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
 | [Ubuntu]         | core/ubuntu        | Snaps & Ubuntu Desktop |
 
@@ -351,6 +350,7 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [DietPi]: https://github.com/MichaIng/DietPi
 [Alpine]: https://www.alpinelinux.org/
 [Gentoo]: https://www.gentoo.org/
+[Fedora]: https://www.getfedora.org/
 [KDE Neon]: https://neon.kde.org/
 [NASA cFS]: https://github.com/nasa/cFS
 [NASA Fprime]: https://github.com/nasa/fprime

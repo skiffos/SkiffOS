@@ -1,6 +1,6 @@
 containers:
   core: # name of the docker container
-    image: skiffos/skiff-core-ubuntu:latest
+    image: skiffos/skiff-core-fedora:latest
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
@@ -16,8 +16,9 @@ containers:
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
       - /run/udev:/run/udev
-      - /mnt/persist/skiff/core/repos/apt:/var/lib/apt
+      - /mnt/persist/skiff/core/repos/dnf:/var/lib/dnf/repos
       - /mnt/persist/skiff/core/repos/snapd:/var/lib/snapd
+      - /mnt/persist/skiff/core/repos/flatpak:/var/lib/flatpak
       - /mnt/persist/skiff/core/repos/linux:/usr/src
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
@@ -34,7 +35,7 @@ containers:
     tmpFs:
       /run: rw,noexec,nosuid,size=65536k
       /run/lock: rw,noexec,nosuid,size=65536k
-users: # can add unlimited users 
+users: # can add unlimited users
   core:
     container: core
     containerUser: core
@@ -43,12 +44,9 @@ users: # can add unlimited users
     auth:
       copyRootKeys: true
 images:
-  skiffos/skiff-core-ubuntu:latest:
+  skiffos/skiff-core-fedora:latest:
     pull:
-      # images are provided for arm64, arm, amd64
-      # also an option: policy: ifbuildfails
       policy: ifnotexists
-      # avoid docker hub rate limits
       registry: quay.io
     build:
-      source: /opt/skiff/coreenv/skiff-core-ubuntu
+      source: /opt/skiff/coreenv/skiff-core-fedora
