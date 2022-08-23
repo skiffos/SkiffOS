@@ -28,6 +28,12 @@ RUN systemctl set-default graphical.target && \
     systemctl mask \
       console-getty.service \
       serial-getty@.service \
+      NetworkManager.service \
+      NetworkManager-wait-online.service \
+      NetworkManager-dispatcher.service \
+      wpa_supplicant.service \
+      systemd-networkd.service \
+      systemd-networkd-wait-online.service \
       tmp.mount
 
 # Create the user 'core' which will be the usual userspace account
