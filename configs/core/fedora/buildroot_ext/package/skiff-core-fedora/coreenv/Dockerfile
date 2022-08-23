@@ -37,13 +37,14 @@ RUN systemctl set-default graphical.target && \
       sshd.service \
       systemd-networkd-wait-online.service \
       systemd-networkd.service \
+      systemd-oomd.service \
       tmp.mount \
       wpa_supplicant.service
 
 # Create the user 'core' which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
 RUN \
-	groupadd sudo && \
+  groupadd sudo && \
   adduser core \
     --create-home \
     --shell /bin/bash \
