@@ -6,12 +6,16 @@ ENV container=docker
 # Update packages.
 RUN dnf update -y
 
+# Exclude linux-firmware.
+RUN printf 'exclude=*-firmware*' >> /etc/dnf/dnf.conf
+
 # Core packages.
 # You can check available groups with dnf grouplist
 RUN dnf install -y systemd @basic-desktop-environment
 
 # remove unnecessary content
 RUN \
+  dnf remove -y linux-firmware\* && \
   dnf autoremove -y && \
   rm -rf /var/lib/dnf/repos
 
