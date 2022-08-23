@@ -3,21 +3,36 @@ FROM docker.io/library/fedora:37 as stage1
 # setup environment
 ENV container=docker
 
-# Update packages.
-RUN dnf update -y
-
 # Exclude linux-firmware.
 RUN printf 'exclude=*-firmware*' >> /etc/dnf/dnf.conf
 
+# Update packages.
+RUN dnf update -y
+
 # Core packages.
+RUN dnf install -y \
+      curl \
+      ethtool \
+      git \
+      htop \
+      nano \
+      net-tools \
+      rsync \
+      sudo \
+      systemd \
+      vim
+
+# XFCE desktop environment.
 # You can check available groups with dnf grouplist
-RUN dnf install -y systemd @basic-desktop-environment
+# Another option (openbox): @basic-desktop-environment
+RUN dnf install -y @xfce-desktop-environment chromium
 
 # remove unnecessary content
 RUN \
   dnf remove -y linux-firmware\* && \
   dnf autoremove -y && \
-  rm -rf /var/lib/dnf/repos /var/cache/dnf
+  rm -rf /var/lib/dnf/repos /var/cache/dnf && \
+  dnf clean packages
 
 # flatten image
 FROM scratch as stage2
