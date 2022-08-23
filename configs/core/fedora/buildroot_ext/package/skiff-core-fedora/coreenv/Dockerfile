@@ -25,7 +25,7 @@ RUN dnf install -y \
 # XFCE desktop environment.
 # You can check available groups with dnf grouplist
 # Another option (openbox): @basic-desktop-environment
-RUN dnf install -y @xfce-desktop-environment chromium
+RUN dnf install -y @xfce-desktop-environment
 
 # remove unnecessary content
 RUN \
