@@ -301,11 +301,12 @@ SkiffOS, please **[open an issue].**
 
 [open an issue]: https://github.com/skiffos/SkiffOS/issues/new
 
-## Skiff Core
+## SkiffOS Core
 
-[![View Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
+[![View
+Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
 
-The Skiff Core subsystem, enabled with the `skiff/core` layer or by selecting
+The SkiffOS Core subsystem, enabled with the `skiff/core` layer or by selecting
 any of the core environment packages, automatically configures mappings between
 users and containerized environments. It maps incoming SSH sessions accordingly:
 
@@ -313,9 +314,9 @@ users and containerized environments. It maps incoming SSH sessions accordingly:
  - The container image is either pulled or built from scratch.
  - systemd and/or other init systems operate as PID 1 inside the container.
 
-This allows any distribution to be run as a containerized guest with Skiff. The
-config file structure is flexible, and allows for any number of containers,
-users, and images to be defined and built. Desktop environments work as expected.
+This allows any distribution to be run as a containerized guest with SkiffOS.
+The config file structure allows for any number of containers, users, and images
+to be defined. Desktop environments also work correctly.
 
 ### Environment Presets
 
@@ -395,10 +396,10 @@ The config format is defined in [the skiff-core repo].
 [the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
 [full example config]: ./configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml
 
-## Configuration Layers
+## Configuration Packages
 
-Skiff supports modular configuration layers. A configuration directory contains
-kernel configs, buildroot configs, system overlays, and misc. files.
+SkiffOS supports modular configuration packages: kernel & buildroot configs,
+root filesystem overlays, patches, hooks, and other resources.
 
 Layers are named as `namespace/name`. For example, a Raspberry Pi 4
 configuration would be `pi/4` and Docker is `apps/docker`.
@@ -447,7 +448,7 @@ You can set the following env variables to control this process:
  - `SKIFF_EXTRA_CONFIGS_PATH`: Colon `:` separated list of paths to look for config packages.
  - `SKIFF_CONFIG`: Name of skiff config to use, or comma separated list to overlay, with the later options taking precedence
 
-These packages will be available in the Skiff system.
+These packages will be available in the SkiffOS system.
 
 ### Local Overrides
 
@@ -485,7 +486,7 @@ $ make cmd/virt/qemu/run
 
 ### Docker
 
-Here is a minimal working example of running Skiff in Docker:
+Here is a minimal working example of running SkiffOS in Docker:
 
 ```sh
 $ SKIFF_CONFIG=virt/docker,skiff/core make configure compile
