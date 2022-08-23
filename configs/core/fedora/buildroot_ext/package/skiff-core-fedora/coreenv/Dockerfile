@@ -17,7 +17,7 @@ RUN dnf install -y systemd @basic-desktop-environment
 RUN \
   dnf remove -y linux-firmware\* && \
   dnf autoremove -y && \
-  rm -rf /var/lib/dnf/repos
+  rm -rf /var/lib/dnf/repos /var/cache/dnf
 
 # flatten image
 FROM scratch as stage2
