@@ -15,19 +15,11 @@ ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
  - **Reliable**: read-only minimal in-RAM host system boots reliably every time.
  - **Reproducible**: offline and deterministic builds for reproducible behavior.
 
-SkiffOS adds a configuration layering system to the [Buildroot] cross-compiler,
-which makes it easy to re-target applications to new hardware. Layers are merged
-together as specified in the `SKIFF_CONFIG` comma-separated environment
-variable. As a basic example: `SKIFF_CONFIG=pi/4,core/gentoo` starts Gentoo on a
-Raspberry Pi 4 in a Docker container.
-
-The default configuration produces a minimal (~100Mb) in-RAM host OS with SSH
-and network connectivity, and includes a comprehensive set of debug tools. The
-host OS can be easily remotely updated with the push_image script, using rsync.
-
-The "skiff/core" layer enables Docker ("apps/docker") and a default environment
-based on Ubuntu with a full graphical desktop environment. Others including
-"core/gentoo" and "core/dietpi" are available.
+SkiffOS adds a configuration package system to the [Buildroot] cross-compiler,
+which makes it easy to re-target applications to new hardware. Packages are
+merged together as specified in the `SKIFF_CONFIG` comma-separated environment
+variable. For example: `SKIFF_CONFIG=pi/4,core/gentoo` will run Gentoo on a
+Raspberry Pi 4.
 
 Most Linux devices have a unique set of requirements for kernel, firmware, and
 hardware support packages. The SkiffOS host OS separates hardware-specific
@@ -58,7 +50,7 @@ This example uses `pi/4`, which can be replaced with any of the hardware support
 packages listed in the [Supported Systems](#supported-systems) table.
 
 ```sh
-$ make                             # lists all available layers
+$ make                             # lists all available options
 $ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
 $ export SKIFF_CONFIG=pi/4,skiff/core
 $ make configure                   # configure the system
@@ -77,7 +69,7 @@ You will need a SSH public key to access the system. If you don't have one,
 [create a SSH key] on your development machine. Add the public key (located at
 `~/.ssh/id_ed25519.pub`) to your build by copying it to
 `overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`. The keys can also
-be added to a configuration layer (instead of `overrides`).
+be added to a configuration package (instead of `overrides`).
 
 [create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 
@@ -131,7 +123,7 @@ The SkiffOS upgrade (or downgrade) will take effect on next reboot.
 
 ### Podman
 
-Use the `apps/podman` configuration layer to enable Podman support.
+Use the `apps/podman` configuration package to enable Podman support.
 
 ## Supported Systems
 
@@ -306,26 +298,17 @@ SkiffOS, please **[open an issue].**
 [![View
 Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
 
-The SkiffOS Core subsystem, enabled with the `skiff/core` layer or by selecting
-any of the core environment packages, automatically configures mappings between
-users and containerized environments. It maps incoming SSH sessions accordingly:
+SkiffOS Core runs Linux distributions in privileged containers:
 
- - Configured using a YAML configuration file `skiff-core.yaml**.
- - The container image is either pulled or built from scratch.
- - systemd and/or other init systems operate as PID 1 inside the container.
+ - [YAML configuration] for mapping users to containers
+ - systemd and/or other init systems operate as PID 1 inside the container
+ - container images can be pulled or compiled from scratch
 
-This allows any distribution to be run as a containerized guest with SkiffOS.
-The config file structure allows for any number of containers, users, and images
-to be defined. Desktop environments also work correctly.
+[YAML configuration]: https://github.com/skiffos/skiff-core#configuration
 
-### Environment Presets
+Adding **skiff/core** to `SKIFF_CONFIG` enables Debian Sid with an XFCE desktop.
 
-**skiff/core** comes with Debian Sid with a XFCE desktop on default.
-
-Any existing GNU/Linux system with compatibility with the running kernel version
-can be loaded as a Docker image with the `docker import` command.
-
-The primary distributions and images supported are:
+Other distributions and images supported:
 
 | **Distribution** | **Config Package** | **Notes**              |
 |------------------|--------------------|------------------------|
@@ -464,12 +447,14 @@ To apply the changes & re-pack the build, run "make configure compile" again.
 
 ## Workspaces
 
-Workspaces allow you to configure and compile multiple systems at a time.
+Use Workspaces to compile multiple `SKIFF_CONFIG` combinations simultaneously.
 
-Set `SKIFF_WORKSPACE` to the name of the workspace you want to use. The
-Buildroot setup will be constructed in `workspaces/$SKIFF_WORKSPACE`. You can
-also place configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` to
-override settings for that particular workspace locally.
+The `SKIFF_WORKSPACE` environment variable controls which workspace is selected.
+
+The directory at `workspaces/$SKIFF_WORKSPACE` contains the Buildroot build directory. 
+
+Configuration files in `overrides/workspaces/$SKIFF_WORKSPACE/` will override
+settings for that workspace using the configuration package structure.
 
 ## Virtualization
 
