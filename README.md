@@ -433,11 +433,11 @@ You can set the following env variables to control this process:
 
 These packages will be available in the SkiffOS system.
 
-### Local Overrides
+### Overrides
 
-It's often useful to be able to adjust the configs locally during development
-without actually creating a new configuration layer. This can be easily done
-with the [overrides](./overrides) layer.
+It's often useful to be able to adjust the configs during development without
+actually creating a new configuration layer. This can be easily done with the
+[overrides](./overrides) layer.
 
 The overrides directory is treated as an additional configuration layer. The
 layout of the configuration layers is described above. Overrides is ignored by
