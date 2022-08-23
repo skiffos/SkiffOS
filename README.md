@@ -46,16 +46,15 @@ updates across multiple hardware combinations.
 
 [Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
 
-This example uses `pi/4`, which can be replaced with any of the hardware support
-packages listed in the [Supported Systems](#supported-systems) table.
+This example uses `pi/4` for the Raspberry Pi 4, see [Supported Systems].
 
-You will need a SSH public key to access the system. If you don't have one,
-[create a SSH key] on your development machine. Add the public key (located at
-`~/.ssh/id_ed25519.pub`) to your build by copying it to
-`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`. The keys can also
-be added to a configuration package (instead of `overrides`).
+[Supported Systems]: #supported-systems
 
-[create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
+[Create a SSH key] on your development machine. Add the public key to your build
+with `cp ~/.ssh/*.pub ./overrides/root_overlay/etc/skiff/authorized_keys`. This
+will be needed to enable SSH access.
+
+[Create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 
 ```sh
 $ make                             # lists all available options
