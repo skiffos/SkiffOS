@@ -26,22 +26,26 @@ COPY --from=stage1 / /
 
 RUN systemctl set-default graphical.target && \
     systemctl mask \
-      console-getty.service \
-      serial-getty@.service \
-      NetworkManager.service \
-      NetworkManager-wait-online.service \
       NetworkManager-dispatcher.service \
-      wpa_supplicant.service \
-      systemd-networkd.service \
+      NetworkManager-wait-online.service \
+      NetworkManager.service \
+      auditd.service \
+      chronyd.service \
+      console-getty.service \
+      firewalld.service \
+      serial-getty@.service \
+      sshd.service \
       systemd-networkd-wait-online.service \
-      tmp.mount
+      systemd-networkd.service \
+      tmp.mount \
+      wpa_supplicant.service
 
 # Create the user 'core' which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
 RUN \
 	groupadd sudo && \
   adduser core \
-    --no-create-home \
+    --create-home \
     --shell /bin/bash \
     -G audio,sudo,video,dialout,disk,adm && \
   passwd -d core && \
