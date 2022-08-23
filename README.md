@@ -49,22 +49,6 @@ updates across multiple hardware combinations.
 This example uses `pi/4`, which can be replaced with any of the hardware support
 packages listed in the [Supported Systems](#supported-systems) table.
 
-```sh
-$ make                             # lists all available options
-$ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
-$ export SKIFF_CONFIG=pi/4,skiff/core
-$ make configure                   # configure the system
-$ make compile                     # build the system
-```
-
-After you run `make configure` your `SKIFF_CONFIG` selection will be saved and
-automatically restored in future sessions. The compile command builds the OS.
-
-The optional `SKIFF_WORKSPACE` variable defaults to `default`, but is useful for
-compiling multiple `SKIFF_CONFIG` simultaneously. Each workspace is isolated
-from the others and can have a completely different configuration. The build can
-be interrupted and resumed with `make compile` as needed.
-
 You will need a SSH public key to access the system. If you don't have one,
 [create a SSH key] on your development machine. Add the public key (located at
 `~/.ssh/id_ed25519.pub`) to your build by copying it to
@@ -73,16 +57,32 @@ be added to a configuration package (instead of `overrides`).
 
 [create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 
+```sh
+$ make                             # lists all available options
+$ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
+$ export SKIFF_CONFIG=pi/4,skiff/core
+$ make configure                   # configure the system
+$ make compile                     # build the system
+```
+
+After you run `make configure` your `SKIFF_CONFIG` selection will be saved. The
+build can be interrupted and later resumed with `make compile`.
+
+`SKIFF_WORKSPACE` defaults to `default` and is used to compile multiple
+`SKIFF_CONFIG` simultaneously.
+
 There are many other utility commands made available by Buildroot, which can be
 listed using `make br/help`, some examples:
 
 ```sh
-$ make br/menuconfig # optionally explore Buildroot config
+$ make br/menuconfig # explore Buildroot config menu
 $ make br/sdk        # build relocatable SDK for target
 $ make br/graph-size # graph the target packages sizes
 ```
 
-You can add `apps/portainer` to `SKIFF_CONFIG` to enable the Portainer UI.
+There are other [application packages] available i.e. `apps/podman`.
+
+[application packages]: ./configs/apps
 
 ### Flashing the SD Card
 
