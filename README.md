@@ -152,7 +152,7 @@ Here are the boards/systems currently supported:
 | [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                  |
 | [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                  |
 | [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V           |
-| [Intel x86/64]        | [intel/x64]           | ✔ Grub           | ✔ 5.19.1       | ✔ Tested         |
+| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 5.19.1       | ✔ Tested         |
 | [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125 |                  |
 | [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested         |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested         |
@@ -250,7 +250,7 @@ Here are the boards/systems currently supported:
 [beaglebone/x15]: ./configs/beaglebone
 [browser/v86]: ./configs/browser/v86
 [freescale/wandboard]: ./configs/freescale/wandboard
-[intel/x64]: ./configs/intel/x64
+[intel/desktop]: ./configs/intel/desktop
 [jetson/nano]: ./configs/jetson/nano
 [jetson/tx2]: ./configs/jetson/tx2
 [modalai/voxl2]: ./configs/modalai/voxl2

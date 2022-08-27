@@ -1,3 +1,0 @@
-format Format a disk for Skiff with Grub.
-install Install to a formatted disk.
-buildimage Build the x86 EFI disk image.
