@@ -7,7 +7,9 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 # branch: starfive
 # HEAD of the starfive-tech:Fedora_VIC_7100_2021.04 branch
 # source: https://github.com/starfive-tech/u-boot
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,64ead5b83959da8eb87b6963843addf5942e6ed4)/u-boot-2021.04-starfive-64ead5-r1.tar.gz"
+# contains additional modifications for SkiffOS:
+# https://github.com/skiffos/u-boot/tree/starfive-2
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,3bb93519563146419aa06e8d21394089163302b6)/u-boot-2021.04-starfive-3bb935-r1.tar.gz"
 
 # Default to nezha config, overridden in board config.
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_vic7100_beagle_v_smode"
