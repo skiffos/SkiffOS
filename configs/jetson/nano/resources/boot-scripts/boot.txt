@@ -3,7 +3,7 @@ setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
 
 # setenv silent 1
-setenv condev "console=tty0 console=ttyS0,115200n8"
+setenv condev "console=ttyS0,115200n8"
 setenv verify 0
 setenv bootlogo "false"
 
