@@ -20,6 +20,7 @@ if [ -d ${IMAGES_DIR}/persist_part/ ]; then
     rsync -rav ${IMAGES_DIR}/persist_part/ ${PERSIST_DIR}/
 fi
 rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
+cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
 rsync -rv \
   ./*.dtb ./Image \
   ./skiff-release ./rootfs.squashfs \
