@@ -17,10 +17,28 @@ References:
  - https://git.codelinaro.org/clo/le/meta-qti-bsp/-/tree/LU.UM.1.2.1.r1-34500-QRB5165.0
  - https://git.codelinaro.org/clo/le/le/manifest at `LU.UM.1.2.1.r1-30500-QRB5165.0.xml`
  - http://releases.linaro.org/96boards/rb5/linaro/debian/21.08/
- 
+
 ## Getting Started
 
-Set the comma-separated `SKIFF_CONFIG` variable:
+To initialize the Voxl2 partition layout and other firmware files correctly,
+first flash the latest BSP package from ModalAI:
+
+ 1. Navigate to https://developer.modalai.com/categories
+ 2. Select "Voxl 2 Platform Releases"
+ 3. Click "download" on [the entry] `voxl2_platform_1.3.1-0.8.tar.gz`
+ 4. Extract the file: `tar -xf voxl2_platform_1.3.1-0.8.tar.gz`
+ 5. Enter the directory: `cd voxl2_platform_1.3.1-0.8`
+ 6. Unplug the voxl2 from power and USBC.
+ 7. Using something soft, hold down the SW1 button on the board.
+ 8. While holding the button, connect the power to the board.
+ 9. After about 5 seconds, release button SW1.
+ 10. Run the install script: `./install.sh`
+
+[the entry]: https://developer.modalai.com/asset/eula-download/110
+
+After following these steps, your system should be in factory-reset state.
+
+To compile SkiffOS, set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
 $ export SKIFF_CONFIG=modalai/voxl2,skiff/core
@@ -33,6 +51,7 @@ device. This will flash `apq8096-sysfs.ext4` to the `sysfs` partition and
 `apq8096-boot.img` to the `boot` partition.
 
 ```sh
+$ sudo bash
 $ make cmd/modalai/voxl/flashusb  # tell skiff to use fastboot to flash
 ```
 
@@ -40,41 +59,19 @@ SkiffOS will use the existing `userdata` partition as its `persist` partition.
 The flash script will not overwrite this partition, and can be used to update
 the system later without clearing user data.
 
-### OTA Update
-
-To over-the-air update an existing system, use the push_image script:
-
-```sh
-$ ./scripts/push_image.bash root@my-ip-address
-```
-
-The SkiffOS upgrade (or downgrade) will take effect on next reboot.
-
-### Boot Sequence and OTA
+### Partitions
 
 SkiffOS produces unsigned images for the `sysfs` and `boot` partitions, and uses
 existing `aboot`, `cache`, `persist`, `userdata`, `recoveryfs` from the factory.
 
-To enable remote OTA upgrades, `skiff-init-kexec` is used to execute the kernel
-`Image` located on the `sysfs` partition:
-
- 1. Kernel on the `boot` partition starts `/sbin/init` on `sysfs`.
- 2. The `/sbin/init` file is symlinked to `/boot/skiff-init/skiff-init-kexec`.
- 3. The `Image` is loaded from `/boot/Image` to memory.
- 4. The new kernel is booted by calling `kexec`.
- 5. The new kernel starts `/boot/skiff-init/skiff-init-squashfs`.
- 6. `/boot/skiff-init/skiff-init-squashfs` mounts `/boot/rootfs.squashfs`.
- 7. An overlay filesystem is mounted with a `tmpfs` to make `/` writable.
- 8. The init script chroots and starts `/usr/lib/systemd/systemd`.
+SkiffOS will use the `userdata` partition as its `persist` partition. It will
+not overwrite this partition during the flash script, so the flash script can be
+run multiple times without overwriting any container data.
 
 To update the bootloader and other partitions, download & flash the system image
 according to the [vendor docs], then run the SkiffOS flash script.
 
 [vendor docs]: https://docs.modalai.com/downloads/
-
-SkiffOS will use the `userdata` partition as its `persist` partition. It will
-not overwrite this partition during the flash script, so the flash script can be
-run multiple times without overwriting any container data.
 
 ### Skiff Core: Default Ubuntu-based Image
 
