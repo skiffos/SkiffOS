@@ -184,6 +184,7 @@ Here are the boards/systems currently supported:
 | [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1        |
 | [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V           |
 | [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.19.5       | ✔ Tested         |
+| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0 |                  |
 | [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.19.5       |                  |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
@@ -230,6 +231,7 @@ Here are the boards/systems currently supported:
 [Run in Browser]:  https://copy.sh/v86/?profile=copy/skiffos
 [Sipeed LicheeRV]: https://linux-sunxi.org/Sipeed_Lichee_RV
 [StarFive VisionFive]: https://ameridroid.com/products/visionfive-starfive
+[Steam Deck]: https://store.steampowered.com/steamdeck
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [V86]: https://github.com/copy/v86
 [Wandboard]: https://elinux.org/Wandboard
@@ -278,6 +280,7 @@ Here are the boards/systems currently supported:
 [pine64/rockpro64]: ./configs/pine64/rockpro64
 [starfive/visionfive]: ./configs/starfive/visionfive
 [usbarmory/mk2]: ./configs/usbarmory
+[valve/deck]: ./configs/valve/deck
 [virt/docker]: ./configs/virt/docker
 [virt/qemu]: ./configs/virt/qemu
 [virt/virtualbox]: ./configs/virt/virtualbox

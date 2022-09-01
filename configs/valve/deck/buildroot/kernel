@@ -1,0 +1,17 @@
+BR2_LINUX_KERNEL=y
+BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
+
+# Steam Beta Channel as of Aug 31, 2022
+# https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-beta/linux-neptune-5.13.0.valve21.1-1.src.tar.gz
+# valve-5.13.0-valve21.1-1
+# c54cda5a36f3349f08ebb3ccd1552d642b8b8417
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,c54cda5a36f3349f08ebb3ccd1552d642b8b8417)/linux-valve-5.13.0-valve21.1-r1.tar.gz"
+
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
+BR2_KERNEL_HEADERS_AS_KERNEL=y
+
+BR2_LINUX_KERNEL_USE_DEFCONFIG=y
+BR2_LINUX_KERNEL_DEFCONFIG="tegra"
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+
+# Set BR2_LINUX_KERNEL_INTREE_DTS_NAME in board-specific config.
