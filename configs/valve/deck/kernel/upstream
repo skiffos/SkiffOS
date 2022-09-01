@@ -1,0 +1,31 @@
+# This file is from the "config" file in the kernel source tar.gz.
+# See ../buildroot/kernel for more details.
+
+# Doesn't build on latest tag, not used in neptune hardware (?)
+CONFIG_SND_SOC_CS35L36=n
+# Update this to =y to workaround initialization issues and deadlocks when loaded as module
+# The cs35l41 / acp5x drivers in EV2 fail IRQ initialization with this set to =y, changed back
+CONFIG_SPI_AMD=m
+
+# Works around issues with the touchscreen driver
+CONFIG_PINCTRL_AMD=y
+
+CONFIG_JUPITER=m
+CONFIG_SND_SOC_CS35L41=m
+CONFIG_SND_SOC_CS35L41_SPI=m
+
+CONFIG_SND_SOC_AMD_ACP5x=m
+CONFIG_SND_SOC_AMD_VANGOGH_MACH=m
+CONFIG_SND_SOC_WM_ADSP=m
+CONFIG_SND_SOC_CS35L41=m
+CONFIG_SND_SOC_CS35L41_SPI=m
+# CONFIG_SND_SOC_CS35L41_I2C is not set
+CONFIG_SND_SOC_NAU8821=m
+# Enabling our ALS, only in jupiter branches at the moment
+CONFIG_LTRF216A=m
+
+# PARAVIRT options have overhead, even on bare metal boots. They can cause
+# spinlocks to not be inlined as well. Either way, we don't intend to run this
+# kernel as a guest, so this also clears out a whole bunch of
+# virtualization-specific drivers.
+CONFIG_HYPERVISOR_GUEST=n
