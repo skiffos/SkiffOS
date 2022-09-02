@@ -1,0 +1,5 @@
+# BPF causes build errors with a libelf missing header
+# CONFIG_AF_KCM is not set
+# CONFIG_BPF_JIT is not set
+# CONFIG_BPF_PRELOAD is not set
+# CONFIG_BPF_SYSCALL is not set
