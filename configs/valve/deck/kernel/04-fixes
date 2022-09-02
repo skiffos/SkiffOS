@@ -3,3 +3,7 @@
 # CONFIG_BPF_JIT is not set
 # CONFIG_BPF_PRELOAD is not set
 # CONFIG_BPF_SYSCALL is not set
+
+# disable module compress + sign
+# CONFIG_MODULE_COMPRESS is not set
+# CONFIG_MODULE_SIG is not set
