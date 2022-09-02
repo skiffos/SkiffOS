@@ -24,9 +24,9 @@ need to `sudo bash` for this on most systems.
 
 ```sh
 $ sudo bash             # switch to root
-$ export VALVE_DECK_SD=/dev/sdz # make sure this is right! (usually sdb)
-$ make cmd/valve/deck/format  # tell skiff to format the device
-$ make cmd/valve/deck/install # tell skiff to install the os
+$ export INTEL_DESKTOP_DISK=/dev/sdz # make sure this is right! (usually sdb)
+$ make cmd/intel/desktop/format  # tell skiff to format the device
+$ make cmd/intel/desktop/install # tell skiff to install the os
 ```
 
 You only need to run the `format` step once. It will create the partition table.
@@ -37,3 +37,5 @@ safe to upgrade Skiff independently from your persistent data.
 ## Boot Process
 
 To access the boot menu, power on the device while holding volume-down.
+
+Select the "EFI SD Card" to boot from the MicroSD.

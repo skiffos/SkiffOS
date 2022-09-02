@@ -1,0 +1,2 @@
+# rEFind bootloader
+BR2_TARGET_REFIND=y

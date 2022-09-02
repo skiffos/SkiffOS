@@ -1,22 +1,59 @@
 # Intel Desktop
 
-This configuration package contains (experimental) support for running SkiffOS
-on a traditional desktop PC.
+This configuration package supports running SkiffOS on any Intel Desktop PC.
 
 Additional kernel options are enabled to support a generic set of machines.
-These modules should be disabled later to trim down the size of the OS.
+These modules could be disabled in other packages to trim down the OS size.
 
-The typical "boot" "rootfs" and "persist" partitions are reduced to a single
-"skiffos" partition here.
+This setup uses a single SKIFFOS boot/rootfs/persist partition.
 
-## Setup
+## Getting Started
 
-The setup process is currently a work in progress.
+Set the comma-separated `SKIFF_CONFIG` variable:
 
- 1. Install "refind" with the "--alldrivers" option to EFI partition.
- 2. Create a ext4 partition labeled "SKIFFOS"
- 3. Create a "boot" directory and copy "refind_linux.conf" into it.
- 4. Use `make cmd/apple/macbook/install` to install.
+```sh
+$ export SKIFF_CONFIG=intel/desktop,skiff/core
+$ make configure                   # configure the system
+$ make compile                     # build the system
+```
 
-The install command copies to a file with the SkiffOS revision. Refind will
-display all of the available SkiffOS versions to select for boot.
+Once the build is complete, we will flash to a disk to boot. You will need to
+`sudo bash` for this on most systems.
+
+```sh
+$ sudo bash             # switch to root
+$ export INTEL_DESKTOP_DISK=/dev/sdz # make sure this is right! (usually sdb)
+$ make cmd/intel/desktop/format  # create the partition layout
+$ make cmd/intel/desktop/install # install skiffos files
+```
+
+You only need to run the `format` step once. It will create the partition table.
+The `install` step will overwrite the current Skiff installation on the card,
+taking care to not touch any persistent data (from the persist partition). It's
+safe to upgrade SkiffOS independently from your persistent data.
+
+## Building an Image
+
+It's possible to create a .img file instead of directly flashing a SD.
+
+```sh
+# must be root to use losetup
+sudo bash
+# set your skiff workspace
+export SKIFF_WORKSPACE=default
+# set the output path
+export INTEL_DESKTOP_IMAGE=./intel-desktop-image.img
+# make the image
+make cmd/intel/desktop/buildimage
+```
+
+The image can then be flashed to the target:
+
+```
+# change sdX to, for example, sdb
+dd if=intel-desktop-image.img of=/dev/sdX status=progress oflag=sync
+```
+
+This is equivalent to using the format and install scripts.
+
+The persist partition will be resized to fill the available space on first boot.
