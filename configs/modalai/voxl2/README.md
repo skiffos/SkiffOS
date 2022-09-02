@@ -26,7 +26,7 @@ first flash the latest BSP package from ModalAI:
  1. Navigate to https://developer.modalai.com/categories
  2. Select "Voxl 2 Platform Releases"
  3. Click "download" on [the entry] `voxl2_platform_1.3.1-0.8.tar.gz`
- 4. Extract the file: `tar -xf voxl2_platform_1.3.1-0.8.tar.gz`
+ 4. Extract the file: `tar -zxf voxl2_platform_1.3.1-0.8.tar.gz`
  5. Enter the directory: `cd voxl2_platform_1.3.1-0.8`
  6. Unplug the voxl2 from power and USBC.
  7. Using something soft, hold down the SW1 button on the board.
