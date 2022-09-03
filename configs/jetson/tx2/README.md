@@ -87,3 +87,44 @@ has a single "app" partition. The recovery mode is used to flash a ext4 image to
 that partition containing the system files. Partial flashing would need separate
 partitions to work correctly. Please use the `push_image.sh` script to update.
 
+## Partition Layout
+
+The required partition layout is somewhat complex and does not provide an
+opportunity for separate "persist" and "boot" partitions as typically used by
+other Skiff boards:
+
+ - **APP**: at mmcblk0p1: contains the main system read-write filesystem.
+ - **TBC**: TegraBoot CPU-side binary.
+ - **RP1**: Bootloader DTB binary.
+ - **EBT**: CBoot, the final boot stage CPU bootloader binary.
+ - **WB0**: Warm boot binary.
+ - **BPF**: SC7 entry firmware.
+ - **BPF-DTB**: Reserved for future use by BPMP DTB binary; can't remove.
+ - **FX**: Reserved for fuse bypass; removeable.
+ - **TOS**: Required. Contains TOS binary.
+ - **DTB**: Contains kernel DTB binary.
+ - **LNX**: Contains U-Boot, which loads and launches the kernel.
+ - **EKS**: Contains "the encrypted keys".
+ - **BMP**: Contains BMP images for splash screen display during boot.
+ - **RP4**: Contains XUSB module’s firmware file, making XUSB a true USB 3.0 host.
+ - **GPT**: Contains secondary GPT of the sdcard device.
+
+Unfortunately, the complex partition layout is unavoidable, but the Skiff
+install and OTA scripts are careful to handle it properly.
+
+
+## Advantages vs. Jetpack
+
+The current list of advantages to using this vs. NVIDIA Jetpack BSP:
+
+ - Significantly simpler & more reliable OTA
+   - read-only single-file host OS vs. read-write a/b partitions
+   - can be upgraded with simple tools like rsync
+   - does not require any complex boot-up process
+ - Upgraded kernel from OE4T merged with more recent versions.
+   - maintained by SkiffOS & OE4T developers
+ - Full Jetpack compatibility: running in a container w/ Ubuntu.
+ - Improved backup / restore UX with Docker CLI tools.
+
+The skiff-core-linux4tegra package automatically applies the linux4tegra debs to
+the latest Ubuntu bionic release, patching some files to skip hardware checks.

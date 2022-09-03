@@ -1,0 +1,75 @@
+From 1b4ef1e239487505a87505bb63efced29237ed6e Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Mon, 22 Nov 2021 20:54:45 -0800
+Subject: [PATCH] Adjust flash.sh for flashing Buildroot-produced disk image
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ flash.sh | 27 +++++++++++----------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
+
+diff --git a/flash.sh b/flash.sh
+index 042cf18..2de76bd 100755
+--- a/flash.sh
++++ b/flash.sh
+@@ -1137,6 +1137,9 @@ function create_fsimg {
+ 			build_fsimg "${localsysfile}" "${fillpat}" \
+ 				    "${rootfssize}" "${rootfs_type}" \
+ 				    "${source_folder}" "${cmdline}" "${do_sign}";
++
++      echo "Skipping image build and setting ${localsysfile} to INITRD.";
++      ln -fs ${INITRD} ${localsysfile};
+ 		fi;
+ 
+ 		if [[ "${rootfs_ab}" == 1 ]]; then
+@@ -1148,9 +1151,8 @@ function create_fsimg {
+ 			if [ "${sysfile}" != "" ]; then
+ 				if [ "${target_partname}" = "" ] || \
+ 				   [ "${target_partname}" = "APP_b" ]; then
+-					build_fsimg "${localsysfile}_b" "${fillpat}" \
+-						    "${rootfssize}" "${rootfs_type}" \
+-						    "${source_folder}" "${cmdline_b}" "${do_sign}";
++          echo "Skipping image build and setting ${localsysfile}_b to INITRD.";
++          ln -fs ${INITRD} ${localsysfile}_b
+ 				fi;
+ 			fi;
+ 		fi;
+@@ -1920,12 +1922,12 @@ elif [ "${target_rootdev}" == "internal" ] || \
+ 			bootpartuuid_restore;
+ 		fi
+ 
+-		cmdline+="root=UUID=${_tmp_uuid} rw rootwait rootfstype=ext4 "
++		cmdline+="root=UUID=${_tmp_uuid} rw rootwait "
+ 	else
+-		cmdline+="root=PARTUUID=${_tmp_uuid} rw rootwait rootfstype=ext4 "
++		cmdline+="root=PARTUUID=${_tmp_uuid} rw rootwait "
+ 	fi;
+ else
+-	cmdline+="root=/dev/${target_rootdev} rw rootwait rootfstype=ext4 "
++	cmdline+="root=/dev/${target_rootdev} rw rootwait "
+ fi;
+ 
+ if [ "${CMDLINE_ADD}" != "" ]; then
+@@ -2144,16 +2146,9 @@ if [ "${write_image_name}" != "" ]; then
+ 	fi
+ fi
+ 
+-if [ "${INITRD_IN_BOOTIMG}" = "yes" ]; then
+-	ramdisk=initrd;
+-	if [[ "${rootfs_ab}" == 1 && "${disk_enc_enable}" == 1 ]]; then
+-		ramdisk_b=initrd_b;
+-	fi
+-else
+-	ramdisk="/dev/null"
+-	if [[ "${rootfs_ab}" == 1 && "${disk_enc_enable}" == 1 ]]; then
+-		ramdisk_b="/dev/null";
+-	fi
++ramdisk="/dev/null"
++if [[ "${rootfs_ab}" == 1 && "${disk_enc_enable}" == 1 ]]; then
++	ramdisk_b="/dev/null";
+ fi
+ 
+ if [[ "${rootfs_ab}" == 1 ]]; then
+-- 
+2.34.0
+

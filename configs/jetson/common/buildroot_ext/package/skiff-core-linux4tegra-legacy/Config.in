@@ -1,0 +1,13 @@
+config BR2_PACKAGE_SKIFF_CORE_LINUX4TEGRA_LEGACY
+	bool "skiff-core-linux4tegra-legacy"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_TOOLCHAIN_USES_UCLIBC # docker-containerd -> runc
+	depends on BR2_USE_MMU # docker-containerd
+	select BR2_PACKAGE_SKIFF_CORE
+	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
+	help
+	  Skiff Core environment defconfig for NVIDIA Jetson.
+
+	  https://github.com/skiffos/skiff-core

@@ -1,1 +1,3 @@
--march=armv8-a+crypto+crc
+# https://forums.developer.nvidia.com/t/gcc-options-for-tx2/56669/12
+-march=armv8-a+crypto -mcpu=cortex-a57+crypto
+

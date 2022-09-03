@@ -1,0 +1,27 @@
+config BR2_PACKAGE_LINUX4TEGRA_LEGACY_LEGACY
+	help
+	  Supports discontinued boards: Jetson TX2, Nano.
+
+	  https://developer.nvidia.com/embedded/linux-tegra-archive
+
+if BR2_PACKAGE_LINUX4TEGRA_LEGACY
+
+choice
+	prompt "Platform"
+	default BR2_PACKAGE_LINUX4TEGRA_LEGACY_PLATFORM_T186REF
+	help
+	  Select the platform variant for linux4tegra-legacy.
+
+config BR2_PACKAGE_LINUX4TEGRA_LEGACY_PLATFORM_T186REF
+	bool "t186ref"
+	help
+	  Jetson TX2
+
+config BR2_PACKAGE_LINUX4TEGRA_LEGACY_PLATFORM_T210REF
+	bool "t210ref"
+	help
+	  Jetson Nano or Jetson TX1
+
+endchoice
+
+endif # if BR2_PACKAGE_LINUX4TEGRA_LEGACY
