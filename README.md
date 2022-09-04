@@ -201,8 +201,8 @@ Here are the boards/systems currently supported:
 [Docker Img]: ./docker
 [Intel x86/64]: ./configs/intel/x64
 [ModalAI Voxl2]: https://www.modalai.com/products/voxl-2
-[NVIDIA Jetson Nano]: ./configs/jetson
-[NVIDIA Jetson TX2]: ./configs/jetson
+[NVIDIA Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
+[NVIDIA Jetson TX2]: https://developer.nvidia.com/embedded/jetson-tx2
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
 [Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
