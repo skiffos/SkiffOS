@@ -1,0 +1,18 @@
+# build the ext2 rootfs for backwards compatibility
+# enables using the TX2_MUTABLE_ROOTFS flag for flashusb
+# this is no longer recommended
+# BR2_TARGET_ROOTFS_EXT2=y
+# BR2_TARGET_ROOTFS_EXT2_4=y
+# BR2_TARGET_ROOTFS_EXT2_LABEL="persist"
+# BR2_TARGET_ROOTFS_EXT2_SIZE="1024M"
+# BR2_TARGET_ROOTFS_CPIO_UIMAGE=y
+
+# use skiff-init-squashfs
+# BR2_TARGET_ROOTFS_CPIO is not set
+BR2_TARGET_ROOTFS_SQUASHFS=y
+BR2_TARGET_ROOTFS_SQUASHFS4_LZ4=y
+
+# init sequence
+BR2_PACKAGE_SKIFF_INIT_SQUASHFS=y
+BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS=y
+BR2_PACKAGE_SKIFF_INIT_RESIZE2FS=y
