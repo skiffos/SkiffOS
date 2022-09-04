@@ -133,59 +133,60 @@ Linux-compatible machine.
 
 Here are the boards/systems currently supported:
 
-| **Board**             | **Config Package**    | **Bootloader**   | **Kernel**     | **Notes**        |
-|-----------------------|-----------------------|------------------|----------------|------------------|
-| VirtualBox            | [virt/virtualbox]     | N/A              | ✔ 5.19.6       | Run in VM        |
-| [Docker Img]          | [virt/docker]         | N/A              | N/A            | Run in Docker    |
-| [Qemu]                | [virt/qemu]           | N/A              | ✔ 5.19.6       | Run in QEmu      |
-| [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 5.19.6       | [Run in Browser] |
-| [WSL] on Windows      | [virt/wsl]            | N/A              | N/A            | Run in WSL2      |
-|-----------------------|-----------------------|------------------|----------------|------------------|
-| [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1        |
-| [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.19.6       | ✔ Tested         |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.19.6       | ⚠ Obsolete       |
-| [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.19.6       | ⚠ Obsolete       |
-| [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.19.6       |                  |
-| [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.19.6       | ⚠ Obsolete       |
-| [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.19.6       | ✔ Tested         |
-| [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                  |
-| [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                  |
-| [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti  |                  |
-| [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V           |
-| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 5.19.6       | ✔ Tested         |
-| [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125 |                  |
-| [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested         |
-| [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309] | ✔ Tested         |
-| [Odroid C2]           | [odroid/c2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ⚠ Obsolete       |
-| [Odroid C4]           | [odroid/c4]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   |                  |
-| [Odroid HC1]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ⚠ Obsolete       |
-| [Odroid HC2]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ✔ Tested         |
-| [Odroid HC4]          | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   |                  |
-| [Odroid M1]           | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.12   |                  |
-| [Odroid N2]+          | [odroid/n2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ✔ Tested         |
-| [Odroid U]            | [odroid/u]            | ✔ U-Boot 2022.07 | ✔ tb-5.18.12   | ⚠ Obsolete       |
-| [Odroid XU3]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ⚠ Obsolete       |
-| [Odroid XU4]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12   | ✔ Tested         |
-| [OrangePi Lite]       | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 5.19.6       |                  |
-| [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.19.6       |                  |
-| [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.19.6       |                  |
-| [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 5.19.6       |                  |
-| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.61  | ✔ Tested         |
-| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.61  |                  |
-| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.61  | ✔ Tested         |
-| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.61  | ✔ Tested         |
-| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.61  | ✔ Tested         |
-| [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.19.1  |                  |
-| [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.19.1  | ⚠ Obsolete       |
-| [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.19.1  | ✔ Tested         |
-| [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.19.1  | ✔ Tested         |
-| [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.19.1  | ✔ Tested         |
-| [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.19.1  | ✔ Tested         |
-| [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7  | RISC-V D1        |
-| [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3  | RISC-V           |
-| [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.19.6       | ✔ Tested         |
-| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0 |                  |
-| [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.19.6       |                  |
+| **Board**             | **Config Package**    | **Bootloader**   | **Kernel**      | **Notes**        |
+|-----------------------|-----------------------|------------------|-----------------|------------------|
+| VirtualBox            | [virt/virtualbox]     | N/A              | ✔ 5.19.6        | Run in VM        |
+| [Docker Img]          | [virt/docker]         | N/A              | N/A             | Run in Docker    |
+| [Qemu]                | [virt/qemu]           | N/A              | ✔ 5.19.6        | Run in QEmu      |
+| [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 5.19.6        | [Run in Browser] |
+| [WSL] on Windows      | [virt/wsl]            | N/A              | N/A             | Run in WSL2      |
+|-----------------------|-----------------------|------------------|-----------------|------------------|
+| [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.18-rc7   | RISC-V D1        |
+| [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.19.6        | ✔ Tested         |
+| [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.19.6        | ⚠ Obsolete       |
+| [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.19.6        | ⚠ Obsolete       |
+| [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 5.19.6        |                  |
+| [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 5.19.6        | ⚠ Obsolete       |
+| [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 5.19.6        | ✔ Tested         |
+| [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
+| [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
+| [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
+| [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
+| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 5.19.6        | ✔ Tested         |
+| [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125  |                  |
+| [NVIDIA Jetson AGX]   | [jetson/agx]          | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
+| [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
+| [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
+| [Odroid C2]           | [odroid/c2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12    | ⚠ Obsolete       |
+| [Odroid C4]           | [odroid/c4]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12    |                  |
+| [Odroid HC1]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12    | ⚠ Obsolete       |
+| [Odroid HC2]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12    | ✔ Tested         |
+| [Odroid HC4]          | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-5.18.12    |                  |
+| [Odroid M1]           | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-5.18.12    |                  |
+| [Odroid N2]+          | [odroid/n2]           | ✔ U-Boot 2022.07 | ✔ tb-5.18.12    | ✔ Tested         |
+| [Odroid U]            | [odroid/u]            | ✔ U-Boot 2022.07 | ✔ tb-5.18.12    | ⚠ Obsolete       |
+| [Odroid XU3]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12    | ⚠ Obsolete       |
+| [Odroid XU4]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-5.18.12    | ✔ Tested         |
+| [OrangePi Lite]       | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 5.19.6        |                  |
+| [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 5.19.6        |                  |
+| [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 5.19.6        |                  |
+| [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 5.19.6        |                  |
+| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.61   | ✔ Tested         |
+| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.61   |                  |
+| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.61   | ✔ Tested         |
+| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.61   | ✔ Tested         |
+| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.61   | ✔ Tested         |
+| [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-5.19.1   |                  |
+| [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ⚠ Obsolete       |
+| [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ✔ Tested         |
+| [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ✔ Tested         |
+| [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.19.1   | ✔ Tested         |
+| [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ✔ Tested         |
+| [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7   | RISC-V D1        |
+| [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
+| [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.19.6        | ✔ Tested         |
+| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0  |                  |
+| [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 5.19.6        |                  |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
@@ -201,6 +202,7 @@ Here are the boards/systems currently supported:
 [Docker Img]: ./docker
 [Intel x86/64]: ./configs/intel/x64
 [ModalAI Voxl2]: https://www.modalai.com/products/voxl-2
+[NVIDIA Jetson AGX]: https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit
 [NVIDIA Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [NVIDIA Jetson TX2]: https://developer.nvidia.com/embedded/jetson-tx2
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
@@ -237,6 +239,7 @@ Here are the boards/systems currently supported:
 [Wandboard]: https://elinux.org/Wandboard
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 [nv-4.9.309]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
+[nv-5.10.104]: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x
 [rEFInd]: https://www.rodsbooks.com/refind/
 
 [allwinner/licheerv]: ./configs/allwinner/licheerv
@@ -253,6 +256,7 @@ Here are the boards/systems currently supported:
 [browser/v86]: ./configs/browser/v86
 [freescale/wandboard]: ./configs/freescale/wandboard
 [intel/desktop]: ./configs/intel/desktop
+[jetson/agx]: ./configs/jetson/agx
 [jetson/nano]: ./configs/jetson/nano
 [jetson/tx2]: ./configs/jetson/tx2
 [modalai/voxl2]: ./configs/modalai/voxl2

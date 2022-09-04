@@ -1,0 +1,2 @@
+flashusb Flash to the NVIDIA device in recovery mode over USB.
+install Install to a destination path used as persist partition.

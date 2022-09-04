@@ -1,0 +1,10 @@
+# Building the following as modules causes errors.
+CONFIG_USB_CONFIGFS=y
+CONFIG_USB_GADGET=y
+CONFIG_USB_TEGRA_XUDC=y
+CONFIG_HID_SONY=n
+CONFIG_MEDIA_SUPPORT=y
+CONFIG_VIDEO_V4L2=y
+
+# Building the following causes errors.
+# CONFIG_NETFILTER_XT_MATCH_BPF is not set

@@ -1,0 +1,4 @@
+# Unified cgroup hierarchy not supported < kernel 4.15
+CONFIG_CMDLINE="systemd.unified_cgroup_hierarchy=0"
+# note: cmdline_extend not supported in newer kernels
+CONFIG_CMDLINE_EXTEND=y
