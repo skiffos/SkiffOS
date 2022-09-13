@@ -1,2 +1,2 @@
 CONFIG_CMDLINE_BOOL=y
-CONFIG_CMDLINE="tsc=reliable mitigations=off random.trust_cpu=on"
+CONFIG_CMDLINE="tsc=reliable mitigations=off random.trust_cpu=on page_poison=on init_on_free=on"
