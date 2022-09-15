@@ -16,3 +16,6 @@ CONFIG_DEFAULT_SECURITY=""
 # causes errors in dmesg
 # CONFIG_MSM_SERVICE_LOCATOR is not set
 # CONFIG_MSM_ADSPRPC is not set
+
+# causes kernel build failure
+# CONFIG_USB_DWC3 is not set
