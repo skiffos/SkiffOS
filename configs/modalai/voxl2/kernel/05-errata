@@ -1,0 +1,2 @@
+# causes kernel build failure
+# CONFIG_QCOM_KGSL is not set
