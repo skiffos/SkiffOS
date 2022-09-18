@@ -11,7 +11,7 @@ for confp in "${config_paths[@]}"; do
 done
 
 if [ -z "$refind_config" ]; then
-  echo "Unable to find refind_linux.config!"
+  echo "Unable to find refind_linux.conf!"
   exit 1
 fi
 

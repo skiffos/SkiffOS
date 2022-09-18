@@ -14,9 +14,9 @@ if ! command -v mkfs.vfat >/dev/null 2>&1; then
 fi
 
 outp_path="${BUILDROOT_DIR}/output"
-boot_path="${outp_path}/images/refind"
+efi_path="${outp_path}/images/efi-part"
 
-if [ ! -d "$boot_path" ]; then
+if [ ! -d "$efi_path" ]; then
     echo "refind not found, make sure Buildroot is done compiling."
     exit 1
 fi
@@ -43,19 +43,21 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
 fi
 
 set -x
-set -e
 
 echo "Formatting device..."
+sudo dd if=/dev/zero of=$INTEL_DESKTOP_DISK bs=1M count=256 oflag=dsync
 sudo parted $INTEL_DESKTOP_DISK mklabel gpt
 sleep 1
 
 echo "Making boot partition..."
-sudo parted -a optimal $INTEL_DESKTOP_DISK mkpart primary fat16 2048s 128MB
+sudo parted -a optimal $INTEL_DESKTOP_DISK mkpart primary fat32 2048s 512MiB
+sudo parted $INTEL_DESKTOP_DISK name 1 EFI
 sudo parted $INTEL_DESKTOP_DISK set 1 boot on
 sudo parted $INTEL_DESKTOP_DISK set 1 esp on
 
 echo "Making persist partition..."
-sudo parted -a optimal $INTEL_DESKTOP_DISK -- mkpart primary ext4 128MB "100%"
+sudo parted -a optimal $INTEL_DESKTOP_DISK -- mkpart primary ext4 512MiB "100%"
+sudo parted $INTEL_DESKTOP_DISK name 2 SKIFFOS
 
 echo "Waiting for partprobe..."
 sudo partprobe $INTEL_DESKTOP_DISK || true
@@ -67,14 +69,14 @@ if [ -b ${INTEL_DESKTOP_DISK}p1 ]; then
 fi
 
 echo "Formatting EFI partition..."
-mkfs.vfat -n EFI -F 16 ${INTEL_DESKTOP_DISK_SFX}1
+mkfs.vfat -n EFI -F 32 ${INTEL_DESKTOP_DISK_SFX}1
 
 echo "Formatting SKIFFOS partition..."
 mkfs.ext4 -F -L "SKIFFOS" ${INTEL_DESKTOP_DISK_SFX}2
 
 sudo partprobe $INTEL_DESKTOP_DISK || true
 
-# Install rEFind to the first partition.
+# Install EFI to the first partition.
 mounts=()
 MOUNTS_DIR=${outp_path}/mounts
 mkdir -p ${MOUNTS_DIR}
@@ -95,15 +97,15 @@ function cleanup {
 }
 trap cleanup EXIT
 
-efi_dir="${WORK_DIR}/efi"
+efi_mount="${WORK_DIR}/efi"
 
-echo "Mounting ${INTEL_DESKTOP_DISK_SFX}1 to $efi_dir..."
-mkdir -p $efi_dir
-mounts+=("$efi_dir")
-mount ${INTEL_DESKTOP_DISK_SFX}1 $efi_dir
+echo "Mounting ${INTEL_DESKTOP_DISK_SFX}1 to $efi_mount..."
+mkdir -p $efi_mount
+mounts+=("$efi_mount")
+mount ${INTEL_DESKTOP_DISK_SFX}1 $efi_mount
 
-echo "Copying rEFInd..."
-${RS} ${boot_path}/ ${efi_dir}/
+echo "Copying EFI files..."
+${RS} ${efi_path}/ ${efi_mount}/
 
 sync
 cleanup
