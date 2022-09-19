@@ -90,7 +90,7 @@ drivers provided in the container will then provide all proprietary features:
 
 ```sh
 # Extract the modalai files.
-tar -xf ./voxl2_platform_1.3.1-0.8.tar.gz
+gzip -c -d voxl2_platform_1.3.1-0.8.tar.gz | tar -xf-
 cd ./voxl2_platform_1.3.1-0.8
 cd ./system-image
 
