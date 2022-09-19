@@ -95,11 +95,11 @@ cd ./voxl2_platform_1.3.1-0.8
 cd ./system-image
 
 # Decompress the sysfs image.
-simg2img apq8096-sysfs.ext4 apq8096-sysfs.ext4.raw
+docker run --rm -v $(pwd):/data --workdir /data -it alpine:edge sh -c "apk add android-tools && simg2img qti-ubuntu-robotics-image-m0054-sysfs.ext4 sysfs.ext4"
 
 # Mount the base system image.
 mkdir -p mtpt
-sudo mount -o loop -t ext4 ./apq8096-sysfs.ext4.raw ./mtpt
+sudo mount -o loop -t ext4 ./sysfs.ext4 ./mtpt
 
 # Import the base docker image.
 cd ./mtpt

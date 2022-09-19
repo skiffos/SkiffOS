@@ -3,6 +3,7 @@
 FROM skiffos/skiff-core-voxl2:base
 
 RUN \
+  chmod 1777 /tmp; \
   export DEBIAN_FRONTEND=noninteractive; \
   apt-get update && \
   apt-get dist-upgrade -y && \
