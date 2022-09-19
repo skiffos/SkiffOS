@@ -1,8 +1,7 @@
 containers:
   core:
-    # Ubuntu with Linux4Tegra debs applied + desktop env
+    # Based on the Linux4Tegra Sample Root FS.
     image: skiffos/skiff-core-linux4tegra:latest
-    # systemd
     entrypoint: ["/lib/systemd/systemd"]
     env: ["container=docker"]
     stopSignal: RTMIN+3
@@ -19,6 +18,10 @@ containers:
       - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
+      - /mnt/persist/skiff/core/repos/snap:/var/snap
+      - /mnt/persist/skiff/core/repos/snap-cache:/var/lib/snapd/cache
+      - /mnt/persist/skiff/core/repos/snap-snaps:/var/lib/snapd/snaps
+      - /mnt/persist/skiff/core/repos/snap-shots:/var/lib/snapd/snapshots
     privileged: true
     startAfterCreate: true
     restartPolicy: "always"
@@ -56,3 +59,5 @@ images:
       registry: quay.io
     build:
       source: /opt/skiff/coreenv/skiff-core-linux4tegra
+      # Uncomment for L4T debs on stock Ubuntu instead of the L4T sample FS.
+      # dockerfile: Dockerfile.upstream
