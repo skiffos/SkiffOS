@@ -79,6 +79,7 @@ RUN \
     chmod 0440 /etc/sudoers.d/nvidia
 
 RUN touch /etc/ssh/sshd_not_to_be_run && \
+    rm /etc/systemd/system/sshd.service && \
     systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
     systemctl mask NetworkManager wpa_supplicant sshd haveged && \

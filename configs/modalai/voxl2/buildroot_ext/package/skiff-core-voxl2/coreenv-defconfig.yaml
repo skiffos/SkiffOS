@@ -16,6 +16,7 @@ containers:
       - /lib/modules:/lib/modules:ro
       - /mnt:/mnt
       - /run/udev:/run/udev
+      - /mnt/persist:/persist
       - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/log:/var/log
       - /mnt/persist/skiff/core/repos/tmp:/var/tmp
