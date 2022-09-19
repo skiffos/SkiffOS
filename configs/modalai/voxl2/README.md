@@ -89,8 +89,15 @@ The vendor-provided system image can be imported to a skiff-core container. The
 drivers provided in the container will then provide all proprietary features:
 
 ```sh
-# Mount the base system image.
+# Extract the modalai files.
+tar -xf ./voxl2_platform_1.3.1-0.8.tar.gz
+cd ./voxl2_platform_1.3.1-0.8
+cd ./system-image
+
+# Decompress the sysfs image.
 simg2img apq8096-sysfs.ext4 apq8096-sysfs.ext4.raw
+
+# Mount the base system image.
 mkdir -p mtpt
 sudo mount -o loop -t ext4 ./apq8096-sysfs.ext4.raw ./mtpt
 
@@ -102,14 +109,18 @@ sudo tar -c . | docker import - skiffos/skiff-core-voxl2:base
 cd ..
 sudo umount ./mtpt
 
-# Use the skiff-core-defconfig dockerfile to minimize the image.
-wget -O Dockerfile https://raw.githubusercontent.com/skiffos/SkiffOS/master/configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv/Dockerfile.minimize
-docker build --build-arg "DISTRO=skiffos/skiff-core-voxl2:base" -t skiffos/skiff-core-voxl2:latest .
-```
+# Use a dockerfile to adjust the image with some fixups.
+cd /opt/skiff/coreenv/skiff-core-voxl2
+docker build -f Dockerfile.minimize -t skiffos/skiff-core-voxl2:latest .
 
-Edit `/mnt/persist/skiff/core/config.yaml` and replace the image name with
-`skiffos/skiff-core-voxl2:latest`, then run `docker rm -f core` and then
-`systemctl restart skiff-core` to create the new core container.
+# Force skiff-core to load the new image.
+# NOTE: this will delete your existing core container!
+docker rm -f core
+systemctl restart skiff-core
+
+# You can delete the source files now.
+# The Docker image is called skiffos/skiff-core-voxl2:latest
+```
 
 # License Acknowledgment
 

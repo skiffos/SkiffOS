@@ -24,7 +24,6 @@ RUN \
 # RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 stable' > /etc/apt/sources.list
 RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 sdk-0.8 staging stable' > /etc/apt/sources.list.d/modalai.list
 
-
 # Add voxl packages.
 # Subject to the ModalAI EULAs and licenses.
 # Note: more packages are available, see full list:
@@ -34,6 +33,9 @@ RUN echo 'deb [trusted=yes] http://voxl-packages.modalai.com/ qrb5165 sdk-0.8 st
 #  - voxl-px4: requires libfc-sensor (missing)
 #  - voxl-suite: requires voxl-px4
 RUN \
+  echo "ModalAI 3.7.0" > /etc/version && \
+  echo "/usr/lib64" > /etc/ld.so.conf.d/lib64.conf && \
+	mkdir -p /etc/modalai && \
   mv /bin/systemctl /bin/systemctl.bak && \
   printf "#!/bin/bash\nexit 0\n" > /bin/systemctl && \
   chmod +x /bin/systemctl && \
@@ -73,21 +75,10 @@ RUN \
 
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
-    find /etc/systemd/system \
-         /lib/systemd/system \
-         \( -path '*.wants/*' \
-         -name '*swapon*' \
-         -or -name '*ntpd*' \
-         -or -name '*resolved*' \
-         -or -name '*udev*' \
-         -or -name '*freedesktop*' \
-         -or -name '*remount-fs*' \
-         -or -name '*getty*' \
-         -or -name '*systemd-sysctl*' \
-         -or -name '*.mount' \
-         -or -name '*remote-fs*' \) \
-         -exec echo \{} \; \
-         -exec rm \{} \;
+    systemctl mask NetworkManager wpa_supplicant && \
+    systemctl mask dhcpd systemd-timesyncd && \
+    echo "core NOPASSWD: ALL" > /etc/sudoers.d/core && \
+    chmod 0440 /etc/sudoers.d/core
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
