@@ -1,0 +1,52 @@
+From c86968b3d975e58cf9d66f7eccb8ec434e308055 Mon Sep 17 00:00:00 2001
+From: Coelacanthus <coelacanthus@outlook.com>
+Date: Mon, 23 May 2022 20:05:27 +0800
+Subject: [PATCH] riscv: fix compatible with binutils 2.38
+
+commit 6df2a016c0c8a3d0933ef33dd192ea6606b115e3 from linux kernel
+
+Since binutils 2.38, default ISA spec version switch to 20191213,
+in this version, original I extension be split into I, Zicsr and Zifencei.
+Zicsr is csr read/write (csrr*/csrw*) instructions, and Zifencei
+is fence.i instruction.
+This will cause compile error like this:
+    Error: unrecognized opcode `csrr a5,0xc01'
+    Error: unrecognized opcode `fence.i'
+
+This commit add code to detect new Zicsr and Zifencei extensions,
+and enable it when needed.
+
+Signed-off-by: Coelacanthus <coelacanthus@outlook.com>
+Cc: Rick Chen <rick@andestech.com>
+Cc: Leo <ycliang@andestech.com>
+
+---
+
+Tested-by: Christian Stewart <christian@paral.in>
+---
+ arch/riscv/Makefile | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+index 0b80eb8d86..62712f8d38 100644
+--- a/arch/riscv/Makefile
++++ b/arch/riscv/Makefile
+@@ -24,7 +24,14 @@ ifeq ($(CONFIG_CMODEL_MEDANY),y)
+ 	CMODEL = medany
+ endif
+ 
+-ARCH_FLAGS = -march=$(ARCH_BASE)$(ARCH_A)$(ARCH_C) -mabi=$(ABI) \
++RISCV_MARCH_y = $(ARCH_BASE)$(ARCH_A)$(ARCH_C)
++
++# Newer binutils versions default to ISA spec version 20191213 which moves some
++# instructions from the I extension to the Zicsr and Zifencei extensions.
++toolchain-need-zicsr-zifencei := $(call cc-option-yn, -mabi=$(ABI) -march=$(RISCV_MARCH_y)_zicsr_zifencei)
++RISCV_MARCH_$(toolchain-need-zicsr-zifencei) := $(RISCV_MARCH_y)_zicsr_zifencei
++
++ARCH_FLAGS = -march=$(RISCV_MARCH_y) -mabi=$(ABI) \
+ 	     -mcmodel=$(CMODEL)
+ 
+ PLATFORM_CPPFLAGS	+= $(ARCH_FLAGS)
+-- 
+2.37.3
+
