@@ -6,7 +6,11 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 
 # branch: riscv-d1-2022.04
 # source: https://github.com/smaeul/u-boot/commits/d1-wip
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,7446a47204fd8923b99ced0091667979c4fd27fa)/u-boot-2022.04-nezha-7446a4-r1.tar.gz"
+# BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,7446a47204fd8923b99ced0091667979c4fd27fa)/u-boot-2022.04-nezha-7446a4-r1.tar.gz"
+
+# branch: riscv-d1-2022.07
+# source: https://github.com/smaeul/u-boot/commits/d1-wip
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,c71c588f3bb284434c6c98f456e4639cb4dd97a1)/u-boot-2022.07-rc3-nezha-c71c58-r1.tar.gz"
 
 # Default to nezha config, overridden in board config.
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="nezha"

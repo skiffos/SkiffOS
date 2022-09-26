@@ -141,7 +141,7 @@ Here are the boards/systems currently supported:
 | [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 5.19.10       | [Run in Browser] |
 | [WSL] on Windows      | [virt/wsl]            | N/A              | N/A             | Run in WSL2      |
 |-----------------------|-----------------------|------------------|-----------------|------------------|
-| [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.04 | ✔ sm-5.18-rc7   | RISC-V D1        |
+| [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.07 | ✔ sm-5.18-rc7   | RISC-V D1        |
 | [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 5.19.10       | ✔ Tested         |
 | [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 5.19.10       | ⚠ Obsolete       |
 | [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 5.19.10       | ⚠ Obsolete       |
@@ -182,7 +182,7 @@ Here are the boards/systems currently supported:
 | [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ✔ Tested         |
 | [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-5.19.1   | ✔ Tested         |
 | [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-5.19.1   | ✔ Tested         |
-| [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.04 | ✔ sm-5.18-rc7   | RISC-V D1        |
+| [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.07 | ✔ sm-5.18-rc7   | RISC-V D1        |
 | [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 5.19.10       | ✔ Tested         |
 | Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0  |                  |
