@@ -1,4 +1,4 @@
-From c266e1cddecf38a3047eda7684b1e1cae9dde1da Mon Sep 17 00:00:00 2001
+From 61bb93e9c0c3a7b3cb636c70c4ba2141130418e6 Mon Sep 17 00:00:00 2001
 From: Peter Korsgaard <peter@korsgaard.com>
 Date: Thu, 4 Nov 2021 22:32:04 +0100
 Subject: [PATCH] Makefile: HACK: Support building u-boot.toc1 for licheerv
@@ -16,10 +16,10 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  create mode 100644 licheerv.cfg
 
 diff --git a/Makefile b/Makefile
-index 42facf1cb1..c5539526b0 100644
+index 891ab387a5..8f88e1c8c3 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1122,6 +1122,15 @@ endif
+@@ -1129,6 +1129,15 @@ endif
  .binman_stamp: FORCE
  	@touch $@
  
@@ -51,5 +51,5 @@ index 0000000000..196f550b71
 +file = u-boot-nodtb.bin
 +addr = 0x4a000000
 -- 
-2.35.1
+2.37.3
 
