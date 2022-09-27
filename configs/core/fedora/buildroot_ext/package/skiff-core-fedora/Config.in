@@ -1,3 +1,11 @@
+# armv7 support for Fedora was removed as of Fedora 37.
+# riscv support is not yet available.
+config BR2_PACKAGE_SKIFF_CORE_FEDORA_SUPPORTS
+	bool
+	default y if BR2_aarch64
+	default y if BR2_i386
+	default y if BR2_x86_64
+
 config BR2_PACKAGE_SKIFF_CORE_FEDORA
 	bool "skiff-core-fedora"
 	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
@@ -9,4 +17,3 @@ config BR2_PACKAGE_SKIFF_CORE_FEDORA
 	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	help
 	  Skiff Core environment for Fedora.
-

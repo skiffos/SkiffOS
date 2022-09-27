@@ -7,7 +7,7 @@ ENV container=docker
 RUN printf 'exclude=*-firmware*' >> /etc/dnf/dnf.conf
 
 # Update packages.
-RUN dnf update -y
+RUN dnf upgrade --refresh -y
 
 # Core packages.
 RUN dnf install -y \
