@@ -4,7 +4,9 @@
 # -O3 enables all optimizations except ffast-math
 BR2_OPTIMIZE_3=y
 
-# note: additional flags disable some optimizations
-BR2_GCC_ENABLE_LTO=y
+# enable link-time optimizations where possible
+BR2_ENABLE_LTO=y
+
+# enable other compiler features
 BR2_GCC_ENABLE_GRAPHITE=y
 BR2_GCC_ENABLE_OPENMP=y
