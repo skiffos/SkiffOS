@@ -37,10 +37,11 @@ RUN dnf install -y \
 # Another option (openbox): @basic-desktop-environment
 RUN dnf install -y @xfce-desktop-environment
 
-# Remove unnecessary locales
+# Remove unnecessary locales, disable fstab
 RUN \
     mkdir -p /etc/rpm && \
     echo '%_install_langs C:en:en_US:en_US.UTF-8' > /etc/rpm/macros.image-language-conf && \
+    echo "" > /etc/fstab && \
     dnf reinstall -y glibc-common
 
 # Minimize disk size: remove unnecessary packages
@@ -57,6 +58,7 @@ COPY --from=stage1 / /
 
 RUN systemctl set-default graphical.target && \
     systemctl mask \
+      avahi-daemon.service \
       NetworkManager-dispatcher.service \
       NetworkManager-wait-online.service \
       NetworkManager.service \
@@ -65,6 +67,7 @@ RUN systemctl set-default graphical.target && \
       console-getty.service \
       firewalld.service \
       serial-getty@.service \
+      haveged.service \
       sshd.service \
       systemd-networkd-wait-online.service \
       systemd-networkd.service \
@@ -80,7 +83,7 @@ RUN \
   adduser core \
     --create-home \
     --shell /bin/bash \
-    -G audio,sudo,video,dialout,disk,adm && \
+    -G audio,sudo,video,dialout,disk,adm,systemd-journal && \
   passwd -d core && \
   echo "%sudo    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/sudo && \
   chmod 0440 /etc/sudoers.d/sudo
