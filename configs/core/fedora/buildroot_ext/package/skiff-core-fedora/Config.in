@@ -2,6 +2,7 @@
 # riscv support is not yet available.
 config BR2_PACKAGE_SKIFF_CORE_FEDORA_SUPPORTS
 	bool
+	default y if BR2_RISCV_64
 	default y if BR2_aarch64
 	default y if BR2_i386
 	default y if BR2_x86_64

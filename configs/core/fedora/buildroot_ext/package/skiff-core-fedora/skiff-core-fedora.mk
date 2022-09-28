@@ -8,10 +8,8 @@ ifeq ($(BR2_PACKAGE_SKIFF_CORE_FEDORA),y)
 ifneq ($(BR2_PACKAGE_SKIFF_CORE_FEDORA_SUPPORTS),y)
 ifeq ($(BR2_arm),y)
 $(error "Fedora: support for ARMv7 was removed in release 37.")
-else ($(BR2_riscv),y)
-$(error "Fedora: riscv architecture is not yet supported as of v37.")
 else
-$(error "Fedora: supports only arm64 and amd64 as of v37.")
+$(error "Fedora: supports arm64, amd64, and riscv as of v37.")
 endif
 endif
 endif
