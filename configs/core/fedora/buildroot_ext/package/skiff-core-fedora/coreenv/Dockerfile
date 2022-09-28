@@ -1,13 +1,23 @@
-FROM docker.io/library/fedora:37 as stage1
+# You can also import an existing Fedora image with:
+# cd ./path/to/fedora/root
+# tar -c . | docker import - skiffos/skiff-core-fedora:base
+# cd /path/to/dockerfile/dir
+# docker build -t skiffos/skiff-core-fedora --build-arg DISTRO=skiffos/skiff-core-fedora:base .
+ARG DISTRO
+FROM ${DISTRO:-docker.io/library/fedora:37} as stage1
 
 # setup environment
 ENV container=docker
 
-# Exclude linux-firmware.
-RUN printf 'exclude=*-firmware*' >> /etc/dnf/dnf.conf
+# Exclude linux-firmware and kernel-core.
+RUN (yum remove --noautoremove -y linux-firmware\* kernel-core\* kernel-devel\* kernel-modules\* || true) && \
+    printf 'exclude=*-firmware* kernel-core* kernel-devel* kernel-modules*' >> /etc/dnf/dnf.conf
 
 # Update packages.
-RUN dnf upgrade --refresh -y
+RUN dnf upgrade --refresh -y --allowerasing --skip-broken
+
+# Update packages, pass 2.
+RUN dnf upgrade -y --allowerasing --best
 
 # Core packages.
 RUN dnf install -y \
@@ -27,12 +37,18 @@ RUN dnf install -y \
 # Another option (openbox): @basic-desktop-environment
 RUN dnf install -y @xfce-desktop-environment
 
-# remove unnecessary content
+# Remove unnecessary locales
 RUN \
-  dnf remove -y linux-firmware\* && \
-  dnf autoremove -y && \
-  rm -rf /var/lib/dnf/repos /var/cache/dnf && \
-  dnf clean packages
+    mkdir -p /etc/rpm && \
+    echo '%_install_langs C:en:en_US:en_US.UTF-8' > /etc/rpm/macros.image-language-conf && \
+    dnf reinstall -y glibc-common
+
+# Minimize disk size: remove unnecessary packages
+RUN \
+    dnf remove -y texlive\* mint-\*-icons\* && \
+    dnf autoremove -y && \
+    dnf clean packages && \
+    rm -rf /var/lib/dnf/repos /var/cache/dnf /usr/lib/firmware
 
 # flatten image
 FROM scratch as stage2

@@ -58,3 +58,22 @@ You can ssh to `root` to access the SkiffOS "shim" system.
 
 Edit `/mnt/persist/skiff/core/config.yaml` to modify the mapping of users to
 containers, create more containers, or modify the bind-mounts to storage.
+
+## RISC-V Images
+
+Fedora does not yet support risc-v in the multi-architecture Docker images.
+
+The **core/fedora** package supports these architectures automatically:
+
+ - amd64 / x86_64
+ - arm64
+ - riscv64 with an imported [Nightly image]
+
+See the [quay.io] repository page for details.
+
+[Nightly image]: http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id
+[quay.io]: https://quay.io/repository/skiffos/skiff-core-fedora?tab=tags
+
+## ARMv7 (32 bit)
+
+Fedora no longer supports Armv7 as of Fedora 37.
