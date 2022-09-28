@@ -36,7 +36,7 @@ You only need to run the `format` step once. It will create the partition table.
 The `install` step will overwrite the current Skiff installation on the card,
 taking care to not touch any persistent data (from the persist partition). It's
 safe to upgrade Skiff independently from your persistent data.
- 
+
 ## Building an Image
 
 It's possible to create a .img file instead of directly flashing a SD.
@@ -62,3 +62,19 @@ dd if=licheerv.img of=/dev/sdX status=progress oflag=sync
 This is equivalent to using the format and install scripts.
 
 The persist partition will be resized to fill the available space on first boot.
+
+## Ethernet over USB
+
+The default configuration enables USB ethernet gadget support.
+
+To setup on the "host" machine:
+
+```sh
+$ ip addr add 10.0.0.2/24 dev usb0
+
+# Enabling forwarding internet traffic on behalf of the device:
+# some systems may require adjusting iptables:
+$ iptables -t nat -A POSTROUTING -s 10.0.0.1/32 -o wlan0 -j MASQUERADE
+$ iptables -A FORWARD -s 10.0.0.1 -j ACCEPT
+$ echo 1 > /proc/sys/net/ipv4/ip_forward
+```

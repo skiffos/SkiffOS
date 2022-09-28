@@ -73,9 +73,10 @@ The default configuration enables g_ether USB ethernet gadget support.
 
 To setup on the "host" machine:
 
-```sh 
+```sh
 $ ip addr add 10.0.0.2/24 dev usb0
 
+# Enabling forwarding internet traffic on behalf of the device:
 # some systems may require adjusting iptables:
 $ iptables -t nat -A POSTROUTING -s 10.0.0.1/32 -o wlan0 -j MASQUERADE
 $ iptables -A FORWARD -s 10.0.0.1 -j ACCEPT
