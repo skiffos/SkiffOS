@@ -69,6 +69,7 @@ RUN systemctl set-default graphical.target && \
       systemd-networkd-wait-online.service \
       systemd-networkd.service \
       systemd-oomd.service \
+      systemd-remount-fs.service \
       tmp.mount \
       wpa_supplicant.service
 
