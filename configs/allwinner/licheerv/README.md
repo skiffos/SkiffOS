@@ -67,14 +67,47 @@ The persist partition will be resized to fill the available space on first boot.
 
 The default configuration enables USB ethernet gadget support.
 
+The IP address of the "host" machine should be 10.0.0.1.
+
+The default IP address of the licheerv will be 10.0.0.3.
+
 To setup on the "host" machine:
 
 ```sh
-$ ip addr add 10.0.0.2/24 dev usb0
+$ ip addr add 10.0.0.1/24 dev usb0
 
 # Enabling forwarding internet traffic on behalf of the device:
 # some systems may require adjusting iptables:
-$ iptables -t nat -A POSTROUTING -s 10.0.0.1/32 -o wlan0 -j MASQUERADE
-$ iptables -A FORWARD -s 10.0.0.1 -j ACCEPT
+$ iptables -t nat -A POSTROUTING -s 10.0.0.3/32 -o wlan0 -j MASQUERADE
+$ iptables -A FORWARD -s 10.0.0.3 -j ACCEPT
 $ echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
+
+To change the IP address of the device, override the usb0.nmconnection.
+
+Create a file under the SkiffOS root:
+
+`./overrides/root_overlay/etc/NetworkManager/system-connections/usb0.nmconnection`
+
+Use the following as the contents:
+
+```
+[connection]
+id=usb
+uuid=004ae043-8866-4fa3-819a-8b5031c70c59
+type=ethernet
+interface-name=usb0
+
+[ethernet]
+
+[ipv4]
+address1=10.0.0.3/8,10.0.0.1
+dns=1.1.1.1;
+method=manual
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=disabled
+```
+
+You can then change the IP address under the `address1` field.

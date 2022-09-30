@@ -1,0 +1,16 @@
+[connection]
+id=usb
+uuid=004ae043-8866-4fa3-819a-8b5031c70c59
+type=ethernet
+interface-name=usb0
+
+[ethernet]
+
+[ipv4]
+address1=10.0.0.3/8,10.0.0.1
+dns=1.1.1.1;
+method=manual
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=disabled
