@@ -1,4 +1,4 @@
-From 9e7310be9f584315ac365045ccd2c00b46dd78e2 Mon Sep 17 00:00:00 2001
+From 51398c41420f1e488de87e11e2dd1df6abc08676 Mon Sep 17 00:00:00 2001
 From: Peter Korsgaard <peter@korsgaard.com>
 Date: Thu, 4 Nov 2021 22:32:04 +0100
 Subject: [PATCH] Makefile: HACK: Support building u-boot.toc1 for licheerv

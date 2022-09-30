@@ -4,10 +4,6 @@ BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 # BR2_TARGET_UBOOT_LATEST_VERSION=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 
-# branch: riscv-d1-2022.04
-# source: https://github.com/smaeul/u-boot/commits/d1-wip
-# BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,7446a47204fd8923b99ced0091667979c4fd27fa)/u-boot-2022.04-nezha-7446a4-r1.tar.gz"
-
 # branch: riscv-d1-2022.07
 # tag: d1-2022-05-26
 # source: https://github.com/smaeul/u-boot/commits/d1-wip

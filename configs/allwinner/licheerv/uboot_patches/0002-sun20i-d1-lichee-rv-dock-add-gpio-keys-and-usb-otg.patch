@@ -1,0 +1,65 @@
+From f549e28cabb43b3b7f4abb50a01735c048efd716 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@paral.in>
+Date: Fri, 30 Sep 2022 15:50:56 -0700
+Subject: [PATCH] sun20i-d1-lichee-rv-dock: add gpio-keys and usb otg
+
+Signed-off-by: Christian Stewart <christian@paral.in>
+---
+ arch/riscv/dts/sun20i-d1-lichee-rv-dock.dts | 30 +++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dts b/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dts
+index 0b0f356e2e..8fd59d1806 100644
+--- a/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dts
++++ b/arch/riscv/dts/sun20i-d1-lichee-rv-dock.dts
+@@ -56,6 +56,23 @@
+ 		compatible = "mmc-pwrseq-simple";
+ 		reset-gpios = <&gpio 6 12 GPIO_ACTIVE_LOW>; /* PG12 */
+ 	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++		autorepeat;
++
++		up {
++			label = "GPIO Key UP";
++			linux,code = <103>;
++			gpios = <&gpio 1 2 GPIO_ACTIVE_LOW>;
++		};
++
++		down {
++			label = "GPIO Key DOWN";
++			linux,code = <108>;
++			gpios = <&gpio 1 10 GPIO_ACTIVE_LOW>;
++		};
++	};
+ };
+ 
+ &codec {
+@@ -150,6 +167,14 @@
+ 	status = "okay";
+ };
+ 
++&ohci0 {
++	status = "disabled";
++};
++
++&ehci0 {
++	status = "disabled";
++};
++
+ &ohci1 {
+ 	status = "okay";
+ };
+@@ -163,3 +188,8 @@
+ &usbphy {
+ 	usb1_vbus-supply = <&reg_vcc>;
+ };
++
++&usb_otg {
++	dr_mode = "peripheral";
++	status = "okay";
++};
+-- 
+2.37.3
+
