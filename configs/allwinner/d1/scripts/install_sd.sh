@@ -75,16 +75,6 @@ rsync -rv \
       ./skiff-release ./rootfs.squashfs \
       ${BOOT_DIR}/
 
-if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
-    PERSIST_SWAP=${PERSIST_DIR}/primary.swap
-    if [ ! -f ${PERSIST_SWAP} ]; then
-        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
-        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
-    else
-        echo "Swapfile already exists, skipping allocation step."
-    fi
-fi
-
 enable_silent() {
     if [ -f "${IMAGES_DIR}/.disable-serial-console" ]; then
         echo "Disabling serial console and enabling silent mode..."
@@ -96,6 +86,16 @@ echo "Compiling boot.txt..."
 cp ${boot_conf_root}/resources/boot-scripts/boot.txt ${BOOT_DIR}/boot.txt
 enable_silent ${BOOT_DIR}/boot.txt
 mkimage -A riscv -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${BOOT_DIR}/boot.scr
-cd -
 
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${PERSIST_DIR}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    else
+        echo "Swapfile already exists, skipping allocation step."
+    fi
+fi
+
+cd -
 cleanup
