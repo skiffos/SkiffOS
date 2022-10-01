@@ -1,16 +1,16 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# branch: orange-pi-5.18
-# megous kernel for pinephone, pinebook, orangepi
-# upstream: https://github.com/megous/linux/commits/orange-pi-5.18
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,057d13235bb921058fdb3009838119c3295bf39b)/linux-megous-5.18.12-r1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
-
 # branch: orange-pi-5.19
 # megous kernel for pinephone, pinebook, orangepi
 # upstream: https://github.com/megous/linux/commits/orange-pi-5.19
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,b8fd52d433a566c54a58fcec65fb479efd15bff2)/linux-megous-5.19.8-r1.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,b8fd52d433a566c54a58fcec65fb479efd15bff2)/linux-megous-5.19.8-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
+
+# branch: orange-pi-6.0
+# megous kernel for pinephone, pinebook, orangepi
+# upstream: https://github.com/megous/linux/commits/orange-pi-6.0
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,6ada3caab0b37968f1257b3ea75e5b0466a77162)/linux-megous-6.0-rc4-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
