@@ -1,0 +1,3 @@
+# 85-nm-unmanaged.rules - included with udev - disables managing usb gadgets.
+# Re-enable managing USB gadgets with NetworkManager.
+ENV{DEVTYPE}=="gadget", ENV{NM_UNMANAGED}="0"
