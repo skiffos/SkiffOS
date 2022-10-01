@@ -71,7 +71,40 @@ The IP address of the "host" machine should be 10.0.0.1.
 
 The default IP address of the licheerv will be 10.0.0.3.
 
-To setup on the "host" machine:
+### Host machine: setting up with NetworkManager
+
+To setup on the "host" machine with NetworkManager:
+
+ 1. Create a new connection configuration in NetworkManager.
+ 2. Set the interface to the usb interface (usually usb0).
+ 3. Set the ipv4 mode to Shared.
+ 4. Set the ipv4 IP address to 10.0.0.1.
+ 5. Save & exit.
+
+This will enable connection sharing with the licheerv over USB.
+
+The equivalent nmconnection file for the above:
+
+```
+[connection]
+id=usbgadget
+uuid=5349d6bb-6ee2-4c6d-8b70-4a9ebfa947b2
+type=ethernet
+interface-name=usb0
+
+[ipv4]
+address1=10.0.0.1/8
+may-fail=false
+method=shared
+never-default=true
+
+[ipv6]
+method=disabled
+```
+
+### Host machine: setting up with iptables
+
+To setup on the "host" machine without using NetworkManager:
 
 ```sh
 # add an ip address to usb0
@@ -85,6 +118,8 @@ iptables -t nat -A POSTROUTING -s 10.0.0.3/32 -o ${OUTGOING} -j MASQUERADE
 iptables -A FORWARD -s 10.0.0.3 -j ACCEPT
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
+
+### Changing device IP address
 
 To change the IP address of the device, override the usb0.nmconnection.
 
