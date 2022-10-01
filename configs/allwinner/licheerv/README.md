@@ -74,13 +74,16 @@ The default IP address of the licheerv will be 10.0.0.3.
 To setup on the "host" machine:
 
 ```sh
-$ ip addr add 10.0.0.1/24 dev usb0
+# add an ip address to usb0
+ip addr add 10.0.0.1/24 dev usb0
 
 # Enabling forwarding internet traffic on behalf of the device:
-# some systems may require adjusting iptables:
-$ iptables -t nat -A POSTROUTING -s 10.0.0.3/32 -o wlan0 -j MASQUERADE
-$ iptables -A FORWARD -s 10.0.0.3 -j ACCEPT
-$ echo 1 > /proc/sys/net/ipv4/ip_forward
+# You can change OUTGOING to your outgoing interface (i.e. wlan0)
+# OUTGOING="wlan0"
+OUTGOING=$(ip route get 1.1.1.1 | cut -d" " -f5 | head -n1)
+iptables -t nat -A POSTROUTING -s 10.0.0.3/32 -o ${OUTGOING} -j MASQUERADE
+iptables -A FORWARD -s 10.0.0.3 -j ACCEPT
+echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
 
 To change the IP address of the device, override the usb0.nmconnection.
