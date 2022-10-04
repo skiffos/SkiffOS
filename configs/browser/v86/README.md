@@ -1,18 +1,21 @@
 # V86 Emulator
 
-**Runs SkiffOS in the web browser with the [V86 Emulator].**
+**Runs [SkiffOS in the web browser] with the [V86 Emulator].**
 
+[SkiffOS in the web browser]: https://copy.sh/v86/?profile=copy/skiffos
 [V86 Emulator]: https://github.com/copy/v86
 
 ![](../../../resources/images/browser-v86-screenshot.png)
 
 ## Demos
 
-A [pre-built demo image] is available.
+[Run the pre-built demo] by clicking the link!
 
-[pre-built demo image]: https://drive.google.com/file/d/1UFoUEt1CQrD8B4800ii9yehff68h9IPG/view?usp=sharing
+[Run the pre-build demo]: https://copy.sh/v86/?profile=copy/skiffos
 
-Load the ISO into the v86 emulator:
+You can also download the [demo image] and run it yourself:
+
+[demo image]: https://drive.google.com/file/d/1UFoUEt1CQrD8B4800ii9yehff68h9IPG/view?usp=sharing
 
  1. Open https://copy.sh/v86/
  2. Scroll down to "Setup."
