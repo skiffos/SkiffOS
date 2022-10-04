@@ -1,3 +1,4 @@
 # BR2_TARGET_UBOOT is not set
 # BR2_TARGET_GRUB2 is not set
+# BR2_TARGET_REFIND is not set
 
