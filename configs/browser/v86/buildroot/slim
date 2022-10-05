@@ -45,3 +45,7 @@
 # BR2_PACKAGE_WPA_SUPPLICANT is not set
 
 BR2_PACKAGE_DROPBEAR=y
+
+# nano + BusyBox Vi are still enabled.
+# saves ~2MB
+# BR2_PACKAGE_VIM is not set
