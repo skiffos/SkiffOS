@@ -11,7 +11,7 @@
 
 [Run the pre-built demo] by clicking the link!
 
-[Run the pre-build demo]: https://copy.sh/v86/?profile=copy/skiffos
+[Run the pre-built demo]: https://copy.sh/v86/?profile=copy/skiffos
 
 You can also download the [demo image] and run it yourself:
 
