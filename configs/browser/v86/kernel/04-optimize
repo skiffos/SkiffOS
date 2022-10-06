@@ -1,2 +1,3 @@
 # Enable page poisioning to release unused pages.
 CONFIG_PAGE_POISONING=y
+CONFIG_PAGE_POISONING_ZERO=y
