@@ -472,8 +472,32 @@ The virt/ packages are designed for running Skiff in various virtualized environ
 Here is a minimal working example of running Skiff in Qemu:
 
 ```sh
-$ SKIFF_CONFIG=virt/qemu make configure compile
+$ SKIFF_CONFIG=virt/qemu,util/rootlogin make configure compile
 $ make cmd/virt/qemu/run
+```
+
+The `util/rootlogin` package is used here to enable logging in as "root" on the
+qemu debug console shown when running "cmd/virt/qemu/run".
+
+Qemu can emulate other architectures, for example, riscv64:
+
+```
+export SKIFF_WORKSPACE=qemu
+export SKIFF_CONFIG=virt/qemu,core/gentoo,util/rootlogin
+mkdir -p ./overrides/workspaces/qemu/buildroot
+echo "BR2_riscv=y" > ./overrides/workspaces/qemu/buildroot/arch
+make compile
+```
+
+Most Buildroot-supported architectures can be selected & emulated.
+
+The parameters for running the VM can also be adjusted:
+
+```
+export ROOTFS_MAX_SIZE=120G
+export QEMU_MEMORY=8G
+export QEMU_CPUS=8
+make cmd/virt/qemu/run
 ```
 
 ### Docker
