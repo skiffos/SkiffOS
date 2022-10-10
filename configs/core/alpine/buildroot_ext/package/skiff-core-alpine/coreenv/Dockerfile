@@ -7,6 +7,7 @@ RUN apk add --no-cache \
     ca-certificates \
     openrc \
     sudo \
+    neofetch \
     bash
 RUN rm /var/cache/apk/* || true
 
