@@ -1,3 +1,17 @@
-# Enable page poisioning to release unused pages.
-CONFIG_PAGE_POISONING=y
-CONFIG_PAGE_POISONING_ZERO=y
+CONFIG_EXPERT=y
+
+# Fill pages with zeros after freeing to release v86 memory.
+CONFIG_INIT_ON_FREE_DEFAULT_ON=y
+# CONFIG_PAGE_POISONING is not set
+
+# use maximum available cpu speed
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+
+# disable N/A security features
+# note: the v86 emulator should not be considered "secure"
+# CONFIG_SECCOMP is not set
+# CONFIG_SECURITY is not set
+# CONFIG_SECURITY_APPARMOR is not set
+# CONFIG_SPECULATION_MITIGATIONS is not set
+# CONFIG_STACKPROTECTOR is not set
+# CONFIG_STACKPROTECTOR_STRONG is not set
