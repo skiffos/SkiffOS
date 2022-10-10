@@ -486,6 +486,9 @@ export SKIFF_WORKSPACE=qemu
 export SKIFF_CONFIG=virt/qemu,core/gentoo,util/rootlogin
 mkdir -p ./overrides/workspaces/qemu/buildroot
 echo "BR2_riscv=y" > ./overrides/workspaces/qemu/buildroot/arch
+echo "BR2_PACKAGE_HOST_GENEXT2FS=y
+BR2_PACKAGE_HOST_GENIMAGE=y
+BR2_PACKAGE_HOST_E2FSPROGS=y" > ./overrides/workspaces/qemu/buildroot/genimage
 make compile
 ```
 
