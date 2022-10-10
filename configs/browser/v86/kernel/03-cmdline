@@ -1,2 +1,2 @@
 CONFIG_CMDLINE_BOOL=y
-CONFIG_CMDLINE="tsc=reliable mitigations=off random.trust_cpu=on"
+CONFIG_CMDLINE="apm=off vga=0x344 video=vesafb:ypan,vremap:8 mitigations=off audit=0 init_on_free=on tsc=reliable random.trust_cpu=on nowatchdog noapic nomce net.ifnames=0 biosdevname=0"
