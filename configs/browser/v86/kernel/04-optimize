@@ -21,5 +21,19 @@ CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
 # CONFIG_CPU_ISOLATION is not set
 # CONFIG_SCHED_CLUSTER is not set
 
+# v86 does not support dmi
 # CONFIG_DMI is not set
+
+# remove unnecessary cpu types
+CONFIG_X86_GENERIC=y
+CONFIG_PROCESSOR_SELECT=y
++# CONFIG_CPU_SUP_CYRIX_32 is not set
++# CONFIG_CPU_SUP_HYGON is not set
++# CONFIG_CPU_SUP_CENTAUR is not set
++# CONFIG_CPU_SUP_TRANSMETA_32 is not set
++# CONFIG_CPU_SUP_UMC_32 is not set
++# CONFIG_CPU_SUP_ZHAOXIN is not set
++# CONFIG_CPU_SUP_VORTEX_32 is not set
+
+# remove some debug symbols
 # CONFIG_KALLSYMS_ALL is not set
