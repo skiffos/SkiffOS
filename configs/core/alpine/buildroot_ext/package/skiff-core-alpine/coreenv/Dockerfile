@@ -10,6 +10,8 @@ RUN apk add --no-cache \
     bash
 RUN rm /var/cache/apk/* || true
 
+# disable tty1
+RUN sed -i -e "s/^tty1:/#tty1:/g" /etc/inittab
 
 # flatten the image to one layer
 # RUN rm /var/cache/apk/* || true
