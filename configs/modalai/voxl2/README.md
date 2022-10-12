@@ -89,7 +89,13 @@ The vendor-provided system image can be imported to a skiff-core container. The
 drivers provided in the container will then provide all proprietary features:
 
 ```sh
+# Copy the modalai files to the device.
+# Replace "root@voxl2" with your voxl2 ip.
+rsync --progress voxl2_platform_1.3.1-0.8.tar.gz root@voxl2:/mnt/persist/
+
 # Extract the modalai files.
+ssh root@voxl2
+cd /mnt/persist
 gzip -c -d voxl2_platform_1.3.1-0.8.tar.gz | tar -xf-
 cd ./voxl2_platform_1.3.1-0.8
 cd ./system-image
@@ -118,8 +124,21 @@ docker build -f Dockerfile.minimize -t skiffos/skiff-core-voxl2:latest .
 docker rm -f core
 systemctl restart skiff-core
 
-# You can delete the source files now.
 # The Docker image is called skiffos/skiff-core-voxl2:latest
+
+# Installing the voxl sdk:
+su - core
+sudo bash
+cd /mnt/persist/
+cd ./voxl2_platform_1.3.1-0.8/voxl-sdk
+dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+echo "deb [trusted=yes] file:/mnt/persist/voxl-sdk ./" > /etc/apt/sources.list.d/local.list
+apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/local.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
+
+# install voxl-suite
+apt-get install -y -o Dpkg::Options::="--force-overwrite" voxl-suite
+
+# Done installing.
 ```
 
 # License Acknowledgment
