@@ -72,14 +72,16 @@ RUN \
   mkdir -p /home/core/ && \
   chown core:core /home/core && \
   passwd -d core && \
-  echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+  echo "core    ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/core && \
+  chmod 0440 /etc/sudoers.d/core
 
 RUN touch /etc/ssh/sshd_not_to_be_run && \
     rm /etc/systemd/system/sshd.service && \
-    systemctl set-default graphical.target && \
+    systemctl set-default multi-user.target && \
     systemctl mask tmp.mount persist.mount systemd-modules-load && \
     systemctl mask NetworkManager wpa_supplicant sshd haveged && \
-    systemctl mask dhcpd systemd-timesyncd firewalld snapd
+    systemctl mask dhcpd systemd-timesyncd firewalld snapd && \
+    systemctl mask ssh ab-updater dnsmasq wpa_supplicant
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
