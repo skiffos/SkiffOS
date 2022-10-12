@@ -43,8 +43,9 @@ RUN \
   apt-get update && \
   apt-get dist-upgrade -y && \
   apt-get install -y  \
-  -o "Dpkg::Options::=--force-confdef"  \
-  -o "Dpkg::Options::=--force-confnew"  \
+    -o "Dpkg::Options::=--force-confdef"   \
+    -o "Dpkg::Options::=--force-confnew"   \
+    -o "Dpkg::Options::=--force-overwrite" \
     multiarch-support \
     qrb5165-dfs-server \
     qrb5165-imu-server \
