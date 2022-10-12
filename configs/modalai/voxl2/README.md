@@ -132,7 +132,7 @@ sudo bash
 cd /mnt/persist/
 cd ./voxl2_platform_1.3.1-0.8/voxl-sdk
 dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
-echo "deb [trusted=yes] file:/mnt/persist/voxl-sdk ./" > /etc/apt/sources.list.d/local.list
+echo "deb [trusted=yes] file:$(pwd) ./" > /etc/apt/sources.list.d/local.list
 apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/local.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
 
 # install voxl-suite
