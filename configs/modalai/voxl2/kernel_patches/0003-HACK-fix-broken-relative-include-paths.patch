@@ -1,4 +1,4 @@
-From 904bf99b70a9c30f31b070b5268c649b140f7078 Mon Sep 17 00:00:00 2001
+From 15ea50cf9f367bbdf0e016eb93f033dabea185b8 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Tue, 17 May 2022 04:23:38 -0700
 Subject: [PATCH] HACK: fix broken relative include paths
@@ -60,7 +60,7 @@ index 770451faadf2..e8b10af0e9d1 100644
  
  /* Forward declarations */
 diff --git a/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h b/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
-index def8be55bc8b..74f4eff076c3 100644
+index 78103347ff8b..1300e1275921 100644
 --- a/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
 +++ b/techpack/camera/drivers/cam_sensor_module/cam_sensor_io/cam_sensor_i2c.h
 @@ -9,7 +9,7 @@
@@ -101,5 +101,5 @@ index d847920c99c5..7094d83b0c91 100644
 +#define TRACE_INCLUDE_PATH ./techpack/display/pll
  #include <trace/define_trace.h>
 -- 
-2.35.1
+2.38.0
 

@@ -1,4 +1,4 @@
-From 61df4ca247256a4738ad657f1a5cc49a6d395b40 Mon Sep 17 00:00:00 2001
+From 6a56ab8bbccec7907a8c9ebf1bb0b5e8272641d3 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 14 May 2022 21:20:45 -0700
 Subject: [PATCH] makefile: remove gcc-wrapper script
@@ -32,5 +32,5 @@ index 7fe1d5363ace..0e34fd39f037 100644
  		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
  NOSTDINC_FLAGS  =
 -- 
-2.35.1
+2.38.0
 

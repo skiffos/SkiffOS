@@ -1,4 +1,4 @@
-From 9a876374a59ef58e0bec84f73690dec5195a0f1b Mon Sep 17 00:00:00 2001
+From c7e22f46833c76634fc69b27b3e93322c803fdc7 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 14 May 2022 21:21:08 -0700
 Subject: [PATCH] makefile: remove wformat errors
@@ -21,5 +21,5 @@ index 0e34fd39f037..2c1315b81caf 100644
  		   -std=gnu89
  KBUILD_CPPFLAGS := -D__KERNEL__
 -- 
-2.35.1
+2.38.0
 
