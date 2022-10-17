@@ -148,9 +148,9 @@ Here are the boards/systems currently supported:
 | [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 6.0.2         |                  |
 | [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 6.0.2         | ⚠ Obsolete       |
 | [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 6.0.2         | ✔ Tested         |
-| [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
-| [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
-| [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.109-ti   |                  |
+| [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.140-ti   |                  |
+| [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.140-ti   |                  |
+| [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.140-ti   |                  |
 | [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 6.0.2         | ✔ Tested         |
 | [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125  |                  |
