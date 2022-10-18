@@ -2,9 +2,6 @@
 
 ## Introduction
 
-[![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
-
 [SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
 ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
 [Apple MacBook]), [Phones], [Cloud VMs], and even [Web Browsers]. It is:
@@ -37,92 +34,6 @@ updates across multiple hardware combinations.
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 [Web Browsers]: https://copy.sh/v86/?profile=copy/skiffos
 [SkiffOS]: ./resources/paper.pdf
-
-## Getting started
-
-[![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
-
-[Buildroot dependencies] must be installed as a prerequisite.
-
-[Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
-
-This example uses `pi/4` for the Raspberry Pi 4, see [Supported Systems].
-
-[Supported Systems]: #supported-systems
-
-[Create a SSH key] on your development machine. Add the public key to your build
-with `cp ~/.ssh/*.pub ./overrides/root_overlay/etc/skiff/authorized_keys`. This
-will be needed to enable SSH access.
-
-[Create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
-
-```sh
-$ make                             # lists all available options
-$ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
-$ export SKIFF_CONFIG=pi/4,skiff/core
-$ make configure                   # configure the system
-$ make compile                     # build the system
-```
-
-After you run `make configure` your `SKIFF_CONFIG` selection will be saved. The
-build can be interrupted and later resumed with `make compile`.
-
-`SKIFF_WORKSPACE` defaults to `default` and is used to compile multiple
-`SKIFF_CONFIG` simultaneously.
-
-There are many other utility commands made available by Buildroot, which can be
-listed using `make br/help`, some examples:
-
-```sh
-$ make br/menuconfig # explore Buildroot config menu
-$ make br/sdk        # build relocatable SDK for target
-$ make br/graph-size # graph the target packages sizes
-```
-
-There are other [application packages] available i.e. `apps/podman`.
-
-[application packages]: ./configs/apps
-
-### Flashing the SD Card
-
-Once the build is complete, it's time to flash the system to a SD card. You will
-need to switch to `sudo bash` for this on most systems.
-
-```sh
-$ sudo bash             # switch to root
-$ blkid                 # look for your SD card's device file
-$ export PI_SD=/dev/sdz # make sure this is right!
-$ make cmd/pi/common/format  # tell skiff to format the device
-$ make cmd/pi/common/install # tell skiff to install the os
-```
-
-The device needs to be formatted only one time, after which, the install command
-can be used to update the SkiffOS images without clearing the persistent data.
-The persist partition is not touched in this step, so anything you save there,
-including all Docker containers and system configuration, will not be modified.
-
-### Connecting
-
-Connect using SSH to `root@my-ip-address` to access the SkiffOS system, and
-connect to `core@my-ip-address` to access the "Core" system container. See the
-section above about SSH public keys if you get a password prompt.
-
-The mapping between users and containers can be edited in the
-`/mnt/persist/skiff/core/config.yaml` file.
-
-### OTA Upgrade
-
-The system can then be upgraded over-the-air (OTA) using the rsync script:
-
-```sh
-$ ./scripts/push_image.bash root@my-ip-address
-```
-
-The SkiffOS upgrade (or downgrade) will take effect on next reboot.
-
-### Podman
-
-Use the `apps/podman` configuration package to enable Podman support.
 
 ## Supported Systems
 
@@ -300,10 +211,95 @@ SkiffOS, please **[open an issue].**
 
 [open an issue]: https://github.com/skiffos/SkiffOS/issues/new
 
+## Getting started
+
+[![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
+
+[Buildroot dependencies] must be installed as a prerequisite.
+
+[Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
+
+This example uses `pi/4` for the Raspberry Pi 4, see [Supported Systems].
+
+[Supported Systems]: #supported-systems
+
+[Create a SSH key] on your development machine. Add the public key to your build
+with `cp ~/.ssh/*.pub ./overrides/root_overlay/etc/skiff/authorized_keys`. This
+will be needed to enable SSH access.
+
+[Create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
+
+```sh
+$ make                             # lists all available options
+$ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
+$ export SKIFF_CONFIG=pi/4,skiff/core
+$ make configure                   # configure the system
+$ make compile                     # build the system
+```
+
+After you run `make configure` your `SKIFF_CONFIG` selection will be saved. The
+build can be interrupted and later resumed with `make compile`.
+
+`SKIFF_WORKSPACE` defaults to `default` and is used to compile multiple
+`SKIFF_CONFIG` simultaneously.
+
+There are many other utility commands made available by Buildroot, which can be
+listed using `make br/help`, some examples:
+
+```sh
+$ make br/menuconfig # explore Buildroot config menu
+$ make br/sdk        # build relocatable SDK for target
+$ make br/graph-size # graph the target packages sizes
+```
+
+There are other [application packages] available i.e. `apps/podman`.
+
+[application packages]: ./configs/apps
+
+### Flashing the SD Card
+
+Once the build is complete, it's time to flash the system to a SD card. You will
+need to switch to `sudo bash` for this on most systems.
+
+```sh
+$ sudo bash             # switch to root
+$ blkid                 # look for your SD card's device file
+$ export PI_SD=/dev/sdz # make sure this is right!
+$ make cmd/pi/common/format  # tell skiff to format the device
+$ make cmd/pi/common/install # tell skiff to install the os
+```
+
+The device needs to be formatted only one time, after which, the install command
+can be used to update the SkiffOS images without clearing the persistent data.
+The persist partition is not touched in this step, so anything you save there,
+including all Docker containers and system configuration, will not be modified.
+
+### Connecting
+
+Connect using SSH to `root@my-ip-address` to access the SkiffOS system, and
+connect to `core@my-ip-address` to access the "Core" system container. See the
+section above about SSH public keys if you get a password prompt.
+
+The mapping between users and containers can be edited in the
+`/mnt/persist/skiff/core/config.yaml` file.
+
+### OTA Upgrade
+
+The system can then be upgraded over-the-air (OTA) using the rsync script:
+
+```sh
+$ ./scripts/push_image.bash root@my-ip-address
+```
+
+The SkiffOS upgrade (or downgrade) will take effect on next reboot.
+
+### Podman
+
+Use the `apps/podman` configuration package to enable Podman support.
+
 ## SkiffOS Core
 
-[![View
-Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
+[![View Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
 
 SkiffOS Core runs Linux distributions in privileged containers:
 
@@ -523,7 +519,7 @@ $ make cmd/virt/docker/exec
 $ docker exec -it skiff sh
 ```
 
-Alternatively, run the latest demo release on Docker Hub:
+Or run the latest demo release on Docker Hub:
 
 ```
 docker run -t -d --name=skiff \
@@ -538,7 +534,7 @@ docker run -t -d --name=skiff \
 
 ## Configuration
 
-SkiffOS can be configured dynamically with files in the "persist" partition.
+SkiffOS can also be configured with files in the "persist" partition.
 
 ### Hostname
 
@@ -635,13 +631,18 @@ docker rm -f core
 systemctl restart skiff-core
 ```
 
+## Whitepaper
+
+[![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
+
+The [SkiffOS Whitepaper] overviews the project motivation and goals.
+
+[SkiffOS Whitepaper]: https://arxiv.org/pdf/2104.00048
+
 ## Support
 
-SkiffOS is built & supported by [Aperture Robotics], LLC.
-
-[Aperture Robotics]: https://github.com/aperturerobotics
-
-Community contributions and discussion are welcomed!
+Community contributions are welcomed!
 
 Please file a [GitHub issue] and/or [Join Discord] with any questions.
 
