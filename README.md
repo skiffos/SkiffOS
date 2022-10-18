@@ -1,48 +1,52 @@
-![](./resources/images/skiff.png)
+[![View Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
 
 ## Introduction
 
-[SkiffOS] is a lightweight operating system for [any Linux-compatible computer],
-ranging from [RPi], [Odroid], [NVIDIA Jetson], to [Desktop PCs], Laptops (i.e.
-[Apple MacBook]), [Phones], [Cloud VMs], and even [Web Browsers]. It is:
+[![Web Browser Demo](https://img.shields.io/badge/demo-try%20in%20browser-blue?style=for-the-badge&logo=firefoxbrowser)](https://copy.sh/v86/?profile=copy/skiffos)
 
- - **Familiar**: uses simple Makefile and KConfig language for configuration.
- - **Flexible**: supports any OS distribution inside containers w/ ssh drop-in.
- - **Portable**: replicate the exact same system across any hardware or arch.
- - **Reliable**: read-only minimal in-RAM host system boots reliably every time.
- - **Reproducible**: offline and deterministic builds for reproducible behavior.
+[SkiffOS] is a config package system for the [Buildroot] OS cross-compiler.
 
-SkiffOS adds a configuration package system to the [Buildroot] cross-compiler,
-which makes it easy to re-target applications to new hardware. Packages are
-merged together as specified in the `SKIFF_CONFIG` comma-separated environment
-variable. For example: `SKIFF_CONFIG=pi/4,core/gentoo` will run Gentoo on a
-Raspberry Pi 4.
+ - **Run any distribution**: decouples hardware support from privileged containers.
+ - **Portable**: re-targets configurations to any supported device.
+ - **Reliable**: read-only minimal host system for unbreakable boot-ups.
+ - **Reproducible**: offline builds, pinned package versions, source-controlled custom configuration.
 
-Most Linux devices have a unique set of requirements for kernel, firmware, and
-hardware support packages. The SkiffOS host OS separates hardware-specific
-support from the containerized user environments, simplifying management of
-updates across multiple hardware combinations.
+Configuration packages are merged together to configure the system:
+
+ - `SKIFF_CONFIG=pi/4,core/debian` - run Debian desktop on a Raspberry Pi 4.
+ - `SKIFF_CONFIG=odroid/xu4,core/fedora` - run Fedora desktop on a Odroid XU4.
+ - `SKIFF_CONFIG=virt/qemu,custom/config` - run a custom config in a Qemu VM.
+
+There is a [project template] you can use for source-controlled customizations.
+
+Linux devices have varying requirements for kernel, firmware, and other hardware
+support packages. SkiffOS decouples this support from the containerized
+environments. The containers are portable across devices with the same CPU
+architecture, while ordinary OS images (Board Support Packages) are not.
+
+Supports [any Linux-compatible computer], ranging from [RPi], [Odroid], [NVIDIA
+Jetson], to [Desktop PCs], Laptops (i.e. [Apple MacBook]), [Phones], [Cloud
+VMs], and even [Web Browsers].
 
 [any Linux-compatible computer]: https://linux-hardware.org/index.php?d=SkiffOS
 [Apple MacBook]: https://linux-hardware.org/?probe=6dc90bec41
 [Buildroot]: https://buildroot.org
 [Cloud VMs]: https://imgur.com/a/PXCYnjT
 [Desktop PCs]: https://linux-hardware.org/?probe=267ab5de51
+[project template]: https://github.com/skiffos/skiff-ext-example
 [NVIDIA Jetson]: https://linux-hardware.org/?probe=184d1b1c05
 [Odroid]: https://linux-hardware.org/?probe=927be03a24
 [Phones]: https://linux-hardware.org/?probe=329e6f9308
 [RPi]: https://linux-hardware.org/?probe=c3d8362f28
 [Web Browsers]: https://copy.sh/v86/?profile=copy/skiffos
+[Web Browser Demo]: https://copy.sh/v86/?profile=copy/skiffos
 [SkiffOS]: ./resources/paper.pdf
 
 ## Supported Systems
 
-![CI](https://github.com/skiffos/SkiffOS/workflows/CI/badge.svg?branch=master)
-
-SkiffOS is based on Buildroot, which can compile operating systems for any
-Linux-compatible machine.
-
-Here are the boards/systems currently supported:
+The Buildroot OS cross-compiler can target any Linux-compatible device or
+virtual machine. These system configuration packages are available in the
+main SkiffOS repository:
 
 | **Board**             | **Config Package**    | **Bootloader**   | **Kernel**      | **Notes**        |
 |-----------------------|-----------------------|------------------|-----------------|------------------|
@@ -297,17 +301,15 @@ The SkiffOS upgrade (or downgrade) will take effect on next reboot.
 
 Use the `apps/podman` configuration package to enable Podman support.
 
-## SkiffOS Core
-
-[![View Demo](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe.svg)](https://asciinema.org/a/KFjeljuEhMBfmm5klUrkmflHe)
+## Running any distro in containers
 
 SkiffOS Core runs Linux distributions in privileged containers:
 
- - [YAML configuration] for mapping users to containers
- - systemd and/or other init systems operate as PID 1 inside the container
- - container images can be pulled or compiled from scratch
+ - [YAML configuration] format for mapping containers, images, and users.
+ - systemd and/or other init processes operate as PID 1 inside the container.
+ - images can be pulled or compiled from scratch on first boot.
 
-[YAML configuration]: https://github.com/skiffos/skiff-core#configuration
+[YAML configuration]: https://github.com/skiffos/SkiffOS/blob/2022.08.1/configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml#L11
 
 Adding **skiff/core** to `SKIFF_CONFIG` enables Debian Sid with an XFCE desktop.
 
@@ -354,7 +356,7 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [pine64/phone]: ./configs/pine64/phone
 [jetson/common]: ./configs/jetson/common
 
-### Customize Config
+### Customize container config
 
 The default configuration creates a user named "core" mapped into a container,
 but this can be adjusted with the `skiff-core.yaml` configuration file:
@@ -371,16 +373,18 @@ users:
     [...]
 ```
 
-The [full example config] is in the skiff/core package.
+The provided [example configs] for the above supported distros are a good
+starting point for further customization.
+
+[example configs]: https://github.com/skiffos/SkiffOS/blob/2022.08.1/configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml#L11
 
 To customize a running system, edit `/mnt/persist/skiff/core/config.yaml` and
 run `systemctl restart skiff-core` to apply. You may need to delete existing
 containers and restart skiff-core to re-create them after changing their config.
 
-The config format is defined in [the skiff-core repo].
+The configuration format and skiff-core source is in [the skiff-core repo].
 
 [the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
-[full example config]: ./configs/skiff/core/buildroot_ext/package/skiff-core-defconfig/coreenv-defconfig.yaml
 
 ## Configuration Packages
 
@@ -635,6 +639,7 @@ systemctl restart skiff-core
 
 [![arXiv](https://img.shields.io/badge/arXiv-2104.00048-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2104.00048)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4629835.svg)](https://doi.org/10.5281/zenodo.4629835)
+[![Paper Cites](https://img.shields.io/badge/Paper-Citations-darkgreen?style=flat-square&logo=semanticscholar)](https://www.semanticscholar.org/paper/SkiffOS%3A-Minimal-Cross-compiled-Linux-for-Embedded-Stewart/9319544182705c73b5e2ccdd98f9c7cb3b984039?sort=pub-date#citing-papers)
 
 The [SkiffOS Whitepaper] overviews the project motivation and goals.
 
