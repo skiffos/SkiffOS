@@ -6,7 +6,7 @@
 
 [SkiffOS] is a config package system for the [Buildroot] OS cross-compiler.
 
- - **Run any distribution**: decouples hardware support from privileged containers.
+ - **Run any distribution anywhere**: decouples hardware support from the user applications.
  - **Portable**: re-targets configurations to any supported device.
  - **Reliable**: read-only minimal host system for unbreakable boot-ups.
  - **Reproducible**: offline builds, pinned package versions, source-controlled custom configuration.
