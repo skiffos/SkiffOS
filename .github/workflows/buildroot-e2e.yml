@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Update the submodule
         run: |
           cd $GITHUB_WORKSPACE
           git submodule update --init --recursive
 
       - name: Cache build cache and downloads
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-buildroot
         with:
@@ -72,7 +72,7 @@ jobs:
           docker save skiffos/skiffos:latest > ./workflow-artifacts/docker-image.tar
 
       # Upload docker image
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
