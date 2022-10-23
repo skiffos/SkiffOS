@@ -51,6 +51,11 @@ jobs:
           cd $GITHUB_WORKSPACE
           make help
 
+      - name: Enable using a pre-built toolchain
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "BR2_TOOLCHAIN_EXTERNAL=y" > ./overrides/buildroot/toolchain
+
       - name: Build a Docker container image
         run: |
           cd $GITHUB_WORKSPACE
@@ -68,7 +73,7 @@ jobs:
 
       # Upload docker image
       - uses: actions/upload-artifact@v2
-        with:	
+        with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
 

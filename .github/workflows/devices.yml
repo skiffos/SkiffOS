@@ -33,26 +33,45 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           git submodule update --init --recursive
+
+      - name: Cache build cache and downloads
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-buildroot
+        with:
+          path: ~/br-cache/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Clear caches if necessary
         run: |
           # necessary to save space
-          echo "Cache dir: $(realpath ~/br-cache)"
-          if [ ! -f ~/br-cache/ccache-v1 ]; then
+          if [ ! -f ~/br-cache/ccache-v3 ]; then
             echo "Clearing old compiler cache..."
             rm -rf ~/br-cache/ccache* || true
             mkdir -p ~/br-cache/ccache
-            touch ~/br-cache/ccache-v1
+            touch ~/br-cache/ccache-v3
           fi
-          if [ ! -f ~/br-cache/dl-v1 ]; then
+          if [ ! -f ~/br-cache/dl-v3 ]; then
             echo "Clearing old downloads cache..."
             rm -rf ~/br-cache/dl* || true
             mkdir -p ~/br-cache/dl
-            touch ~/br-cache/dl-v1
+            touch ~/br-cache/dl-v3
           fi
+
+      - name: Install buildroot apt deps
+        run: |
+          sudo apt-get install -y libelf-dev
+
       - name: Print help and packages list
         run: |
           cd $GITHUB_WORKSPACE
           make help
+
+      - name: Enable using a pre-built toolchain
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "BR2_TOOLCHAIN_EXTERNAL=y" > ./overrides/buildroot/toolchain
+
       - name: Build the system image
         env:
           SKIFF_DEVICE_CONFIG: ${{ matrix.skiffconf }}
@@ -76,9 +95,9 @@ jobs:
           rm -rf ./workspaces/${SKIFF_WORKSPACE}/{build,extra_images,host,target,staging}
           mkdir -p workflow-artifacts
           tar -cvf ./workflow-artifacts/images.tar.gz --exclude="rootfs.cpio" -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
+
+      # Upload system image
       - uses: actions/upload-artifact@v2
-        with:	
+        with:
           name: images-${{ matrix.skiffconf }}.tar.gz
           path: ${{ github.workspace }}/workflow-artifacts/images.tar.gz
-
-
