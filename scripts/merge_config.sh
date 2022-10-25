@@ -29,6 +29,8 @@ usage() {
 	echo "  -y    make builtin have precedence over modules"
 	echo "  -O    dir to put generated output files.  Consider setting \$KCONFIG_CONFIG instead."
 	echo "  -s    strict mode. Fail if the fragment redefines any value."
+	echo
+	echo "Used prefix: '$CONFIG_PREFIX'. You can redefine it with \$CONFIG_ environment variable."
 }
 
 RUNMAKE=true
@@ -37,6 +39,7 @@ WARNREDUN=false
 BUILTIN=false
 OUTPUT=.
 STRICT=false
+CONFIG_PREFIX=${CONFIG_-CONFIG_}
 
 while true; do
 	case $1 in
@@ -107,8 +110,8 @@ if [ ! -r "$INITFILE" ]; then
 fi
 
 MERGE_LIST=$*
-SED_CONFIG_EXP1="s/^\([a-zA-Z0-9_]*\)=.*/\1/p"
-SED_CONFIG_EXP2="s/^# \([a-zA-Z0-9_]*\) is not set$/\1/p"
+SED_CONFIG_EXP1="s/^\(${CONFIG_PREFIX}[a-zA-Z0-9_]*\)=.*/\1/p"
+SED_CONFIG_EXP2="s/^# \(${CONFIG_PREFIX}[a-zA-Z0-9_]*\) is not set$/\1/p"
 
 TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
 MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
