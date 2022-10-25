@@ -94,6 +94,7 @@ main SkiffOS repository:
 | [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ⚠ Obsolete       |
 | [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ✔ Tested         |
 | [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ✔ Tested         |
+| [PinePhone Pro]       | [pine64/phone_pro]    | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ⚠ Experimental   |
 | [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-6.0.2    | ✔ Tested         |
 | [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ✔ Tested         |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
@@ -141,6 +142,7 @@ main SkiffOS repository:
 [PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[PinePhone Pro]: https://www.pine64.org/pinephonepro/
 [Qemu]: ./configs/virt/qemu
 [Rock64]: https://www.pine64.org/devices/single-board-computers/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
@@ -194,6 +196,7 @@ main SkiffOS repository:
 [pine64/book]: ./configs/pine64/book
 [pine64/h64]: ./configs/pine64/h64
 [pine64/phone]: ./configs/pine64/phone
+[pine64/phone_pro]: ./configs/pine64/phone_pro
 [pine64/rock64]: ./configs/pine64/rock64
 [pine64/rockpro64]: ./configs/pine64/rockpro64
 [starfive/visionfive]: ./configs/starfive/visionfive

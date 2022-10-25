@@ -15,19 +15,21 @@ References:
 
 There are specific packages tuned to each model:
 
-| **Board**      | **Config Package** |
-|----------------|--------------------|
-| [H64]          | [pine64/h64]       |
-| [PineBook A64] | [pine64/book_a64]  |
-| [PineBook Pro] | [pine64/book]      |
-| [PinePhone]    | [pine64/phone]     |
-| [Rock64]       | [pine64/rock64]    |
-| [RockPro64]    | [pine64/rockpro64] |
+| **Board**       | **Config Package** | Notes          |
+|-----------------|--------------------|----------------|
+| [H64]           | [pine64/h64]       |                |
+| [PineBook A64]  | [pine64/book_a64]  |                |
+| [PineBook Pro]  | [pine64/book]      |                |
+| [PinePhone]     | [pine64/phone]     |                |
+| [PinePhone Pro] | [pine64/phone_pro] | ⚠ Experimental |
+| [Rock64]        | [pine64/rock64]    |                |
+| [RockPro64]     | [pine64/rockpro64] |                |
 
 [H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
 [PinePhone]: https://www.pine64.org/pinephone/
+[PinePhone Pro]: https://www.pine64.org/pinephonepro/
 [Rock64]: https://www.pine64.org/rock64/
 [RockPro64]: https://www.pine64.org/rockpro64/
 
@@ -35,6 +37,7 @@ There are specific packages tuned to each model:
 [pine64/book]: ./book
 [pine64/book_a64]: ./book_a64
 [pine64/phone]: ./phone
+[pine64/phone_pro]: ./phone_pro
 [pine64/rock64]: ./rock64
 [pine64/rockpro64]: ./rockpro64
 
