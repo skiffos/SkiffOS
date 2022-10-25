@@ -1,0 +1,30 @@
+# Set root partition to the second partition of boot device
+part uuid ${devtype} ${devnum}:1 uuid_boot
+part uuid ${devtype} ${devnum}:2 uuid_root
+
+# setenv silent 1
+setenv condev "console=ttyS2,1500000 earlycon=uart8250,mmio32,0xff1a0000"
+
+# use /init script to deferred mount /
+setenv bootroot "root=PARTUUID=${uuid_root} rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
+
+# base kernel config options
+setenv baseconfig "console=tty0 audit=0 consoleblank=0 no_console_suspend fsck.repair=yes net.ifnames=0 loglevel=7"
+
+# CPU Governor Selection
+# Available governors: conservative, userspace, powersave, ondemand, performance, schedutil
+setenv governor "schedutil"
+
+# final boot args
+setenv bootargs "${condev} ${bootroot} ${baseconfig} governor=${governor}"
+
+# Load images
+echo Loading kernel
+load ${devtype} ${devnum}:${distro_bootpart} ${kernel_addr_r} /boot/Image
+
+echo Loading DTB
+# /boot/${fdtfile}
+load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} /boot/rk3399-pinephone-pro.dtb
+
+# Boot
+booti ${kernel_addr_r} - ${fdt_addr_r}

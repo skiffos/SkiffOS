@@ -1,0 +1,6 @@
+-march=armv8-a+crc+crypto
+
+# Disabled until confirmed working:
+# -mtune=cortex-a72.cortex-a53
+# -mfix-cortex-a53-835769 -mfix-cortex-a53-843419
+# -fomit-frame-pointer -ftree-vectorize

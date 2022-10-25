@@ -1,0 +1,6 @@
+# We use Tow-Boot from the SPI.
+# See: https://tow-boot.org/devices/pine64-pinephonePro.html
+
+# BR2_TARGET_ARM_TRUSTED_FIRMWARE is not set
+# BR2_TARGET_UBOOT is not set
+# BR2_PACKAGE_PINEPHONE_CRUST_BLOBS is not set
