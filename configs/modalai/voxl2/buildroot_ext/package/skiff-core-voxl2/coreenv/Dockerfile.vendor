@@ -2,6 +2,7 @@
 # https://github.com/skiffos/SkiffOS/tree/master/configs/modalai/voxl2#skiff-core-importing-vendor-provided-image
 FROM skiffos/skiff-core-voxl2:base
 
+# Update and install some packages.
 RUN \
   chmod 1777 /tmp; \
   export DEBIAN_FRONTEND=noninteractive; \
@@ -40,11 +41,11 @@ RUN \
 RUN touch /etc/ssh/sshd_not_to_be_run && \
     rm /etc/systemd/system/sshd.service && \
     systemctl set-default multi-user.target && \
-    systemctl mask tmp.mount persist.mount console-getty.service && \
-    systemctl mask NetworkManager wpa_supplicant sshd haveged && \
-    systemctl mask dhcpd systemd-timesyncd firewalld snapd && \
-    systemctl mask ssh ab-updater dnsmasq wpa_supplicant && \
-    systemctl mask sscrpcd
+    systemctl mask tmp.mount persist.mount console-getty.service \
+    NetworkManager wpa_supplicant sshd haveged dhcpd systemd-timesyncd \
+    firewalld snapd init_sys_mss ssh ab-updater dnsmasq wpa_supplicant \
+    dhcpcd lunch-make-scripts sscrpcd systemd-networkd networkd-dispatcher \
+    openvpn QCMAP_ConnectionManagerd.service
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
