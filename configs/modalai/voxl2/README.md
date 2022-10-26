@@ -90,61 +90,26 @@ drivers provided in the container will then provide all proprietary features:
 
 ```sh
 # Copy the modalai files to the device.
-# Replace "root@voxl2" with your voxl2 ip.
-rsync --progress voxl2_platform_1.3.1-0.8.tar.gz root@voxl2:/mnt/persist/
+# Replace "root@voxl2" with your voxl2 ip address.
+rsync --progress voxl2_platform_1.3.1-0.8.tar.gz root@voxl2:/mnt/persist/voxl2_platform.tar.gz
 
-# Extract the modalai files.
+# Run the importer script to import the image.
 ssh root@voxl2
-cd /mnt/persist
-gzip -c -d voxl2_platform_1.3.1-0.8.tar.gz | tar -xf-
-cd ./voxl2_platform_1.3.1-0.8
-cd ./system-image
+voxl2-import-core.sh /mnt/persist/voxl2_platform.tar.gz
 
-# Decompress the sysfs image.
-docker run --rm -v $(pwd):/data --workdir /data -it alpine:edge sh -c "apk add android-tools && simg2img qti-ubuntu-robotics-image-m0054-sysfs.ext4 sysfs.ext4"
-
-# Mount the base system image.
-mkdir -p mtpt
-sudo mount -o loop -t ext4 ./sysfs.ext4 ./mtpt
-
-# Import the base docker image.
-cd ./mtpt
-sudo tar -c . | docker import - skiffos/skiff-core-voxl2:base
-
-# Unmount.
-cd ..
-sudo umount ./mtpt
-
-# Use a dockerfile to adjust the image with some fixups.
-cd /opt/skiff/coreenv/skiff-core-voxl2
-docker build -f Dockerfile.minimize -t skiffos/skiff-core-voxl2:latest .
-
+# The Docker image is imported at skiffos/skiff-core-voxl2:latest
 # Force skiff-core to load the new image.
 # NOTE: this will delete your existing core container!
 docker rm -f core
 systemctl restart skiff-core
 
-# The Docker image is called skiffos/skiff-core-voxl2:latest
-
-# Installing the voxl sdk:
-su - core
-sudo bash
-cd /mnt/persist/
-cd ./voxl2_platform_1.3.1-0.8/voxl-sdk
-dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
-echo "deb [trusted=yes] file:$(pwd) ./" > /etc/apt/sources.list.d/local.list
-apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/local.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-
-# install voxl-suite
-apt-get install -y -o Dpkg::Options::="--force-overwrite" voxl-suite
-
-# Done installing.
+# You may also want to cleanup some disk space:
+docker system prune
 ```
 
-# License Acknowledgment
+# Licenses
 
-The ModelAI packages are provided under various licenses. Skiff does not
-directly redistribute any parts of the toolkit, but will download them from the
-upstream sources via Buildroot packages as part of the build process. Buildroot
-produce a bundle of license files with "make br/legal-info". It is the
-responsibility of the end user to follow all applicable licenses' terms.
+The ModelAI packages are provided under various licenses. SkiffOS does not
+redistribute these packages, but will download them from the upstream sources as
+part of the apt install steps in the Dockerfile. It is the responsibility of the
+end user to follow all applicable licenses' terms.
