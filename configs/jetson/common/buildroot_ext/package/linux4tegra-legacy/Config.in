@@ -1,4 +1,4 @@
-config BR2_PACKAGE_LINUX4TEGRA_LEGACY_LEGACY
+config BR2_PACKAGE_LINUX4TEGRA_LEGACY
 	help
 	  Supports discontinued boards: Jetson TX2, Nano.
 
