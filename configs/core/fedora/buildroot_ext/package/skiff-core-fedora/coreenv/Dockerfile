@@ -9,15 +9,20 @@ FROM ${DISTRO:-docker.io/library/fedora:37} as stage1
 # setup environment
 ENV container=docker
 
-# Exclude linux-firmware and kernel-core.
-RUN (yum remove --noautoremove -y linux-firmware\* kernel-core\* kernel-devel\* kernel-modules\* || true) && \
-    printf 'exclude=*-firmware* kernel-core* kernel-devel* kernel-modules*' >> /etc/dnf/dnf.conf
-
 # Update packages.
 RUN dnf upgrade --refresh -y --allowerasing --skip-broken
 
 # Update packages, pass 2.
 RUN dnf upgrade -y --allowerasing --best
+
+# Install versionlock
+RUN dnf install -y python3-dnf-plugin-versionlock
+
+# Exclude linux-firmware and kernel-core.
+RUN (yum remove --noautoremove -y linux-firmware\* || true) && \
+    (dnf versionlock add kernel\* || true) && \
+    printf 'exclude=*-firmware*' >> /etc/dnf/dnf.conf && \
+    rm -rf /usr/lib/modules/* /usr/src/kernels/* /boot/*
 
 # Core packages.
 RUN dnf install -y \
