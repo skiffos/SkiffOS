@@ -149,6 +149,9 @@ apt-get install -f -y -o Dpkg::Options::="--force-overwrite" || true
 apt-get install -y -o Dpkg::Options::="--force-overwrite" voxl-suite
 
 mv /bin/systemctl.bak /bin/systemctl
+
+echo "Done, removing apt source..."
+rm /etc/apt/sources.list.d/local.list
 EOM
 
 echo "Running script to install the voxl-sdk debs (this will take a while)..."
