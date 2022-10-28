@@ -107,6 +107,19 @@ systemctl restart skiff-core
 docker system prune
 ```
 
+### OTA Update
+
+The push_image script can OTA update the device:
+
+```sh
+./scripts/push_image.sh root@voxl2
+```
+
+The kernel and device tree file are written to a partition on the device, so the
+push_image script will not be able to upgrade them. If you need to upgrade the
+kernel, use the flashing process described above. The persist partition will not
+be modified during the upgrade.
+
 # Licenses
 
 The ModelAI packages are provided under various licenses. SkiffOS does not

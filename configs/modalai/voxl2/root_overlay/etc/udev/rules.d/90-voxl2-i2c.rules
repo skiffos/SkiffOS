@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="i2c-[0-9]*", GROUP="dialout", MODE="0666"

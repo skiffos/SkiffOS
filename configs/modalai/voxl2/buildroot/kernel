@@ -2,11 +2,6 @@ BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_GZIP=y
 
-# voxl2 dev branch
-# https://gitlab.com/voxl-public/system-image-build/qrb5165-kernel/-/tree/dev/
-# 77dc6142c762531a48e4c4c91309640b4c9116ec
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux-qrb5165,77dc6142c762531a48e4c4c91309640b4c9116ec)/linux-modalai-voxl2-dev-4.19.125-r1.tar.gz"
-
 # voxl2 master branch
 # https://gitlab.com/voxl-public/system-image-build/qrb5165-kernel/-/tree/master/
 # 0a36571730e938303359d7242d1108004f1699c9
