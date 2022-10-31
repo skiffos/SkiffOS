@@ -85,11 +85,11 @@ main SkiffOS repository:
 | [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 6.0.5         |                  |
 | [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 6.0.5         |                  |
 | [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 6.0.5         |                  |
-| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.74   | ✔ Tested         |
-| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.74   |                  |
-| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.74   | ✔ Tested         |
-| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.74   | ✔ Tested         |
-| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.74   | ✔ Tested         |
+| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.76   | ✔ Tested         |
+| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.76   |                  |
+| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.76   | ✔ Tested         |
+| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.76   | ✔ Tested         |
+| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.76   | ✔ Tested         |
 | [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-6.0.2    |                  |
 | [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ⚠ Obsolete       |
 | [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-6.0.2    | ✔ Tested         |
