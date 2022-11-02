@@ -19,14 +19,14 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
+    xterm-256color) color_prompt=yes;;
+    tmux-256color) color_prompt=yes;;
     xterm-color) color_prompt=yes;;
     eterm-color) color_prompt=yes;;
 esac
 
 force_color_prompt=yes
-
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
         # We have color support; assume it's compliant with Ecma-48

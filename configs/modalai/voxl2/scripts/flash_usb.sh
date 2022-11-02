@@ -6,6 +6,16 @@ if [ $EUID != 0 ]; then
   echo "Run in sudo bash if you have any issues."
 fi
 
+if [ "$SKIFF_VOXL2_USB_FLASH" != "confirm" ]; then
+    echo "Set SKIFF_VOXL2_USB_FLASH=confirm to confirm you want to USB-flash to your board."
+    echo
+    echo "$ export SKIFF_VOXL2_USB_FLASH=confirm"
+    echo
+    echo "Make sure you have a ModalAI Voxl2 device connected."
+    echo "Warning: this may overwrite some existing data."
+    exit 1
+fi
+
 IMAGES_DIR=$BUILDROOT_DIR/images
 BOOT_IMG_PATH=$IMAGES_DIR/apq8096-boot.img
 SYSFS_PATH=$IMAGES_DIR/apq8096-sysfs.ext4
