@@ -8,7 +8,7 @@ containers:
       - "container=docker"
       - "SLOT_SUFFIX=_a"
     stopSignal: RTMIN+3
-    tty: true
+    tty: false
     disableInit: true
     workingDirectory: /
     entrypoint: ["/lib/systemd/systemd"]
@@ -16,8 +16,8 @@ containers:
       - /dev:/dev
       - /etc/hostname:/etc/hostname:ro
       - /lib/modules:/lib/modules:ro
-      - /mnt:/mnt
       - /run/udev:/run/udev
+      - /mnt:/mnt
       - /mnt/persist:/persist
       - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
       - /mnt/persist/skiff/core/repos/log:/var/log

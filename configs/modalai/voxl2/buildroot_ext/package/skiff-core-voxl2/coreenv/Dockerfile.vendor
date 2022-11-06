@@ -13,7 +13,7 @@ RUN \
   -o "Dpkg::Options::=--force-confold"  \
   build-essential autotools-dev locales usbutils sed \
   rsync sudo software-properties-common vim \
-  lsb-release wget curl git unzip \
+  lsb-release wget curl git unzip tmux \
   autotools-dev locales systemd wget \
   && apt-get autoremove -y && \
   rm -rf /var/lib/apt/lists/*
@@ -41,11 +41,11 @@ RUN \
 RUN touch /etc/ssh/sshd_not_to_be_run && \
     rm /etc/systemd/system/sshd.service && \
     systemctl set-default multi-user.target && \
-    systemctl mask tmp.mount persist.mount console-getty.service \
-    NetworkManager wpa_supplicant sshd haveged dhcpd systemd-timesyncd \
-    firewalld snapd init_sys_mss ssh ab-updater dnsmasq wpa_supplicant \
-    dhcpcd lunch-make-scripts sscrpcd systemd-networkd networkd-dispatcher \
-    openvpn QCMAP_ConnectionManagerd.service
+    systemctl mask tmp.mount persist.mount console-getty pdmapper \
+    NetworkManager wpa_supplicant sshd haveged dhcpd openvpn \
+    firewalld snapd ssh ab-updater dhcpd dnsmasq wpa_supplicant dhcpcd \
+    systemd-networkd networkd-dispatcher systemd-resolved systemd-timesyncd \
+    lunch-make-scripts QCMAP_ConnectionManagerd sscrpcd init_sys_mss
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
