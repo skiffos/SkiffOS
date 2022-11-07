@@ -515,7 +515,7 @@ int main(int argc, char *argv[]) {
   // Bind mount / to /mnt/host
 #ifdef ROOT_AS_HOST
   fprintf(logfd, "SkiffOS init: mounting / to %s...\n", host_mnt);
-  if (stat(host_mnt) == -1) {
+  if (stat(host_mnt, &st) == -1) {
     mkdir(host_mnt, 0755);
   }
   if (mount("/", host_mnt, NULL, MS_BIND|MS_SHARED|MS_REC, NULL) != 0) {
