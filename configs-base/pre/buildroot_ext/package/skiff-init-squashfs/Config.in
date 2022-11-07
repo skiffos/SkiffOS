@@ -83,12 +83,18 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS
 	select BR2_PACKAGE_UTIL_LINUX_BINARIES # fdisk, sfdisk
 	help
 	  Run resize2fs on disks defined in resize2fs.conf
-    
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	bool "inherit / to /mnt/persist from the root fs"
 	default y
 	help
 	  Mounts / into the chroot system at /mnt/persist
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_HOST
+	bool "inherit / to /mnt/host from the root fs"
+	depends on !BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
+	help
+	  Mounts / into the chroot system at /mnt/host
 
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_BOOT
 	depends on !BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
