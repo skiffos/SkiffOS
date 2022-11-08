@@ -45,7 +45,7 @@ RUN touch /etc/ssh/sshd_not_to_be_run && \
     NetworkManager wpa_supplicant sshd haveged dhcpd openvpn \
     firewalld snapd ssh ab-updater dhcpd dnsmasq wpa_supplicant dhcpcd \
     systemd-networkd networkd-dispatcher systemd-resolved systemd-timesyncd \
-    lunch-make-scripts QCMAP_ConnectionManagerd sscrpcd init_sys_mss
+    lunch-make-scripts QCMAP_ConnectionManagerd init_sys_mss
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
