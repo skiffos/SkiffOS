@@ -1,3 +1,4 @@
+# NOTE: mounting these to /mnt/host might not be necessary.
 echo "modalai/voxl2: mounting firmware to /mnt/host/firmware"
 mkdir -p /mnt/host/firmware || true
 /bin/mount \
@@ -18,8 +19,6 @@ mkdir -p /mnt/host/dsp || true
 	-o noexec,nodev,ro \
 	/dev/disk/by-partlabel/dsp_a /mnt/host/dsp || true
 
-# TODO
-# echo "modalai/voxl2: mounting voxl persist to /mnt/host/persist"
-# mkdir -p /mnt/host/persist || true
-# /bin/mount /dev/disk/by-partlabel/persist /mnt/host/persist || true
-
+# TODO: use a userspace firmware helper instead of copying these files.
+# This uses a bit of extra RAM but is an acceptable workaround for now.
+cp -r /mnt/host/{firmware,bt_firmware}/image/* /usr/lib/firmware/
