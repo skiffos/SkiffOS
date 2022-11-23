@@ -99,9 +99,6 @@ define LINUX4TEGRA_INSTALL_TARGET_CMDS
 	$(LINUX4TEGRA_RSYNC) $(@D)/nv_tegra/nvidia_configs/ $(TARGET_DIR)/
 	# install nvidia_tools
 	$(LINUX4TEGRA_RSYNC) $(@D)/nv_tegra/nvidia_tools/ $(TARGET_DIR)/
-	# move aarch64 libraries to /usr/lib
-	mv $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/* $(TARGET_DIR)/usr/lib/
-	rm -rf $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/
 endef
 
 $(eval $(generic-package))
