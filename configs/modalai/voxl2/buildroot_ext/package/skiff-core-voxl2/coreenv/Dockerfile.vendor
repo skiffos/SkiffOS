@@ -43,7 +43,7 @@ RUN touch /etc/ssh/sshd_not_to_be_run && \
     systemctl set-default multi-user.target && \
     systemctl mask tmp.mount persist.mount console-getty pdmapper \
     NetworkManager wpa_supplicant sshd haveged dhcpd openvpn \
-    firewalld snapd ssh ab-updater dhcpd dnsmasq wpa_supplicant dhcpcd \
+    firewalld snapd ssh ab-updater dnsmasq dhcpcd \
     systemd-networkd networkd-dispatcher systemd-resolved systemd-timesyncd \
     lunch-make-scripts QCMAP_ConnectionManagerd init_sys_mss
 
