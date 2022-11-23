@@ -99,6 +99,10 @@ define LINUX4TEGRA_INSTALL_TARGET_CMDS
 	$(LINUX4TEGRA_RSYNC) $(@D)/nv_tegra/nvidia_configs/ $(TARGET_DIR)/
 	# install nvidia_tools
 	$(LINUX4TEGRA_RSYNC) $(@D)/nv_tegra/nvidia_tools/ $(TARGET_DIR)/
+	# remove some unnecessary systemd units
+	cd $(TARGET_DIR)/etc/systemd/system && rm \
+		./sysinit.target.wants/nvfb-udev.service \
+		./multi-user.target.wants/nv-l4t-bootloader-config.service
 endef
 
 $(eval $(generic-package))
