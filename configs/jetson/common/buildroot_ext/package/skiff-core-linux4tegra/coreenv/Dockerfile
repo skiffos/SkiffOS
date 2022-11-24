@@ -81,9 +81,11 @@ RUN \
 RUN touch /etc/ssh/sshd_not_to_be_run && \
     rm /etc/systemd/system/sshd.service && \
     systemctl set-default graphical.target && \
-    systemctl mask tmp.mount && \
-    systemctl mask NetworkManager wpa_supplicant sshd haveged && \
-    systemctl mask dhcpd systemd-timesyncd firewalld nvwifibt snapd
+    systemctl mask tmp.mount persist.mount console-getty pdmapper \
+    NetworkManager wpa_supplicant sshd haveged openvpn NetworkManager-wait-online \
+    firewalld snapd ssh ab-updater dnsmasq dhcpd dhcpcd \
+    systemd-networkd networkd-dispatcher systemd-resolved systemd-timesyncd \
+    nvwifibt nvfancontrol isc-dhcp-server isc-dhcp-server6
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
