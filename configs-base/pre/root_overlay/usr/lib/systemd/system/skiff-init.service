@@ -2,7 +2,6 @@
 Description=SkiffOS early-init
 DefaultDependencies=no
 Before=basic.target
-Before=docker.service
 
 [Service]
 Type=oneshot

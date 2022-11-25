@@ -205,7 +205,6 @@ if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/host
     NHOSTNAME=$(cat $PERSIST_ROOT/skiff/hostname)
     sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
     echo "$NHOSTNAME" > /etc/hostname
-
 else
     hostname > $PERSIST_ROOT/skiff/hostname
     if [ "$(hostname)" == "" ]; then

@@ -8,3 +8,7 @@ CONFIG_VIDEO_V4L2=y
 
 # Building the following causes errors.
 # CONFIG_NETFILTER_XT_MATCH_BPF is not set
+
+# Fan controller.
+CONFIG_PWM_FAN=m
+# CONFIG_TEGRA_THERMAL_THROTTLE is not set

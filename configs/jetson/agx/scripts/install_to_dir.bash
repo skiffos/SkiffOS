@@ -30,8 +30,13 @@ rsync --delete -rv ./dtb/ ${BOOT_DIR}/dtb/
 
 # skiff-init
 mkdir -p ${BOOT_DIR}/skiff-init ${ROOTFS_DIR}/
+cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
 rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
-cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ${BOOT_DIR}/skiff-init/resize2fs.conf
+
+# boot_part
+if [ -d ./boot_part/ ]; then
+    rsync -rav ./boot_part/ ${BOOT_DIR}/
+fi
 
 # rootfs_part
 if [ -d ./rootfs_part/ ]; then

@@ -36,6 +36,9 @@
 // To mount / to /mnt/boot
 // #define ROOT_AS_BOOT
 
+// To mount / to /mnt/host
+// #define ROOT_AS_HOST
+
 // To mount a path or device to /mnt/boot before the rootfs.
 // #define MOUNT_BOOT "/dev/mmcblk0p1"
 
@@ -106,6 +109,7 @@ const char *sys_mnt = SKIFF_MOUNTPOINT "/sys";
 const char *mnt_mnt = SKIFF_MOUNTPOINT "/mnt";
 const char *boot_mnt = SKIFF_MOUNTPOINT "/mnt/boot";
 const char *persist_mnt = SKIFF_MOUNTPOINT "/mnt/persist";
+const char *host_mnt = SKIFF_MOUNTPOINT "/mnt/host";
 const char *boot_parent_mnt = "/mnt/boot";
 const char *persist_parent_mnt = "/mnt/persist";
 const char *image_mountpoint = SKIFF_MOUNTS_DIR "/image";
@@ -493,14 +497,14 @@ int main(int argc, char *argv[]) {
 
 #else // !BIND_ROOT_MNT
 
-  // Mount persist into the target chroot only.
+  // Bind mount / to /mnt/persist
 #ifdef ROOT_AS_PERSIST
   fprintf(logfd, "SkiffOS init: mounting / to %s...\n", persist_mnt);
   if (stat(persist_mnt, &st) == -1) {
     mkdir(persist_mnt, 0755);
   }
   // NOTE: MS_SHARED ?
-  if (mount("/", persist_mnt, NULL, MS_BIND|MS_SHARED, NULL) != 0) { // MS_REC - rbind
+  if (mount("/", persist_mnt, NULL, MS_BIND|MS_SHARED, NULL) != 0) {
     res = errno;
     fprintf(logfd, "SkiffOS: warning: failed to mount / as %s: (%d) %s\n",
             persist_mnt, res, strerror(res));
@@ -508,14 +512,27 @@ int main(int argc, char *argv[]) {
   }
 #endif // ROOT_AS_PERSIST
 
-  // Mount boot into the target chroot only.
+  // Bind mount / to /mnt/host
+#ifdef ROOT_AS_HOST
+  fprintf(logfd, "SkiffOS init: mounting / to %s...\n", host_mnt);
+  if (stat(host_mnt, &st) == -1) {
+    mkdir(host_mnt, 0755);
+  }
+  if (mount("/", host_mnt, NULL, MS_BIND|MS_SHARED|MS_REC, NULL) != 0) {
+    res = errno;
+    fprintf(logfd, "SkiffOS: warning: failed to mount / as %s: (%d) %s\n",
+            host_mnt, res, strerror(res));
+    res = 0; // ignore
+  }
+#endif // ROOT_AS_HOST
+
+  // Bind mount boot to /mnt/boot
 #ifdef ROOT_AS_BOOT
   fprintf(logfd, "SkiffOS init: mounting parent %s to %s...\n", boot_parent_mnt, boot_mnt);
   if (stat(boot_mnt, &st) == -1) {
     mkdir(boot_mnt, 0755);
   }
-  // NOTE: MS_SHARED ?
-  if (mount(boot_parent_mnt, boot_mnt, NULL, MS_BIND|MS_SHARED|MS_REC, NULL) != 0) { // MS_REC - rbind
+  if (mount(boot_parent_mnt, boot_mnt, NULL, MS_BIND|MS_SHARED|MS_REC, NULL) != 0) {
     res = errno;
     fprintf(logfd, "SkiffOS: warning: failed to mount %s as %s: (%d) %s\n",
             boot_parent_mnt, boot_mnt,

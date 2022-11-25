@@ -29,8 +29,8 @@ fi
 if [ -d ${IMAGES_DIR}/persist_part/ ]; then
     rsync -rav ${IMAGES_DIR}/persist_part/ ${SYSFS_DIR}/
 fi
-rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 cp ${SKIFF_CURRENT_CONF_DIR}/resources/resize2fs.conf ./skiff-init/resize2fs.conf
+rsync -rv ./skiff-init/ ${BOOT_DIR}/skiff-init/
 rsync -rv \
   ./*.dtb ./*Image* \
   ./skiff-release ./rootfs.squashfs \
@@ -85,7 +85,7 @@ cat ./Image.gz ./m0054-qrb5165-iot-rb5.dtb > Image.gz+dtb
 # create boot image
 echo "Generating $(basename ${BOOT_IMAGE})..."
 
-KERNEL_CMDLINE="noinitrd earlycon=msm_geni_serial,0xa90000 console=ttyMSM0,115200,n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 rw rootwait rootfstype=ext4 init=/boot/skiff-init/skiff-init-squashfs audit=0 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 cgroup.memory=nokmem,nosocket swiotlb=2048 reboot=panic_warm net.ifnames=0 fsck.mode=force fsck.repair=yes"
+KERNEL_CMDLINE="noinitrd earlycon=msm_geni_serial,0xa90000 console=ttyMSM0,115200,n8 printk.devkmsg=on androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 rw rootwait rootfstype=ext4 init=/boot/skiff-init/skiff-init-squashfs audit=0 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 cgroup.memory=nokmem,nosocket swiotlb=2048 reboot=panic_warm net.ifnames=0 fsck.mode=force fsck.repair=yes"
 ${HOST_DIR}/bin/mkbootimg \
            --kernel "Image.gz+dtb" \
            --pagesize 4096 \

@@ -1,4 +1,0 @@
-# provided out of tree.
-
-CONFIG_RTL8821AU=n
-CONFIG_RTL8812AU=n
