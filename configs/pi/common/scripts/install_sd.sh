@@ -91,6 +91,12 @@ cp $pi_config_txt $boot_dir/config.txt
 cp $pi_cmdline_txt $boot_dir/cmdline.txt
 sync
 
+if [ -d "$outp_path/images/boot_part" ]; then
+    echo "Copying boot_part..."
+    ${RS} $outp_path/images/boot_part/ $boot_dir/
+    sync
+fi
+
 if [ -d "$outp_path/images/rootfs_part" ]; then
   echo "Copying rootfs_part..."
   ${RS} $outp_path/images/rootfs_part/ $rootfs_dir/
