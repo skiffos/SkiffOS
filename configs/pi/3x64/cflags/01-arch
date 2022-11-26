@@ -1,0 +1,2 @@
+# fine-tune for the chip in the rasperry pi 3
+-ftree-vectorize -march=armv8-a+crc -mtune=cortex-a53

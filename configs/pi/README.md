@@ -7,19 +7,19 @@ These configurations target the Raspberry Pi family of boards.
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=pi/4,skiff/core
-$ make configure                   # configure the system
-$ make compile                     # build the system
+export SKIFF_CONFIG=pi/4,skiff/core
+make configure                   # configure the system
+make compile                     # build the system
 ```
 
 Once the build is complete, we will flash to a MicroSD card to boot. You will
 need to `sudo bash` for this on most systems.
 
 ```sh
-$ sudo bash             # switch to root
-$ export PI_SD=/dev/sdz # make sure this is right! (usually sdb)
-$ make cmd/odroid/common/format  # tell skiff to format the device
-$ make cmd/odroid/common/install # tell skiff to install the os
+sudo bash             # switch to root
+export PI_SD=/dev/sdz # make sure this is right! (usually sdb)
+make cmd/odroid/common/format  # tell skiff to format the device
+make cmd/odroid/common/install # tell skiff to install the os
 ```
 
 You only need to run the `format` step once. It will create the partition table.
@@ -38,6 +38,7 @@ There are specific packages tuned to each Pi model.
 | [Pi 1]          | pi/1               |
 | [Pi 2]          | pi/2               |
 | [Pi 3]          | pi/3               |
+| [Pi 3] - 64bit  | pi/3x64            |
 | [Pi 4]          | pi/4x64 or pi/4    |
 | [Pi 4] - 32bit  | pi/4x32            |
 
@@ -87,8 +88,8 @@ ttyAMA0 serial console.
 
 ## Note: 64 bit kernel
 
-The pi/4x64 configuration uses a 64 bit kernel with an alternate config.txt,
-which specifies `arm_64bit` as required.
+The pi/3x64 and pi/4x64 configurations use a 64 bit kernel with an alternate
+config.txt, which specifies `arm_64bit` as required.
 
 Raspbian does not use 64 bit yet and many of the video drivers don't work with
 aarch64 yet.
@@ -102,14 +103,14 @@ According to the Gentoo wiki:
 
 References:
 
- - https://wiki.gentoo.org/wiki/Raspberry_Pi_VC4
- - https://github.com/raspberrypi/linux/issues/2315#issuecomment-383132350
+- <https://wiki.gentoo.org/wiki/Raspberry_Pi_VC4>
+- <https://github.com/raspberrypi/linux/issues/2315#issuecomment-383132350>
 
 ## Overclocking
 
-You will want to follow the upstream guidance on overclocking: 
+You will want to follow the upstream guidance on overclocking:
 
-https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
+<https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md>
 
 Add the following snippet at the end of config.txt for a quick start. WARNING!
 This will set a permanent bit on your Pi which will mark it as having been
@@ -121,16 +122,14 @@ force_turbo=1
 max_usb_current=1
 ```
 
-
 ## Config.txt Conditional Sections
 
 The config.txt file supports conditional sections:
 
- - `[pi1]`:	Model A, Model B, Compute Module
- - `[pi2]`:	Model 2B (BCM2836- or BCM2837-based)
- - `[pi3]`:	Model 3B, Model 3B+, Model 3A+, Compute Module 3
- - `[pi3+]`:	Model 3A+, Model 3B+
- - `[pi4]`:	Model 4B
- - `[pi0]`:	Zero, Zero W, Zero WH
- - `[pi0w]`:	Zero W, Zero WH
-
+- `[pi1]`: Model A, Model B, Compute Module
+- `[pi2]`: Model 2B (BCM2836- or BCM2837-based)
+- `[pi3]`: Model 3B, Model 3B+, Model 3A+, Compute Module 3
+- `[pi3+]`: Model 3A+, Model 3B+
+- `[pi4]`: Model 4B
+- `[pi0]`: Zero, Zero W, Zero WH
+- `[pi0w]`: Zero W, Zero WH
