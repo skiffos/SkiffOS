@@ -1,0 +1,54 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality.
+
+# This is the default Skiff config.txt.
+# You should customize it to your own needs.
+# Create a Skiff config, and copy this file to:
+# my/config/resources/rpi/config.txt
+
+kernel=zImage
+
+start_file=start_x.elf
+fixup_file=fixup_x.dat
+
+# fixes rpi (3B, 3B+, 3A+, 4B ,zero W and zero 2) ttyAMA0 serial console
+dtoverlay=miniuart-bt
+
+# enable autoprobing of Bluetooth driver without need of hciattach/btattach
+dtoverlay=krnbt=on
+
+# GPU memory
+gpu_mem_256=100
+gpu_mem_512=100
+gpu_mem_1024=100
+
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
+# Enable GPIO features
+# dtparam=i2c_arm=on
+# dtparam=spi=on
+# dtparam=i2s=on
+
+# Audio card
+dtparam=audio=on
+# dtoverlay=hifiberry-dac
+# dtoverlay=hifiberry-dacplus
+# dtoverlay=hifiberry-digi
+# dtoverlay=iqaudio-dac
+# dtoverlay=iqaudio-dacplus
+
+# Heartbeat LED
+# dtparam=act_led_trigger=heartbeat
+
+# Allow the board to draw additional voltage.
+# Note: this sets a permanent overclock canary bit on the Pi.
+# over_voltage=4
+
+# Forces the CPU to run at maximum clock speed (expect heat)
+# force_turbo=1
+
+# Forces CPU to run in turbo for initial seconds
+# initial_turbo=45

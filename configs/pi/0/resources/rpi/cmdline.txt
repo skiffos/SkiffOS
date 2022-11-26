@@ -1,0 +1,1 @@
+console=tty1 console=serial0,115200 root=/dev/mmcblk0p1 rootwait rw init=/skiff-init/skiff-init-squashfs net.ifnames=0 dwc_otg.lpm_enable=0
