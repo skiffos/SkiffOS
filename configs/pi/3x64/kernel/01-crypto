@@ -1,0 +1,3 @@
+# Needed for RPI3
+# https://www.mail-archive.com/linux-crypto@vger.kernel.org/msg39912.html
+CONFIG_CRYPTO_AEGIS128_SIMD=n

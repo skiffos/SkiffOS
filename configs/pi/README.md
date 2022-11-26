@@ -31,15 +31,16 @@ safe to upgrade Skiff independently from your persistent data.
 
 There are specific packages tuned to each Pi model.
 
-| **Board**       | **Config Package** |
-| --------------- | -----------------  |
-| [Pi 0]          | pi/0               |
-| [Pi 0 V2]       | pi/0v2             |
-| [Pi 1]          | pi/1               |
-| [Pi 2]          | pi/2               |
-| [Pi 3]          | pi/3               |
-| [Pi 4]          | pi/4x64 or pi/4    |
-| [Pi 4] - 32bit  | pi/4x32            |
+| **Board**      | **Config Package** |
+|----------------|--------------------|
+| [Pi 0]         | pi/0               |
+| [Pi 0 V2]      | pi/0v2             |
+| [Pi 1]         | pi/1               |
+| [Pi 2]         | pi/2               |
+| [Pi 3]         | pi/3               |
+| [Pi 3] - 64bit | pi/3x64            |
+| [Pi 4]         | pi/4x64 or pi/4    |
+| [Pi 4] - 32bit | pi/4x32            |
 
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Pi 0 V2]: https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/
@@ -87,8 +88,8 @@ ttyAMA0 serial console.
 
 ## Note: 64 bit kernel
 
-The pi/4x64 configuration uses a 64 bit kernel with an alternate config.txt,
-which specifies `arm_64bit` as required.
+The pi/3x64 and pi/4x64 configurations use a 64 bit kernel with an alternate
+config.txt, which specifies `arm_64bit` as required.
 
 Raspbian does not use 64 bit yet and many of the video drivers don't work with
 aarch64 yet.
@@ -107,7 +108,7 @@ References:
 
 ## Overclocking
 
-You will want to follow the upstream guidance on overclocking: 
+You will want to follow the upstream guidance on overclocking:
 
 https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
 
@@ -121,16 +122,14 @@ force_turbo=1
 max_usb_current=1
 ```
 
-
 ## Config.txt Conditional Sections
 
 The config.txt file supports conditional sections:
 
- - `[pi1]`:	Model A, Model B, Compute Module
- - `[pi2]`:	Model 2B (BCM2836- or BCM2837-based)
- - `[pi3]`:	Model 3B, Model 3B+, Model 3A+, Compute Module 3
- - `[pi3+]`:	Model 3A+, Model 3B+
- - `[pi4]`:	Model 4B
- - `[pi0]`:	Zero, Zero W, Zero WH
- - `[pi0w]`:	Zero W, Zero WH
-
+- `[pi1]`: Model A, Model B, Compute Module
+- `[pi2]`: Model 2B (BCM2836- or BCM2837-based)
+- `[pi3]`: Model 3B, Model 3B+, Model 3A+, Compute Module 3
+- `[pi3+]`: Model 3A+, Model 3B+
+- `[pi4]`: Model 4B
+- `[pi0]`: Zero, Zero W, Zero WH
+- `[pi0w]`: Zero W, Zero WH
