@@ -7,19 +7,19 @@ These configurations target the Raspberry Pi family of boards.
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-export SKIFF_CONFIG=pi/4,skiff/core
-make configure                   # configure the system
-make compile                     # build the system
+$ export SKIFF_CONFIG=pi/4,skiff/core
+$ make configure                   # configure the system
+$ make compile                     # build the system
 ```
 
 Once the build is complete, we will flash to a MicroSD card to boot. You will
 need to `sudo bash` for this on most systems.
 
 ```sh
-sudo bash             # switch to root
-export PI_SD=/dev/sdz # make sure this is right! (usually sdb)
-make cmd/odroid/common/format  # tell skiff to format the device
-make cmd/odroid/common/install # tell skiff to install the os
+$ sudo bash             # switch to root
+$ export PI_SD=/dev/sdz # make sure this is right! (usually sdb)
+$ make cmd/odroid/common/format  # tell skiff to format the device
+$ make cmd/odroid/common/install # tell skiff to install the os
 ```
 
 You only need to run the `format` step once. It will create the partition table.
@@ -31,16 +31,16 @@ safe to upgrade Skiff independently from your persistent data.
 
 There are specific packages tuned to each Pi model.
 
-| **Board**       | **Config Package** |
-| --------------- | -----------------  |
-| [Pi 0]          | pi/0               |
-| [Pi 0 V2]       | pi/0v2             |
-| [Pi 1]          | pi/1               |
-| [Pi 2]          | pi/2               |
-| [Pi 3]          | pi/3               |
-| [Pi 3] - 64bit  | pi/3x64            |
-| [Pi 4]          | pi/4x64 or pi/4    |
-| [Pi 4] - 32bit  | pi/4x32            |
+| **Board**      | **Config Package** |
+|----------------|--------------------|
+| [Pi 0]         | pi/0               |
+| [Pi 0 V2]      | pi/0v2             |
+| [Pi 1]         | pi/1               |
+| [Pi 2]         | pi/2               |
+| [Pi 3]         | pi/3               |
+| [Pi 3] - 64bit | pi/3x64            |
+| [Pi 4]         | pi/4x64 or pi/4    |
+| [Pi 4] - 32bit | pi/4x32            |
 
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Pi 0 V2]: https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/
@@ -103,14 +103,14 @@ According to the Gentoo wiki:
 
 References:
 
-- <https://wiki.gentoo.org/wiki/Raspberry_Pi_VC4>
-- <https://github.com/raspberrypi/linux/issues/2315#issuecomment-383132350>
+ - https://wiki.gentoo.org/wiki/Raspberry_Pi_VC4
+ - https://github.com/raspberrypi/linux/issues/2315#issuecomment-383132350
 
 ## Overclocking
 
 You will want to follow the upstream guidance on overclocking:
 
-<https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md>
+https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
 
 Add the following snippet at the end of config.txt for a quick start. WARNING!
 This will set a permanent bit on your Pi which will mark it as having been
