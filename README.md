@@ -16,7 +16,7 @@ Configuration packages are merged together to configure the system:
  - `SKIFF_CONFIG=odroid/xu4,core/fedora` - run Fedora desktop on a Odroid XU4.
  - `SKIFF_CONFIG=virt/qemu,custom/config` - run a custom config in a Qemu VM.
 
-There is a [project template] you can use for source-controlled customizations.
+There is a [project template] you can use for version-controlled customizations.
 
 Linux devices have varying requirements for kernel, firmware, and other hardware
 support packages. SkiffOS decouples this support from the containerized
