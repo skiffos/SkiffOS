@@ -4,7 +4,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # branch: visionfive
 # source: https://github.com/starfive-tech/linux/tree/visionfive
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,2fcf0062e83a13e695c1f559eb5b77e97fc3c56d)/linux-starfive-5.19-rc3-r1.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_17=y
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_19=y
 
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="visionfive"
