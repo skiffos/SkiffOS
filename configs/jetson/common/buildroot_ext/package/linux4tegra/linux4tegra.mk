@@ -104,9 +104,9 @@ define LINUX4TEGRA_INSTALL_TARGET_CMDS
 		./sysinit.target.wants/nvfb-udev.service \
 		./multi-user.target.wants/nv-l4t-bootloader-config.service
 	# move some libraries
-	mv $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/tegra/* $(TARGET_DIR)/usr/lib/
+	rsync -av $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/tegra/ $(TARGET_DIR)/usr/lib/
 	rm -rf $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/tegra
-	mv $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/* $(TARGET_DIR)/usr/lib/
+	rsync -av $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/ $(TARGET_DIR)/usr/lib/
 	rm -rf $(TARGET_DIR)/usr/lib/aarch64-linux-gnu
 endef
 
