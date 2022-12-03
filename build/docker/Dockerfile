@@ -23,5 +23,7 @@ RUN apt-get update \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD ./.entrypoint.bash /entrypoint.bash
 RUN git config --global --add safe.directory /skiffos
 WORKDIR /skiffos
+ENTRYPOINT ["/entrypoint.bash"]

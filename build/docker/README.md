@@ -20,6 +20,12 @@ To use the Docker container use the run script:
 ./run.bash
 ```
 
+The script optionally accepts a custom container name & command:
+
+```sh
+./run.bash mycontainer make compile
+```
+
 Then enter the Docker container:
 
 ```sh

@@ -12,12 +12,17 @@ else
     shift
 fi
 
+TUID=${UID}
+TGID=$(id -g)
+TUIDGID="${TUID} ${TGID}"
+
 echo "Using container name $CONTAINER_NAME"
 PROJECT_ROOT=$(git rev-parse --show-toplevel)
 docker rm -f skiff-build 2>/dev/null || true
 docker run --rm -it \
        --privileged \
        --name=$CONTAINER_NAME \
+       -e SKIFF_TUIDGID="$TUIDGID" \
        -e SKIFF_WORKSPACE="$SKIFF_WORKSPACE" \
        -e SKIFF_CONFIG="$SKIFF_CONFIG" \
        --workdir=/skiffos \
