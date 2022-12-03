@@ -37,3 +37,20 @@ $ SKIFF_CONFIG=pi/3 make configure # configure the system
 $ make                             # check status again
 $ make compile                     # build the system
 ```
+### 2022-12 If the above does not work for you read below
+
+1. Build docker image using Dockerfile.root while inside this directory
+
+```sh
+  docker build -f Dockerfile.root -t skiffos-builder .
+```
+
+2. Run image as below from SkiffOS github clone root
+
+Replace the environemnt vars below with your needs and run:
+
+```sh
+  docker run --rm --privileged -e SKIFF_WORKSPACE=my_workspace -e SKIFF_CONFIG=pi/4,core/alpine --mount type=bind,source=$PWD,target="/home/project"  -it skiffos-builder
+```
+
+You should now be inside a fully configured build docker container, enjoy!
