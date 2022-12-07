@@ -1,11 +1,10 @@
 cff-version: 1.1.0
-message: "If you use this software, please cite it as below."
+title: "SkiffOS: Minimal Cross-compiled Linux for Embedded Containers"
+url: "https://github.com/skiffos/skiffos"
+doi: 10.48550/arXiv.2104.00048
+date-released: 2021-03-31
 authors:
   - family-names: Stewart
     given-names: Christian
     orcid: https://orcid.org/0000-0002-4166-5987
-date-released: 2021-03-31
-doi: 10.48550/arXiv.2104.00048
-title: "SkiffOS: Minimal Cross-compiled Linux for Embedded Containers"
-url: "https://github.com/skiffos/skiffos"
-version: 2022.08.2
+    affiliation: Aperture Robotics, LLC.
