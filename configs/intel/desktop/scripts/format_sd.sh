@@ -49,7 +49,7 @@ sudo dd if=/dev/zero of=$INTEL_DESKTOP_DISK bs=1M count=256 oflag=dsync
 sudo parted $INTEL_DESKTOP_DISK mklabel gpt
 sleep 1
 
-echo "Making boot partition..."
+echo "Making EFI partition..."
 sudo parted -a optimal $INTEL_DESKTOP_DISK mkpart primary fat32 2048s 512MiB
 sudo parted $INTEL_DESKTOP_DISK name 1 EFI
 sudo parted $INTEL_DESKTOP_DISK set 1 boot on

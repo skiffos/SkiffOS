@@ -34,7 +34,7 @@ safe to upgrade SkiffOS independently from your persistent data.
 
 ## Building an Image
 
-It's possible to create a .img file instead of directly flashing a SD.
+It's possible to create a .img file instead of directly flashing a disk.
 
 ```sh
 # must be root to use losetup
