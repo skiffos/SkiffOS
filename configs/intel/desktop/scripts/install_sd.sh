@@ -23,22 +23,28 @@ if [ ! -b "$INTEL_DESKTOP_PARTITION" ]; then
   exit 1
 fi
 
+if ! partuuid=$(blkid -o "value" -s "PARTUUID" ${INTEL_DESKTOP_PARTITION}); then
+  echo "Unable to determine PARTUUID for ${INTEL_DESKTOP_PARTITION}!"
+  exit 1
+fi
+if [ -z "${partuuid}" ]; then
+  echo "Blkid returned empty PARTUUID for ${INTEL_DESKTOP_PARTITION}!"
+  exit 1
+fi
+
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
 outp_path="${BUILDROOT_DIR}/output"
 images_path="${outp_path}/images"
 uimg_path="${images_path}/bzImage"
 cpio_path="${images_path}/rootfs.cpio.lz4"
+skiff_init_path="${images_path}/skiff-init/"
+squashfs_path="${images_path}/rootfs.squashfs"
 
 source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
 if [ ! -f "$uimg_path" ]; then
   echo "bzImage not found, make sure Buildroot is done compiling."
   exit 1
-fi
-
-if [ ! -f "$cpio_path" ]; then
-    echo "rootfs.cpio.lz4 not found, make sure Buildroot is done compiling."
-    exit 1
 fi
 
 skiff_release_path="${images_path}/skiff-release"
@@ -97,14 +103,31 @@ if [ -d "${images_path}/persist_part" ]; then
   sync
 fi
 
-echo "Copying initrd..."
-initrd_filename=initrd-skiffos-${skiff_release}
-${RS} $cpio_path $boot_dir/${initrd_filename}
-sync
+if [ -f ${cpio_path} ]; then
+  echo "Copying initrd..."
+  initrd_filename=initrd-skiffos-${skiff_release}
+  ${RS} $cpio_path $boot_dir/${initrd_filename}
+  sync
+fi
+
+if [ -f ${squashfs_path} ]; then
+  echo "Copying squashfs..."
+  squashfs_filename=init-skiffos-${skiff_release}.squashfs
+  ${RS} $squashfs_path $boot_dir/${squashfs_filename}
+  sync
+fi
+
+if [ -d $skiff_init_path ]; then
+  echo "Copying skiff-init..."
+  ${RS} $skiff_init_path $boot_dir/skiff-init/
+  sync
+fi
 
 if [ ! -f "${boot_dir}/refind_linux.conf" ]; then
   echo "Copying initial refind_linux.conf..."
   cp ${refind_config} ${boot_dir}/refind_linux.conf
+  echo "Setting PARTUUID=${partuuid} in refind_linux.conf..."
+  sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${boot_dir}/refind_linux.conf
 fi
 
 sync

@@ -8,6 +8,11 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS
 
 if BR2_PACKAGE_SKIFF_INIT_SQUASHFS
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_USE_CMDLINE
+	bool "use kernel cmdline for squashfs path"
+	help
+	  Read skiffos.squashfs kernel cmdline value for squashfs path.
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_BIND_ROOT_MNT
 	bool "inherit /mnt from the root fs"
 	help

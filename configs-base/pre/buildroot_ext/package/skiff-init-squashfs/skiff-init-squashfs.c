@@ -27,6 +27,14 @@
 
 #define MAX_RESIZE2FS_DEV_LEN 256
 
+// To determine the squashfs path from the kernel cmdline:
+//   skiffos.squashfs=/boot/rootfs.squashfs
+// #define USE_CMDLINE
+
+#ifndef SKIFF_INIT_FILE
+#define SKIFF_INIT_FILE "/boot/rootfs.squashfs"
+#endif
+
 // To wait for a file to exist before starting:
 // #define WAIT_EXISTS "/dev/mmcblk0"
 
@@ -81,16 +89,11 @@
 #define SKIFF_INIT_PID "/run/skiff-init/skiff-init.pid"
 #endif
 
-#ifndef SKIFF_INIT_FILE
-#define SKIFF_INIT_FILE "/boot/rootfs.squashfs"
-#endif
-
 const char *init_proc = SKIFF_INIT_PROC;
 const char *init_pid_path = SKIFF_INIT_PID;
 
 FILE *logfd;
 const char *pid1_log = "/dev/kmsg";
-const char *squashfs_file = SKIFF_INIT_FILE;
 
 const char *resize2fs_path = "/boot/skiff-init/resize2fs";
 const char *resize2fs_conf = "/boot/skiff-init/resize2fs.conf";
@@ -138,6 +141,7 @@ char *loopdev_find_unused();
 int loopdev_setup_device(const char *file, uint64_t offset, const char *device);
 void write_skiff_init_pid(pid_t pid);
 void do_bind_host_paths(void);
+const char *read_param_from_cmdline(const char *name);
 
 int main(int argc, char *argv[]) {
   int res = 0;
@@ -376,7 +380,18 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  fprintf(logfd, "SkiffOS init: allocating loop device %s...\n", root_loop);
+#ifdef USE_CMDLINE
+  fprintf(logfd, "SkiffOS init: finding skiffos.squashfs kernel cmdline value...\n");
+  const char* squashfs_file = read_param_from_cmdline("skiffos.squashfs");
+  if (!squashfs_file) {
+    fprintf(logfd, "SkiffOS init: unable to find skiffos.squashfs parameter, using default!\n");
+    squashfs_file = SKIFF_INIT_FILE;
+  }
+#else
+  const char* squashfs_file = SKIFF_INIT_FILE;
+#endif
+
+  fprintf(logfd, "SkiffOS init: allocating loop device %s with %s...\n", root_loop, squashfs_file);
   if (loopdev_setup_device(squashfs_file, 0, root_loop) != 0) {
     fprintf(logfd, "Failed to associate loop device (%s) to file (%s).\n",
             root_loop, squashfs_file);
@@ -939,4 +954,44 @@ void do_bind_host_paths(void) {
     free(host_path);
     free(target_path);
   }
+}
+
+/*
+ * This function reads the kernel command line from /proc/cmdline and searches
+ * for the specified parameter. If the parameter is found, its value is returned
+ * as a string. If the parameter is not found, NULL is returned.
+ *
+ * name: The name of the parameter to search for
+ *
+ * Returns: The value of the parameter as a string, or NULL if not found
+ */
+const char *read_param_from_cmdline(const char *name)
+{
+  FILE *cmdline = fopen("/proc/cmdline", "r");
+  if (!cmdline) {
+    return NULL;
+  }
+
+  char line[1024];
+  if (!fgets(line, sizeof(line), cmdline)) {
+    fclose(cmdline);
+    return NULL;
+  }
+
+  fclose(cmdline);
+
+  // Tokenize the command line by splitting on spaces
+  const char *delim = " ";
+  char *token = strtok(line, delim);
+  while (token) {
+    // Check if the current token matches the parameter we're looking for
+    if (strncmp(token, name, strlen(name)) == 0 && token[strlen(name)] == '=') {
+      // The parameter is found, so return its value
+      return token + strlen(name) + 1;
+    }
+    token = strtok(NULL, delim);
+  }
+
+  // The parameter was not found, so return NULL
+  return NULL;
 }
