@@ -45,7 +45,7 @@ fi
 set -x
 
 echo "Formatting device..."
-sudo dd if=/dev/zero of=$INTEL_DESKTOP_DISK bs=1M count=256 oflag=dsync
+sudo dd if=/dev/zero of=$INTEL_DESKTOP_DISK bs=1M count=128 oflag=dsync
 sudo parted $INTEL_DESKTOP_DISK mklabel gpt
 sleep 1
 
