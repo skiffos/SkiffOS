@@ -1,19 +1,29 @@
-FROM ubuntu:jammy
+FROM ubuntu:kinetic
 
-RUN apt update && \
-    apt install -y build-essential \
-    git gcc wget curl musl-dev file \
-    perl python3 rsync bc patch unzip cpio
+# Maintainers:
+#  Christian Stewart <christian@paral.in>
+#  razlix77 <razlix77@gmail.com>
 
-RUN adduser \
-    --gecos "Buildroot" \
-    --disabled-login \
-    --uid 1000 buildroot && \
-    mkdir -p /home/buildroot && \
-    chown buildroot:buildroot /home/buildroot && \
-    echo "buildroot    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+ENV KERNEL_BUILDDEPS="git-core gnupg flex bison gperf build-essential zip curl \
+    zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev \
+    x11proto-core-dev libx11-dev lib32z1-dev ccache libgl1-mesa-dev \
+    libxml2-utils xsltproc unzip device-tree-compiler fish" \
+    BUILDROOT_BUILDDEPS="libfile-which-perl sed make binutils gcc g++ bash \
+    patch gzip bzip2 perl tar cpio python3 unzip rsync file bc libmpc3 \
+    git repo texinfo pkg-config cmake tree udev dosfstools parted sudo" \
+    TOOLS="genext2fs time wget liblz4-tool curl"
 
-ENV LANG C.UTF-8
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y \
+      $KERNEL_BUILDDEPS \
+      $BUILDROOT_BUILDDEPS \
+      $TOOLS \
+    && apt-get clean -y \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-USER buildroot
-WORKDIR /home/buildroot
+ADD ./.entrypoint.bash /entrypoint.bash
+RUN git config --global --add safe.directory /skiffos
+WORKDIR /skiffos
+ENTRYPOINT ["/entrypoint.bash"]

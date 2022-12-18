@@ -90,7 +90,7 @@ endef
 LINUX4TEGRA_RSYNC = \
 	rsync -a --ignore-times $(RSYNC_VCS_EXCLUSIONS) \
 		--chmod=u=rwX,go=rX --exclude .empty --exclude '*~' \
-		--keep-dirlinks --exclude=ld.so.conf.d
+		--keep-dirlinks --exclude=ld.so.conf.d --exclude=ld.so.conf
 
 define LINUX4TEGRA_INSTALL_TARGET_CMDS
 	# install nvidia_drivers
@@ -103,6 +103,11 @@ define LINUX4TEGRA_INSTALL_TARGET_CMDS
 	cd $(TARGET_DIR)/etc/systemd/system && rm \
 		./sysinit.target.wants/nvfb-udev.service \
 		./multi-user.target.wants/nv-l4t-bootloader-config.service
+	# move some libraries
+	rsync -av $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/tegra/ $(TARGET_DIR)/usr/lib/
+	rm -rf $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/tegra
+	rsync -av $(TARGET_DIR)/usr/lib/aarch64-linux-gnu/ $(TARGET_DIR)/usr/lib/
+	rm -rf $(TARGET_DIR)/usr/lib/aarch64-linux-gnu
 endef
 
 $(eval $(generic-package))

@@ -1,14 +1,12 @@
-# Build Skiff in Docker
+# Build in Docker
 
-This document describes how to compile Skiff inside a Docker container.
-
-You may want to do this if Buildroot does not run correctly on your machine.
-
-This feature is a bit rough at the moment and will be improved in the future.
+You may want to build SkiffOS in a docker container if Buildroot does not run
+correctly on your machine. Some distributions have library issues which cause
+Buildroot builds to not work properly.
 
 ### Getting Started
 
-Make sure you have Docker installed on your machine and that it is running. Then use the scripts provided in this folder. They can be run from this folder or the project root but be sure to get the path to the script right if you don't run it from this folder.
+Be sure to have Docker installed and running on your build machine.
 
 To build the Docker container use the build script:
 
@@ -22,10 +20,16 @@ To use the Docker container use the run script:
 ./run.bash
 ```
 
+The script optionally accepts a custom container name & command:
+
+```sh
+./run.bash mycontainer make compile
+```
+
 Then enter the Docker container:
 
 ```sh
-docker exec -it skiff-build sh
+docker exec -it skiffos-build bash
 ```
 
 And run the following commands (or the version for the build you want) to start the build:

@@ -36,6 +36,7 @@ fi
 
 # Setup no interactive since we know its a brand new file.
 export SKIFF_NO_INTERACTIVE=1
+export DISABLE_CREATE_SWAPFILE=1
 
 echo "Using loopback device at ${INTEL_DESKTOP_DISK}"
 $SKIFF_CURRENT_CONF_DIR/scripts/format_sd.sh
