@@ -30,25 +30,28 @@ ubootimg="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
 ubootimg2="$BUILDROOT_DIR/output/images/u-boot.itb"
 idbloader=""
 
+dtb_path=$(find ${IMAGES_DIR}/ -name '*.dtb' -print -quit)
+if [ ! -f $dtb_path ]; then
+    echo "no dtb found in images dir"
+    echo "Make sure SkiffOS is done compiling and SKIFF_WORKSPACE is set correctly."
+    echo "SKIFF_WORKSPACE: ${SKIFF_WORKSPACE}"
+    exit 1
+fi
+
 if [ ! -f "$ubootimg" ]; then
-    ubootimg=$ubootimg2
+  ubootimg=$ubootimg2
 fi
 
 rk3399fw="$BUILDROOT_DIR/output/images/rk3399-firmware-blobs"
 if [ ! -f "$ubootimg" ] && [ -d $rk3399fw ]; then
-    ubootimg=$rk3399fw/u-boot.itb
-    idbloader=$rk3399fw/idbloader.img
+  ubootimg=$rk3399fw/u-boot.itb
+  idbloader=$rk3399fw/idbloader.img
 fi
 
 pinebooka64fw="$BUILDROOT_DIR/output/images/pinebook-a64-uboot"
 if [ -d $pinebooka64fw ]; then
-    ubootspl=$pinebooka64fw/sunxi-spl.bin
-    ubootimg=$pinebooka64fw/u-boot.itb
-fi
-
-if [ ! -f "$ubootimg" ]; then
-  echo "can't find u-boot image at $ubootimg"
-  exit 1
+  ubootspl=$pinebooka64fw/sunxi-spl.bin
+  ubootimg=$pinebooka64fw/u-boot.itb
 fi
 
 if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
@@ -94,7 +97,7 @@ if [ -b ${PINE64_SD}p1 ]; then
 fi
 
 if [ ! -b ${PINE64_SD_SFX}1 ]; then
-    echo "Warning: it appears your kernel has not created partition files at ${PINE64_SD_SFX}."
+  echo "Warning: it appears your kernel has not created partition files at ${PINE64_SD_SFX}."
 fi
 
 echo "Formatting persist partition..."
@@ -102,15 +105,19 @@ mkfs.ext4 -F -L "persist" ${PINE64_SD_SFX}1
 
 sync && sync
 
-echo "Flashing u-boot..."
-if [ -n "$idbloader" ]; then
+if [ -f "$ubootimg" ]; then
+  echo "Flashing u-boot..."
+  if [ -n "$idbloader" ]; then
     # idbloader for rk3399 machines
     dd iflag=dsync oflag=dsync if=$idbloader of=$PINE64_SD seek=64 ${SD_FUSE_DD_ARGS}
     dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=16384 ${SD_FUSE_DD_ARGS}
-elif [ -n "$ubootspl" ]; then
-    dd iflag=dsync oflag=dsync if=$ubootspl of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
-    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=5 bs=8k ${SD_FUSE_DD_ARGS}
-else
+  elif [ -n "$ubootspl" ]; then
+   dd iflag=dsync oflag=dsync if=$ubootspl of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
+   dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=5 bs=8k ${SD_FUSE_DD_ARGS}
+  else
     dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
+  fi
+else
+  echo "Skipping flashing u-boot..."
 fi
 cd -
