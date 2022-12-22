@@ -25,9 +25,10 @@ if [ ! -b "$PINE64_SD" ]; then
   exit 1
 fi
 
+IMAGES_DIR=${BUILDROOT_DIR}/images
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-ubootimg="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
-ubootimg2="$BUILDROOT_DIR/output/images/u-boot.itb"
+ubootimg="${IMAGES_DIR}/u-boot-sunxi-with-spl.bin"
+ubootimg2="${IMAGES_DIR}/u-boot.itb"
 idbloader=""
 
 dtb_path=$(find ${IMAGES_DIR}/ -name '*.dtb' -print -quit)
