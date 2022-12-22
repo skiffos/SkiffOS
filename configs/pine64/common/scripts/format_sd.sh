@@ -113,8 +113,8 @@ if [ -f "$ubootimg" ]; then
     dd iflag=dsync oflag=dsync if=$idbloader of=$PINE64_SD seek=64 ${SD_FUSE_DD_ARGS}
     dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=16384 ${SD_FUSE_DD_ARGS}
   elif [ -n "$ubootspl" ]; then
-   dd iflag=dsync oflag=dsync if=$ubootspl of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
-   dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=5 bs=8k ${SD_FUSE_DD_ARGS}
+    dd iflag=dsync oflag=dsync if=$ubootspl of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
+    dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=5 bs=8k ${SD_FUSE_DD_ARGS}
   else
     dd iflag=dsync oflag=dsync if=$ubootimg of=$PINE64_SD seek=1 bs=8k ${SD_FUSE_DD_ARGS}
   fi
