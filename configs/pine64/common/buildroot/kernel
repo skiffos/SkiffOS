@@ -10,8 +10,14 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # branch: orange-pi-6.0
 # megous kernel for pinephone, pinebook, orangepi
 # upstream: https://github.com/megous/linux/commits/orange-pi-6.0
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,2683672a2052ffda995bb987fa62a1abe8424ef4)/linux-megous-6.0.2-r1.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_0=y
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,2683672a2052ffda995bb987fa62a1abe8424ef4)/linux-megous-6.0.2-r1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_0=y
+
+# branch: orange-pi-6.1
+# megous kernel for pinephone, pinebook, orangepi
+# upstream: https://github.com/megous/linux/commits/orange-pi-6.1
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,4e165abf03a3c38ec7c13e6e07e544fb6ab13166)/linux-megous-6.1-rc8-r1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
