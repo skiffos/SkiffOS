@@ -1,7 +1,7 @@
 setenv fdt_high ffffffff
 
 setenv condev "console=ttyS0,115200"
-setenv bootargs "root=/dev/initrd rootwait ro ramdisk_size=100000 ${condev} earlyprintk no_console_suspend net.ifnames=0 elevator=noop"
+setenv bootargs "root=/dev/initrd rootwait ro ramdisk_size=100000 ${condev} earlyprintk no_console_suspend net.ifnames=0"
 
 # fdt_addr_r set by bootloader
 # kernel_addr_r set by bootloader

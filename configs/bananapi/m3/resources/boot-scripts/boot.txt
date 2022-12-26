@@ -1,5 +1,5 @@
 setenv condev "console=ttyS0,115200"
-setenv bootargs "root=/dev/initrd rootwait ro ramdisk_size=100000 ${condev} earlyprintk no_console_suspend net.ifnames=0 elevator=noop"
+setenv bootargs "root=/dev/initrd rootwait ro ramdisk_size=100000 ${condev} earlyprintk no_console_suspend net.ifnames=0"
 
 setenv dtb_addr_r "0x42000000"
 setenv kernel_addr_r "0x40008000"
