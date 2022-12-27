@@ -1,6 +1,5 @@
-# Set root partition to the second partition of boot device
-part uuid ${devtype} ${devnum}:1 uuid_boot
-part uuid ${devtype} ${devnum}:2 uuid_root
+# Set root partition to the first partition of boot device
+part uuid ${devtype} ${devnum}:1 uuid_root
 
 # setenv silent 1
 setenv condev "console=ttyS2,1500000 earlycon=uart8250,mmio32,0xff1a0000"
