@@ -2,7 +2,7 @@
 part uuid ${devtype} ${devnum}:1 uuid_root
 
 # setenv silent 1
-setenv condev "console=ttyS2,1500000 earlycon=uart8250,mmio32,0xff1a0000"
+setenv condev "console=ttyS2,115200 earlycon=uart8250,mmio32,0xff1a0000"
 
 # use /init script to deferred mount /
 setenv bootroot "root=PARTUUID=${uuid_root} rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
