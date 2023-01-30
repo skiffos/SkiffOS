@@ -1,2 +1,2 @@
-# Override from default of sources.buildroot.net
-BR2_BACKUP_SITE="https://github.com/skiffos/mirror/raw/master"
+# Set the URL to the SkiffOS mirror
+BR2_SKIFFOS_BACKUP_SITE="https://github.com/skiffos/mirror/raw/master"
