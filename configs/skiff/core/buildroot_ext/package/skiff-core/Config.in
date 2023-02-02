@@ -7,7 +7,6 @@ config BR2_PACKAGE_SKIFF_CORE
 	depends on BR2_USE_MMU # docker-containerd
 	select BR2_PACKAGE_DOCKER_ENGINE # runtime dependency
 	select BR2_PACKAGE_CONTAINERD # runtime dependency
-	select BR2_PACKAGE_DOCKER_PROXY # runtime dependency
 	select BR2_PACKAGE_IPTABLES # runtime dependency
 	help
 	  Skiff Core manages setting up user environment containers
