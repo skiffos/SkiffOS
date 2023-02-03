@@ -1,1 +1,1 @@
-Adds runc, containerd, and dockerd to the target.
+Adds Docker Engine and CLI to the target.
