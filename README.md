@@ -49,24 +49,24 @@ main SkiffOS repository:
 
 | **Board**             | **Config Package**    | **Bootloader**   | **Kernel**      | **Notes**        |
 |-----------------------|-----------------------|------------------|-----------------|------------------|
-| VirtualBox            | [virt/virtualbox]     | N/A              | ✔ 6.1.9         | Run in VM        |
+| VirtualBox            | [virt/virtualbox]     | N/A              | ✔ 6.1.10        | Run in VM        |
 | [Docker Img]          | [virt/docker]         | N/A              | N/A             | Run in Docker    |
-| [Qemu]                | [virt/qemu]           | N/A              | ✔ 6.1.9         | Run in QEmu      |
-| [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 6.1.9         | [Run in Browser] |
+| [Qemu]                | [virt/qemu]           | N/A              | ✔ 6.1.10        | Run in QEmu      |
+| [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 6.1.10        | [Run in Browser] |
 | [WSL] on Windows      | [virt/wsl]            | N/A              | N/A             | Run in WSL2      |
 |-----------------------|-----------------------|------------------|-----------------|------------------|
 | [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
-| [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 6.1.9         | ✔ Tested         |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.9         | ⚠ Obsolete       |
-| [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 6.1.9         | ⚠ Obsolete       |
-| [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.9         |                  |
-| [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 6.1.9         | ⚠ Obsolete       |
-| [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 6.1.9         | ✔ Tested         |
+| [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 6.1.10        | ✔ Tested         |
+| [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.10        | ⚠ Obsolete       |
+| [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 6.1.10        | ⚠ Obsolete       |
+| [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.10        |                  |
+| [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 6.1.10        | ⚠ Obsolete       |
+| [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 6.1.10        | ✔ Tested         |
 | [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.145-ti   |                  |
 | [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.145-ti   |                  |
 | [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.145-ti   |                  |
 | [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
-| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 6.1.9         | ✔ Tested         |
+| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 6.1.10        | ✔ Tested         |
 | [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125  |                  |
 | [NVIDIA Jetson AGX]   | [jetson/agx]          | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
 | [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
@@ -81,10 +81,10 @@ main SkiffOS repository:
 | [Odroid U]            | [odroid/u]            | ✔ U-Boot 2022.07 | ✔ tb-6.1.4      | ⚠ Obsolete       |
 | [Odroid XU3]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.4      | ⚠ Obsolete       |
 | [Odroid XU4]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.4      | ✔ Tested         |
-| [OrangePi Lite]       | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 6.1.9         |                  |
-| [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 6.1.9         |                  |
-| [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 6.1.9         |                  |
-| [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 6.1.9         |                  |
+| [OrangePi Lite]       | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 6.1.10        |                  |
+| [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 6.1.10        |                  |
+| [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 6.1.10        |                  |
+| [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 6.1.10        |                  |
 | [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.89   | ✔ Tested         |
 | [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.89   |                  |
 | [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.89   | ✔ Tested         |
@@ -99,9 +99,9 @@ main SkiffOS repository:
 | [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-6.1-rc8  | ✔ Tested         |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
 | [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
-| [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 6.1.9         | ✔ Tested         |
+| [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 6.1.10        | ✔ Tested         |
 | Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0  |                  |
-| [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 6.1.9         |                  |
+| [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 6.1.10        |                  |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
