@@ -50,13 +50,13 @@ sudo parted $INTEL_DESKTOP_DISK mklabel gpt
 sleep 1
 
 echo "Making EFI partition..."
-sudo parted -a optimal $INTEL_DESKTOP_DISK mkpart primary fat32 2048s 512MiB
-sudo parted $INTEL_DESKTOP_DISK name 1 EFI
+sudo parted $INTEL_DESKTOP_DISK mkpart primary fat32 1049kB 538MB
+sudo parted $INTEL_DESKTOP_DISK name 1 "EFI System Partition"
 sudo parted $INTEL_DESKTOP_DISK set 1 boot on
-sudo parted $INTEL_DESKTOP_DISK set 1 esp on
+# sudo parted $INTEL_DESKTOP_DISK set 1 esp on
 
 echo "Making persist partition..."
-sudo parted -a optimal $INTEL_DESKTOP_DISK -- mkpart primary ext4 512MiB "100%"
+sudo parted -a optimal $INTEL_DESKTOP_DISK -- mkpart primary ext4 538MB "100%"
 sudo parted $INTEL_DESKTOP_DISK name 2 SKIFFOS
 
 echo "Waiting for partprobe..."

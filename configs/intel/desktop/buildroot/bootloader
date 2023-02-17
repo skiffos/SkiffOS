@@ -1,7 +1,13 @@
+# grub: chain-load rEFInd
+# more reliable than running rEFInd directly
+BR2_TARGET_GRUB2=y
+BR2_TARGET_GRUB2_X86_64_EFI=y
+BR2_TARGET_GRUB2_BUILTIN_MODULES_EFI="boot linux ext2 fat squash4 part_msdos part_gpt normal efi_gop chain"
+
 # rEFind bootloader
 # use binary release
 BR2_TARGET_REFIND_BIN=y
-BR2_TARGET_REFIND_BIN_RENAME_TO_BOOT=y
+# BR2_TARGET_REFIND_BIN_RENAME_TO_BOOT is not set
 
 # efibootmgr
 BR2_PACKAGE_EFIBOOTMGR=y
