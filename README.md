@@ -100,7 +100,7 @@ main SkiffOS repository:
 | [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
 | [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 6.1.12        | ✔ Tested         |
-| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-5.13.0  |                  |
+| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-6.1.9   | ⚠ Experimental   |
 | [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 6.1.12        |                  |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
