@@ -7,8 +7,8 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
 
 # skiff-odroid-6.1.y branch: tobetter fork w/ xu4 support
-# skiff-odroid-6.1.y-4
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,d7f5728aba22ea0bd4e12b82ef3ea03792a3520b)/linux-skiff-odroid-6.1.10-r1.tar.gz"
+# skiff-odroid-6.1.y-5
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,ccf7c981cd1f59fe7b3c1faf2794ef4629ef3147)/linux-skiff-odroid-6.1.11-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
 
 BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG=y
