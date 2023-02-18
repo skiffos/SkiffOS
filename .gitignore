@@ -1,5 +1,7 @@
 .config/
 tmpmount/
+tmp/
+diffconfig-tmp/
 *~
 buildroot-work/
 *.org
