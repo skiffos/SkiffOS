@@ -1,0 +1,50 @@
+##
+## Neptune stuff
+##
+
+#
+# Disable Radeon, SI and CIK support since not required for Vangogh GPU
+#
+# CONFIG_DRM_AMDGPU_CIK is not set
+# CONFIG_DRM_AMDGPU_SI is not set
+# CONFIG_DRM_RADEON is not set
+
+#
+# Use xz instead of zstd to save space
+#
+CONFIG_KERNEL_XZ=y
+# CONFIG_KERNEL_ZSTD is not set
+CONFIG_MODULE_COMPRESS_XZ=y
+# CONFIG_MODULE_COMPRESS_ZSTD is not set
+
+# Doesn't build on latest tag, not used in neptune hardware (?)
+CONFIG_SND_SOC_CS35L36=n
+# Update this to =y to workaround initialization issues and deadlocks when loaded as module
+# The cs35l41 / acp5x drivers in EV2 fail IRQ initialization with this set to =y, changed back
+CONFIG_SPI_AMD=m
+
+# Works around issues with the touchscreen driver
+CONFIG_PINCTRL_AMD=y
+
+CONFIG_SND_SOC_AMD_ACP5x=m
+CONFIG_SND_SOC_AMD_VANGOGH_MACH=m
+CONFIG_SND_SOC_WM_ADSP=m
+CONFIG_SND_SOC_CS35L41=m
+CONFIG_SND_SOC_CS35L41_SPI=m
+# CONFIG_SND_SOC_CS35L41_I2C is not set
+CONFIG_SND_SOC_NAU8821=m
+
+# Enable Ambient Light Sensor
+CONFIG_LTRF216A=m
+
+# Enable Steam Deck MFD driver, replaces Jupiter ACPI platform driver (CONFIG_JUPITER)
+CONFIG_MFD_STEAMDECK=m
+CONFIG_EXTCON_STEAMDECK=m
+CONFIG_LEDS_STEAMDECK=m
+CONFIG_SENSORS_STEAMDECK=m
+
+# PARAVIRT options have overhead, even on bare metal boots. They can cause
+# spinlocks to not be inlined as well. Either way, we don't intend to run this
+# kernel as a guest, so this also clears out a whole bunch of
+# virtualization-specific drivers.
+CONFIG_HYPERVISOR_GUEST=n

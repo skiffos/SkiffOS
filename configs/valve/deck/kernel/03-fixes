@@ -1,15 +1,14 @@
 # BPF causes build errors with a libelf missing header
-# CONFIG_AF_KCM is not set
-# CONFIG_BPF_JIT is not set
-# CONFIG_BPF_PRELOAD is not set
-# CONFIG_BPF_SYSCALL is not set
+# not required anymore?: # CONFIG_AF_KCM is not set
+# not required anymore?: # # CONFIG_BPF_JIT is not set
+# not required anymore?: # CONFIG_BPF_PRELOAD is not set
+# not required anymore?: # CONFIG_BPF_SYSCALL is not set
 
 # disable module compress + sign
 # CONFIG_MODULE_COMPRESS is not set
 # CONFIG_MODULE_SIG is not set
 
 # must be built in to read the emmc and load modules
-# CONFIG_MMC_BLOCK is not set
 CONFIG_MMC35240=y
 CONFIG_MMC=y
 CONFIG_MMC_BLOCK=y
