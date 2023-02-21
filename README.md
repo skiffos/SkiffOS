@@ -47,61 +47,62 @@ The Buildroot OS cross-compiler can target any Linux-compatible device or
 virtual machine. These system configuration packages are available in the
 main SkiffOS repository:
 
-| **Board**             | **Config Package**    | **Bootloader**   | **Kernel**      | **Notes**        |
-|-----------------------|-----------------------|------------------|-----------------|------------------|
-| VirtualBox            | [virt/virtualbox]     | N/A              | ✔ 6.1.13        | Run in VM        |
-| [Docker Img]          | [virt/docker]         | N/A              | N/A             | Run in Docker    |
-| [Qemu]                | [virt/qemu]           | N/A              | ✔ 6.1.13        | Run in QEmu      |
-| [V86] on WebAssembly  | [browser/v86]         | [V86]            | ✔ 6.1.13        | [Run in Browser] |
-| [WSL] on Windows      | [virt/wsl]            | N/A              | N/A             | Run in WSL2      |
-|-----------------------|-----------------------|------------------|-----------------|------------------|
-| [Allwinner Nezha]     | [allwinner/nezha]     | ✔ U-boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
-| [Apple Macbook]       | [apple/macbook]       | ✔ [rEFInd]       | ✔ 6.1.13        | ✔ Tested         |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
-| [BananaPi M1]         | [bananapi/m1]         | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
-| [BananaPi M2+]        | [bananapi/m2plus]     | ✔ U-Boot 2022.04 | ✔ 6.1.13        |                  |
-| [BananaPi M2]         | [bananapi/m2]         | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
-| [BananaPi M3]         | [bananapi/m3]         | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ✔ Tested         |
-| [BeagleBoard X15]     | [beaglebone/x15]      | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
-| [BeagleBone AI]       | [beaglebone/ai]       | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
-| [BeagleBone Black]    | [beaglebone/black]    | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
-| [BeagleBoard BeagleV] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
-| [Intel x86/64]        | [intel/desktop]       | ✔ [rEFInd]       | ✔ 6.1.13        | ✔ Tested         |
-| [ModalAI Voxl2]       | [modalai/voxl2]       | N/A              | ✔ msm-4.19.125  |                  |
-| [NVIDIA Jetson AGX]   | [jetson/agx]          | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
-| [NVIDIA Jetson Nano]  | [jetson/nano]         | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
-| [NVIDIA Jetson TX2]   | [jetson/tx2]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
-| [Odroid C2]           | [odroid/c2]           | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
-| [Odroid C4]           | [odroid/c4]           | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     |                  |
-| [Odroid HC1]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
-| [Odroid HC2]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ✔ Tested         |
-| [Odroid HC4]          | [odroid/hc4]          | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     |                  |
-| [Odroid M1]           | [odroid/m1]           | ✔ U-Boot 2017.09 | ✔ tb-6.1.11     |                  |
-| [Odroid N2]+          | [odroid/n2]           | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ✔ Tested         |
-| [Odroid U]            | [odroid/u]            | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
-| [Odroid XU3]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
-| [Odroid XU4]          | [odroid/xu]           | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ✔ Tested         |
-| [OrangePi Lite]       | [orangepi/lite]       | ✔ U-Boot 2018.05 | ✔ 6.1.13        |                  |
-| [OrangePi Zero]       | [orangepi/zero]       | ✔ U-Boot 2018.07 | ✔ 6.1.13        |                  |
-| [PcDuino 3]           | [pcduino/3]           | ✔ U-Boot 2019.07 | ✔ 6.1.13        |                  |
-| [PcEngines APU2]      | [pcengines/apu2]      | ✔ CoreBoot       | ✔ 6.1.13        |                  |
-| [Pi 0]                | [pi/0]                | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
-| [Pi 1]                | [pi/1]                | N/A              | ✔ rpi-5.15.92   |                  |
-| [Pi 3] + 1, 2         | [pi/3]                | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
-| [Pi 4]                | [pi/4]                | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
-| [Pi 4] (32bit mode)   | [pi/4x32]             | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
-| [Pine64 H64]          | [pine64/h64]          | ✔ U-Boot 2022.04 | ✔ megi-6.1.9    |                  |
-| [PineBook A64]        | [pine64/book_a64]     | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ⚠ Obsolete       |
-| [PineBook Pro]        | [pine64/book]         | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
-| [PinePhone]           | [pine64/phone]        | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
-| [PinePhone Pro]       | [pine64/phone_pro]    | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ⚠ Experimental   |
-| [Rock64] rk3328       | [pine64/rock64]       | ✔ U-Boot 2022.04 | ✔ megi-6.1.9    | ✔ Tested         |
-| [RockPro64]           | [pine64/rockpro64]    | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
-| [Sipeed LicheeRV]     | [allwinner/licheerv]  | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
-| [StarFive VisionFive] | [starfive/visionfive] | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
-| [USBArmory Mk2]       | [usbarmory/mk2]       | ✔ U-Boot 2020.10 | ✔ 6.1.13        | ✔ Tested         |
-| Valve [Steam Deck]    | [valve/deck]          | N/A              | ✔ valve-6.1.9   | ✔ Tested         |
-| [Wandboard]           | [freescale/wandboard] | ✔ U-Boot 2022.04 | ✔ 6.1.13        |                  |
+| **Board**              | **Config Package**     | **Bootloader**   | **Kernel**      | **Notes**        |
+|------------------------|------------------------|------------------|-----------------|------------------|
+| VirtualBox             | [virt/virtualbox]      | N/A              | ✔ 6.1.13        | Run in VM        |
+| [Docker Img]           | [virt/docker]          | N/A              | N/A             | Run in Docker    |
+| [Qemu]                 | [virt/qemu]            | N/A              | ✔ 6.1.13        | Run in QEmu      |
+| [V86] on WebAssembly   | [browser/v86]          | [V86]            | ✔ 6.1.13        | [Run in Browser] |
+| [WSL] on Windows       | [virt/wsl]             | N/A              | N/A             | Run in WSL2      |
+|------------------------|------------------------|------------------|-----------------|------------------|
+| [Allwinner Nezha]      | [allwinner/nezha]      | ✔ U-boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
+| [Apple Macbook]        | [apple/macbook]        | ✔ [rEFInd]       | ✔ 6.1.13        | ✔ Tested         |
+| [BananaPi M1+/Pro]     | [bananapi/m1plus]      | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
+| [BananaPi M1]          | [bananapi/m1]          | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
+| [BananaPi M2+]         | [bananapi/m2plus]      | ✔ U-Boot 2022.04 | ✔ 6.1.13        |                  |
+| [BananaPi M2]          | [bananapi/m2]          | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ⚠ Obsolete       |
+| [BananaPi M3]          | [bananapi/m3]          | ✔ U-Boot 2022.04 | ✔ 6.1.13        | ✔ Tested         |
+| [BeagleBoard X15]      | [beaglebone/x15]       | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
+| [BeagleBone AI]        | [beaglebone/ai]        | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
+| [BeagleBone Black]     | [beaglebone/black]     | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
+| [BeagleBoard BeagleV]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
+| [Intel x86/64]         | [intel/desktop]        | ✔ [rEFInd]       | ✔ 6.1.13        | ✔ Tested         |
+| [ModalAI Voxl2]        | [modalai/voxl2]        | N/A              | ✔ msm-4.19.125  |                  |
+| [NVIDIA Jetson AGX]    | [jetson/agx]           | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
+| [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
+| [NVIDIA Jetson TX2]    | [jetson/tx2]           | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
+| [Odroid C2]            | [odroid/c2]            | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
+| [Odroid C4]            | [odroid/c4]            | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     |                  |
+| [Odroid HC1]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
+| [Odroid HC2]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ✔ Tested         |
+| [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     |                  |
+| [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.1.11     |                  |
+| [Odroid N2]+           | [odroid/n2]            | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ✔ Tested         |
+| [Odroid U]             | [odroid/u]             | ✔ U-Boot 2022.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
+| [Odroid XU3]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ⚠ Obsolete       |
+| [Odroid XU4]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.1.11     | ✔ Tested         |
+| [OrangePi Lite]        | [orangepi/lite]        | ✔ U-Boot 2018.05 | ✔ 6.1.13        |                  |
+| [OrangePi Zero]        | [orangepi/zero]        | ✔ U-Boot 2018.07 | ✔ 6.1.13        |                  |
+| [PcDuino 3]            | [pcduino/3]            | ✔ U-Boot 2019.07 | ✔ 6.1.13        |                  |
+| [PcEngines APU2]       | [pcengines/apu2]       | ✔ CoreBoot       | ✔ 6.1.13        |                  |
+| [Pi 0]                 | [pi/0]                 | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
+| [Pi 1]                 | [pi/1]                 | N/A              | ✔ rpi-5.15.92   |                  |
+| [Pi 3] + 1, 2          | [pi/3]                 | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
+| [Pi 4]                 | [pi/4]                 | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
+| [Pi 4] (32bit mode)    | [pi/4x32]              | N/A              | ✔ rpi-5.15.92   | ✔ Tested         |
+| [Pine64 H64]           | [pine64/h64]           | ✔ U-Boot 2022.04 | ✔ megi-6.1.9    |                  |
+| [PineBook A64]         | [pine64/book_a64]      | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ⚠ Obsolete       |
+| [PineBook Pro]         | [pine64/book]          | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
+| [PinePhone]            | [pine64/phone]         | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
+| [PinePhone Pro]        | [pine64/phone_pro]     | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ⚠ Experimental   |
+| [Rock64] rk3328        | [pine64/rock64]        | ✔ U-Boot 2022.04 | ✔ megi-6.1.9    | ✔ Tested         |
+| [RockPro64]            | [pine64/rockpro64]     | ✔ U-Boot (bin)   | ✔ megi-6.1.9    | ✔ Tested         |
+| [Sipeed LicheeRV]      | [allwinner/licheerv]   | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
+| [StarFive VisionFive]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
+| [StarFive VisionFive2] | [starfive/visionfive2] | ✔ U-Boot 2021.10 | ✔ s5-5.15.0     | RISC-V           |
+| [USBArmory Mk2]        | [usbarmory/mk2]        | ✔ U-Boot 2020.10 | ✔ 6.1.13        | ✔ Tested         |
+| Valve [Steam Deck]     | [valve/deck]           | N/A              | ✔ valve-6.1.9   | ✔ Tested         |
+| [Wandboard]            | [freescale/wandboard]  | ✔ U-Boot 2022.04 | ✔ 6.1.13        |                  |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
@@ -149,6 +150,7 @@ main SkiffOS repository:
 [Run in Browser]:  https://copy.sh/v86/?profile=copy/skiffos
 [Sipeed LicheeRV]: https://linux-sunxi.org/Sipeed_Lichee_RV
 [StarFive VisionFive]: https://ameridroid.com/products/visionfive-starfive
+[StarFive VisionFive2]: https://ameridroid.com/products/visionfive-2
 [Steam Deck]: https://store.steampowered.com/steamdeck
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
 [V86]: https://github.com/copy/v86
@@ -200,6 +202,7 @@ main SkiffOS repository:
 [pine64/rock64]: ./configs/pine64/rock64
 [pine64/rockpro64]: ./configs/pine64/rockpro64
 [starfive/visionfive]: ./configs/starfive/visionfive
+[starfive/visionfive2]: ./configs/starfive/visionfive2
 [usbarmory/mk2]: ./configs/usbarmory
 [valve/deck]: ./configs/valve/deck
 [virt/docker]: ./configs/virt/docker

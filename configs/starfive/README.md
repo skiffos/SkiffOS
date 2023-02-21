@@ -6,6 +6,7 @@ the Starfive series of RISC-V boards.
 Reference:
 
  - https://github.com/buildroot/buildroot/tree/master/board/beaglev
+ - https://github.com/starfive-tech
 
 ## Getting Started
 
@@ -34,6 +35,8 @@ safe to upgrade Skiff independently from your persistent data.
 
 ## Flashing the Bootloader
 
+### StarFive 1 / BeagleV
+
 **The VisionFive u-boot must be flashed to setup the board.**
 
 Instructions:
@@ -54,29 +57,44 @@ Instructions:
 
 If all went successfully, the system will boot into U-boot, then SkiffOS!
 
+### StarFive 2
+
+You may need to flash uboot and opensbi according to the instructions on the starfive2 site.
+
 ## Board Compatibility
 
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**    | **Config Package**    | Notes                 |
-|--------------|-----------------------|-----------------------|
-| [visionfive] | [starfive/visionfive] | SiFive U74 RV64GC     |
-| [beaglev]    | [starfive/visionfive] | Compatible w/ BeagleV |
+| **Board**     | **Config Package**     | Notes                 |
+|---------------|------------------------|-----------------------|
+| [visionfive]  | [starfive/visionfive]  | SiFive U74 RV64GC     |
+| [beaglev]     | [starfive/visionfive]  | Compatible w/ BeagleV |
+| [visionfive2] | [starfive/visionfive2] | ⚠ Experimental        |
 
 [beaglev]: https://beagleboard.org/static/beagleV/beagleV.html
 [visionfive]: https://ameridroid.com/products/visionfive-starfive
 [starfive/visionfive]: ./visionfive
+[starfive/visionfive2]: ./visionfive2
+
+## Known issues
+
+### StarFive2
+
+- The initial resizing of the SD card may not work properly. You may 
+  need to resize the partitions manually on another machine.
+- Only 4 GB of memory are detected, even if the system has 8 GB
+- The shell is crashing immediately if a locale is set. If ssh exists immediately, please try `unset LANG`
 
 ## SD Card Compatibility
 
 The current SD cards used / tested by developers are:
 
- - SanDisk Ultra MicroSDXC (Any)
+- SanDisk Ultra MicroSDXC (Any)
 
 The current cards that are known to **NOT** work are:
 
- - Intenso MicroSDXC Card, UHS-I, 64 GB
+- Intenso MicroSDXC Card, UHS-I, 64 GB
 
 Some SD cards may not work as well with the Starfive hardware.
 
@@ -110,4 +128,4 @@ part of this config as a host tool: at `host/bin/jh7100-recover`.
 
 ## Acknowledgments
 
-This configuration is based on the "beaglev" defconfig in Buildroot mainline.
+The StarFive 1 / BeagleV configuration is based on the "beaglev" defconfig in Buildroot mainline.
