@@ -1,0 +1,27 @@
+From 04eb9db83c62d91b92498409a683ba23d4bb91f1 Mon Sep 17 00:00:00 2001
+From: Max Berger <max@berger.name>
+Date: Sat, 25 Feb 2023 21:01:24 +0100
+Subject: [PATCH] Enable 8gb of memory
+
+See https://github.com/starfive-tech/VisionFive2/issues/20
+for details
+---
+ arch/riscv/boot/dts/starfive/jh7110-visionfive-v2.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/riscv/boot/dts/starfive/jh7110-visionfive-v2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-visionfive-v2.dtsi
+index 344ebae6c651..d66c07779e65 100755
+--- a/arch/riscv/boot/dts/starfive/jh7110-visionfive-v2.dtsi
++++ b/arch/riscv/boot/dts/starfive/jh7110-visionfive-v2.dtsi
+@@ -46,7 +46,7 @@ cpus {
+ 
+ 	memory@40000000 {
+ 		device_type = "memory";
+-		reg = <0x0 0x40000000 0x1 0x0>;
++		reg = <0x0 0x40000000 0x2 0x0>;
+ 	};
+ 
+ 	reserved-memory {
+-- 
+2.34.1
+

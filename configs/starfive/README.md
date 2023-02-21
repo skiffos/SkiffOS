@@ -81,10 +81,11 @@ tested by the developers unless otherwise noted.
 
 ### StarFive2
 
-- The initial resizing of the SD card may not work properly. You may 
-  need to resize the partitions manually on another machine.
-- Only 4 GB of memory are detected, even if the system has 8 GB
-- The shell is crashing immediately if a locale is set. If ssh exists immediately, please try `unset LANG`
+- Bash crashes if the LOCALE is set to an unknown value
+  - If ssh exists immediately, try `unset LANG`
+- The initial resizing of the SD card persist partition doesn't work.
+  - Use the format and install scripts which size the partition correctly.
+  - OR, resize the partition on another machine after formatting w/ an image.
 
 ## SD Card Compatibility
 
