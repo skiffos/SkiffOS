@@ -38,4 +38,35 @@ safe to upgrade Skiff independently from your persistent data.
 
 To access the boot menu, power on the device while holding volume-down.
 
+Use the d-pad to select "Boot menu."
+
 Select the "EFI SD Card" to boot from the MicroSD.
+
+## Overwriting SteamOS on NVME Drive
+
+NOTE: these instructions may cause issues, proceed at your own risk!
+
+You can install SkiffOS on the NVME drive once you have booted to the SD card.
+
+ 1. Boot SkiffOS on the SD card and ssh in.
+ 2. Enter the parted prompt with `parted /dev/nvme0n1`
+ 3. Wipe the drive with `mklabel gpt`.
+ 4. `mkpart primary fat32 1049kB 538MB`
+ 5. `name 1 EFI`
+ 6. `set 1 boot on`
+ 7. `mkpart primary ext4 538MB "100%"`
+ 8. `name 2 SKIFFOS`
+ 9. Type `quit` and press enter to exit parted.
+ 10. `partprobe /dev/nvme0n1`
+ 11. `mkfs.vfat -n EFI -F 32 /dev/nvme0n1p1`
+ 12. `mkfs.ext4 -F -L "SKIFFOS" /dev/nvme0n1p2`
+ 13. `mkdir -p /mnt/nvme/efi /mnt/nvme/persist /mnt/efi`
+ 14. `mount /dev/mmcblk0p1 /mnt/efi`
+ 15. `mount /dev/nvme0n1p1 /mnt/nvme/efi`
+ 16. `mount /dev/nvme0n1p2 /mnt/nvme/persist`
+ 17. `rsync -rav /mnt/efi/ /mnt/nvme/efi/`
+ 18. `rsync -rav /mnt/persist/boot/ /mnt/nvme/persist/boot/`
+ 19. `sync`
+ 20. `reboot`
+
+After rebooting, the system will reboot into SkiffOS from the NVME drive.
