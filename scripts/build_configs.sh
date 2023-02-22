@@ -155,7 +155,7 @@ for confp in "${confpaths[@]}"; do
     fi
   fi
   if [ -d "$br_confp" ]; then
-    for file in $(ls -v $br_confp); do
+    for file in $(ls -v $br_confp | sort); do
       echo "Merging in Buildroot config file $file"
       printf "\n# Configuration from ${br_confp}/${file}\n" >> $br_conf
       $domerge $br_conf $br_confp/$file
@@ -164,7 +164,7 @@ for confp in "${confpaths[@]}"; do
     done
   fi
   if [ -d "$busybox_confp" ]; then
-      for file in $(ls -v $busybox_confp); do
+      for file in $(ls -v $busybox_confp | sort); do
           echo "Merging in Busybox config file $file"
           printf "\n# Configuration from ${busybox_confp}/${file}\n" >> $busybox_conf
           $domerge $busybox_conf $busybox_confp/$file
@@ -173,7 +173,7 @@ for confp in "${confpaths[@]}"; do
       done
   fi
   if [ -d "$cflags_confp" ]; then
-      for file in $(ls -v $cflags_confp); do
+      for file in $(ls -v $cflags_confp | sort); do
           echo "Merging in Cflags config file $file"
           ncflags=$(cat $cflags_confp/$file | sed -e '/^[ \t]*#/d' | tr '\n' ' ')
           if [ -z "$ncflags" ]; then
@@ -187,7 +187,7 @@ for confp in "${confpaths[@]}"; do
       done
   fi
   if [ -d "$kern_confp" ]; then
-    for file in $(ls -v $kern_confp); do
+    for file in $(ls -v $kern_confp | sort); do
       echo "Merging in Kernel config file $file"
       printf "\n# Configuration from ${kern_confp}/${file}\n" >> $kern_conf
       $domerge $kern_conf $kern_confp/$file
@@ -196,7 +196,7 @@ for confp in "${confpaths[@]}"; do
     done
   fi
   if [ -d "$uboot_confp" ]; then
-      for file in $(ls -v $uboot_confp); do
+      for file in $(ls -v $uboot_confp | sort); do
           echo "Merging in u-boot config file $file"
           printf "\n# Configuration from ${uboot_confp}/${file}\n" >> $uboot_conf
           $domerge $uboot_conf $uboot_confp/$file
@@ -222,7 +222,7 @@ for confp in "${confpaths[@]}"; do
   fi
   if [ -d "$usersp" ]; then
     echo "Adding users configs..."
-    for file in $(ls -v $usersp); do
+    for file in $(ls -v $usersp | sort); do
       cat $usersp/$file >> $users_conf
     done
   fi
