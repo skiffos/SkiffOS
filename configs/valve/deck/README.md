@@ -1,5 +1,7 @@
 # SkiffOS on Steam Deck
 
+![Screenshot](../../../resources/images/valve-deck-screenshot.png)
+
 The configuration package **valve/deck** is for the **Steam Deck** by Valve.
 
 Reference:
