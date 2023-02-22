@@ -44,6 +44,18 @@ Use the d-pad to select "Boot menu."
 
 Select the "EFI SD Card" to boot from the MicroSD.
 
+## Startup
+
+You can connect to the deck via SSH, see the SkiffOS readme for more info.
+
+If core/holoiso is enabled, on first startup, the deck will download a ~4GB
+Docker image containing Holoiso and the SteamOS components.
+
+This will take some time. Once complete, you will see the Steam UI appear.
+
+Note that you will need to have added a valid wifi configuration for the deck to
+have internet access before it can download the Holoiso image.
+
 ## Overwriting SteamOS on NVME Drive
 
 NOTE: these instructions may cause issues, proceed at your own risk!
