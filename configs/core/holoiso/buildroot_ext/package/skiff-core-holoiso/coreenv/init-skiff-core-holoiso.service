@@ -1,0 +1,16 @@
+[Unit]
+Description=Initialize holoiso core user
+DefaultDependencies=no
+Wants=local-fs.target
+After=local-fs.target
+Before=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/skiffos/init-skiff-core-holoiso.sh
+TimeoutStartSec=120
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

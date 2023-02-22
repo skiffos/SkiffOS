@@ -16,7 +16,7 @@ Reference:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=valve/deck,skiff/core
+$ export SKIFF_CONFIG=valve/deck,core/holoiso
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```

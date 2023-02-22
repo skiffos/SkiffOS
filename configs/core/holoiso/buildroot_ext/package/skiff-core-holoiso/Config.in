@@ -1,0 +1,8 @@
+config BR2_PACKAGE_SKIFF_CORE_HOLOISO
+	bool "skiff-core-holoiso"
+	select BR2_PACKAGE_SKIFF_CORE
+	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
+	help
+	  Skiff Core environment with Holoiso for Steam Deck.
+
+	  https://github.com/theVakhovskeIsTaken/holoiso
