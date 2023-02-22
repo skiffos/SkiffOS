@@ -32,22 +32,25 @@ if [ -z "${partuuid}" ]; then
   exit 1
 fi
 
-resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-outp_path="${BUILDROOT_DIR}/output"
-images_path="${outp_path}/images"
-uimg_path="${images_path}/bzImage"
-cpio_path="${images_path}/rootfs.cpio.lz4"
-skiff_init_path="${images_path}/skiff-init/"
-squashfs_path="${images_path}/rootfs.squashfs"
+RESOURCES_DIR="${SKIFF_CURRENT_CONF_DIR}/resources"
+OUTPUT_DIR="${BUILDROOT_DIR}"
+IMAGES_DIR="${OUTPUT_DIR}/images"
+UIMG_PATH="${IMAGES_DIR}/bzImage"
+CPIO_DIR="${IMAGES_DIR}/rootfs.cpio.lz4"
+SKIFF_INIT_DIR="${IMAGES_DIR}/skiff-init"
+SQUASHFS_PATH="${IMAGES_DIR}/rootfs.squashfs"
+ROOTFS_PART_DIR="${IMAGES_DIR}/rootfs_part"
+PERSIST_PART_DIR="${IMAGES_DIR}/persist_part"
+BOOT_PART_DIR="${IMAGES_DIR}/boot_part"
 
 source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
-if [ ! -f "$uimg_path" ]; then
+if [ ! -f "$UIMG_PATH" ]; then
   echo "bzImage not found, make sure Buildroot is done compiling."
   exit 1
 fi
 
-skiff_release_path="${images_path}/skiff-release"
+skiff_release_path="${IMAGES_DIR}/skiff-release"
 if [ ! -f "$skiff_release_path" ]; then
     echo "skiff-release not found, make sure Buildroot is done compiling."
     exit 1
@@ -57,7 +60,7 @@ skiff_release=$(cat $skiff_release_path | grep "VERSION=" | cut -d= -f2)
 skiff_release="${skiff_release}-1"
 
 mounts=()
-MOUNTS_DIR=${outp_path}/mounts
+MOUNTS_DIR=${OUTPUT_DIR}/mounts
 mkdir -p ${MOUNTS_DIR}
 WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
 RS="rsync -rav --no-perms --no-owner --no-group --progress --inplace"
@@ -76,58 +79,64 @@ fi
 }
 trap cleanup EXIT
 
-persist_dir="${WORK_DIR}/persist"
-rootfs_dir="${persist_dir}/rootfs"
-boot_dir="${persist_dir}/boot"
+PERSIST_DIR="${WORK_DIR}/persist"
+ROOTFS_DIR="${PERSIST_DIR}/rootfs"
+BOOT_DIR="${PERSIST_DIR}/boot"
 
-echo "Mounting ${INTEL_DESKTOP_PARTITION} to $persist_dir..."
-mkdir -p $persist_dir
-mounts+=("$persist_dir")
-mount ${INTEL_DESKTOP_PARTITION} $persist_dir
+echo "Mounting ${INTEL_DESKTOP_PARTITION} to $PERSIST_DIR..."
+mkdir -p $PERSIST_DIR
+mounts+=("$PERSIST_DIR")
+mount ${INTEL_DESKTOP_PARTITION} $PERSIST_DIR
 
 echo "Copying kernel..."
-mkdir -p ${boot_dir}
-${RS} $uimg_path $boot_dir/$(basename $uimg_path)-skiffos-${skiff_release}
+mkdir -p ${BOOT_DIR}
+${RS} $UIMG_PATH $BOOT_DIR/$(basename $UIMG_PATH)-skiffos-${skiff_release}
 sync
 
-if [ -d "${images_path}/rootfs_part" ]; then
+if [ -d "${BOOT_PART_DIR}" ]; then
+    echo "Copying boot_part..."
+    ${RS} ${BOOT_PART_DIR}/ ${BOOT_DIR}/
+    sync
+fi
+
+if [ -d "${ROOTFS_PART_DIR}" ]; then
   echo "Copying rootfs_part..."
-  mkdir -p ${rootfs_dir}
-  ${RS} ${images_path}/rootfs_part/ $rootfs_dir/
+  mkdir -p ${ROOTFS_DIR}
+  ${RS} ${ROOTFS_PART_DIR}/ $ROOTFS_DIR/
   sync
 fi
 
-if [ -d "${images_path}/persist_part" ]; then
+if [ -d "${PERSIST_PART_DIR}" ]; then
   echo "Copying persist_part..."
-  ${RS} ${images_path}/persist_part/ $persist_dir/
+  ${RS} ${PERSIST_PART_DIR}/ $PERSIST_DIR/
   sync
 fi
 
-if [ -f ${cpio_path} ]; then
+if [ -f ${CPIO_DIR} ]; then
   echo "Copying initrd..."
   initrd_filename=initrd-skiffos-${skiff_release}
-  ${RS} $cpio_path $boot_dir/${initrd_filename}
+  ${RS} $CPIO_DIR $BOOT_DIR/${initrd_filename}
   sync
 fi
 
-if [ -f ${squashfs_path} ]; then
+if [ -f ${SQUASHFS_PATH} ]; then
   echo "Copying squashfs..."
   squashfs_filename=init-skiffos-${skiff_release}.squashfs
-  ${RS} $squashfs_path $boot_dir/${squashfs_filename}
+  ${RS} $SQUASHFS_PATH $BOOT_DIR/${squashfs_filename}
   sync
 fi
 
-if [ -d $skiff_init_path ]; then
+if [ -d $SKIFF_INIT_DIR ]; then
   echo "Copying skiff-init..."
-  ${RS} $skiff_init_path $boot_dir/skiff-init/
+  ${RS} ${SKIFF_INIT_DIR}/ $BOOT_DIR/skiff-init/
   sync
 fi
 
-if [ ! -f "${boot_dir}/refind_linux.conf" ]; then
+if [ ! -f "${BOOT_DIR}/refind_linux.conf" ]; then
   echo "Copying initial refind_linux.conf..."
-  cp ${refind_config} ${boot_dir}/refind_linux.conf
+  cp ${refind_config} ${BOOT_DIR}/refind_linux.conf
   echo "Setting PARTUUID=${partuuid} in refind_linux.conf..."
-  sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${boot_dir}/refind_linux.conf
+  sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${BOOT_DIR}/refind_linux.conf
 fi
 
 sync

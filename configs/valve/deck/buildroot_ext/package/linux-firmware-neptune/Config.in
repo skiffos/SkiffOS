@@ -1,0 +1,8 @@
+config BR2_PACKAGE_LINUX_FIRMWARE_NEPTUNE
+	bool "linux-firmware-neptune"
+	select BR2_PACKAGE_LINUX_FIRMWARE
+	help
+	  This package provides binary firmware files (closed blobs)
+	  for the Valve Deck (codenamed neptune).
+
+	  https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/

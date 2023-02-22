@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_VALVE_DECK_PATH/package/linux-firmware-neptune/Config.in"
