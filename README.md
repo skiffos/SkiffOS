@@ -320,6 +320,7 @@ Other distributions and images supported:
 | **Distribution** | **Config Package** | **Notes**              |
 |------------------|--------------------|------------------------|
 | [Alpine]         | core/alpine        | OpenRC                 |
+| [Arch] Linux     | core/arch          | Minimal desktop        |
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
 | [Fedora]         | core/fedora        | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
