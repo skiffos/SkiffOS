@@ -139,5 +139,13 @@ if [ ! -f "${BOOT_DIR}/refind_linux.conf" ]; then
   sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${BOOT_DIR}/refind_linux.conf
 fi
 
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${PERSIST_DIR}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    fi
+fi
+
 sync
 cleanup
