@@ -73,3 +73,20 @@ You can install SkiffOS on the NVME drive once you have booted to the SD card.
  21. `reboot`
 
 After rebooting, the system will reboot into SkiffOS from the NVME drive.
+
+### Formatting the SD card
+
+You can format the SD card as storage after connecting to your Deck:
+
+1. Boot SkiffOS on the Steam Deck with the SD card removed.
+2. SSH to the deck.
+3. Insert the SD card.
+4. Enter the parted prompt with `parted /dev/mmcblk0`
+5. Wipe the SD card with `mklabel gpt`
+6. `mkpart primary ext4 0% 100%`
+7. `name 1 STORAGE`
+8. Type `quit` and press enter to exit parted.
+9. `partprobe /dev/mmcblk0`
+10. `mkfs.ext4 -F -L "STORAGE" /dev/mmcblk0p1`
+
+The MicroSD card can then be mounted: `mkdir -p /mnt/sd && mount /dev/mmcblk0p1 /mnt/sd`
