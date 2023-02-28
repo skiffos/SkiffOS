@@ -8,4 +8,4 @@ config BR2_PACKAGE_SKIFF_CORE_DEBIAN
 	select BR2_PACKAGE_SKIFF_CORE
 	select BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	help
-	  Skiff Core environment for Debian Bullseye.
+	  Skiff Core environment for Debian Sid.
