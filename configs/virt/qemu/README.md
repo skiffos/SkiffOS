@@ -2,6 +2,8 @@
 
 This package enables compiling & running a qemu virtual machine.
 
+**NOTE: GCC 8 or newer is required for host-qemu to be compiled.**
+
 Builds both the host qemu VM and the target OS.
 
 ```sh
