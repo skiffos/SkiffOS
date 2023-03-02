@@ -1,3 +1,2 @@
 # Default arch, overridden by board configs.
 BR2_x86_64=y
-BR2_x86_x86_64=y
