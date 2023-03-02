@@ -21,6 +21,11 @@ if [ -b ${QEMU_PERSIST_DEVICE} ] && [ ! -b ${PERSIST_DEVICE} ]; then
     partprobe ${QEMU_PERSIST_DEVICE} || true
 fi
 
+# mount right away so we can create some directories
+mkdir -p /mnt/persist || true
+mount ${PERSIST_DEVICE} /mnt/persist || true
+mkdir -p /mnt/persist/{rootfs,boot} || true
+
 export DISABLE_RESIZE_PERSIST="true"
 export ROOTFS_DEVICE="/mnt/persist/rootfs"
 export ROOTFS_MNT_FLAGS="--rbind"
