@@ -1,14 +1,24 @@
 export QEMU_PERSIST_DEVICE="/dev/vda"
+attempts=0
+while [ ! -b ${QEMU_PERSIST_DEVICE} ]; do
+    attempts=$((attempts + 1))
+    echo "Waiting for ${QEMU_PERSIST_DEVICE} to exist (attempt ${attempts})..."
+    if [ $attempts -gt 60 ]; then
+        echo "Waited too long for ${QEMU_PERSIST_DEVICE}, continuing without."
+        break
+    fi
+    sleep 1
+done
+
 export PERSIST_DEVICE="${QEMU_PERSIST_DEVICE}1"
-if [ ! -b ${QEMU_PERSIST_DEVICE} ]; then
-    echo "${QEMU_PERSIST_DEVICE} not found: expected persist device"
-elif [ ! -b ${PERSIST_DEVICE} ]; then
+if [ -b ${QEMU_PERSIST_DEVICE} ] && [ ! -b ${PERSIST_DEVICE} ]; then
     echo "${PERSIST_DEVICE} not found: creating partition layout"
     parted ${QEMU_PERSIST_DEVICE} mklabel msdos
     partprobe ${QEMU_PERSIST_DEVICE} || true
     parted -a optimal ${QEMU_PERSIST_DEVICE} -- mkpart primary ext4 2MiB "100%"
     partprobe ${QEMU_PERSIST_DEVICE} || true
     mkfs.ext4 -F -L "persist" ${PERSIST_DEVICE}
+    partprobe ${QEMU_PERSIST_DEVICE} || true
 fi
 
 export DISABLE_RESIZE_PERSIST="true"
