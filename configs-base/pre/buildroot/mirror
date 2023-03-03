@@ -1,2 +1,2 @@
 # Set the URL to the SkiffOS mirror
-BR2_SKIFFOS_BACKUP_SITE="https://github.com/skiffos/mirror/raw/master"
+BR2_SKIFFOS_BACKUP_SITE="https://mirror.skiffos.com"
