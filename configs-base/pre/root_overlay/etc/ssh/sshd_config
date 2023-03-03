@@ -115,7 +115,8 @@ Subsystem	sftp	/usr/libexec/sftp-server
 #	ForceCommand cvs server
 
 # Allow client to pass locale environment variables. #367017
-AcceptEnv LANG LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME LANGUAGE LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_NAME LC_PAPER LC_TELEPHONE
+# SkiffOS: comment this out: we don't include all of the locales.
+# AcceptEnv LANG LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME LANGUAGE LC_ADDRESS LC_IDENTIFICATION LC_MEASUREMENT LC_NAME LC_PAPER LC_TELEPHONE
 
 # Allow client to pass COLORTERM to match TERM. #658540
 AcceptEnv COLORTERM
