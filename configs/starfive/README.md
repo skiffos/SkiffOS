@@ -81,9 +81,8 @@ tested by the developers unless otherwise noted.
 
 ### StarFive2
 
-- Bash crashes if the LOCALE is set to an unknown value
-  - If ssh exists immediately, try `unset LANG`
-- The initial resizing of the SD card persist partition doesn't work.
+ - The persist partition is not resized properly:
+  - https://github.com/skiffos/SkiffOS/issues/273
   - Use the format and install scripts which size the partition correctly.
   - OR, resize the partition on another machine after formatting w/ an image.
 
