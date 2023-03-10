@@ -1,7 +1,6 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 
 # tag jetson_35.1
@@ -11,7 +10,14 @@ BR2_KERNEL_HEADERS_AS_KERNEL=y
 # https://nv-tegra.nvidia.com/r/gitweb?p=kernel/nvethernetrm.git;a=commit;h=f661fdd1895608e675dfd43f0e85c5744f192910
 # merged to: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-7
 # version 5.10.104
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,3dc32c9feace5e697e1feec700baac26a3e76a77)/linux-jetson_35.1-nvidia-nvgpu-5.10.104-r7.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,3dc32c9feace5e697e1feec700baac26a3e76a77)/linux-jetson_35.1-nvidia-nvgpu-5.10.104-r7.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
+
+# oe4t-patches-l4t-r35.2.1 -> skiff/linux#skiff-jetson-5.10.x
+# https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-8
+# version 5.10.104
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,f5dd4195b2f42a92c5dec5c1b09b0305719419ed)/linux-jetson_35.2.1-nvidia-5.10.104-r8.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="tegra"
