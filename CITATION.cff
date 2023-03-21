@@ -3,8 +3,8 @@ title: "SkiffOS: Minimal Cross-compiled Linux for Embedded Containers"
 message: "If you use this software, please cite the arXiv paper."
 url: "https://github.com/skiffos/skiffos"
 doi: 10.48550/arXiv.2104.00048
-version: 2022.11.1
-date-released: 2023-01-20
+version: "2023.02"
+date-released: 2023-03-21
 authors:
   - family-names: Stewart
     given-names: Christian
