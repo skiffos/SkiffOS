@@ -21,7 +21,7 @@ else
 fi
 
 # merge all fragments and delete fragments dir
-SRC_FRAGMENTS_DIR=${SKIFF_WORKSPACE_DIR}/target/etc/docker/daemon.json.merge
+SRC_FRAGMENTS_DIR=${SKIFF_WORKSPACE_DIR}/images/docker-daemon.json.merge
 mkdir -p ${SRC_FRAGMENTS_DIR}
 echo "{}" > ${SRC_FRAGMENTS_DIR}/00-skiff-merged-fragments-to-daemon.json
 for f in ${SRC_FRAGMENTS_DIR}/*.json ; do
@@ -30,5 +30,3 @@ for f in ${SRC_FRAGMENTS_DIR}/*.json ; do
        ${TARGET_DJSON}.tmp
     mv ${TARGET_DJSON}.tmp ${TARGET_DJSON}
 done
-rm -rf ${SRC_FRAGMENTS_DIR}
-
