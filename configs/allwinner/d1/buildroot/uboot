@@ -4,20 +4,19 @@ BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 # BR2_TARGET_UBOOT_LATEST_VERSION=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 
-# branch: riscv-d1-2022.07
-# tag: d1-2022-05-26
+# branch: riscv-d1-2022.10
+# tag: riscv-d1-2022-10-r1
 # source: https://github.com/smaeul/u-boot/commits/d1-wip
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,afc07cec423f17ebb4448a19435292ddacf19c9b)/u-boot-2022.07-rc3-nezha-afc07c-r2.tar.gz"
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,u-boot,528ae9bc6c55edd3ffe642734b4132a8246ea777)/u-boot-2022.10-nezha-528ae9-r1.tar.gz"
 
 # Default to nezha config, overridden in board config.
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="nezha"
 
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set
 BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
-BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot.toc1"
+BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot-sunxi-with-spl.bin"
 
 BR2_TARGET_UBOOT_NEEDS_DTC=y
-BR2_TARGET_UBOOT_NEEDS_PYTHON3=y
 BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
 BR2_TARGET_UBOOT_NEEDS_OPENSSL=y
 BR2_TARGET_UBOOT_NEEDS_OPENSBI=y

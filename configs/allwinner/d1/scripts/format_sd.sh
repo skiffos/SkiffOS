@@ -21,17 +21,11 @@ if [ ! -b "$ALLWINNER_SD" ]; then
 fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-ubootimg="$BUILDROOT_DIR/images/u-boot.toc1"
-bootspl="$BUILDROOT_DIR/images/boot0_sdcard_sun20iw1p1.bin"
+ubootimg="$BUILDROOT_DIR/images/u-boot-sunxi-with-spl.bin"
 
 if [ ! -f "$ubootimg" ]; then
   echo "can't find u-boot image at $ubootimg"
   exit 1
-fi
-
-if [ ! -f "$bootspl" ]; then
-    echo "can't find bootspl image at $bootspl"
-    exit 1
 fi
 
 if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
@@ -64,7 +58,6 @@ sudo parted $ALLWINNER_SD mklabel msdos
 partprobe $ALLWINNER_SD || true
 
 echo "Making persist partition..."
-# note: u-boot.toc1 requires >20MiB free space before persist.
 sudo parted -a optimal $ALLWINNER_SD -- mkpart primary ext4 128MiB "100%"
 
 echo "Waiting for partprobe..."
@@ -90,14 +83,7 @@ fi
 
 sync && sync
 
-echo "Flashing SPL..."
-# note: either location is valid, flash both.
-dd iflag=dsync oflag=dsync if=$bootspl of=$ALLWINNER_SD bs=8192 seek=1 ${SD_FUSE_DD_ARGS}
-dd iflag=dsync oflag=dsync if=$bootspl of=$ALLWINNER_SD bs=8192 seek=16 ${SD_FUSE_DD_ARGS}
-
 echo "Flashing u-boot..."
-# note: the second location is the "backup" location.
-dd iflag=dsync oflag=dsync if=$ubootimg of=$ALLWINNER_SD bs=512 seek=32800 ${SD_FUSE_DD_ARGS}
-dd iflag=dsync oflag=dsync if=$ubootimg of=$ALLWINNER_SD bs=512 seek=24576 ${SD_FUSE_DD_ARGS}
+dd iflag=dsync oflag=dsync if=$ubootimg of=$ALLWINNER_SD bs=1024 seek=8 ${SD_FUSE_DD_ARGS}
 
 cd -

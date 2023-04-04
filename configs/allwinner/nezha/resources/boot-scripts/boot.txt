@@ -20,6 +20,7 @@ setenv bootargs "${bootmem} ${condev} ${baseconfig}"
 echo "Loading Image..."
 ext4load ${devtype} ${devnum}:1 ${kernel_addr_r} /boot/Image
 
+# NOTE: we use the device tree from u-boot instead.
 # echo "Loading sun20i-d1-nezha.dtb..."
 # ext4load ${devtype} ${devnum}:1 ${fdt_addr_r} /boot/sun20i-d1-nezha.dtb
 

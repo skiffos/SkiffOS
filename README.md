@@ -55,7 +55,7 @@ main SkiffOS repository:
 | [V86] on WebAssembly   | [browser/v86]          | [V86]            | ✔ 6.2.9         | [Run in Browser] |
 | [WSL] on Windows       | [virt/wsl]             | N/A              | N/A             | Run in WSL2      |
 |------------------------|------------------------|------------------|-----------------|------------------|
-| [Allwinner Nezha]      | [allwinner/nezha]      | ✔ U-boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
+| [Allwinner Nezha]      | [allwinner/nezha]      | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    | RISC-V D1        |
 | [Apple Macbook]        | [apple/macbook]        | ✔ [rEFInd]       | ✔ 6.2.9         | ✔ Tested         |
 | [BananaPi M1+/Pro]     | [bananapi/m1plus]      | ✔ U-Boot 2022.04 | ✔ 6.2.9         | ⚠ Obsolete       |
 | [BananaPi M1]          | [bananapi/m1]          | ✔ U-Boot 2022.04 | ✔ 6.2.9         | ⚠ Obsolete       |
