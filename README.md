@@ -59,8 +59,9 @@ main SkiffOS repository:
 | [Apple Macbook]        | [apple/macbook]        | ✔ [rEFInd]       | ✔ 6.2.9         | ✔ Tested         |
 | [BananaPi M1+/Pro]     | [bananapi/m1plus]      | ✔ U-Boot 2023.01 | ✔ 6.2.9         | ⚠ Obsolete       |
 | [BananaPi M1]          | [bananapi/m1]          | ✔ U-Boot 2023.01 | ✔ 6.2.9         | ⚠ Obsolete       |
-| [BananaPi M2+]         | [bananapi/m2plus]      | ✔ U-Boot 2023.01 | ✔ 6.2.9         |                  |
 | [BananaPi M2]          | [bananapi/m2]          | ✔ U-Boot 2023.01 | ✔ 6.2.9         | ⚠ Obsolete       |
+| [BananaPi M2+]         | [bananapi/m2plus]      | ✔ U-Boot 2023.01 | ✔ 6.2.9         | ⚠ Obsolete       |
+| [BananaPi M2 Ultra]    | [bananapi/m2ultra]     | ✔ U-Boot 2023.01 | ✔ 6.2.9         | ⚠ Obsolete       |
 | [BananaPi M3]          | [bananapi/m3]          | ✔ U-Boot 2023.01 | ✔ 6.2.9         |                  |
 | [BeagleBoard X15]      | [beaglebone/x15]       | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
 | [BeagleBone AI]        | [beaglebone/ai]        | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
@@ -110,6 +111,7 @@ main SkiffOS repository:
 [BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2+]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
+[BananaPi M2 Ultra]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M3]: http://linux-sunxi.org/Banana_Pi_M3
 [BeagleBone AI]: http://beagleboard.org/ai
 [BeagleBone Black]: http://beagleboard.org/black
@@ -164,9 +166,10 @@ main SkiffOS repository:
 [allwinner/nezha]: ./configs/allwinner/nezha
 [apple/macbook]: ./configs/apple/macbook
 [bananapi/m1]: ./configs/bananapi/m1
-[bananapi/m2]: ./configs/bananapi/m2
 [bananapi/m1plus]: ./configs/bananapi/m1plus
+[bananapi/m2]: ./configs/bananapi/m2
 [bananapi/m2plus]: ./configs/bananapi/m2plus
+[bananapi/m2ultra]: ./configs/bananapi/m2ultra
 [bananapi/m3]: ./configs/bananapi/m3
 [beaglebone/ai]: ./configs/beaglebone
 [beaglebone/black]: ./configs/beaglebone
