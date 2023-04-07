@@ -242,6 +242,7 @@ will be needed to enable SSH access.
 [Create a SSH key]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key
 
 ```sh
+$ git submodule update             # make sure buildroot is up to date
 $ make                             # lists all available options
 $ export SKIFF_WORKSPACE=default   # optional: supports multiple SKIFF_CONFIG at once
 $ export SKIFF_CONFIG=pi/4,skiff/core
