@@ -15,42 +15,41 @@ if [ ! -b "$PI_SD" ]; then
   exit 1
 fi
 
-resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
+PI_SD_SFX=$PI_SD
+if [ -b ${PI_SD}p1 ]; then
+    PI_SD_SFX=${PI_SD}p
+fi
+
 outp_path="${BUILDROOT_DIR}/output"
 images_path="${outp_path}/images"
+uimg_path="${images_path}/zImage"
+squashfs_path="${images_path}/rootfs.squashfs"
+skiff_init_path="${images_path}/skiff-init/"
+firm_path="${images_path}/rpi-firmware"
 
-img_path="${images_path}/Image"
-zimg_path="${images_path}/zImage"
-uinit_path="${images_path}/rootfs.cpio.uboot"
-dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
-
-source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
-
-if [ ! -f $dtb_path ]; then
-  echo "dtb not found, make sure Buildroot is done compiling."
-  exit 1
+if [ ! -f "$uimg_path" ]; then
+  uimg_path="${images_path}/Image"
 fi
 
-if [ ! -f "$img_path" ]; then
-  img_path=$zimg_path
-fi
-
-if [ ! -f "$img_path" ]; then
+if [ ! -f "$uimg_path" ]; then
   echo "zImage or Image not found, make sure Buildroot is done compiling."
   exit 1
 fi
+
+source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
 mounts=()
 MOUNTS_DIR=${outp_path}/mounts
 mkdir -p ${MOUNTS_DIR}
 WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
+RS="rsync -rav --no-perms --no-owner --no-group --progress --inplace"
 
 # deletes the temp directory
 function cleanup {
 sync || true
 for mount in "${mounts[@]}"; do
   echo "Unmounting ${mount}..."
-  sudo umount $mount || true
+  umount $mount || true
 done
 mounts=()
 if [ -d "$WORK_DIR" ]; then
@@ -60,48 +59,60 @@ fi
 trap cleanup EXIT
 
 boot_dir="${WORK_DIR}/boot"
-rootfs_dir="${WORK_DIR}/rootfs"
 persist_dir="${WORK_DIR}/persist"
-
-PI_SD_SFX=$PI_SD
-if [ -b ${PI_SD}p1 ]; then
-  PI_SD_SFX=${PI_SD}p
-fi
+rootfs_dir="${persist_dir}/rootfs"
 
 mkdir -p $boot_dir
 echo "Mounting ${PI_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
-sudo mount ${PI_SD_SFX}1 $boot_dir
+mount ${PI_SD_SFX}1 $boot_dir
 
-echo "Mounting ${PI_SD_SFX}2 to $rootfs_dir..."
-mkdir -p $rootfs_dir
-mounts+=("$rootfs_dir")
-sudo mount ${PI_SD_SFX}2 $rootfs_dir
-
-echo "Mounting ${PI_SD_SFX}3 to $persist_dir..."
+echo "Mounting ${PI_SD_SFX}2 to $persist_dir..."
 mkdir -p $persist_dir
 mounts+=("$persist_dir")
-sudo mount ${PI_SD_SFX}3 $persist_dir
+mount ${PI_SD_SFX}2 $persist_dir
 
-echo "Copying kernel image..."
-sync
-rsync -rav --no-perms --no-owner --no-group $img_path $boot_dir/
+echo "Copying kernel..."
+${RS} $uimg_path $boot_dir/
 sync
 
-echo "Copying uInitrd..."
-rsync -rav --no-perms --no-owner --no-group $uinit_path $boot_dir/rootfs.cpio.uboot
-sync
+if [ -d "$outp_path/images/boot_part" ]; then
+    echo "Copying boot_part..."
+    ${RS} $outp_path/images/boot_part/ $boot_dir/
+    sync
+fi
 
 if [ -d "$outp_path/images/rootfs_part" ]; then
-  echo "Copying rootfs_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/rootfs_part/ $rootfs_dir/
-  sync
+    echo "Copying rootfs_part..."
+    mkdir -p ${rootfs_dir}
+    ${RS} $outp_path/images/rootfs_part/ $rootfs_dir/
+    sync
 fi
 
 if [ -d "$outp_path/images/persist_part" ]; then
-  echo "Copying persist_part..."
-  rsync -rav --no-perms --no-owner --no-group $outp_path/images/persist_part/ $persist_dir/
-  sync
+    echo "Copying persist_part..."
+    ${RS} $outp_path/images/persist_part/ $persist_dir/
+    sync
+fi
+
+if [ -f $squashfs_path ]; then
+    echo "Copying rootfs.squashfs..."
+    ${RS} $squashfs_path $boot_dir/rootfs.squashfs
+    sync
+fi
+
+if [ -d $skiff_init_path ]; then
+    echo "Copying skiff-init..."
+    ${RS} $skiff_init_path $boot_dir/skiff-init/
+    sync
+fi
+
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${persist_dir}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    fi
 fi
 
 enable_silent() {
@@ -121,10 +132,7 @@ else
   cp $boot_conf $boot_dir/boot.ini
   enable_silent $boot_dir/boot.ini
 fi
-sync
 
-echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group ${images_path}/*.dtb $boot_dir/
+echo "Copying device tree(s)..."
+${RS} ${images_path}/*.dtb $boot_dir/
 sync
-
-cleanup

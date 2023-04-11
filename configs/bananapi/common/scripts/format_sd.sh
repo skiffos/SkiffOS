@@ -55,23 +55,20 @@ set -x
 set -e
 
 echo "Zeroing out partition table..."
-dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
+sudo dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
 
 echo "Formatting device..."
-parted $PI_SD mklabel msdos
+sudo parted $PI_SD mklabel msdos
 
 echo "Making boot partition..."
-parted -a optimal $PI_SD mkpart primary fat32 100MiB 410MiB
-
-echo "Making rootfs partition..."
-parted -a optimal $PI_SD mkpart primary ext4 410MiB 600MiB
+sudo parted -a optimal $PI_SD -- mkpart primary fat16 0% 1G
 
 echo "Making persist partition..."
-parted -a optimal $PI_SD -- mkpart primary ext4 600MiB "-1s"
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 1G "-1s"
 
 echo "Waiting for partprobe..."
 sync && sync
-partprobe $PI_SD || true
+sudo partprobe $PI_SD || true
 sleep 2
 
 PI_SD_SFX=$PI_SD
@@ -80,16 +77,13 @@ if [ -b ${PI_SD}p1 ]; then
 fi
 
 echo "Building fat filesystem for boot..."
-mkfs.vfat -F 32 ${PI_SD_SFX}1
-fatlabel ${PI_SD_SFX}1 boot
-
-echo "Building ext4 filesystem for rootfs..."
-$MKEXT4 -L "rootfs" ${PI_SD_SFX}2
+sudo mkfs.vfat -F 32 ${PI_SD_SFX}1
+sudo fatlabel ${PI_SD_SFX}1 boot
 
 echo "Building ext4 filesystem for persist..."
-$MKEXT4 -L "persist" ${PI_SD_SFX}3
+sudo $MKEXT4 -L "persist" ${PI_SD_SFX}2
 
 echo "Flashing u-boot..."
-dd if=$ubootimg of=${PI_SD} conv=fsync bs=1024 seek=8
+sudo dd if=$ubootimg of=${PI_SD} conv=fsync bs=1024 seek=8
 
 echo "Done!"
