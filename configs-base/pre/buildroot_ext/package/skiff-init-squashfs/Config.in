@@ -89,6 +89,18 @@ config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS
 	help
 	  Run resize2fs on disks defined in resize2fs.conf
 
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS_BIN_PATH
+	string "path to resize2fs binary"
+	depends on BR2_PACKAGE_SKIFF_INIT_RESIZE2FS # resize2fs
+	help
+	  Changes the path to the resize2fs binary.
+
+config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_RESIZE2FS_CONF_PATH
+	string "path to resize2fs config"
+	depends on BR2_PACKAGE_SKIFF_INIT_RESIZE2FS # resize2fs
+	help
+	  Changes the path to the resize2fs config file.
+
 config BR2_PACKAGE_SKIFF_INIT_SQUASHFS_ROOT_AS_PERSIST
 	bool "inherit / to /mnt/persist from the root fs"
 	default y

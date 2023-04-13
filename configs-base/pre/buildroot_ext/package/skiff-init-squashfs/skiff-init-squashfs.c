@@ -56,6 +56,16 @@
 // To enable reading resize2fs.conf
 // #define RESIZE2FS
 
+// Path to resize2fs binary
+#ifndef RESIZE2FS_BIN_PATH
+#define RESIZE2FS_BIN_PATH "/boot/skiff-init/resize2fs"
+#endif
+
+// Path to resize2fs config
+#ifndef RESIZE2FS_CONF_PATH
+#define RESIZE2FS_CONF_PATH "/boot/skiff-init/resize2fs.conf"
+#endif
+
 // Controls the maximum memory usage of the tmpfs /.
 // Used as the upper layer of the overlayfs.
 #ifndef MUTABLE_OVERLAY_SIZE
@@ -89,14 +99,14 @@
 #define SKIFF_INIT_PID "/run/skiff-init/skiff-init.pid"
 #endif
 
-const char *init_proc = SKIFF_INIT_PROC;
+    const char *init_proc = SKIFF_INIT_PROC;
 const char *init_pid_path = SKIFF_INIT_PID;
 
 FILE *logfd;
 const char *pid1_log = "/dev/kmsg";
 
-const char *resize2fs_path = "/boot/skiff-init/resize2fs";
-const char *resize2fs_conf = "/boot/skiff-init/resize2fs.conf";
+const char *resize2fs_path = RESIZE2FS_BIN_PATH;
+const char *resize2fs_conf = RESIZE2FS_CONF_PATH;
 
 #ifndef SKIFF_MOUNTS_DIR
 #define SKIFF_MOUNTS_DIR "/skiff-overlays"
