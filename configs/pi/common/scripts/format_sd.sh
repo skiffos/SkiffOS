@@ -37,15 +37,18 @@ fi
 set -x
 set -e
 
+echo "Zeroing out partition table..."
+sudo dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
+
 echo "Formatting device..."
 sudo parted $PI_SD mklabel msdos
 sleep 1
 
 echo "Making boot partition..."
-sudo parted -a optimal $PI_SD mkpart primary fat16 0% 500MiB
+sudo parted -a optimal $PI_SD -- mkpart primary fat16 0% 500MiB
 
 echo "Making rootfs partition..."
-sudo parted -a optimal $PI_SD mkpart primary ext4 500MiB 800MiB
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 500MiB 800MiB
 
 echo "Making persist partition..."
 sudo parted -a optimal $PI_SD -- mkpart primary ext4 800MiB "-1s"
@@ -59,13 +62,13 @@ if [ -b ${PI_SD}p1 ]; then
     PI_SD_SFX=${PI_SD}p
 fi
 
-echo "Formatting rootfs partition..."
-mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
-
 echo "Formatting boot partition..."
-mkfs.vfat -n BOOT -F 32 ${PI_SD_SFX}1
+sudo mkfs.vfat -n BOOT -F 32 ${PI_SD_SFX}1
+
+echo "Formatting rootfs partition..."
+sudo mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Formatting persist partition..."
-mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
+sudo mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
 
 sudo partprobe $PI_SD || true

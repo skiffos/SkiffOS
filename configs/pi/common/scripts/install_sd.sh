@@ -26,14 +26,15 @@ if [ -b ${PI_SD}p1 ]; then
 fi
 
 outp_path="${BUILDROOT_DIR}/output"
-uimg_path="${outp_path}/images/zImage"
-cpio_path="${outp_path}/images/rootfs.cpio.lz4"
-squashfs_path="${outp_path}/images/rootfs.squashfs"
-skiff_init_path="${outp_path}/images/skiff-init/"
-firm_path="${outp_path}/images/rpi-firmware"
+images_path="${outp_path}/images"
+uimg_path="${images_path}/zImage"
+cpio_path="${images_path}/rootfs.cpio.lz4"
+squashfs_path="${images_path}/rootfs.squashfs"
+skiff_init_path="${images_path}/skiff-init/"
+firm_path="${images_path}/rpi-firmware"
 
 if [ ! -f "$uimg_path" ]; then
-  uimg_path="${outp_path}/images/Image"
+  uimg_path="${images_path}/Image"
 fi
 
 if [ ! -f "$uimg_path" ]; then
@@ -93,26 +94,26 @@ cp $pi_config_txt $boot_dir/config.txt
 cp $pi_cmdline_txt $boot_dir/cmdline.txt
 sync
 
-if [ -d "$outp_path/images/boot_part" ]; then
+if [ -d "${images_path}/boot_part" ]; then
   echo "Copying boot_part..."
-  ${RS} $outp_path/images/boot_part/ $boot_dir/
+  ${RS} ${images_path}/boot_part/ $boot_dir/
   sync
 fi
 
-if [ -d "$outp_path/images/rootfs_part" ]; then
+if [ -d "${images_path}/rootfs_part" ]; then
   echo "Copying rootfs_part..."
-  ${RS} $outp_path/images/rootfs_part/ $rootfs_dir/
+  ${RS} ${images_path}/rootfs_part/ $rootfs_dir/
   sync
 fi
 
-if [ -d "$outp_path/images/persist_part" ]; then
+if [ -d "${images_path}/persist_part" ]; then
   echo "Copying persist_part..."
-  ${RS} $outp_path/images/persist_part/ $persist_dir/
+  ${RS} ${images_path}/persist_part/ $persist_dir/
   sync
 fi
 
 echo "Copying device tree(s)..."
-${RS} $outp_path/images/*.dtb $boot_dir/
+${RS} ${images_path}/*.dtb $boot_dir/
 sync
 
 if [ -f $cpio_path ]; then

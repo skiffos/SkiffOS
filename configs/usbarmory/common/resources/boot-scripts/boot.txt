@@ -14,7 +14,7 @@ setenv baseconfig "fsck.repair=yes"
 # Available governors: conservative, userspace, powersave, ondemand, performance, schedutil
 setenv governor "schedutil"
 
-# final boot args
+# boot args
 setenv bootargs "${bootargs} ${condev} ${bootmem} ${baseconfig} governor=${governor}"
 
 # Load kernel and dtb
