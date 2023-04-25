@@ -4,7 +4,8 @@
     ":semanticPrefixFixDepsChoreOthers",
     ":ignoreModulesAndTests",
     "group:all",
-    "workarounds:all"
+    "workarounds:all",
+    "docker:disable"
   ],
   "branchConcurrentLimit": 0
 }
