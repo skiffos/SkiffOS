@@ -9,8 +9,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-latest
+    env:
+      'SKIFF_WORKSPACE': docker
+      'SKIFF_CONFIG': virt/docker,core/gentoo
     steps:
       - uses: actions/checkout@v3
       - name: Update the submodule
@@ -29,22 +31,22 @@ jobs:
       - name: Clear caches if necessary
         run: |
           # necessary to save space
-          if [ ! -f ~/br-cache/ccache-v4 ]; then
+          if [ ! -f ~/br-cache/ccache-v5 ]; then
             echo "Clearing old compiler cache..."
             rm -rf ~/br-cache/ccache* || true
             mkdir -p ~/br-cache/ccache
-            touch ~/br-cache/ccache-v4
+            touch ~/br-cache/ccache-v5
           fi
-          if [ ! -f ~/br-cache/dl-v4 ]; then
+          if [ ! -f ~/br-cache/dl-v5 ]; then
             echo "Clearing old downloads cache..."
             rm -rf ~/br-cache/dl* || true
             mkdir -p ~/br-cache/dl
-            touch ~/br-cache/dl-v4
+            touch ~/br-cache/dl-v5
           fi
 
       - name: Install buildroot apt deps
         run: |
-          sudo apt-get install -y libelf-dev python3-magic
+          sudo apt-get install -y libelf-dev python3-magic python3-flake8
 
       - name: Print help and packages list
         run: |
@@ -56,16 +58,17 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo "BR2_TOOLCHAIN_EXTERNAL=y" > ./overrides/buildroot/toolchain
 
-      - name: Build a Docker container image
+      - name: Compile the OS
         run: |
           cd $GITHUB_WORKSPACE
           export TERM=xterm
           export BR2_CCACHE_DIR=${HOME}/br-cache/ccache
           export BR2_DL_DIR=${HOME}/br-cache/dl
-          export SKIFF_WORKSPACE=docker
-          export SKIFF_CONFIG=virt/docker,core/gentoo
           make -s configure compile check
-          echo "Compilation complete, building Docker image..."
+
+      - name: Build a Docker container image
+        run: |
+          cd $GITHUB_WORKSPACE
           make cmd/virt/docker/buildimage
           sleep 2 # docker sometimes does not tag right away
           mkdir -p workflow-artifacts
