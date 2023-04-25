@@ -1,6 +1,6 @@
 # Download the linux4tegra sources including nvidia packages.
 # Subject to the NVIDIA Customer License.
-FROM ubuntu:18.04 AS nvsources
+FROM ubuntu:22.04 AS nvsources
 
 # install wget + make data dir
 RUN mkdir -p /data /sources && \
@@ -41,7 +41,7 @@ RUN mkdir -p /sources/l4t_debs_workdir /sources/l4t_debs_patched && \
   cd ../ && rm -rf /sources/l4t_debs_workdir
 
 # Ubuntu upstream
-FROM ubuntu:18.04 as stage2
+FROM ubuntu:22.04 as stage2
 
 # setup environment
 ENV LANG=C.UTF-8 \

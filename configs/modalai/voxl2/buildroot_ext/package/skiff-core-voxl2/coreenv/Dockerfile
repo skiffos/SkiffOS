@@ -1,5 +1,5 @@
 # Matches the Ubuntu version from the Voxl system image.
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 # Install / upgrade base packages first.
 RUN \

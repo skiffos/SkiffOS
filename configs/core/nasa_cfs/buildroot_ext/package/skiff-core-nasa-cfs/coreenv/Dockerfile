@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS stage1
+FROM ubuntu:22.04 AS stage1
 
 # setup environment
 ENV container docker

@@ -2,7 +2,7 @@
 # a systemd-based Skiff Core container, similar to skiff-core-ubuntu.
 #
 # Reference: https://raw.githubusercontent.com/nasa/fprime/devel/docker/Dockerfile
-FROM ubuntu:18.04 AS fprime-base
+FROM ubuntu:22.04 AS fprime-base
 
 # setup environment
 ENV container docker

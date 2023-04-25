@@ -4,7 +4,7 @@
 # cd /path/to/dockerfile/dir
 # docker build -t skiffos/skiff-core-fedora --build-arg DISTRO=skiffos/skiff-core-fedora:base .
 ARG DISTRO
-FROM ${DISTRO:-docker.io/library/fedora:37} as stage1
+FROM ${DISTRO:-docker.io/library/fedora:39} as stage1
 
 # setup environment
 ENV container=docker
