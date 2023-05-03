@@ -14,7 +14,7 @@ setenv initramfs_addr_r "0x46000000"
 setenv dtb_addr_r "0x44000000"
 
 # boot to memory for skiff
-setenv bootmem "root=/dev/initrd ro ramdisk_size=100000"
+setenv bootmem "root=/dev/ram0 ro"
 
 # Auto Detection of Monitor settings based on your Screen information
 setenv display_autodetect "true"

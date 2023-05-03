@@ -10,7 +10,7 @@ setenv dtb_addr_r "0x42000000"
 setenv kernel_addr_r "0x40008000"
 setenv initramfs_addr_r "0x44000000"
 
-setenv bootmem "root=/dev/initrd ro ramdisk_size=100000"
+setenv bootmem "root=/dev/ram0 ro"
 setenv baseconfig "mem=2047M fsck.repair=yes consoleblank=0 net.ifnames=0 no_console_suspend"
 setenv governor "performance"
 setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"

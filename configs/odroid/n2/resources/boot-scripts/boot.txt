@@ -14,7 +14,7 @@ setenv dtb_addr_r "0x44000000"
 #---------------------------------
 # Boots from memory.
 # --------------------------------
-setenv bootmem "root=/dev/initrd ro ramdisk_size=100000"
+setenv bootmem "root=/dev/ram0 ro"
 
 # base kernel config options
 setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 no_console_suspend"
