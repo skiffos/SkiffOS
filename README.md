@@ -130,6 +130,7 @@ main SkiffOS repository:
 [Odroid HC4]: https://www.hardkernel.com/shop/odroid-hc4/
 [Odroid M1]: https://wiki.odroid.com/odroid-m1/odroid-m1
 [Odroid N2]: https://wiki.odroid.com/odroid-n2/odroid-n2
+[Odroid N2L]: https://wiki.odroid.com/odroid-n2l
 [Odroid U]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [Odroid XU3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
 [Odroid XU4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
@@ -186,6 +187,7 @@ main SkiffOS repository:
 [odroid/m1]: ./configs/odroid
 [odroid/hc4]: ./configs/odroid
 [odroid/n2]: ./configs/odroid
+[odroid/n2l]: ./configs/odroid
 [odroid/u]: ./configs/odroid
 [odroid/xu]: ./configs/odroid
 [orangepi/lite]: ./configs/orangepi/lite

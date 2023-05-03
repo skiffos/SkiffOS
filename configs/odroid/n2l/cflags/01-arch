@@ -1,0 +1,1 @@
+-march=armv8-a+crc+crypto+simd+predres -mtune=cortex-a73.cortex-a53

@@ -4,7 +4,7 @@ The configuration package `odroid/common` contains common configurations for the
 Odroid series of boards by HardKernel. There are specific packages for each
 board/series.
 
-**If using the n2, set the boot switch to MMC.**
+**If using the n2 or n2l, set the boot switch to MMC.**
 
 Reference:
 
@@ -49,6 +49,7 @@ tested by the developers unless otherwise noted.
 | [hc4]          | odroid/hc4         |              |
 | [m1]           | odroid/m1          |              |
 | [n2]           | odroid/n2          | Includes n2+ |
+| [n2l]          | odroid/n2l         |              |
 | [u] + u2       | odroid/u           | Discontinued |
 | [xu3]          | odroid/xu          | Discontinued |
 | [xu4] (+ xu4q) | odroid/xu          |              |
@@ -58,6 +59,7 @@ tested by the developers unless otherwise noted.
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
 [hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 [n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
+[n2l]: https://www.hardkernel.com/shop/odroid-n2l-with-4gbyte-ram/
 [m1]: https://www.hardkernel.com/shop/odroid-m1-with-8gbyte-ram/
 [c2]: https://www.hardkernel.com/shop/odroid-c2/
 [c4]: https://www.hardkernel.com/shop/odroid-c4/
@@ -86,9 +88,9 @@ before the first partition. It loads and executes a boot.ini configuration.
 Note: there may be some binary bootloader blobs used that are provided by the
 vendor & signed, and cannot be compiled by Skiff, depending on the board.
 
-## Odroid N2
+## Odroid N2 and N2L
 
-**If using the n2, set the boot switch to MMC.**
+**If using the n2 or n2l, set the boot switch to MMC.**
 
 ## Odroid HC4
 
