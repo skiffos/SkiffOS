@@ -57,12 +57,12 @@ main SkiffOS repository:
 |------------------------|------------------------|------------------|-----------------|------------------|
 | [Allwinner Nezha]      | [allwinner/nezha]      | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    | RISC-V D1        |
 | [Apple Macbook]        | [apple/macbook]        | ✔ [rEFInd]       | ✔ 6.3.1         | ✔ Tested         |
-| [BananaPi M1+/Pro]     | [bananapi/m1plus]      | ✔ U-Boot 2023.01 | ✔ 6.3.1         | ⚠ Obsolete       |
-| [BananaPi M1]          | [bananapi/m1]          | ✔ U-Boot 2023.01 | ✔ 6.3.1         | ⚠ Obsolete       |
-| [BananaPi M2]          | [bananapi/m2]          | ✔ U-Boot 2023.01 | ✔ 6.3.1         | ⚠ Obsolete       |
-| [BananaPi M2+]         | [bananapi/m2plus]      | ✔ U-Boot 2023.01 | ✔ 6.3.1         | ⚠ Obsolete       |
-| [BananaPi M2 Ultra]    | [bananapi/m2ultra]     | ✔ U-Boot 2023.01 | ✔ 6.3.1         | ⚠ Obsolete       |
-| [BananaPi M3]          | [bananapi/m3]          | ✔ U-Boot 2023.01 | ✔ 6.3.1         |                  |
+| [BananaPi M1+/Pro]     | [bananapi/m1plus]      | ✔ U-Boot 2023.04 | ✔ 6.3.1         | ⚠ Obsolete       |
+| [BananaPi M1]          | [bananapi/m1]          | ✔ U-Boot 2023.04 | ✔ 6.3.1         | ⚠ Obsolete       |
+| [BananaPi M2]          | [bananapi/m2]          | ✔ U-Boot 2023.04 | ✔ 6.3.1         | ⚠ Obsolete       |
+| [BananaPi M2+]         | [bananapi/m2plus]      | ✔ U-Boot 2023.04 | ✔ 6.3.1         | ⚠ Obsolete       |
+| [BananaPi M2 Ultra]    | [bananapi/m2ultra]     | ✔ U-Boot 2023.04 | ✔ 6.3.1         | ⚠ Obsolete       |
+| [BananaPi M3]          | [bananapi/m3]          | ✔ U-Boot 2023.04 | ✔ 6.3.1         |                  |
 | [BeagleBoard X15]      | [beaglebone/x15]       | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
 | [BeagleBone AI]        | [beaglebone/ai]        | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
 | [BeagleBone Black]     | [beaglebone/black]     | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
@@ -72,16 +72,16 @@ main SkiffOS repository:
 | [NVIDIA Jetson AGX]    | [jetson/agx]           | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
 | [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
 | [NVIDIA Jetson TX2]    | [jetson/tx2]           | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
-| [Odroid C2]            | [odroid/c2]            | ✔ U-Boot 2023.01 | ✔ tb-6.2.12      | ⚠ Obsolete       |
-| [Odroid C4]            | [odroid/c4]            | ✔ U-Boot 2023.01 | ✔ tb-6.2.12      |                  |
-| [Odroid HC1]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12      | ⚠ Obsolete       |
-| [Odroid HC2]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12      | ✔ Tested         |
-| [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2023.01 | ✔ tb-6.2.12      |                  |
-| [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.2.12      |                  |
-| [Odroid N2]+           | [odroid/n2]            | ✔ U-Boot 2023.01 | ✔ tb-6.2.12      | ✔ Tested         |
-| [Odroid U]             | [odroid/u]             | ✔ U-Boot 2023.01 | ✔ tb-6.2.12      | ⚠ Obsolete       |
-| [Odroid XU3]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12      | ⚠ Obsolete       |
-| [Odroid XU4]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12      | ✔ Tested         |
+| [Odroid C2]            | [odroid/c2]            | ✔ U-Boot 2023.04 | ✔ tb-6.2.12     | ⚠ Obsolete       |
+| [Odroid C4]            | [odroid/c4]            | ✔ U-Boot 2023.04 | ✔ tb-6.2.12     |                  |
+| [Odroid HC1]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12     | ⚠ Obsolete       |
+| [Odroid HC2]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12     | ✔ Tested         |
+| [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2023.04 | ✔ tb-6.2.12     |                  |
+| [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.2.12     |                  |
+| [Odroid N2]+           | [odroid/n2]            | ✔ U-Boot 2023.04 | ✔ tb-6.2.12     | ✔ Tested         |
+| [Odroid U]             | [odroid/u]             | ✔ U-Boot 2023.04 | ✔ tb-6.2.12     | ⚠ Obsolete       |
+| [Odroid XU3]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12     | ⚠ Obsolete       |
+| [Odroid XU4]           | [odroid/xu]            | ✔ U-Boot 2017.07 | ✔ tb-6.2.12     | ✔ Tested         |
 | [OrangePi Lite]        | [orangepi/lite]        | ✔ U-Boot 2018.05 | ✔ 6.3.1         |                  |
 | [OrangePi Zero]        | [orangepi/zero]        | ✔ U-Boot 2018.07 | ✔ 6.3.1         |                  |
 | [PcDuino 3]            | [pcduino/3]            | ✔ U-Boot 2019.07 | ✔ 6.3.1         |                  |
