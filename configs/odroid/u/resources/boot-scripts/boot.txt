@@ -1,6 +1,6 @@
 setenv initrd_high "0xffffffff"
 setenv fdt_high "0xffffffff"
-setenv devno "2" #sd card
+setenv devnum "2"
 
 setenv condev "console=tty1 console=ttySAC1,115200n8"
 setenv verify 0
@@ -15,9 +15,9 @@ setenv baseconfig "mem=2047M fsck.repair=yes consoleblank=0 net.ifnames=0 no_con
 setenv governor "performance"
 setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
 
-fatload mmc ${devno}:1 $kernel_addr_r zImage
-fatload mmc ${devno}:1 $initramfs_addr_r rootfs.cpio.uboot
-fatload mmc ${devno}:1 $dtb_addr_r exynos4412-odroidu3.dtb
+fatload mmc ${devnum}:1 $kernel_addr_r zImage
+fatload mmc ${devnum}:1 $initramfs_addr_r rootfs.cpio.uboot
+fatload mmc ${devnum}:1 $dtb_addr_r exynos4412-odroidu3.dtb
 # fdt addr ${dtb_addr_r}
 
 bootz ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}
