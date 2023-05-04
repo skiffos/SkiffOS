@@ -83,21 +83,25 @@ set -e
 
 echo "Formatting device..."
 sudo dd if=/dev/zero of=$ODROID_SD bs=8k count=13 oflag=dsync
-
-echo "Creating partitions..."
 sudo partprobe ${ODROID_SD} || true
 
+echo "Creating partitions..."
 sudo parted $ODROID_SD mklabel msdos
+sudo partprobe ${ODROID_SD} || true
+sleep 1
 
 # boot
-sudo parted -a optimal $ODROID_SD mkpart primary fat32 2MiB 310MiB
+echo "Making boot partition..."
+sudo parted -a optimal $ODROID_SD -- mkpart primary fat32 2MiB 800MiB
 sudo parted $ODROID_SD set 1 boot on
 
 # rootfs
-sudo parted -a optimal $ODROID_SD mkpart primary ext4 310MiB 600MiB
+echo "Making rootfs partition..."
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 800MiB 1G
 
 # persist
-sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 600MiB "100%"
+echo "Making persist partition..."
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 1G "100%"
 
 echo "Waiting for partprobe..."
 sync && sync

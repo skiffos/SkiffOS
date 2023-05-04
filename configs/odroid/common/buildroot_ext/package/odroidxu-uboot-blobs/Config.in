@@ -1,0 +1,4 @@
+config BR2_PACKAGE_ODROIDXU_UBOOT_BLOBS
+	bool "odroidxu-uboot-blobs"
+	help
+	  Trust zone blobs for u-boot for odroid xu.
