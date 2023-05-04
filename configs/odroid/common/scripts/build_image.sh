@@ -18,7 +18,7 @@ if [[ "$ODROID_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1G $ODROID_IMAGE
+fallocate -l 1.5G $ODROID_IMAGE
 
 echo "Setting up loopback device..."
 export ODROID_SD=$(losetup --show -fP $ODROID_IMAGE)
@@ -36,8 +36,8 @@ fi
 
 # Setup no interactive since we know its a brand new file.
 export SKIFF_NO_INTERACTIVE=1
+export DISABLE_CREATE_SWAPFILE=1
 
 echo "Using loopback device at ${ODROID_SD}"
 $SKIFF_CURRENT_CONF_DIR/scripts/format_sd.sh
 $SKIFF_CURRENT_CONF_DIR/scripts/install_sd.sh
-

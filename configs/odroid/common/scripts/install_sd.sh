@@ -132,4 +132,12 @@ echo "Copying device tree..."
 rsync -rav --no-perms --no-owner --no-group ${images_path}/*.dtb $boot_dir/
 sync
 
+if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
+    PERSIST_SWAP=${persist_dir}/primary.swap
+    if [ ! -f ${PERSIST_SWAP} ]; then
+        echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
+        dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
+    fi
+fi
+
 cleanup
