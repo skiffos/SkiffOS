@@ -1,4 +1,4 @@
-From 5f23632d1157f6a17dddefd1646cc8e66ff16a83 Mon Sep 17 00:00:00 2001
+From b65f4ad41034a8ba57372b2139b0461451c8f76e Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Sat, 20 Aug 2022 23:19:50 -0700
 Subject: [PATCH] podman: add no-pivot option to disable pivot_root syscall
@@ -15,37 +15,37 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  3 files changed, 11 insertions(+)
 
 diff --git a/cmd/podman/root.go b/cmd/podman/root.go
-index 48f8470be..440d52166 100644
+index d4de64f4b..d56aeaad7 100644
 --- a/cmd/podman/root.go
 +++ b/cmd/podman/root.go
-@@ -415,6 +415,13 @@ func rootFlags(cmd *cobra.Command, opts *entities.PodmanConfig) {
- 		pFlags.StringVar(&opts.Runroot, runrootFlagName, "", "Path to the 'run directory' where all state information is stored")
- 		_ = cmd.RegisterFlagCompletionFunc(runrootFlagName, completion.AutocompleteDefault)
+@@ -479,6 +479,13 @@ func rootFlags(cmd *cobra.Command, podmanConfig *entities.PodmanConfig) {
+ 
+ 		pFlags.BoolVar(&podmanConfig.TransientStore, "transient-store", false, "Enable transient container storage")
  
 +		noPivotFlagName := "no-pivot"
 +		pFlags.BoolVar(
-+			&opts.NoPivot,
++			&podmanConfig.NoPivot,
 +			noPivotFlagName, false,
 +			"Disable the pivot_root syscall",
 +		)
 +
  		runtimeFlagName := "runtime"
- 		pFlags.StringVar(&opts.RuntimePath, runtimeFlagName, cfg.Engine.OCIRuntime, "Path to the OCI-compatible binary used to run containers.")
+ 		pFlags.StringVar(&podmanConfig.RuntimePath, runtimeFlagName, podmanConfig.ContainersConfDefaultsRO.Engine.OCIRuntime, "Path to the OCI-compatible binary used to run containers.")
  		_ = cmd.RegisterFlagCompletionFunc(runtimeFlagName, completion.AutocompleteDefault)
 diff --git a/pkg/domain/entities/engine.go b/pkg/domain/entities/engine.go
-index 32faa74af..e336f9c17 100644
+index 984c69f5c..b9ce7eb5c 100644
 --- a/pkg/domain/entities/engine.go
 +++ b/pkg/domain/entities/engine.go
-@@ -41,6 +41,7 @@ type PodmanConfig struct {
- 	MaxWorks       int        // maximum number of parallel threads
- 	MemoryProfile  string     // Hidden: Should memory profile be taken
- 	NoOut          bool       // Don't output to stdout
-+	NoPivot        bool       // Set the no-pivot flag to disable pivot_root
- 	RegistriesConf string     // allows for specifying a custom registries.conf
- 	Remote         bool       // Connection to Podman API Service will use RESTful API
- 	RuntimePath    string     // --runtime flag will set Engine.RuntimePath
+@@ -43,6 +43,7 @@ type PodmanConfig struct {
+ 	Identity                 string         // ssh identity for connecting to server
+ 	MaxWorks                 int            // maximum number of parallel threads
+ 	MemoryProfile            string         // Hidden: Should memory profile be taken
++	NoPivot                  bool           // Set the no-pivot flag to disable pivot_root
+ 	RegistriesConf           string         // allows for specifying a custom registries.conf
+ 	Remote                   bool           // Connection to Podman API Service will use RESTful API
+ 	RuntimePath              string         // --runtime flag will set Engine.RuntimePath
 diff --git a/pkg/domain/infra/runtime_libpod.go b/pkg/domain/infra/runtime_libpod.go
-index f76fab4ea..373dbfd49 100644
+index a2cf003bc..9c4abc155 100644
 --- a/pkg/domain/infra/runtime_libpod.go
 +++ b/pkg/domain/infra/runtime_libpod.go
 @@ -156,6 +156,9 @@ func getRuntime(ctx context.Context, fs *flag.FlagSet, opts *engineOpts) (*libpo
@@ -59,5 +59,5 @@ index f76fab4ea..373dbfd49 100644
  		storageSet = true
  		storageOpts.GraphDriverName = cfg.StorageDriver
 -- 
-2.37.2
+2.40.1
 
