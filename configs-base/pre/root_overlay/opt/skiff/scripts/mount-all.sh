@@ -1,7 +1,6 @@
 #!/bin/bash
 set -a
 
-WAIT_PATHS_EXIST=()
 BOOT_DEVICE="LABEL=boot"
 PERSIST_DEVICE="LABEL=persist"
 ROOTFS_DEVICE="LABEL=rootfs"
@@ -14,6 +13,20 @@ SKIP_MOUNT_FLAG=/etc/skip-skiff-mounts
 SKIP_JOURNAL_FLAG=/etc/skip-skiff-journal-mounts
 PRE_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.pre.d
 EXTRA_SCRIPTS_DIR=/opt/skiff/scripts/mount-all.d
+
+WAIT_PATHS_EXIST=()
+SKIFF_WRITE_ENV=(
+    "PERSIST_MNT"
+    "SKIFF_PERSIST"
+    "SKIFF_OVERLAYS"
+    "KEYS_PERSIST"
+    "SSH_PERSIST"
+    "JOURNAL_PERSIST"
+    "BOOT_DEVICE"
+    "BOOT_MNT"
+    "ROOTFS_DEVICE"
+    "ROOTFS_MNT"
+)
 
 # Run any additional pre setup scripts.
 # We source these to allow overriding the above variables.
@@ -33,16 +46,18 @@ if [ -z "$DISABLE_ROOT_REMOUNT_RW" ]; then
     fi
 fi
 
-PERSIST_ROOT=$PERSIST_MNT
+# The pre-scripts can override PERSIST_ROOT, PERSIST_MNT, PERSIST_SUBDIR.
+PERSIST_ROOT=${PERSIST_ROOT:=${PERSIST_MNT}}
 if [ -n "${PERSIST_SUBDIR}" ] && [[ "${PERSIST_SUBDIR}" != "/" ]]; then
     PERSIST_ROOT=${PERSIST_ROOT}/${PERSIST_SUBDIR}
 fi
 
-SKIFF_PERSIST=$PERSIST_ROOT/skiff
-SKIFF_OVERLAYS=$PERSIST_ROOT/skiff-overlays
-KEYS_PERSIST=$SKIFF_PERSIST/keys
-SSH_PERSIST=$SKIFF_PERSIST/ssh
-JOURNAL_PERSIST=$SKIFF_PERSIST/journal
+# The pre-scripts can also override these:
+SKIFF_PERSIST=${SKIFF_PERSIST:=${PERSIST_ROOT}/skiff}
+SKIFF_OVERLAYS=${SKIFF_OVERLAYS:=${PERSIST_ROOT}/skiff-overlays}
+KEYS_PERSIST=${KEYS_PERSIST:=${SKIFF_PERSIST}/keys}
+SSH_PERSIST=${SSH_PERSIST:=${SKIFF_PERSIST}/ssh}
+JOURNAL_PERSIST=${JOURNAL_PERSIST:=${SKIFF_PERSIST}/journal}
 
 SKIFF_RELEASE_FILE=/etc/skiff-release
 if [ -f $SKIFF_RELEASE_FILE ]; then
@@ -258,6 +273,13 @@ if [ -z "${DISABLE_RESIZE_PERSIST}" ]; then
         fi
     fi
 fi
+
+# Write some of the environment to /etc/skiff/env
+SKIFF_ENV_FILE=${SKIFF_ENV_FILE:=/etc/skiff/env}
+rm -f $SKIFF_ENV_FILE
+for var in "${SKIFF_WRITE_ENV[@]}"; do
+    echo "$var=${!var}" >> "$SKIFF_ENV_FILE"
+done
 
 # Run any additional final setup scripts.
 for i in ${EXTRA_SCRIPTS_DIR}/*.sh ; do

@@ -5,22 +5,28 @@ set -e
 # TODO: https://github.com/systemd/zram-generator
 
 if [ ! -d "/opt/skiff" ]; then
-  echo "Non-skiff system detected, bailing out!"
+  echo "Non-skiff system detected!"
   exit 1
 fi
 
-ENV_PATH=/etc/skiff-swap.env
-PERSIST_MNT=/mnt/persist
-SWAPFILE_PATH=$PERSIST_MNT/primary.swap
-if [ -f ${ENV_PATH} ]; then
-    source ${ENV_PATH}
+SKIFF_ENV_PATH=${SKIFF_ENV_PATH:=/etc/skiff/env}
+if [ -n "${SKIFF_ENV_PATH}" ] && [ -f ${SKIFF_ENV_PATH} ]; then
+    source ${SKIFF_ENV_PATH}
 fi
 
-SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
+SWAP_ENV_PATH=${SWAP_ENV_PATH:=/etc/skiff/swap.env}
+if [ -n "${SWAP_ENV_PATH}" ] && [ -f ${SWAP_ENV_PATH} ]; then
+    source ${SWAP_ENV_PATH}
+fi
+
+# PERSIST_MNT should have been set by SKIFF_ENV_PATH.
+PERSIST_MNT=${PERSIST_MNT:=/mnt/persist}
+SWAPFILE_PATH=${SWAPFILE_PATH:=${PERSIST_MNT}/primary.swap}
 
 # Enable ZRAM if not already enabled.
 # This will compress contents of RAM to avoid using the swapfile.
 ZRAM_SIZE="${ZRAM_SIZE:-2048M}"
+SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
 if [ -z "${DISABLE_ZRAM}" ] && ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
     echo "Enabling ZRAM at /dev/zram0..."
     modprobe zram || true
