@@ -1,4 +1,4 @@
-From 7b65e7c8894aebaecab3d573e2096154d272987b Mon Sep 17 00:00:00 2001
+From 2ee4b1553f3d84f7f668bc3846a2f2e87f431654 Mon Sep 17 00:00:00 2001
 From: Christian Stewart <christian@paral.in>
 Date: Mon, 25 Jan 2021 04:34:09 -0800
 Subject: [PATCH] HACK: WSL2: libcontainer: avoid mount --move
@@ -18,7 +18,7 @@ Signed-off-by: Christian Stewart <christian@paral.in>
  create mode 100644 libcontainer/wsl.go
 
 diff --git a/libcontainer/rootfs_linux.go b/libcontainer/rootfs_linux.go
-index 51660f5e..b1425bdb 100644
+index c3f88fc7..cf3db89d 100644
 --- a/libcontainer/rootfs_linux.go
 +++ b/libcontainer/rootfs_linux.go
 @@ -53,6 +53,9 @@ func needsSetupDev(config *configs.Config) bool {
@@ -31,7 +31,7 @@ index 51660f5e..b1425bdb 100644
  	if err := prepareRoot(config); err != nil {
  		return fmt.Errorf("error preparing rootfs: %w", err)
  	}
-@@ -133,13 +136,21 @@ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig, mountFds []int) (err
+@@ -135,13 +138,21 @@ func prepareRootfs(pipe io.ReadWriter, iConfig *initConfig, mountFds []int) (err
  		return err
  	}
  
@@ -60,7 +60,7 @@ index 51660f5e..b1425bdb 100644
  	if err != nil {
  		return fmt.Errorf("error jailing process inside rootfs: %w", err)
  	}
-@@ -178,11 +189,14 @@ func finalizeRootfs(config *configs.Config) (err error) {
+@@ -180,11 +191,14 @@ func finalizeRootfs(config *configs.Config) (err error) {
  	}
  
  	// set rootfs ( / ) as readonly
@@ -79,7 +79,7 @@ index 51660f5e..b1425bdb 100644
  
  	if config.Umask != nil {
  		unix.Umask(int(*config.Umask))
-@@ -950,9 +964,14 @@ func msMoveRoot(rootfs string) error {
+@@ -979,9 +993,14 @@ func msMoveRoot(rootfs string) error {
  	}
  
  	// Move the rootfs on top of "/" in our mount namespace.
@@ -145,5 +145,5 @@ index 00000000..ede2bc5e
 +	return unix.Chdir("/")
 +}
 -- 
-2.35.1
+2.40.1
 
