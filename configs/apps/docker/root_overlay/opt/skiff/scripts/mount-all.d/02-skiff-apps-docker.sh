@@ -2,7 +2,10 @@
 
 DOCKER_SERVICE=/usr/lib/systemd/system/docker.service
 DOCKER_CONFD=/etc/systemd/system/docker.service.d
-DOCKER_PERSIST=$(realpath ${SKIFF_PERSIST}/docker)
+
+# Use environment-set DOCKER_PERSIST if available, otherwise use default path.
+DOCKER_PERSIST_DEFAULT=$(realpath ${SKIFF_PERSIST}/docker)
+DOCKER_PERSIST=${DOCKER_PERSIST:=${DOCKER_PERSIST_DEFAULT}}
 
 mkdir -p ${DOCKER_CONFD} ${DOCKER_PERSIST}
 if [ -f $DOCKER_SERVICE ]; then
