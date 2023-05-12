@@ -79,6 +79,7 @@ main SkiffOS repository:
 | [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      |                  |
 | [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.3.0      |                  |
 | [Odroid N2]+           | [odroid/n2]            | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      | ✔ Tested         |
+| [Odroid N2L]           | [odroid/n2l]           | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      | ✔ Tested         |
 | [Odroid U]             | [odroid/u]             | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      | ⚠ Obsolete       |
 | [Odroid XU3]           | [odroid/xu]            | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      | ⚠ Obsolete       |
 | [Odroid XU4]           | [odroid/xu]            | ✔ U-Boot 2023.04 | ✔ tb-6.3.0      | ✔ Tested         |
