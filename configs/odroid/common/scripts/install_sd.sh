@@ -22,10 +22,11 @@ images_path="${outp_path}/images"
 img_path="${images_path}/Image"
 zimg_path="${images_path}/zImage"
 uinit_path="${images_path}/rootfs.cpio.uboot"
-dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
 
 source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
 
+# verify dtb exists
+dtb_path=$(find ${images_path}/ -name '*.dtb' -print -quit)
 if [ ! -f $dtb_path ]; then
   echo "dtb not found, make sure Buildroot is done compiling."
   exit 1
@@ -128,8 +129,8 @@ else
 fi
 sync
 
-echo "Copying device tree..."
-rsync -rav --no-perms --no-owner --no-group ${images_path}/*.dtb $boot_dir/
+echo "Copying device tree and overlays..."
+rsync -rav --no-perms --no-owner --no-group ${images_path}/*.{dtb,dtbo} $boot_dir/
 sync
 
 if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
