@@ -91,9 +91,9 @@ for t in ${IMG_TYPES[@]}; do
     fi
 done
 
-DTB_FILES=( ${WS}/*.dtb )
+DTB_FILES=( ${WS}/*.dtb{,o} )
 if (( ${#DTB_FILES[@]} )); then
-    $RS ${WS}/*.dtb $SSHSTR:/mnt/boot/
+    $RS ${DTB_FILES[@]} $SSHSTR:/mnt/boot/
 fi
 if [ -f ${WS}/skiff-release ]; then
   $RS ${WS}/skiff-release $SSHSTR:/mnt/boot/skiff-release
