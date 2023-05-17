@@ -8,13 +8,14 @@ setenv verify 0
 setenv bootlogo "false"
 
 setenv kernel_addr_r "0x40008000"
-setenv initramfs_addr_r "0x46000000"
+setenv initramfs_addr_r "0x440BD000"
 setenv dtb_addr_r "0x44000000"
+setenv overlay_addr_r "0x4403D000"
 
 #---------------------------------
 # Boots from memory.
 # --------------------------------
-setenv bootmem "root=/dev/ram0 ro"
+setenv bootmem "root=/dev/ram0 rw"
 
 # base kernel config options
 setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 no_console_suspend"
@@ -23,14 +24,38 @@ setenv baseconfig "fsck.repair=yes consoleblank=0 net.ifnames=0 no_console_suspe
 # Available governos: conservative, userspace, powersave, ondemand, performance, schedutil
 setenv governor "schedutil"
 
+# Odroid N2 specifics
+setenv devconfig "cma=800M clk_ignore_unused"
+
+# For a list of overlays check:
+# /boot/dtbs/amlogic/overlays/odroidn2/
+setenv overlays "spi0 i2c0 i2c1 uart0"
+
 # Load kernel, initrd and dtb in that sequence
-fatload mmc ${devnum}:1 ${kernel_addr_r} Image
-fatload mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot
-fatload mmc ${devnum}:1 ${dtb_addr_r} meson-g12b-odroid-n2-plus.dtb
+echo "Loading Image..."
+load mmc ${devnum}:1 ${kernel_addr_r} Image
+
+echo "Loading rootfs.cpio.uboot..."
+load mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot
+
+echo "Loading dtb..."
+load mmc ${devnum}:1 ${dtb_addr_r} meson-g12b-odroid-n2-plus.dtb
+
+# Initialize fdt
 fdt addr ${dtb_addr_r}
+fdt resize 8192
+
+# Load and apply overlays
+if test "x{overlays}" != "x"; then
+  for overlay in ${overlays}; do
+      echo "Applying overlay ${overlay}.dtbo..."
+      load mmc ${devnum}:1 ${overlay_addr_r} ${overlay}.dtbo
+      fdt apply ${overlay_addr_r} || echo "Applying ${overlay}.dtbo failed!"
+  done
+fi
 
 # final boot args
-setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor}"
+setenv bootargs "${bootmem} ${condev} ${baseconfig} governor=${governor} ${devconfig}"
 
 # Boot the board
 booti ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}
