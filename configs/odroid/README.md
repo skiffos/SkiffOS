@@ -70,7 +70,7 @@ tested by the developers unless otherwise noted.
 The current SD cards used / tested by developers are:
 
  - PNY Turbo Performance 16GB High Speed MicroSDHC Class 10 UHS-1
- - SanDisk 128GB Extreme MicroSDXC UHS-I 
+ - SanDisk 128GB Extreme MicroSDXC UHS-I
  - SanDisk 128GB MicroSDXC Nintendo Switch Edition
  - SanDisk Ultra MicroSDXC (Any)
 
@@ -107,7 +107,10 @@ board will use u-boot from the MicroSD card.
 Thank you to [tobetter] for patching / testing the latest Linux kernels for the
 Odroid series of boards.
 
+The [Amlogic Linux] fork has some additional fixes.
+
 The [SkiffOS Linux] fork restores support for older boards in newer kernels.
 
 [tobetter]: https://github.com/tobetter/linux
 [SkiffOS Linux]: https://github.com/skiffos/linux/tree/skiff-odroid-5.18.y
+[Amlogic Linux]: https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git/log/?h=v6.5/arm64-dt
