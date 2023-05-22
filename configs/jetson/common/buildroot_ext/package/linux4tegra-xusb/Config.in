@@ -1,0 +1,9 @@
+config BR2_PACKAGE_LINUX4TEGRA_XUSB
+	bool "linux4tegra-xusb"
+	select BR2_PACKAGE_LINUX4TEGRA
+	help
+	  NVIDIA Linux4Tegra XUSB firmware binaries overlay.
+
+	  Supports Jetson AGX series boards.
+
+	  https://developer.nvidia.com/embedded/linux-tegra-archive
