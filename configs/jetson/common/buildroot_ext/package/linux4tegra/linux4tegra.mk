@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-LINUX4TEGRA_VERSION = 35.2.1
-LINUX4TEGRA_SITE = https://developer.download.nvidia.com/embedded/L4T/r35_Release_v2.1/release
+LINUX4TEGRA_VERSION = 35.3.1
+LINUX4TEGRA_SITE = https://developer.download.nvidia.com/embedded/L4T/r35_Release_v3.1/release
 LINUX4TEGRA_SOURCE = Jetson_Linux_R$(LINUX4TEGRA_VERSION)_aarch64.tbz2
 
 LINUX4TEGRA_LICENSE = NVIDIA Software License, GPL-2.0, LGPL, Apache-2.0, MIT
