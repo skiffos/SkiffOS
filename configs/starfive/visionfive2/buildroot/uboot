@@ -7,7 +7,7 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 # branch: JH7110_VisionFive2_devel
 # source: https://github.com/starfive-tech/u-boot/tree/JH7110_VisionFive2_devel
 # 59cf9af678dbfa3d73f6cb86ed1ae7219da9f5c9
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="https://github.com/starfive-tech/u-boot/archive/f1d959f0b02e16842181a4c1723ba3ea30d2e04a/u-boot-visionfive2.tar.gz"
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,starfive-tech,u-boot,ac0ac696256abf412826d74ee918dd417e207d7b)/u-boot-visionfive2-ac0ac6-r2.tar.gz"
 
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="starfive_visionfive2"
 
