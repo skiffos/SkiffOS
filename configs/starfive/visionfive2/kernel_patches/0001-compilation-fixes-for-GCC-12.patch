@@ -1,27 +1,14 @@
-From c733cc48e122e20209f3e3971055139499957a09 Mon Sep 17 00:00:00 2001
+From 9e11ff8ba311714f2dbb2267ef93df7db4d4deee Mon Sep 17 00:00:00 2001
 From: Max Berger <max@berger.name>
 Date: Wed, 22 Feb 2023 21:58:14 +0100
-Subject: [PATCH] Compilation fixes for GCC 12
+Subject: [PATCH] compilation fixes for GCC 12
 
 ---
- arch/riscv/Makefile | 1 +
- security/keys/dh.c  | 6 +++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ security/keys/dh.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 0eb4568fbd29..38926cf461ac 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -52,6 +52,7 @@ riscv-march-$(CONFIG_ARCH_RV32I)	:= rv32ima
- riscv-march-$(CONFIG_ARCH_RV64I)	:= rv64ima
- riscv-march-$(CONFIG_FPU)		:= $(riscv-march-y)fd
- riscv-march-$(CONFIG_RISCV_ISA_C)	:= $(riscv-march-y)c
-+riscv-march-y	:= $(riscv-march-y)_zicsr_zifencei
- KBUILD_CFLAGS += -march=$(subst fd,,$(riscv-march-y))
- KBUILD_AFLAGS += -march=$(riscv-march-y)
- 
 diff --git a/security/keys/dh.c b/security/keys/dh.c
-index 1abfa70ed6e1..b75b4e6d8023 100644
+index 1abfa70ed6e10..b75b4e6d80239 100644
 --- a/security/keys/dh.c
 +++ b/security/keys/dh.c
 @@ -281,21 +281,21 @@ long __keyctl_dh_compute(struct keyctl_dh_params __user *params,
@@ -50,5 +37,5 @@ index 1abfa70ed6e1..b75b4e6d8023 100644
  		ret = dlen;
  		goto out2;
 -- 
-2.34.1
+2.40.1
 
