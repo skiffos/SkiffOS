@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+shopt -s nullglob
 
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
