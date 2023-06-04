@@ -33,9 +33,9 @@ skiff_release=$(cat $skiff_release_path | grep "VERSION=" | cut -d= -f2)
 # add -1 to the end of the release to avoid refind problems
 skiff_release="${skiff_release}-1"
 
-echo "Copying kernel..."
-${RS} $UIMG_PATH ${TARGET}/$(basename $UIMG_PATH)-skiffos-${skiff_release}
-
 echo "Copying squashfs..."
 squashfs_filename=init-skiffos-${skiff_release}.squashfs
 ${RS} $SQUASHFS_PATH ${TARGET}/${squashfs_filename}
+
+echo "Copying kernel..."
+${RS} $UIMG_PATH ${TARGET}/$(basename $UIMG_PATH)-skiffos-${skiff_release}
