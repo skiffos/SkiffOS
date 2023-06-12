@@ -1,0 +1,4 @@
+# Supports all H2 and H3 variants.
+# Celeron J4105, Celeron J4115, Celeron N5105, Pentium Silver N6005
+-march=goldmont-plus
+-ftree-vectorize

@@ -45,25 +45,31 @@ tested by the developers unless otherwise noted.
 |----------------|--------------------|--------------|
 | [c2]           | odroid/c2          |              |
 | [c4]           | odroid/c4          | Reboot issue |
+| [h2] + [h2+]   | odroid/h3          | Obsolete     |
+| [h3] + [h3+]   | odroid/h3          | Intel x86    |
 | [hc2]          | odroid/xu          |              |
 | [hc4]          | odroid/hc4         |              |
 | [m1]           | odroid/m1          |              |
 | [n2]           | odroid/n2          | Includes n2+ |
 | [n2l]          | odroid/n2l         |              |
-| [u] + u2       | odroid/u           | Discontinued |
-| [xu3]          | odroid/xu          | Discontinued |
+| [u] + u2       | odroid/u           | Obsolete     |
+| [xu3]          | odroid/xu          | Obsolete     |
 | [xu4] (+ xu4q) | odroid/xu          |              |
 
+[c2]: https://www.hardkernel.com/shop/odroid-c2/
+[c4]: https://www.hardkernel.com/shop/odroid-c4/
+[h2]: https://www.hardkernel.com/shop/odroid-h2/
+[h2+]: https://www.hardkernel.com/shop/odroid-h2plus/
+[h3]: https://www.hardkernel.com/shop/odroid-h3/
+[h3+]: https://www.hardkernel.com/shop/odroid-h3-plus/
+[hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
+[hc4]: https://www.hardkernel.com/shop/odroid-hc4/
+[m1]: https://www.hardkernel.com/shop/odroid-m1-with-8gbyte-ram/
+[n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
+[n2l]: https://www.hardkernel.com/shop/odroid-n2l-with-4gbyte-ram/
 [u]: https://wiki.odroid.com/old_product/odroid-x_u_q/odroid_u3/odroid-u3
 [xu3]: https://wiki.odroid.com/old_product/odroid-xu3/odroid-xu3
 [xu4]: https://wiki.odroid.com/odroid-xu4/odroid-xu4
-[hc2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
-[n2]: https://www.hardkernel.com/shop/odroid-n2-with-4gbyte-ram-2/
-[n2l]: https://www.hardkernel.com/shop/odroid-n2l-with-4gbyte-ram/
-[m1]: https://www.hardkernel.com/shop/odroid-m1-with-8gbyte-ram/
-[c2]: https://www.hardkernel.com/shop/odroid-c2/
-[c4]: https://www.hardkernel.com/shop/odroid-c4/
-[hc4]: https://www.hardkernel.com/shop/odroid-hc4/
 
 ## SD Card Compatibility
 

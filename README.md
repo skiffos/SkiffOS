@@ -67,17 +67,21 @@ main SkiffOS repository:
 | [BeagleBone AI]        | [beaglebone/ai]        | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
 | [BeagleBone Black]     | [beaglebone/black]     | ✔ U-Boot 2022.04 | ✔ 5.10.162-ti   |                  |
 | [BeagleBoard BeagleV]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
-| [Intel x86/64]         | [intel/desktop]        | ✔ [rEFInd]       | ✔ 6.3.7         | ✔ Tested         |
+| **[Intel x86/64]**     | [intel/desktop]        | ✔ [rEFInd]       | ✔ 6.3.7         | ✔ Tested         |
 | [ModalAI Voxl2]        | [modalai/voxl2]        | N/A              | ✔ msm-4.19.125  |                  |
 | [NVIDIA Jetson AGX]    | [jetson/agx]           | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
 | [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
 | [NVIDIA Jetson TX2]    | [jetson/tx2]           | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
 | [Odroid C2]            | [odroid/c2]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ⚠ Obsolete       |
 | [Odroid C4]            | [odroid/c4]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  |                  |
+| [Odroid H2]            | [odroid/h3]            | ✔ [rEFInd]       | ✔ 6.3.7         |                  |
+| [Odroid H2+]           | [odroid/h3]            | ✔ [rEFInd]       | ✔ 6.3.7         |                  |
+| [Odroid H3]            | [odroid/h3]            | ✔ [rEFInd]       | ✔ 6.3.7         |                  |
+| [Odroid H3+]           | [odroid/h3]            | ✔ [rEFInd]       | ✔ 6.3.7         |                  |
 | [Odroid HC1]           | [odroid/xu]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ⚠ Obsolete       |
 | [Odroid HC2]           | [odroid/xu]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ✔ Tested         |
-| [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  |                  |
-| [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.4.0-rc4  |                  |
+| [Odroid HC4]           | [odroid/hc4]           | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ✔ Tested         |
+| [Odroid M1]            | [odroid/m1]            | ✔ U-Boot 2017.09 | ✔ tb-6.4.0-rc4  | ✔ Tested         |
 | [Odroid N2]+           | [odroid/n2]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ✔ Tested         |
 | [Odroid N2L]           | [odroid/n2l]           | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ✔ Tested         |
 | [Odroid U]             | [odroid/u]             | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ⚠ Obsolete       |
@@ -91,18 +95,18 @@ main SkiffOS repository:
 | [Pi 1]                 | [pi/1]                 | N/A              | ✔ rpi-6.1.28    |                  |
 | [Pi 3] + 1, 2          | [pi/3]                 | N/A              | ✔ rpi-6.1.28    | ✔ Tested         |
 | [Pi 4]                 | [pi/4]                 | N/A              | ✔ rpi-6.1.28    | ✔ Tested         |
-| [Pi 4] (32bit mode)    | [pi/4x32]              | N/A              | ✔ rpi-6.1.28    | ✔ Tested         |
+| [Pi 4] (32bit mode)    | [pi/4x32]              | N/A              | ✔ rpi-6.1.28    |                  |
 | [Pine64 H64]           | [pine64/h64]           | ✔ U-Boot 2022.04 | ✔ megi-6.4-rc4  |                  |
 | [PineBook A64]         | [pine64/book_a64]      | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ⚠ Obsolete       |
-| [PineBook Pro]         | [pine64/book]          | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ✔ Tested         |
-| [PinePhone]            | [pine64/phone]         | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ✔ Tested         |
+| [PineBook Pro]         | [pine64/book]          | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  |                  |
+| [PinePhone]            | [pine64/phone]         | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  |                  |
 | [PinePhone Pro]        | [pine64/phone_pro]     | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ⚠ Experimental   |
-| [Rock64] rk3328        | [pine64/rock64]        | ✔ U-Boot 2022.04 | ✔ megi-6.4-rc4  | ✔ Tested         |
+| [Rock64] rk3328        | [pine64/rock64]        | ✔ U-Boot 2022.04 | ✔ megi-6.4-rc4  |                  |
 | [RockPro64]            | [pine64/rockpro64]     | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ✔ Tested         |
 | [Sipeed LicheeRV]      | [allwinner/licheerv]   | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
 | [StarFive VisionFive]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | [StarFive VisionFive2] | [starfive/visionfive2] | ✔ U-Boot 2021.10 | ✔ s5-5.15.0     | RISC-V           |
-| [USBArmory Mk2]        | [usbarmory/mk2]        | ✔ U-Boot 2020.10 | ✔ 6.3.7         | ✔ Tested         |
+| [USBArmory Mk2]        | [usbarmory/mk2]        | ✔ U-Boot 2020.10 | ✔ 6.3.7         |                  |
 | Valve [Steam Deck]     | [valve/deck]           | N/A              | ✔ valve-6.1.9   | ✔ Tested         |
 | [Wandboard]            | [freescale/wandboard]  | ✔ U-Boot 2022.04 | ✔ 6.3.7         |                  |
 
@@ -126,6 +130,10 @@ main SkiffOS repository:
 [NVIDIA Jetson TX2]: https://developer.nvidia.com/embedded/jetson-tx2
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
 [Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
+[Odroid H2]: https://www.hardkernel.com/shop/odroid-h2/
+[Odroid H2+]: https://www.hardkernel.com/shop/odroid-h2plus/
+[Odroid H3]: https://www.hardkernel.com/shop/odroid-h3/
+[Odroid H3+]: https://www.hardkernel.com/shop/odroid-h3-plus/
 [Odroid HC1]: https://www.hardkernel.com/shop/odroid-hc1-home-cloud-one/
 [Odroid HC2]: https://www.hardkernel.com/shop/odroid-hc2-home-cloud-two/
 [Odroid HC4]: https://www.hardkernel.com/shop/odroid-hc4/
@@ -186,6 +194,7 @@ main SkiffOS repository:
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
 [odroid/m1]: ./configs/odroid
+[odroid/h3]: ./configs/odroid
 [odroid/hc4]: ./configs/odroid
 [odroid/n2]: ./configs/odroid
 [odroid/n2l]: ./configs/odroid
