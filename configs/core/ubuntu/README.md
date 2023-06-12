@@ -1,6 +1,6 @@
 # Ubuntu
 
-> Base configuration for Ubuntu.
+> Configuration for Ubuntu.
 
 ## Introduction
 

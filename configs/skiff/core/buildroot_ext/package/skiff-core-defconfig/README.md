@@ -1,6 +1,6 @@
 # Debian
 
-> Base configuration for Debian.
+> Configuration for Debian.
 
 ## Introduction
 

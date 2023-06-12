@@ -1,6 +1,6 @@
 # Fedora
 
-> Base configuration for Fedora.
+> Configuration for Fedora.
 
 ## Introduction
 
