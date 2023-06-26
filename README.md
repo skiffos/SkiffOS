@@ -357,6 +357,7 @@ Other less frequently updated images:
 
 There are also core images specific to [pine64/phone] and [pine64/book] and [jetson/common].
 
+[Arch]: https://archlinux.org/
 [Debian]: https://debian.org/
 [DietPi]: https://github.com/MichaIng/DietPi
 [Alpine]: https://www.alpinelinux.org/
