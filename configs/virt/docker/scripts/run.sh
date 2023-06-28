@@ -9,7 +9,7 @@ WORKING_PATH="$BUILDROOT_DIR/docker-run"
 ROOTFS_PATH=${IMAGES_PATH}/docker-rootfs
 PERSIST_PATH=${WORKING_PATH}/docker-persist
 mkdir -p ${ROOTFS_PATH} ${PERSIST_PATH}
-docker run -d --name=skiff \
+docker run -d -t --name=skiff \
   --entrypoint=/lib/systemd/systemd \
   --privileged \
   --workdir / \
@@ -21,7 +21,6 @@ docker run -d --name=skiff \
   --stop-signal=SIGRTMIN+3 \
   --tmpfs /run \
   --tmpfs /run/lock \
-  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
   -v /dev:/dev \
   -v /lib/modules:/lib/modules \
   -v /run/udev:/run/udev \
