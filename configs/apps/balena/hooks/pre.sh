@@ -1,33 +1,46 @@
 #!/bin/bash
 set -eo pipefail
 
+# NOTE: Remember to also apply any changes to apps/balena-engine.
+
 echo "[apps/balena] Merging balena-engine daemon.json fragments..."
-SRC_DJSON=$SKIFF_CURRENT_CONF_DIR/resources/balena-engine/daemon.json
-TARGET_DJSON=${SKIFF_WORKSPACE_DIR}/target/etc/balena-engine/daemon.json
-TARGET_DJSON_DIR=$(dirname ${TARGET_DJSON})
 
-if [ ! -d ${TARGET_DJSON_DIR} ]; then
-    mkdir -p ${TARGET_DJSON_DIR}
+SRC_DJSON="$SKIFF_CURRENT_CONF_DIR/resources/balena-engine/daemon.json"
+TARGET_DJSON="$SKIFF_WORKSPACE_DIR/target/etc/balena-engine/daemon.json"
+TARGET_DJSON_DIR=$(dirname "${TARGET_DJSON}")
+
+# Create the target directory if it does not exist
+if [ ! -d "${TARGET_DJSON_DIR}" ]; then
+    mkdir -p "${TARGET_DJSON_DIR}"
 fi
 
-# if base config exists, merge it together.
-if [ -f ${TARGET_DJSON} ]; then
-    # merge with jq, buildroot provides it with host-jq
-    jq -s '.[0] * .[1]' ${SRC_DJSON} ${TARGET_DJSON} >\
-        ${TARGET_DJSON}.tmp
-    mv ${TARGET_DJSON}.tmp ${TARGET_DJSON}
+# If the base config exists, merge it together
+if [ -f "${TARGET_DJSON}" ]; then
+    # Merge with jq, buildroot provides it with host-jq
+    jq -s '.[0] * .[1]' "${SRC_DJSON}" "${TARGET_DJSON}" > "${TARGET_DJSON}.tmp"
+    mv "${TARGET_DJSON}.tmp" "${TARGET_DJSON}"
 else
-    cat ${SRC_DJSON} > ${TARGET_DJSON}
+    cp "${SRC_DJSON}" "${TARGET_DJSON}"
 fi
 
-# merge all fragments and delete fragments dir
-SRC_FRAGMENTS_DIR=${SKIFF_WORKSPACE_DIR}/target/etc/balena-engine/daemon.json.merge
-mkdir -p ${SRC_FRAGMENTS_DIR}
-echo "{}" > ${SRC_FRAGMENTS_DIR}/00-skiff-merged-fragments-to-daemon.json
-for f in ${SRC_FRAGMENTS_DIR}/*.json ; do
-    echo "[apps/balena-engine] Merging balena-engine.json fragment $(basename ${f})..."
-    jq -s '.[0] * .[1]' ${TARGET_DJSON} ${f} >\
-       ${TARGET_DJSON}.tmp
-    mv ${TARGET_DJSON}.tmp ${TARGET_DJSON}
+# Determine the list of fragments from SKIFF_CONFIG list
+# Configuration fragments are loaded from resources/balena-engine/daemon.json.d/*.json
+# Packages later in the SKIFF_CONFIG list override those earlier in the list
+SRC_FRAGMENTS=()
+config_paths=( ${SKIFF_CONFIG_PATH} )
+for (( idx=${#config_paths[@]}-1 ; idx>=0 ; idx-- )) ; do
+    config_dir="${config_paths[idx]}/resources/balena-engine/daemon.json.d"
+    if [ -d "$config_dir" ]; then
+        # Add fragments to SRC_FRAGMENTS
+        for fragment in "$config_dir"/*.json; do
+            SRC_FRAGMENTS+=("$fragment")
+        done
+    fi
 done
-rm -rf ${SRC_FRAGMENTS_DIR}
+
+# Merge all fragments
+for f in "${SRC_FRAGMENTS[@]}" ; do
+    echo "[apps/balena-engine] Merging balena-engine.json fragment $(basename "${f}")..."
+    jq -s '.[0] * .[1]' "${TARGET_DJSON}" "${f}" > "${TARGET_DJSON}.tmp"
+    mv "${TARGET_DJSON}.tmp" "${TARGET_DJSON}"
+done
