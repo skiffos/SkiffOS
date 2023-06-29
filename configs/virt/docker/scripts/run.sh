@@ -4,12 +4,14 @@ if docker rm -f skiff ; then
   sleep 3
 fi
 
+# NOTE: we cannot use -t here without breaking tty within docker inside the container.
+
 IMAGES_PATH="$BUILDROOT_DIR/images"
 WORKING_PATH="$BUILDROOT_DIR/docker-run"
 ROOTFS_PATH=${IMAGES_PATH}/docker-rootfs
 PERSIST_PATH=${WORKING_PATH}/docker-persist
 mkdir -p ${ROOTFS_PATH} ${PERSIST_PATH}
-docker run -d -t --name=skiff \
+docker run -d --name=skiff \
   --entrypoint=/lib/systemd/systemd \
   --privileged \
   --workdir / \
