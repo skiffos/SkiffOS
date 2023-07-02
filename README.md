@@ -70,8 +70,8 @@ main SkiffOS repository:
 | **[Intel x86/64]**     | [intel/desktop]        | ✔ [rEFInd]       | ✔ 6.4.1         | ✔ Tested         |
 | [ModalAI Voxl2]        | [modalai/voxl2]        | N/A              | ✔ msm-4.19.125  |                  |
 | [NVIDIA Jetson AGX]    | [jetson/agx]           | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
-| [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
-| [NVIDIA Jetson TX2]    | [jetson/tx2]           | ✔ U-Boot         | ✔ [nv-4.9.309]  | ⚠ Obsolete       |
+| [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.337]  | ⚠ Obsolete       |
+| [NVIDIA Jetson TX2]    | [jetson/tx2]           | ✔ U-Boot         | ✔ [nv-4.9.337]  | ⚠ Obsolete       |
 | [Odroid C2]            | [odroid/c2]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  | ⚠ Obsolete       |
 | [Odroid C4]            | [odroid/c4]            | ✔ U-Boot 2023.04 | ✔ tb-6.4.0-rc4  |                  |
 | [Odroid H2]            | [odroid/h3]            | ✔ [rEFInd]       | ✔ 6.4.1         |                  |
@@ -168,7 +168,7 @@ main SkiffOS repository:
 [V86]: https://github.com/copy/v86
 [Wandboard]: https://elinux.org/Wandboard
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
-[nv-4.9.309]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
+[nv-4.9.337]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 [nv-5.10.104]: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x
 [rEFInd]: https://www.rodsbooks.com/refind/
 

@@ -4,14 +4,14 @@
 #
 ################################################################################
 
-# Jetson Nano and TX2 were discontinued after 32.7.2.
-LINUX4TEGRA_LEGACY_VERSION = 32.7.1
+# Jetson Nano and TX2 were discontinued after 32.7.x.
+LINUX4TEGRA_LEGACY_VERSION = 32.7.4
 
 ifeq ($(BR2_PACKAGE_LINUX4TEGRA_LEGACY_PLATFORM_T186REF),y)
-LINUX4TEGRA_LEGACY_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v7.1/t186
+LINUX4TEGRA_LEGACY_SITE = https://developer.nvidia.com/downloads/embedded/l4t/r32_release_v7.4/t186
 LINUX4TEGRA_LEGACY_SOURCE = jetson_linux_r$(LINUX4TEGRA_LEGACY_VERSION)_aarch64.tbz2
 else # ifeq ($(BR2_PACKAGE_LINUX4TEGRA_LEGACY_PLATFORM_T210REF),y)
-LINUX4TEGRA_LEGACY_SITE = https://developer.nvidia.com/embedded/L4T/r32_Release_v7.1/t210
+LINUX4TEGRA_LEGACY_SITE = https://developer.nvidia.com/downloads/embedded/l4t/r32_release_v7.4/t210
 LINUX4TEGRA_LEGACY_SOURCE = jetson-210_linux_r$(LINUX4TEGRA_LEGACY_VERSION)_aarch64.tbz2
 endif
 
