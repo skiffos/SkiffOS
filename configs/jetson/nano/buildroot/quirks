@@ -1,2 +1,2 @@
-# netlink is not compatible with the 4.9.x legacy kernel
-# BR2_PACKAGE_LIBNL is not set
+# DCO does not compile correctly on the legacy kernel
+BR2_PACKAGE_OPENVPN_DISABLE_DCO=y
