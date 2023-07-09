@@ -239,7 +239,30 @@ SkiffOS, please **[open an issue].**
 
 [![Support Server](https://img.shields.io/discord/803825858599059487.svg?label=Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.gg/EKVkdVmvwT)
 
-[Buildroot dependencies] must be installed as a prerequisite.
+[Buildroot dependencies] must be installed as a prerequisite, assuming apt:
+
+```
+sudo apt-get install -y \
+  which \
+  sed \
+  make \
+  binutils \
+  build-essential \
+  diffutils \
+  bash \
+  patch \
+  gzip \
+  bzip2 \
+  perl \
+  tar \
+  cpio \
+  unzip \
+  rsync \
+  file \
+  bc \
+  findutils \
+  wget
+```
 
 [Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
 
