@@ -243,25 +243,26 @@ SkiffOS, please **[open an issue].**
 
 ```
 sudo apt-get install -y \
-  which \
-  sed \
-  make \
+  bash \
+  bc \
   binutils \
   build-essential \
-  diffutils \
-  bash \
-  patch \
-  gzip \
   bzip2 \
-  perl \
-  tar \
   cpio \
-  unzip \
-  rsync \
+  diffutils \
   file \
-  bc \
   findutils \
-  wget
+  gzip \
+  libarchive-tools \
+  make \
+  patch \
+  perl \
+  rsync \
+  sed \
+  tar \
+  unzip \
+  wget \
+  which
 ```
 
 [Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
