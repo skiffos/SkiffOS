@@ -75,11 +75,21 @@ setenv external_watchdog_debounce "3"
 load mmc ${devnum}:1 ${kernel_addr_r} zImage
 load mmc ${devnum}:1 ${initramfs_addr_r} rootfs.cpio.uboot
 
+
+# NOTE: board_name is not set in more recent u-boot versions.
+# The script will default to the xu4 DTS.
+# This is compatible with all of the board variants.
+
+# Uncomment the following line to set board_name to a specific version:
+# setenv board_name "hc1"
+
 setenv fdtloaded "false"
 if test "x${board_name}" = "x"; then setenv board_name "xu4"; fi
 if test "${board_name}" = "xu4"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidxu4.dtb; setenv fdtloaded "true"; fi
 if test "${board_name}" = "xu3"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidxu3.dtb; setenv fdtloaded "true"; fi
+if test "${board_name}" = "odroidxu3"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidxu3.dtb; setenv fdtloaded "true"; fi
 if test "${board_name}" = "xu3l"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidxu3-lite.dtb; setenv fdtloaded "true"; fi
+if test "${board_name}" = "hc1"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidhc1.dtb; setenv fdtloaded "true"; fi
 if test "${fdtloaded}" != "true"; then load mmc ${devnum}:1 ${dtb_addr_r} exynos5422-odroidxu4.dtb; fi
 
 fdt addr ${dtb_addr_r}
