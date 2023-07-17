@@ -7,8 +7,6 @@
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
 
-# start_file=start4x.elf
-
 kernel=Image
 initramfs rootfs.cpio.lz4
 
