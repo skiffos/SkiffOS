@@ -103,9 +103,7 @@ if [ -d ${WS}/rpi-firmware ]; then
         ${WS}/rpi-firmware/overlays/ \
         $SSHSTR:/mnt/boot/overlays/
     $RS --delete \
-        ${WS}/rpi-firmware/*.bin \
-        ${WS}/rpi-firmware/*.dat \
-        ${WS}/rpi-firmware/*.elf \
+        ${WS}/rpi-firmware/*.{bin,dat,elf} \
         $SSHSTR:/mnt/boot/
 
     # backwards compat: upgrade pi to lz4 cpio
