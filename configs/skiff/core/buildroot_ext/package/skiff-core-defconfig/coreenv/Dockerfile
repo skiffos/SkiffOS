@@ -64,7 +64,7 @@ RUN sed -i 's/^#\(.*en_US.*\)/\1/' /etc/locale.gen && \
     locale-gen "en_US.UTF-8"
 
 # force Chromium to use the GPU
-printf \
+RUN printf \
     "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
       /etc/chromium.d/ignore-gpu-blocklist
 
