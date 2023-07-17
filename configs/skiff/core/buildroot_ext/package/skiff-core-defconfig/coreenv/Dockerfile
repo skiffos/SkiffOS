@@ -1,5 +1,5 @@
 ARG DISTRO
-FROM ${DISTRO:-debian:sid} as stage1
+FROM ${DISTRO:-debian:bookworm} as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
@@ -19,12 +19,16 @@ RUN \
     --ignore-missing \
     -o "Dpkg::Options::=--force-confdef"  \
     -o "Dpkg::Options::=--force-confnew"  \
+    accountsservice \
     autotools-dev \
     build-essential \
     chromium \
     cups \
     curl \
     git \
+    gnupg \
+    gnupg-utils \
+    gpg-agent \
     htop \
     less \
     lightdm \
@@ -35,6 +39,9 @@ RUN \
     ncurses-term \
     net-tools \
     openssh-client \
+    python3-keyring \
+    python3-secretstorage \
+    python3-launchpadlib \
     rsync \
     software-properties-common \
     sudo \
@@ -52,15 +59,19 @@ RUN \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
-# ensure default locale is generated
-RUN locale-gen "en_US.UTF-8"
+# ensure en_US locales are generated
+RUN sed -i 's/^#\(.*en_US.*\)/\1/' /etc/locale.gen && \
+    locale-gen "en_US.UTF-8"
+
+# force Chromium to use the GPU
+printf \
+    "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
+      /etc/chromium.d/ignore-gpu-blocklist
 
 # flatten image
 FROM scratch as stage2
 
 COPY --from=stage1 / /
-
-# Note: this section identical to skiff-core-defconfig
 
 ENV container=docker \
   LANG=en_US.UTF-8 \
