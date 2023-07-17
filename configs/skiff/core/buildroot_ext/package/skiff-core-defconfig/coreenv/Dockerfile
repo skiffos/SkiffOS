@@ -39,6 +39,8 @@ RUN \
     ncurses-term \
     net-tools \
     openssh-client \
+    pavucontrol \
+    pulseaudio \
     python3-keyring \
     python3-secretstorage \
     python3-launchpadlib \
@@ -63,11 +65,6 @@ RUN \
 RUN sed -i 's/^#\(.*en_US.*\)/\1/' /etc/locale.gen && \
     locale-gen "en_US.UTF-8"
 
-# force Chromium to use the GPU
-RUN printf \
-    "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
-      /etc/chromium.d/ignore-gpu-blocklist
-
 # flatten image
 FROM scratch as stage2
 
@@ -79,9 +76,13 @@ ENV container=docker \
   LC_ALL=en_US.UTF-8
 
 # Show the user list in lightdm
+# force Chromium to use the GPU
 RUN \
   mkdir -p /etc/lightdm/lightdm.conf.d && \
-  printf '[Seat:*]\ngreeter-hide-users=false\n' > /etc/lightdm/lightdm.conf.d/01-enable-users.conf
+  printf '[Seat:*]\ngreeter-hide-users=false\n' > /etc/lightdm/lightdm.conf.d/01-enable-users.conf && \
+  printf \
+    "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"\$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
+    /etc/chromium.d/ignore-gpu-blocklist
 
 # Create the user 'core' which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
