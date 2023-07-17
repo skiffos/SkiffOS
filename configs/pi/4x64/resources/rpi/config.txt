@@ -7,6 +7,9 @@
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
 
+# start_file=start4x.elf
+# fixup_file=fixup4.dat
+
 kernel=Image
 initramfs rootfs.cpio.lz4
 
@@ -36,6 +39,7 @@ avoid_safe_mode=1
 
 # Enable GPIO features
 # dtparam=i2c_arm=on
+# dtparam=i2c1=on
 # dtparam=spi=on
 # dtparam=i2s=on
 
