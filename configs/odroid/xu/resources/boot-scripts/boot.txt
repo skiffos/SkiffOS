@@ -101,7 +101,5 @@ if test "${external_watchdog}" = "true"; then setenv external_watchdog "external
 # final boot args
 setenv bootargs "${bootmem} ${condev} ${baseconfig} ${videoconfig} ${hdmi_phy_control} ${hid_quirks} ${macaddrconfig} ${external_watchdog} governor=${governor}"
 
-dmc ${ddr_freq}
-
 # Boot the board
 bootz ${kernel_addr_r} ${initramfs_addr_r} ${dtb_addr_r}
