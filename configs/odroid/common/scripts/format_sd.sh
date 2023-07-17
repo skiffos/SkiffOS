@@ -92,16 +92,16 @@ sleep 1
 
 # boot
 echo "Making boot partition..."
-sudo parted -a optimal $ODROID_SD -- mkpart primary fat32 2MiB 800MiB
+sudo parted -a optimal $ODROID_SD -- mkpart primary fat32 2MiB 1G
 sudo parted $ODROID_SD set 1 boot on
 
 # rootfs
 echo "Making rootfs partition..."
-sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 800MiB 1G
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 1G 2G
 
 # persist
 echo "Making persist partition..."
-sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 1G "100%"
+sudo parted -a optimal $ODROID_SD -- mkpart primary ext4 2G "100%"
 
 echo "Waiting for partprobe..."
 sync && sync
