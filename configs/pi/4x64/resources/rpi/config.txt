@@ -22,18 +22,6 @@ dtoverlay=miniuart-bt
 # enable autoprobing of Bluetooth driver without need of hciattach/btattach
 dtoverlay=krnbt=on
 
-# GPU memory
-gpu_mem_256=128
-gpu_mem_512=256
-gpu_mem_1024=512
-
-# Disable overscan assuming the display supports displaying the full resolution
-# If the text shown on the screen disappears off the edge, comment this out
-disable_overscan=1
-
-# Force hdmi hotplug
-hdmi_force_hotplug=1
-
 # Avoid pi safe mode
 avoid_safe_mode=1
 
@@ -63,6 +51,26 @@ dtparam=audio=on
 
 # Forces CPU to run in turbo for initial seconds
 # initial_turbo=45
+
+# GPU memory split
+# gpu_mem_256=128
+# gpu_mem_512=256
+# gpu_mem_1024=512
+
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
+# Force hdmi hotplug
+hdmi_force_hotplug=1
+
+# Uncomment to force HD and prevent 4k memory drain
+# hdmi_group=1
+# hdmi_mode=16
+# [hdmi:0]
+# hdmi_max_pixel_freq=200000000
+# [hdmi:1]
+# hdmi_max_pixel_freq=200000000
 
 # Settings specific to Raspberry Pi 4.
 [pi4]
