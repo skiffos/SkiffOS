@@ -20,13 +20,19 @@ dtoverlay=miniuart-bt
 dtoverlay=krnbt=on
 
 # GPU memory
-gpu_mem_256=100
-gpu_mem_512=100
-gpu_mem_1024=100
+gpu_mem_256=128
+gpu_mem_512=256
+gpu_mem_1024=512
 
 # Disable overscan assuming the display supports displaying the full resolution
 # If the text shown on the screen disappears off the edge, comment this out
 disable_overscan=1
+
+# Force hdmi hotplug
+hdmi_force_hotplug=1
+
+# Avoid pi safe mode
+avoid_safe_mode=1
 
 # Enable GPIO features
 # dtparam=i2c_arm=on
@@ -54,10 +60,8 @@ dtparam=audio=on
 # Forces CPU to run in turbo for initial seconds
 # initial_turbo=45
 
+# Settings specific to Raspberry Pi 4.
 [pi4]
+# This is the modern kernel modesetting driver.
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
-
-# dtoverlay=vc4-kms-v3d-pi4
-# dtoverlay=imx219
-# dtoverlay=ov5647
