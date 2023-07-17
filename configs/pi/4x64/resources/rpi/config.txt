@@ -8,7 +8,6 @@
 # my/config/resources/rpi/config.txt
 
 # start_file=start4x.elf
-# fixup_file=fixup4.dat
 
 kernel=Image
 initramfs rootfs.cpio.lz4
