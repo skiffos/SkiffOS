@@ -35,6 +35,8 @@ RUN \
     locales \
     lsb-release \
     mesa-utils \
+    mesa-vulkan-drivers \
+    ffmpeg \
     nano \
     ncurses-term \
     net-tools \
