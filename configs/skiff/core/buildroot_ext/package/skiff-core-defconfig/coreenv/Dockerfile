@@ -25,6 +25,7 @@ RUN \
     chromium \
     cups \
     curl \
+    ffmpeg \
     git \
     gnupg \
     gnupg-utils \
@@ -36,7 +37,7 @@ RUN \
     lsb-release \
     mesa-utils \
     mesa-vulkan-drivers \
-    ffmpeg \
+    mplayer \
     nano \
     ncurses-term \
     net-tools \
@@ -44,20 +45,20 @@ RUN \
     pavucontrol \
     pulseaudio \
     python3-keyring \
-    python3-secretstorage \
     python3-launchpadlib \
+    python3-secretstorage \
     rsync \
     software-properties-common \
     sudo \
     systemd \
     task-xfce-desktop \
+    tmux \
     unzip \
     usbutils \
     vim \
-    mplayer \
     wget \
-    xfce4-power-manager \
-    x11vnc
+    x11vnc \
+    xfce4-power-manager
 
 # remove unnecessary content
 RUN \
