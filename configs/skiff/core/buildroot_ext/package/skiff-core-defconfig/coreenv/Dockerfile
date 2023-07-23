@@ -54,6 +54,7 @@ RUN \
     unzip \
     usbutils \
     vim \
+    mplayer \
     wget \
     xfce4-power-manager \
     x11vnc
