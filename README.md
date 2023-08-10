@@ -96,13 +96,13 @@ main SkiffOS repository:
 | [Pi 3] + 1, 2          | [pi/3]                 | N/A              | ✔ rpi-6.1.42    | ✔ Tested         |
 | [Pi 4]                 | [pi/4]                 | N/A              | ✔ rpi-6.1.42    | ✔ Tested         |
 | [Pi 4] (32bit mode)    | [pi/4x32]              | N/A              | ✔ rpi-6.1.42    |                  |
-| [Pine64 H64]           | [pine64/h64]           | ✔ U-Boot 2022.04 | ✔ megi-6.4-rc4  |                  |
-| [PineBook A64]         | [pine64/book_a64]      | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ⚠ Obsolete       |
-| [PineBook Pro]         | [pine64/book]          | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  |                  |
-| [PinePhone]            | [pine64/phone]         | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  |                  |
-| [PinePhone Pro]        | [pine64/phone_pro]     | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ⚠ Experimental   |
-| [Rock64] rk3328        | [pine64/rock64]        | ✔ U-Boot 2022.04 | ✔ megi-6.4-rc4  |                  |
-| [RockPro64]            | [pine64/rockpro64]     | ✔ U-Boot (bin)   | ✔ megi-6.4-rc4  | ✔ Tested         |
+| [Pine64 H64]           | [pine64/h64]           | ✔ U-Boot 2022.04 | ✔ megi-6.4.7    |                  |
+| [PineBook A64]         | [pine64/book_a64]      | ✔ U-Boot (bin)   | ✔ megi-6.4.7    | ⚠ Obsolete       |
+| [PineBook Pro]         | [pine64/book]          | ✔ U-Boot (bin)   | ✔ megi-6.4.7    |                  |
+| [PinePhone]            | [pine64/phone]         | ✔ U-Boot (bin)   | ✔ megi-6.4.7    |                  |
+| [PinePhone Pro]        | [pine64/phone_pro]     | ✔ U-Boot (bin)   | ✔ megi-6.4.7    | ⚠ Experimental   |
+| [Rock64] rk3328        | [pine64/rock64]        | ✔ U-Boot 2022.04 | ✔ megi-6.4.7    |                  |
+| [RockPro64]            | [pine64/rockpro64]     | ✔ U-Boot (bin)   | ✔ megi-6.4.7    | ✔ Tested         |
 | [Sipeed LicheeRV]      | [allwinner/licheerv]   | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   | RISC-V D1        |
 | [StarFive VisionFive]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | [StarFive VisionFive2] | [starfive/visionfive2] | ✔ U-Boot 2021.10 | ✔ s5-5.15.0     | RISC-V           |
