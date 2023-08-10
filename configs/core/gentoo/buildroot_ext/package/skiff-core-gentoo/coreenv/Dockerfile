@@ -66,7 +66,7 @@ RUN source /gentoo-skiff-overrides.sh; \
 
 # add repos.conf and use git portage from now forward
 COPY ./repos.conf /etc/portage/repos.conf
-RUN rm -rf /var/db/repos/gentoo/*; \
+RUN rm -rf /var/db/repos/gentoo; \
     mkdir -p /var/db/repos/localrepo-crossdev/{profiles,metadata}; \
     echo 'crossdev' > /var/db/repos/localrepo-crossdev/profiles/repo_name; \
     printf "masters = gentoo\nthin-manifests = true\n" > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
