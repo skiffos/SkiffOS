@@ -1,1 +1,2 @@
--march=armv8-a+crc+simd+crypto
+-march=armv8-a+crc+crypto -mtune=cortex-a72.cortex-a53
+-mfix-cortex-a53-835769 -mfix-cortex-a53-843419
