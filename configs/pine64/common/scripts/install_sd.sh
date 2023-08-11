@@ -96,13 +96,22 @@ enable_silent() {
   fi
 }
 
+replace_root_with_uuid() {
+    persist_partuuid=$(blkid -o value -s PARTUUID ${PINE64_SD_SFX}1)
+    updated_root="root=PARTUUID=${persist_partuuid}"
+    echo "Replacing root kernel argument with: ${updated_root}"
+    sed -i -e "s#root=[^[:space:]]*#${updated_root}#g" $1
+}
+
 if [ -n "$boot_conf_extlinux" ]; then
     mkdir -p $BOOT_DIR/extlinux
     cp -v $boot_conf_extlinux $BOOT_DIR/extlinux/extlinux.conf
+    replace_root_with_uuid $BOOT_DIR/extlinux/extlinux.conf
 else
     echo "Compiling boot.txt..."
     cp $boot_conf $BOOT_DIR/boot.txt
     enable_silent $BOOT_DIR/boot.txt
+    replace_root_with_uuid $BOOT_DIR/boot.txt
     mkimage -A arm -C none -T script -n 'SkiffOS' -d ${BOOT_DIR}/boot.txt ${PERSIST_DIR}/boot.scr
 fi
 
