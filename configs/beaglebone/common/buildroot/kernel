@@ -9,10 +9,6 @@ BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 # bb.org kernel
 BR2_LINUX_KERNEL_DEFCONFIG="bb.org"
 
-# 5.10.145-ti-r55
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,beagleboard,linux,49ae123d2fee3f4ed30c5359fbb3e398e898f2a9)/linux-bb.org-5.10.145-ti-r55.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
-
-# 5.10.145-ti-r55
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,beagleboard,linux,49ae123d2fee3f4ed30c5359fbb3e398e898f2a9)/linux-bb.org-5.10.162-ti-r56.tar.gz"
+# 5.10.168-ti-r71
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,beagleboard,linux,0f40ca5e749e9176ad4ea30c68be4fb2340647db)/linux-bb.org-5.10.168-ti-r71.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
