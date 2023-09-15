@@ -26,7 +26,7 @@ if [ ! -b "$PI_SD" ]; then
 fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-ubootimg="$BUILDROOT_DIR/images/u-boot-sunxi-with-spl.bin"
+ubootimg="${BUILDROOT_DIR}/images/u-boot-sunxi-with-spl.bin"
 
 if [ ! -f "$ubootimg" ]; then
   echo "can't find u-boot image at $ubootimg"
@@ -85,5 +85,8 @@ sudo $MKEXT4 -L "persist" ${PI_SD_SFX}2
 
 echo "Flashing u-boot..."
 sudo dd if=$ubootimg of=${PI_SD} conv=fsync bs=1024 seek=8
+
+sleep 1
+sudo partprobe ${PI_SD} || true
 
 echo "Done!"

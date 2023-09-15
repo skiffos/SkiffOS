@@ -20,7 +20,7 @@ if [ -b ${PI_SD}p1 ]; then
     PI_SD_SFX=${PI_SD}p
 fi
 
-outp_path="${BUILDROOT_DIR}/output"
+outp_path="${BUILDROOT_DIR}"
 images_path="${outp_path}/images"
 uimg_path="${images_path}/zImage"
 squashfs_path="${images_path}/rootfs.squashfs"

@@ -26,7 +26,7 @@ if [ ! -b "$PI_SD" ]; then
 fi
 
 resources_path="${SKIFF_CURRENT_CONF_DIR}/resources"
-ubootimg="$BUILDROOT_DIR/output/images/u-boot-sunxi-with-spl.bin"
+ubootimg="${BUILDROOT_DIR}/images/u-boot-sunxi-with-spl.bin"
 
 if [ ! -f "$ubootimg" ]; then
   echo "can't find u-boot image at $ubootimg"

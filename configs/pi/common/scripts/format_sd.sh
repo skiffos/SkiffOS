@@ -34,8 +34,7 @@ if [ -z "$SKIFF_NO_INTERACTIVE" ]; then
   fi
 fi
 
-set -x
-set -e
+set -xe
 
 echo "Zeroing out partition table..."
 sudo dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
