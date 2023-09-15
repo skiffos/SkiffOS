@@ -68,6 +68,7 @@ main SkiffOS repository:
 | [BeagleBone Black]     | [beaglebone/black]     | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |                  |
 | [BeagleBoard BeagleV]  | [starfive/visionfive]  | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   | RISC-V           |
 | **[Intel x86/64]**     | [intel/desktop]        | ✔ [rEFInd]       | ✔ 6.5.3         | ✔ Tested         |
+| [LiteX VexRiscV]       | [litex/vexriscv]       | N/A              | ✔ litex-6.1-rc2 | ⚠ Experimental   |
 | [ModalAI Voxl2]        | [modalai/voxl2]        | N/A              | ✔ msm-4.19.125  |                  |
 | [NVIDIA Jetson AGX]    | [jetson/agx]           | ✔ UEFI           | ✔ [nv-5.10.104] | ✔ Tested         |
 | [NVIDIA Jetson Nano]   | [jetson/nano]          | ✔ U-Boot         | ✔ [nv-4.9.337]  | ⚠ Obsolete       |
@@ -124,6 +125,7 @@ main SkiffOS repository:
 [BeagleBoard BeagleV]: https://beagleboard.org/static/beagleV/beagleV.html
 [Docker Img]: ./docker
 [Intel x86/64]: ./configs/intel/x64
+[LiteX VexRiscV]: https://github.com/litex-hub/linux-on-litex-vexriscv
 [ModalAI Voxl2]: https://www.modalai.com/products/voxl-2
 [NVIDIA Jetson AGX]: https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit
 [NVIDIA Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
@@ -191,6 +193,7 @@ main SkiffOS repository:
 [jetson/nano]: ./configs/jetson/nano
 [jetson/tx2]: ./configs/jetson/tx2
 [modalai/voxl2]: ./configs/modalai/voxl2
+[litex/vexriscv]: ./configs/litex/vexriscv
 [odroid/c2]: ./configs/odroid
 [odroid/c4]: ./configs/odroid
 [odroid/m1]: ./configs/odroid
