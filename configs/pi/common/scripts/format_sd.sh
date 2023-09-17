@@ -44,7 +44,7 @@ sudo parted $PI_SD mklabel msdos
 sleep 1
 
 echo "Making boot partition..."
-sudo parted -a optimal $PI_SD -- mkpart primary fat16 0% 8G
+sudo parted -a optimal $PI_SD -- mkpart primary fat32 0% 8G
 
 echo "Making rootfs partition..."
 sudo parted -a optimal $PI_SD -- mkpart primary ext4 8G 10G
