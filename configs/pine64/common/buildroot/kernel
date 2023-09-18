@@ -1,16 +1,11 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# branch: orange-pi-6.2
+# branch: orange-pi-6.6
 # megous kernel for pinephone, pinebook, orangepi
-# upstream: https://github.com/megous/linux/commits/orange-pi-6.2
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,728106f66f837d9ee6edbd1b8074560302306d1b)/linux-megous-6.2.9-r1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_2=y
-
-# branch: orange-pi-6.4
-# megous kernel for pinephone, pinebook, orangepi
-# upstream: https://github.com/megous/linux/commits/orange-pi-6.4
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,megous,linux,9eb125d93f953918035f1368ebfb4be19ee7d81f)/linux-megous-6.4.7-r1.tar.gz"
+# upstream: https://xff.cz/git/linux/log/?h=orange-pi-6.6
+# mirror: https://github.com/skiffos/linux/tree/megi-orange-pi-6.6
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,e3660cbc31a2b40ee875e169cba7637de43f8726)/linux-megous-6.6.0-pre-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_4=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
