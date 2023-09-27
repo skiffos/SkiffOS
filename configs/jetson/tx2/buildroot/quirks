@@ -1,2 +1,2 @@
 # DCO does not compile correctly on the legacy kernel
-BR2_PACKAGE_OPENVPN_DISABLE_DCO=y
+# BR2_PACKAGE_OPENVPN_DCO is not set
