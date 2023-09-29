@@ -72,11 +72,12 @@ RUN rm -rf /var/db/repos/gentoo; \
     printf "masters = gentoo\nthin-manifests = true\n" > /var/db/repos/localrepo-crossdev/metadata/layout.conf; \
     chown -R portage:portage /var/db/repos/localrepo-crossdev; \
     rm -rf /etc/portage/package.use || true; \
-    mkdir -p /etc/portage/package.use; \
+    mkdir -p /etc/portage/package.{use,keywords}; \
     emerge --sync
 
 # apply package keywords, use flags, etc
-COPY ./make.conf ./package.accept_keywords /etc/portage/
+COPY ./make.conf /etc/portage/
+COPY ./package.accept_keywords /etc/portage/package.accept_keywords/00-skiffos
 COPY ./sysctl.conf /etc/sysctl.conf
 RUN \
   source /gentoo-skiff-overrides.sh; \
