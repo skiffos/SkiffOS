@@ -53,8 +53,10 @@ ENV LANG=C.UTF-8 \
 
 # we don't have Git yet, so download a gentoo tarball.
 RUN emerge-webrsync
-# ensure git is merged, unconditionally, so we can use Git for portage
+
+# ensure git is merged so we can use Git for portage
 RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
+
 # switch to git-based portage
 COPY ./overrides.sh /gentoo-skiff-overrides.sh
 RUN source /gentoo-skiff-overrides.sh; \
@@ -77,16 +79,14 @@ RUN rm -rf /var/db/repos/gentoo; \
 
 # apply package keywords, use flags, etc
 COPY ./make.conf /etc/portage/
-COPY ./package.accept_keywords /etc/portage/package.accept_keywords/00-skiffos
-COPY ./sysctl.conf /etc/sysctl.conf
-RUN \
-  source /gentoo-skiff-overrides.sh; \
-  sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords; \
-  mv /etc/portage/package.accept_keywords /etc/portage/package-accept.tmp; \
-  mkdir -p /etc/portage/package.accept_keywords; \
-  mv /etc/portage/package-accept.tmp /etc/portage/package.accept_keywords/01-standard; \
-  rm /gentoo-skiff-overrides.sh
+COPY ./package.accept_keywords /etc/portage/package.accept_keywords/01-standard
 COPY ./package.use /etc/portage/package.use/01-standard
+COPY ./sysctl.conf /etc/sysctl.conf
+
+RUN \
+    source /gentoo-skiff-overrides.sh; \
+    sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords/01-standard; \
+    rm /gentoo-skiff-overrides.sh
 
 # pass #1: base package set, system, remove tk and icu to fix circular deps
 # be failure tolerant here. we can deal with it later.
