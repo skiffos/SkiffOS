@@ -94,6 +94,7 @@ RUN \
 RUN \
   export USE="-tk -icu" && \
   emerge -1 portage && \
+  emerge -1 gentoo-sources && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @system || true)
 
 # update gcc (not currently necessary)
@@ -111,7 +112,8 @@ RUN emerge --update --newuse --deep --backtrack=50 @world
 
 # pass #4: clean any outdated / not needed dependencies
 # minimize image size
-RUN (emerge --depclean || true); \
+RUN emerge --unmerge gentoo-sources; \
+   (emerge --depclean || true); \
    rm -rf /var/cache/distfiles/* \
    /var/log/* /var/tmp/* /usr/src/* \
    /etc/xdg/autostart/* /var/db/repos/gentoo || true
