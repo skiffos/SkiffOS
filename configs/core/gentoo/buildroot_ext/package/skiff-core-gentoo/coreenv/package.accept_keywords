@@ -48,7 +48,6 @@ dev-java/openjdk-bin ~ARCH
 dev-lang/ghc ~ARCH
 dev-lang/go ~ARCH
 dev-lang/ispc ~ARCH
-dev-lang/ruby ~ARCH
 dev-lang/rust ~ARCH
 dev-lang/spidermonkey ~ARCH
 dev-libs/atk ~ARCH
