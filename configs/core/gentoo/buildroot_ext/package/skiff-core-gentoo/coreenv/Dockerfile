@@ -70,18 +70,14 @@ RUN source /gentoo-skiff-overrides.sh; \
 COPY ./repos.conf /etc/portage/repos.conf
 RUN rm -rf /var/db/repos/gentoo /etc/portage/package.use; \
     mkdir -p /etc/portage/package.{use,keywords}; \
-    emerge --sync
+    emerge --sync; \
+    rm /gentoo-skiff-overrides.sh
 
 # apply package keywords, use flags, etc
 COPY ./make.conf /etc/portage/
 COPY ./package.accept_keywords /etc/portage/package.accept_keywords/01-standard
 COPY ./package.use /etc/portage/package.use/01-standard
 COPY ./sysctl.conf /etc/sysctl.conf
-
-RUN \
-    source /gentoo-skiff-overrides.sh; \
-    sed -i -e "s#ARCH#${ARCH}#g" /etc/portage/package.accept_keywords/01-standard; \
-    rm /gentoo-skiff-overrides.sh
 
 # pass #1: base package set, system, remove tk and icu to fix circular deps
 # be failure tolerant here. we can deal with it later.
