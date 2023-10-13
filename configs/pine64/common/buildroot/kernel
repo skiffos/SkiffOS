@@ -6,7 +6,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 # upstream: https://xff.cz/git/linux/log/?h=orange-pi-6.6
 # mirror: https://github.com/skiffos/linux/tree/megi-orange-pi-6.6
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,e3660cbc31a2b40ee875e169cba7637de43f8726)/linux-megous-6.6.0-pre-r1.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_4=y
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_5=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
