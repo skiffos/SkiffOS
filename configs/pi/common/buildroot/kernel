@@ -1,11 +1,11 @@
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
 # rpi-6.1.y
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,e079555a4c68356e58249cfc041b28f6eb455bd5)/linux-rpi-6.1.53-r1.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,392b9849c8d147c25557fea5d6dbcddbcb9e72d5)/linux-rpi-6.1.57-r1.tar.gz"
 # BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
 
 # rpi-6.1.y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,392b9849c8d147c25557fea5d6dbcddbcb9e72d5)/linux-rpi-6.1.57-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,cb013b6602de32c647ed08faf899596664a18635)/linux-rpi-6.1.58-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
