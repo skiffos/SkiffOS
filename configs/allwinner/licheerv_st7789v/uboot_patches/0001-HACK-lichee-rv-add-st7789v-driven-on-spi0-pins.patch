@@ -1,0 +1,74 @@
+From 357c878ed1e3044e4eada7caacb27e3762224ec6 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@aperture.us>
+Date: Mon, 6 Nov 2023 15:29:53 -0800
+Subject: [PATCH] [HACK] lichee-rv: add st7789v driven on spi0 pins
+
+Signed-off-by: Christian Stewart <christian@aperture.us>
+---
+ arch/riscv/dts/sun20i-d1-lichee-rv.dts | 18 +++++++++++++++++-
+ arch/riscv/dts/sun20i-d1.dtsi          | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/arch/riscv/dts/sun20i-d1-lichee-rv.dts b/arch/riscv/dts/sun20i-d1-lichee-rv.dts
+index 43af121f22..10ef15df26 100644
+--- a/arch/riscv/dts/sun20i-d1-lichee-rv.dts
++++ b/arch/riscv/dts/sun20i-d1-lichee-rv.dts
+@@ -66,9 +66,25 @@
+ };
+ 
+ &spi0 {
+-	pinctrl-0 = <&spi0_pins>;
++	clock-frequency = <100000000>;
++	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
+ 	pinctrl-names = "default";
+ 	status = "okay";
++
++	st7789v@0 {
++		status = "okay";
++		compatible = "sitronix,st7789v";
++		reg = <0>;
++		spi-max-frequency = <32000000>;
++		rotate = <90>;
++		rgb = <1>;
++		fps = <30>;
++		buswidth = <8>;
++		reset = <&pio 2 6 GPIO_ACTIVE_LOW>; // PC 6
++		dc = <&pio 2 5 GPIO_ACTIVE_LOW>; // PC 5
++		led = <&pio 3 18 GPIO_ACTIVE_HIGH>; // PD 18
++		debug = <1>;
++	};
+ };
+ 
+ &uart0 {
+diff --git a/arch/riscv/dts/sun20i-d1.dtsi b/arch/riscv/dts/sun20i-d1.dtsi
+index e218c9d681..f6110c9a34 100644
+--- a/arch/riscv/dts/sun20i-d1.dtsi
++++ b/arch/riscv/dts/sun20i-d1.dtsi
+@@ -219,6 +219,24 @@
+ 			spi0_pins: spi0-pins {
+ 				pins = "PC2", "PC3", "PC4", "PC5", "PC6", "PC7";
+ 				function = "spi0";
++				drive-strength = <10>;
++				bias-pull-up;   // only CS should be pulled up
++			};
++
++			// SPI pin configurations
++			/omit-if-no-ref/
++			spi0_pins_a: spi0@0 {
++				pins = "PC2", "PC4"; /*clk mosi*/
++				function = "spi0";
++				drive-strength = <10>;
++			};
++
++			/omit-if-no-ref/
++			spi0_pins_b: spi0@1 {
++				pins = "PC3";
++				function = "spi0";
++				drive-strength = <10>;
++				bias-pull-up;   // only CS should be pulled up
+ 			};
+ 
+ 			/omit-if-no-ref/
+-- 
+2.42.0
+

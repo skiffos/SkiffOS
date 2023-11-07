@@ -1,0 +1,265 @@
+From 36b9a4986e0ca04ff5d62968f248e790a118d117 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@aperture.us>
+Date: Mon, 6 Nov 2023 14:13:29 -0800
+Subject: [PATCH] [HACK] sun20i-d1-lichee-rv: add hacky support for spi tft
+ display
+
+---
+ drivers/staging/fbtft/fb_st7789v.c | 98 ++++++++----------------------
+ drivers/staging/fbtft/fbtft-core.c | 97 ++++++++++++++++++++++-------
+ 2 files changed, 100 insertions(+), 95 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 861a154144e66..110c1248de0b6 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -142,78 +142,28 @@ static int init_tearing_effect_line(struct fbtft_par *par)
+  */
+ static int init_display(struct fbtft_par *par)
+ {
+-	int rc;
+-
+ 	par->fbtftops.reset(par);
+-
+-	rc = init_tearing_effect_line(par);
+-	if (rc)
+-		return rc;
+-
+-	/* turn off sleep mode */
+-	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+-	mdelay(120);
+-
+-	/* set pixel format to RGB-565 */
+-	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
+-	if (HSD20_IPS)
+-		write_reg(par, PORCTRL, 0x05, 0x05, 0x00, 0x33, 0x33);
+-
+-	else
+-		write_reg(par, PORCTRL, 0x08, 0x08, 0x00, 0x22, 0x22);
+-
+-	/*
+-	 * VGH = 13.26V
+-	 * VGL = -10.43V
+-	 */
+-	if (HSD20_IPS)
+-		write_reg(par, GCTRL, 0x75);
+-	else
+-		write_reg(par, GCTRL, 0x35);
+-
+-	/*
+-	 * VDV and VRH register values come from command write
+-	 * (instead of NVM)
+-	 */
+-	write_reg(par, VDVVRHEN, 0x01, 0xFF);
+-
+-	/*
+-	 * VAP =  4.1V + (VCOM + VCOM offset + 0.5 * VDV)
+-	 * VAN = -4.1V + (VCOM + VCOM offset + 0.5 * VDV)
+-	 */
+-	if (HSD20_IPS)
+-		write_reg(par, VRHS, 0x13);
+-	else
+-		write_reg(par, VRHS, 0x0B);
+-
+-	/* VDV = 0V */
+-	write_reg(par, VDVS, 0x20);
+-
+-	/* VCOM = 0.9V */
+-	if (HSD20_IPS)
+-		write_reg(par, VCOMS, 0x22);
+-	else
+-		write_reg(par, VCOMS, 0x20);
+-
+-	/* VCOM offset = 0V */
+-	write_reg(par, VCMOFSET, 0x20);
+-
+-	/*
+-	 * AVDD = 6.8V
+-	 * AVCL = -4.8V
+-	 * VDS = 2.3V
+-	 */
+-	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+-
+-	/* TE line output is off by default when powering on */
+-	if (irq_te)
+-		write_reg(par, MIPI_DCS_SET_TEAR_ON, 0x00);
+-
+-	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+-
+-	if (HSD20_IPS)
+-		write_reg(par, MIPI_DCS_ENTER_INVERT_MODE);
+-
++	mdelay(50);
++	write_reg(par, 0x36, 0x00);
++	write_reg(par, 0x3A, 0x05);
++	write_reg(par, 0xB2, 0x0C, 0x0C, 0x00, 0x33, 0x33);
++	write_reg(par, 0xB7, 0x35);
++	write_reg(par, 0xBB, 0x19);
++	write_reg(par, 0xC0, 0x2C);
++	write_reg(par, 0xC2, 0x01);
++	write_reg(par, 0xC3, 0x12);
++	write_reg(par, 0xC4, 0x20);
++	write_reg(par, 0xC6, 0x0F);
++	write_reg(par, 0xD0, 0xA4, 0xA1);
++	write_reg(par, 0xE0, 0xD0, 0x04, 0x0D, 0x11, 0x13, 0x2B, 0x3F, 0x54,
++		  0x4C, 0x18, 0x0D, 0x0B, 0x1F, 0x23);
++	write_reg(par, 0xE1, 0xD0, 0x04, 0x0C, 0x11, 0x13, 0x2C, 0x3F, 0x44,
++		  0x51, 0x2F, 0x1F, 0x1F, 0x20, 0x23);
++	write_reg(par, 0x21);
++	write_reg(par, 0x11);
++	mdelay(50);
++	write_reg(par, 0x29);
++	mdelay(200);
+ 	return 0;
+ }
+ 
+@@ -368,11 +318,11 @@ static int blank(struct fbtft_par *par, bool on)
+ 
+ static struct fbtft_display display = {
+ 	.regwidth = 8,
+-	.width = 240,
+-	.height = 320,
++	.width = 135,
++	.height = 240,
+ 	.gamma_num = 2,
+ 	.gamma_len = 14,
+-	.gamma = HSD20_IPS_GAMMA,
++	.gamma = DEFAULT_GAMMA,
+ 	.fbtftops = {
+ 		.init_display = init_display,
+ 		.write_vmem = write_vmem,
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index afaba94d1d1ca..7a42924f55a96 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -25,6 +25,10 @@
+ #include <linux/property.h>
+ #include <linux/spinlock.h>
+ 
++// HACK: Added for the licheerv 86 panel display
++#include <linux/gpio.h>
++#include <linux/of_gpio.h>
++
+ #include <video/mipi_display.h>
+ 
+ #include "fbtft.h"
+@@ -71,20 +75,42 @@ void fbtft_dbg_hex(const struct device *dev, int groupsize,
+ EXPORT_SYMBOL(fbtft_dbg_hex);
+ 
+ static int fbtft_request_one_gpio(struct fbtft_par *par,
+-				  const char *name, int index,
+-				  struct gpio_desc **gpiop)
++                  const char *name, int index,
++                  struct gpio_desc **gpiop)
+ {
+-	struct device *dev = par->info->device;
+-
+-	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+-					       GPIOD_OUT_LOW);
+-	if (IS_ERR(*gpiop))
+-		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+-
+-	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
+-		      __func__, name);
+-
+-	return 0;
++    struct device *dev = par->info->device;
++    struct device_node *node = dev->of_node;
++    int gpio, flags, ret = 0;
++    enum of_gpio_flags of_flags;
++
++    if (of_find_property(node, name, NULL)) {
++        gpio = of_get_named_gpio_flags(node, name, index, &of_flags);
++        if (gpio == -ENOENT)
++            return 0;
++        if (gpio == -EPROBE_DEFER)
++            return gpio;
++        if (gpio < 0) {
++            dev_err(dev,
++                "failed to get '%s' from DT\n", name);
++            return gpio;
++        }
++        flags = (of_flags & OF_GPIO_ACTIVE_LOW) ? GPIOF_OUT_INIT_LOW :
++                            GPIOF_OUT_INIT_HIGH;
++        ret = devm_gpio_request_one(dev, gpio, flags,
++                        dev->driver->name);
++        if (ret) {
++            dev_err(dev,
++                "gpio_request_one('%s'=%d) failed with %d\n",
++                name, gpio, ret);
++            return ret;
++        }
++
++        *gpiop = gpio_to_desc(gpio);
++        fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' = GPIO%d\n",
++                            __func__, name, gpio);
++    }
++
++    return ret;
+ }
+ 
+ static int fbtft_request_gpios(struct fbtft_par *par)
+@@ -202,11 +228,40 @@ EXPORT_SYMBOL(fbtft_register_backlight);
+ static void fbtft_set_addr_win(struct fbtft_par *par, int xs, int ys, int xe,
+ 			       int ye)
+ {
+-	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS,
+-		  (xs >> 8) & 0xFF, xs & 0xFF, (xe >> 8) & 0xFF, xe & 0xFF);
++	switch (par->info->var.rotate) {
++	case 0:
++		xs += 53;
++		xe += 53;
++		ys += 40;
++		ye += 40;
++		break;
++	case 90:
++		xs += 40;
++		xe += 40;
++		ys += 53;
++		ye += 53;
++		break;
++	case 180:
++		xs += 53;
++		xe += 53;
++		ys += 40;
++		ye += 40;
++		break;
++	case 270:
++		xs += 40;
++		xe += 40;
++		ys += 53;
++		ye += 53;
++		break;
++	default:
++		break;
++	}
++
++	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS, (xs >> 8) & 0xFF, xs & 0xFF,
++		  (xe >> 8) & 0xFF, xe & 0xFF);
+ 
+-	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS,
+-		  (ys >> 8) & 0xFF, ys & 0xFF, (ye >> 8) & 0xFF, ye & 0xFF);
++	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS, (ys >> 8) & 0xFF, ys & 0xFF,
++		  (ye >> 8) & 0xFF, ye & 0xFF);
+ 
+ 	write_reg(par, MIPI_DCS_WRITE_MEMORY_START);
+ }
+@@ -219,11 +274,11 @@ static void fbtft_reset(struct fbtft_par *par)
+ 	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
+ 
+ 	gpiod_set_value_cansleep(par->gpio.reset, 1);
+-	usleep_range(20, 40);
++	msleep(10);
+ 	gpiod_set_value_cansleep(par->gpio.reset, 0);
+-	msleep(120);
+-
+-	gpiod_set_value_cansleep(par->gpio.cs, 1);  /* Activate chip */
++	msleep(200);
++	gpiod_set_value_cansleep(par->gpio.reset, 1);
++	msleep(10);
+ }
+ 
+ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
+-- 
+2.42.0
+

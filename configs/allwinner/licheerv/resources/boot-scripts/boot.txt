@@ -4,7 +4,7 @@ echo "SkiffOS U-Boot for Allwinner LicheeRV loaded from ${devtype} ${devnum}"
 setenv verify 0
 setenv bootlogo "false"
 
-setenv condev "earlycon=sbi console=ttyS0,115200n8"
+setenv condev "earlycon=sbi console=ttyS0,115200n8 console=tty1"
 
 setenv kernel_addr_r 0x40040000
 # setenv fdt_addr_r 0x41800000
@@ -14,7 +14,7 @@ setenv kernel_addr_r 0x40040000
 setenv bootmem "root=/dev/mmcblk0p1 rootwait rw init=/boot/skiff-init/skiff-init-squashfs"
 
 # base kernel config options
-setenv baseconfig "fsck.repair=yes net.ifnames=0 cma=24M"
+setenv baseconfig "fsck.repair=yes net.ifnames=0 cma=24M fbcon=map:0 fbcon=font:VGA8x8 logo.nologo"
 
 # final boot args
 setenv bootargs "${bootmem} ${condev} ${baseconfig}"

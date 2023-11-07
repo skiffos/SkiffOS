@@ -1,0 +1,4 @@
+# CONFIG_DRM is not set
+CONFIG_FB=y
+CONFIG_FB_TFT_ST7789V=y
+# CONFIG_FB_TFT_ST7735R is not set
