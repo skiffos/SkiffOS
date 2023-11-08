@@ -7,8 +7,6 @@ Read the main [LicheeRV docs](../licheerv) for more information.
 
 ## Example
 
-![Demo](https://i.imgur.com/rymQqgH.jpg)
-
 ```
 export SKIFF_CONFIG=allwinner/licheerv_st7789v,util/rootlogin
 make configure compile
@@ -31,3 +29,7 @@ fbv sample.jpg
 ```
 
 The sample.jpg image is available at resources/images/sample-500x500.jpg.
+
+![Demo](https://i.imgur.com/rymQqgH.jpg)
+
+Removing console=tty1 in the [boot.txt](../licheerv/resources/boot-scripts/boot.txt) will suppress the boot console.
