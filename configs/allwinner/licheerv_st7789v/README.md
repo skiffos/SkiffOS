@@ -7,7 +7,7 @@ Read the main [LicheeRV docs](../licheerv) for more information.
 
 ## Example
 
-![Demo](https://i.imgur.com/mMRrR22.jpg)
+![Demo](https://i.imgur.com/rymQqgH.jpg)
 
 ```
 export SKIFF_CONFIG=allwinner/licheerv_st7789v,util/rootlogin
