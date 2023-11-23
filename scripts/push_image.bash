@@ -29,6 +29,11 @@ if [ ! -d $WS ]; then
     exit 1
 fi
 
+if [ -d ${WS}/efi-part/EFI/refind ] && [ -d ${WS}/intel ]; then
+    echo "Detected intel/desktop system, using push_intel_desktop.bash instead..."
+    exec ${SKIFF_ROOT}/scripts/push_intel_desktop.bash ${@}
+fi
+
 echo "Ensuring mountpoints..."
 ssh $SSHSTR 'bash -s' <<'EOF'
 set -xeo pipefail
@@ -121,5 +126,3 @@ sync && sync
 EOF
 
 echo "Done."
-
-

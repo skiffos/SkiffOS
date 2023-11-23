@@ -22,10 +22,16 @@ WORKSPACE_DIR=${SKIFF_ROOT}/workspaces/${SKIFF_WORKSPACE}
 IMAGES_DIR=${WORKSPACE_DIR}/images
 UIMG_PATH=${IMAGES_DIR}/bzImage
 SQUASHFS_PATH="${IMAGES_DIR}/rootfs.squashfs"
+SKIFF_INIT_PATH="${IMAGES_DIR}/skiff-init"
 
 skiff_release_path="${IMAGES_DIR}/skiff-release"
 if [ ! -f "$skiff_release_path" ]; then
     echo "skiff-release not found, make sure Buildroot is done compiling."
+    exit 1
+fi
+
+if [ ! -f "${SKIFF_INIT_PATH}/skiff-init-squashfs" ]; then
+    echo "skiff-init-squashfs not found, make sure Buildroot is done compiling."
     exit 1
 fi
 
@@ -39,3 +45,6 @@ ${RS} $SQUASHFS_PATH ${TARGET}/${squashfs_filename}
 
 echo "Copying kernel..."
 ${RS} $UIMG_PATH ${TARGET}/$(basename $UIMG_PATH)-skiffos-${skiff_release}
+
+echo "Copying skiff-init..."
+${RS} ${SKIFF_INIT_PATH}/ ${TARGET}/skiff-init/
