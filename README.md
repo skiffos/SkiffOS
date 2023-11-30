@@ -56,7 +56,7 @@ main SkiffOS repository:
 | [WSL] on Windows      | [virt/wsl]                | N/A              | N/A             |
 |-----------------------|---------------------------|------------------|-----------------|
 | [Allwinner Nezha]     | [allwinner/nezha]         | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    |
-| [Apple Macbook]       | [apple/macbook]           | ✔ [rEFInd]       | ✔ 6.7.9         |
+| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 6.7.9         |
 | [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2023.07 | ✔ 6.7.9         |
 | [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2023.07 | ✔ 6.7.9         |
 | [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2023.07 | ✔ 6.7.9         |
@@ -113,7 +113,7 @@ main SkiffOS repository:
 | [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 6.7.9         |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
-[Apple Macbook]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
+[Apple Macbook Intel]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
 [BananaPi M1+/Pro]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M1]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
 [BananaPi M2]: http://linux-sunxi.org/LeMaker_Banana_Pi#Variants
@@ -176,7 +176,7 @@ main SkiffOS repository:
 
 [allwinner/licheerv]: ./configs/allwinner/licheerv
 [allwinner/nezha]: ./configs/allwinner/nezha
-[apple/macbook]: ./configs/apple/macbook
+[apple/intel]: ./configs/apple/intel
 [bananapi/m1]: ./configs/bananapi/m1
 [bananapi/m1plus]: ./configs/bananapi/m1plus
 [bananapi/m2]: ./configs/bananapi/m2
