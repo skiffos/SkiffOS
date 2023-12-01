@@ -1,0 +1,5 @@
+BR2_aarch64=y
+
+# The M1, M2, and M3 support armv8.5-a.
+# Closest option we have: saphira => armv8.4a
+BR2_saphira=y
