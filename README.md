@@ -254,6 +254,7 @@ sudo apt-get install -y \
   findutils \
   gzip \
   libarchive-tools \
+  libncurses-dev \
   make \
   patch \
   perl \
