@@ -75,7 +75,7 @@ jobs:
           docker save skiffos/skiffos:latest > ./workflow-artifacts/docker-image.tar
 
       # Upload docker image
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
