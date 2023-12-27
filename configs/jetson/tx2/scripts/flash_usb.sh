@@ -28,6 +28,9 @@ fi
 
 cd ${IMAGES_DIR}/linux4tegra
 
+# kernel args
+export EXTRA_KERNEL_FLAGS="net.ifnames=0 printk.devkmsg=on"
+
 # disable recovery image
 export NO_RECOVERY_IMG=1
 
@@ -39,7 +42,7 @@ if [ -n "$TX2_MUTABLE_ROOTFS" ]; then
          -I $IMAGES_DIR/rootfs.ext2 \
          -K $IMAGES_DIR/Image \
          -L $IMAGES_DIR/u-boot.bin \
-         -C "net.ifnames=0" \
+         -C "${EXTRA_KERNEL_FLAGS}" \
          -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
          jetson-tx2-devkit mmcblk0p1
     exit $?
@@ -52,7 +55,7 @@ echo "Using skiffos.ext2 as APP partition with u-boot..."
 ln -fs $IMAGES_DIR/skiffos.ext2 ./bootloader/system.img
 bash $flash_path \
      -r \
-     -C "net.ifnames=0" \
+     -C "${EXTRA_KERNEL_FLAGS}" \
      -L $IMAGES_DIR/u-boot.bin \
      -d $IMAGES_DIR/tegra186-quill-p3310-1000-c03-00-base.dtb \
      jetson-tx2-devkit mmcblk0p1
