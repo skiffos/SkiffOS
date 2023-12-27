@@ -1,16 +1,11 @@
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
-# oe4t-patches-l4t-r32.7 -> skiff/linux#skiff-jetson-4.9.x
-# https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x-3
-# version 4.9.309
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,73a0ea72eba4668063eb42ee6f2f046e5343e814)/linux-skiff-jetson-4.9.309-r5.tar.gz"
-
 # oe4t-patches-l4t-r32.7.4 -> skiff/linux#skiff-jetson-4.9.x
-# https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x-6
+# https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x-7
 # version 4.9.337
 # with additional fix patches
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,d753c4b7916584e72f4f6a8584eada3553615ddb)/linux-skiff-jetson-4.9.337-r3.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,4c2067e9ba6d48da8da2d3e67d70b5cdbcfe0d2f)/linux-skiff-jetson-4.9.337-r4.tar.gz"
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_4_9=y
