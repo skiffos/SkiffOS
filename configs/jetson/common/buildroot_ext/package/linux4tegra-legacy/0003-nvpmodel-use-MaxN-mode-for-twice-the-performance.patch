@@ -1,0 +1,63 @@
+From aa4ad74a0d4d60e5f7c4ae581c53128116e10098 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@aperture.us>
+Date: Wed, 27 Dec 2023 21:23:32 -0800
+Subject: [PATCH] nvpmodel: use MaxN mode for twice the performance
+
+https://jetsonhacks.com/2017/03/25/nvpmodel-nvidia-jetson-tx2-development-kit/
+
+The default jetsontx2 power mode uses MaxP-Arm mode which disables two of the
+CPU cores and in general has half of the performance as MaxN mode.
+
+Use MaxN mode on default instead.
+
+Signed-off-by: Christian Stewart <christian@aperture.us>
+---
+ nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186.conf           | 2 +-
+ nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_p3636.conf     | 2 +-
+ .../nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm1.conf     | 2 +-
+ .../nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm2.conf     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186.conf b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186.conf
+index bdfb273..280b7f4 100644
+--- a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186.conf
++++ b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186.conf
+@@ -154,4 +154,4 @@ GPU_POWER_CONTROL_DISABLE GPU_PWR_CNTL_DIS auto
+ EMC MAX_FREQ 1600000000
+ 
+ # mandatory section to configure the default mode
+-< PM_CONFIG DEFAULT=3 >
++< PM_CONFIG DEFAULT=0 >
+diff --git a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_p3636.conf b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_p3636.conf
+index af9a7f0..7d43e92 100644
+--- a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_p3636.conf
++++ b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_p3636.conf
+@@ -142,4 +142,4 @@ GPU_POWER_CONTROL_DISABLE GPU_PWR_CNTL_DIS auto
+ EMC MAX_FREQ 1600000000
+ 
+ # mandatory section to configure the default mode
+-< PM_CONFIG DEFAULT=3 >
++< PM_CONFIG DEFAULT=0 >
+diff --git a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm1.conf b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm1.conf
+index 4df2612..94e222e 100644
+--- a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm1.conf
++++ b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm1.conf
+@@ -141,4 +141,4 @@ GPU_POWER_CONTROL_DISABLE GPU_PWR_CNTL_DIS auto
+ EMC MAX_FREQ 1600000000
+ 
+ # mandatory section to configure the default mode
+-< PM_CONFIG DEFAULT=3 >
++< PM_CONFIG DEFAULT=0 >
+diff --git a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm2.conf b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm2.conf
+index 794b38e..a915a3a 100644
+--- a/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm2.conf
++++ b/nv_tegra/nvidia_tools/etc/nvpmodel/nvpmodel_t186_storm_ucm2.conf
+@@ -141,4 +141,4 @@ GPU_POWER_CONTROL_DISABLE GPU_PWR_CNTL_DIS auto
+ EMC MAX_FREQ 1600000000
+ 
+ # mandatory section to configure the default mode
+-< PM_CONFIG DEFAULT=3 >
++< PM_CONFIG DEFAULT=0 >
+-- 
+2.43.0
+
