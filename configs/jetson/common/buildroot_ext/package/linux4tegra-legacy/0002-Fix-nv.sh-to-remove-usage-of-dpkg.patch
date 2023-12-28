@@ -1,0 +1,32 @@
+From 29b26238a19be5e47eff4188b636a25de9d87218 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@aperture.us>
+Date: Wed, 27 Dec 2023 21:09:31 -0800
+Subject: [PATCH] Fix nv.sh to remove usage of dpkg
+
+Remove call to dpkg which won't work on Buildroot.
+
+Signed-off-by: Christian Stewart <christian@aperture.us>
+---
+ nv_tegra/nvidia_configs/etc/systemd/nv.sh | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/nv_tegra/nvidia_configs/etc/systemd/nv.sh b/nv_tegra/nvidia_configs/etc/systemd/nv.sh
+index 7df5893..4dc7690 100755
+--- a/nv_tegra/nvidia_configs/etc/systemd/nv.sh
++++ b/nv_tegra/nvidia_configs/etc/systemd/nv.sh
+@@ -250,11 +250,7 @@ case "${SOCFAMILY}" in
+ esac
+ 
+ # Ensure libglx.so is not overwritten by a distribution update of Xorg
+-# Alternatively, package management tools could be used to prevent updates
+-ARCH=`/usr/bin/dpkg --print-architecture`
+-if [ "x${ARCH}" = "xarm64" ]; then
+-	LIB_DIR="/usr/lib/aarch64-linux-gnu"
+-fi
++LIB_DIR="/usr/lib/aarch64-linux-gnu"
+ 
+ # Disable lazy vfree pages
+ if [ -e "/proc/sys/vm/lazy_vfree_pages" ]; then
+-- 
+2.43.0
+
