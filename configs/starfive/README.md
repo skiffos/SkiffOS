@@ -66,25 +66,28 @@ You may need to flash uboot and opensbi according to the instructions on the sta
 There are specific packages tuned to each model. The boards are all actively
 tested by the developers unless otherwise noted.
 
-| **Board**     | **Config Package**     | Notes                 |
-|---------------|------------------------|-----------------------|
-| [visionfive]  | [starfive/visionfive]  | SiFive U74 RV64GC     |
-| [beaglev]     | [starfive/visionfive]  | Compatible w/ BeagleV |
-| [visionfive2] | [starfive/visionfive2] | ⚠ Experimental        |
+| **Board**             | **Config Package**        | Notes                 |
+|-----------------------|---------------------------|-----------------------|
+| [visionfive]          | [starfive/visionfive]     | SiFive U74 RV64GC     |
+| [beaglev]             | [starfive/visionfive]     | Compatible w/ BeagleV |
+| [visionfive2] 1.3b    | [starfive/visionfive2]    | ⚠ Experimental        |
+| [visionfive2_12] 1.2a | [starfive/visionfive2_12] | ⚠ Experimental        |
 
 [beaglev]: https://beagleboard.org/static/beagleV/beagleV.html
 [visionfive]: https://ameridroid.com/products/visionfive-starfive
 [starfive/visionfive]: ./visionfive
 [starfive/visionfive2]: ./visionfive2
+[starfive/visionfive2_12]: ./visionfive2_12
 
 ## Known issues
 
 ### StarFive2
 
- - The persist partition is not resized properly:
+- The persist partition is not resized properly:
   - https://github.com/skiffos/SkiffOS/issues/273
   - Use the format and install scripts which size the partition correctly.
   - OR, resize the partition on another machine after formatting w/ an image.
+- Please use the version appropriate for your board!
 
 ## SD Card Compatibility
 
@@ -100,11 +103,17 @@ Some SD cards may not work as well with the Starfive hardware.
 
 ## Kernel
 
+### BeagleV / VisionFive 1
+
 The kernel used is the [StarFive VisionFive] kernel.
 
 [StarFive VisionFive]: https://github.com/starfive-tech/linux/tree/visionfive
 
 Mirrored [here](https://github.com/skiffos/linux/tree/visionfive).
+
+### VisionFive 2
+
+The kernel used is the mainline kernel. For Useful kernel configuration options, see https://github.com/starfive-tech/linux/blob/JH7110_VisionFive2_upstream/arch/riscv/configs/starfive_visionfive2_defconfig
 
 ## Flashing low-level bootloaders
 

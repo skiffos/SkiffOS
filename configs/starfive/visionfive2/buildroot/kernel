@@ -1,14 +1,1 @@
 BR2_LINUX_KERNEL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-
-# branch: JH7110_VisionFive2_devel
-# source: https://github.com/starfive-tech/linux/tree/JH7110_VisionFive2_devel
-# a87c6861c6d96621026ee53b94f081a1a00a4cc7
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,starfive-tech,linux,a87c6861c6d96621026ee53b94f081a1a00a4cc7)/linux-visionfive2-5.15.0-r2.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_15=y
-
-BR2_KERNEL_HEADERS_SAME_AS_KERNEL=y
-BR2_KERNEL_HEADERS_AS_KERNEL=y
-
-BR2_LINUX_KERNEL_USE_DEFCONFIG=y
-BR2_LINUX_KERNEL_DEFCONFIG="starfive_visionfive2"
