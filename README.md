@@ -226,10 +226,6 @@ main SkiffOS repository:
 [virt/virtualbox]: ./configs/virt/virtualbox
 [virt/wsl]: ./configs/virt/wsl
 
-All targets marked "tested" use automated end-to-end testing on real hardware.
-Targets marked "Obsolete" are discontinued by their manufacturer but still have
-a corresponding SkiffOS configuration and should still work.
-
 Adding support for a board involves creating a Skiff configuration package for
 the board, as described above. If you have a device that is not yet supported by
 SkiffOS, please **[open an issue].**
