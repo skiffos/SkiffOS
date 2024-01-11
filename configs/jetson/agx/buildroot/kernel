@@ -3,26 +3,16 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 
-# tag jetson_35.1
-# https://nv-tegra.nvidia.com/r/gitweb?p=linux-5.10.git;a=commit;h=f1e79fcbc207492daf122f363b9e2f97f6d6eb58
-# https://nv-tegra.nvidia.com/r/gitweb?p=linux-nvidia.git;a=commit;h=de3110c4a40a053b6d6dd84e52b9ef25d1036a29
-# https://nv-tegra.nvidia.com/r/gitweb?p=linux-nvgpu.git;a=commit;h=03958d651f9753796234a61730221d17784c9861
-# https://nv-tegra.nvidia.com/r/gitweb?p=kernel/nvethernetrm.git;a=commit;h=f661fdd1895608e675dfd43f0e85c5744f192910
-# merged to: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-7
-# version 5.10.104
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,3dc32c9feace5e697e1feec700baac26a3e76a77)/linux-jetson_35.1-nvidia-nvgpu-5.10.104-r7.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
-
-# oe4t-patches-l4t-r35.2.1 -> skiff/linux#skiff-jetson-5.10.x
-# https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-8
-# version 5.10.104
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,f5dd4195b2f42a92c5dec5c1b09b0305719419ed)/linux-jetson_35.2.1-nvidia-5.10.104-r8.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
-
 # oe4t-patches-l4t-r35.3.ga -> skiff/linux#skiff-jetson-5.10.x
 # https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-9
 # version 5.10.104
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,26cfd067b9113af207849146b86607a10fedd5c6)/linux-jetson_35.3-nvidia-5.10.104-r9.tar.gz"
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,26cfd067b9113af207849146b86607a10fedd5c6)/linux-jetson_35.3-nvidia-5.10.104-r9.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
+
+# oe4t-patches-l4t-r35.3.ga -> skiff/linux#skiff-jetson-5.10.x
+# https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x-10
+# version 5.10.120
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,76678311c10b59a385a6d74152f3a0b976ae2a67)/linux-jetson_35.3-nvidia-5.10.120-r1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
