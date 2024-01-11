@@ -69,7 +69,7 @@ main SkiffOS repository:
 | [BeagleBoard BeagleV] | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
 | **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 6.6.11        |
 | [ModalAI Voxl2]       | [modalai/voxl2]           | N/A              | ✔ msm-4.19.125  |
-| [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.104] |
+| [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.120] |
 | [NVIDIA Jetson Nano]  | [jetson/nano]             | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]              | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [Odroid C2]           | [odroid/c2]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
@@ -169,7 +169,7 @@ main SkiffOS repository:
 [Wandboard]: https://elinux.org/Wandboard
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 [nv-4.9.337]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
-[nv-5.10.104]: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x
+[nv-5.10.120]: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x
 [rEFInd]: https://www.rodsbooks.com/refind/
 
 [allwinner/licheerv]: ./configs/allwinner/licheerv
