@@ -1,0 +1,2 @@
+BR2_aarch64=y
+BR2_cortex_a76_a55=y
