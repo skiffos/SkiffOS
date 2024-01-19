@@ -29,10 +29,13 @@ if [ ! -f $flash_path ]; then
     exit 1
 fi
 
-cd ${IMAGES_DIR}/linux4tegra
+# Default SKIFF_NVIDIA_BOARD
+if [ -z "$SKIFF_NVIDIA_BOARD" ]; then
+    export SKIFF_NVIDIA_BOARD="jetson-agx-orin-devkit"
+    echo "Defaulting SKIFF_NVIDIA_BOARD to ${SKIFF_NVIDIA_BOARD}"
+fi
 
-# disable recovery image
-export NO_RECOVERY_IMG=1
+cd ${IMAGES_DIR}/linux4tegra
 
 # using /boot bind-mounted to /mnt/boot
 echo "Using skiffos.ext2 as APP partition..."
@@ -42,4 +45,4 @@ ln -fs ${IMAGES_DIR}/skiffos.ext2 ./bootloader/system.img
 # Run the flash script.
 export FLASHLIGHT="1"
 export NO_RECOVERY_IMG="1"
-bash $flash_path -r jetson-agx-orin-devkit mmcblk0p1
+bash $flash_path -r ${SKIFF_NVIDIA_BOARD} mmcblk0p1

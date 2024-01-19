@@ -47,27 +47,76 @@ The recovery mode of the Jetson AGX is used to flash SkiffOS. Entering recovery:
  - Wait a moment.
  - Release the Force Recovery button.
 
-SkiffOS uses the Tegra for Linux package to flash over USB.
+SkiffOS uses Linux4Tegra `flash.sh` to flash via USB.
 
-To flash over USB:
+Select your board and set it to `SKIFF_NVIDIA_BOARD` below:
+
+- `jetson-orin-nano-devkit`: Jetson Orin Nano Devkit
+- `jetson-agx-orin-devkit`: Jetson AGX Orin Devkit
+
+To flash via USB:
 
 ```
 export SKIFF_NVIDIA_USB_FLASH=confirm
+export SKIFF_NVIDIA_BOARD=jetson-agx-orin-devkit
 make cmd/jetson/agx/flashusb
 ```
 
 This will run the `flash.sh` script from L4T, and will setup the kernel, u-boot,
 persist + boot-up partition mmcblk0p1.
 
-After Skiff is installed, the system can be OTA updated by using the
-`scripts/push_image.sh` script:
+The flash script will overwrite the entire persist partition. This is due to a
+limitation in the flashing process: the jetson internal EMMC partition layout
+has a single "app" partition. The recovery mode is used to flash a ext4 image to
+that partition containing the system files. Partial flashing would need separate
+partitions to work correctly. Please use the `push_image.sh` script to update
+after the initial install, see OTA Updates below.
+
+## OTA Updates
+
+After SkiffOS is installed and booted, the system can be over-the-air updated by
+using the `scripts/push_image.sh` script:
 
 ```
 ./scripts/push_image.sh root@myjetsonagx
 ```
 
-The flash script will overwrite the entire persist partition. This is due to a
-limitation in the flashing process: the jetson internal EMMC partition layout
-has a single "app" partition. The recovery mode is used to flash a ext4 image to
-that partition containing the system files. Partial flashing would need separate
-partitions to work correctly. Please use the `push_image.sh` script to update.
+## Available Boards
+
+The following configurations are available in Linux4Tegra:
+
+```
+igx-orin-devkit
+jetson-agx-orin-devkit-as-jao-32gb
+jetson-agx-orin-devkit-as-nano4gb
+jetson-agx-orin-devkit-as-nano8gb
+jetson-agx-orin-devkit-as-nx-16gb
+jetson-agx-orin-devkit-as-nx-8gb
+jetson-agx-orin-devkit-industrial-maxn
+jetson-agx-orin-devkit-industrial-qspi
+jetson-agx-orin-devkit-industrial
+jetson-agx-orin-devkit-maxn
+jetson-agx-orin-devkit
+jetson-orin-nano-devkit-nvme
+jetson-orin-nano-devkit
+```
+
+These can be passed with `SKIFF_NVIDIA_BOARD` when flashing.
+
+```
+export SKIFF_NVIDIA_BOARD=jetson-agx-orin-devkit-industrial
+```
+
+The default is `jetson-agx-orin-devkit`.
+
+`maxn` mode refers to the maximum power mode for NVIDIA's Jetson AGX Orin
+modules. It allows the module to operate at its highest power and performance
+levels. For example, in the case of the 32GB Orin module, the MAXN mode
+corresponds to the 40W power mode. When the module is set to MAXN mode, it
+operates at its maximum performance capabilities. This mode is typically set
+using commands such as sudo /usr/sbin/nvpmodel -m 01 but can be set in the board
+configuration environment variable as well by using:
+
+```
+export SKIFF_NVIDIA_BOARD=jetson-agx-orin-devkit-maxn
+```
