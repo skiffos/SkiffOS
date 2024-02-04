@@ -1,0 +1,14 @@
+# VisionFive2 CPU Flags
+# https://wiki.gentoo.org/wiki/Embedded_Handbook/Boards/StarFive_VisionFive_2
+# /proc/cpuinfo:
+#  - isa: rv64imafdc_zicntr_zicsr_zifencei_zihpm_zba_zbb
+#  - mmu: sv39
+#  - uarch: sifive,u74-mc
+# zicntr and zihpm are not known to gcc at this time.
+-mabi=lp64d
+-march=rv64imafdc_zicsr_zifencei_zba_zbb
+-mcpu=sifive-u74
+-mtune=sifive-7-series
+--param l1-cache-size=32
+--param l2-cache-size=2048
+
