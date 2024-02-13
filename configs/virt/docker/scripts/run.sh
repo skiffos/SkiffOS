@@ -20,12 +20,14 @@ docker run -d --name=skiff \
   --ipc=host \
   --uts=host \
   --security-opt seccomp=unconfined \
+  --cgroupns=host \
   --stop-signal=SIGRTMIN+3 \
   --tmpfs /run \
   --tmpfs /run/lock \
   -v /dev:/dev \
   -v /lib/modules:/lib/modules \
   -v /run/udev:/run/udev \
+  -v /sys/fs/cgroup:/sys/fs/cgroup \
   -v ${IMAGES_PATH}:/mnt/rootfs \
   -v ${PERSIST_PATH}:/mnt/persist \
   skiffos/skiffos
