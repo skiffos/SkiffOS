@@ -9,7 +9,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.build-os }}
+    strategy:
+      matrix:
+        build-os: [ubuntu-latest, ubuntu-22.04]
     env:
       'SKIFF_WORKSPACE': docker
       'SKIFF_CONFIG': virt/docker,core/gentoo
@@ -31,17 +34,17 @@ jobs:
       - name: Clear caches if necessary
         run: |
           # necessary to save space
-          if [ ! -f ~/br-cache/ccache-v5 ]; then
+          if [ ! -f ~/br-cache/ccache-v1 ]; then
             echo "Clearing old compiler cache..."
             rm -rf ~/br-cache/ccache* || true
             mkdir -p ~/br-cache/ccache
-            touch ~/br-cache/ccache-v5
+            touch ~/br-cache/ccache-v1
           fi
-          if [ ! -f ~/br-cache/dl-v5 ]; then
+          if [ ! -f ~/br-cache/dl-v1 ]; then
             echo "Clearing old downloads cache..."
             rm -rf ~/br-cache/dl* || true
             mkdir -p ~/br-cache/dl
-            touch ~/br-cache/dl-v5
+            touch ~/br-cache/dl-v1
           fi
 
       - name: Install buildroot apt deps
@@ -75,7 +78,9 @@ jobs:
           docker save skiffos/skiffos:latest > ./workflow-artifacts/docker-image.tar
 
       # Upload docker image
-      - uses: actions/upload-artifact@v4
+      - name: Upload Docker container image artifact
+        # if: matrix.build-os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
         with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
