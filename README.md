@@ -259,8 +259,7 @@ sudo apt-get install -y \
   sed \
   tar \
   unzip \
-  wget \
-  which
+  wget
 ```
 
 [Buildroot dependencies]: https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
