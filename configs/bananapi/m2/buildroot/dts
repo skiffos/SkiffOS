@@ -1,2 +1,2 @@
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="sun6i-a31s-sinovoip-bpi-m2"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun6i-a31s-sinovoip-bpi-m2"
