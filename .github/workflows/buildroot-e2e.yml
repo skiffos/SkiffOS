@@ -79,7 +79,7 @@ jobs:
 
       # Upload docker image
       - name: Upload Docker container image artifact
-        # if: matrix.build-os == 'ubuntu-latest'
+        if: matrix.build-os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: docker-image.tar
