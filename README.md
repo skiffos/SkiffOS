@@ -96,6 +96,7 @@ main SkiffOS repository:
 | [Pi 3] + 1, 2         | [pi/3]                    | N/A              | ✔ rpi-6.1.77    |
 | [Pi 4]                | [pi/4]                    | N/A              | ✔ rpi-6.1.77    |
 | [Pi 4] (32bit mode)   | [pi/4x32]                 | N/A              | ✔ rpi-6.1.77    |
+| [Pi 5]                | [pi/5]                    | N/A              | ✔ rpi-6.1.77    |
 | [Pine64 H64]          | [pine64/h64]              | ✔ U-Boot 2022.04 | ✔ megi-6.6-pre  |
 | [PineBook A64]        | [pine64/book_a64]         | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
 | [PineBook Pro]        | [pine64/book]             | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
@@ -152,6 +153,7 @@ main SkiffOS repository:
 [Pi 1]: https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[Pi 5]: https://www.raspberrypi.org/products/raspberry-pi-5/
 [Pine64 H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
@@ -209,6 +211,7 @@ main SkiffOS repository:
 [pi/3]: ./configs/pi
 [pi/4]: ./configs/pi
 [pi/4x32]: ./configs/pi
+[pi/5]: ./configs/pi
 [pine64/book_a64]: ./configs/pine64/book_a64
 [pine64/book]: ./configs/pine64/book
 [pine64/h64]: ./configs/pine64/h64
