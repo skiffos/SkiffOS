@@ -41,6 +41,7 @@ There are specific packages tuned to each Pi model.
 | [Pi 3] - 64bit | pi/3x64            |
 | [Pi 4]         | pi/4x64 or pi/4    |
 | [Pi 4] - 32bit | pi/4x32            |
+| [Pi 5]         | pi/5               |
 
 [Pi 0]: https://www.raspberrypi.org/products/raspberry-pi-zero/
 [Pi 0 V2]: https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/
@@ -48,6 +49,7 @@ There are specific packages tuned to each Pi model.
 [Pi 2]: https://www.raspberrypi.org/products/raspberry-pi-2-model-b/
 [Pi 3]: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 [Pi 4]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[Pi 5]: https://www.raspberrypi.org/products/raspberry-pi-5/
 
 ## Building an Image
 
@@ -122,7 +124,9 @@ force_turbo=1
 max_usb_current=1
 ```
 
-## Config.txt Conditional Sections
+## Config.txt
+
+Upstream docs: https://www.raspberrypi.com/documentation/computers/config_txt.html
 
 The config.txt file supports conditional sections:
 
@@ -131,5 +135,6 @@ The config.txt file supports conditional sections:
 - `[pi3]`: Model 3B, Model 3B+, Model 3A+, Compute Module 3
 - `[pi3+]`: Model 3A+, Model 3B+
 - `[pi4]`: Model 4B
+- `[pi5]`: Model 5
 - `[pi0]`: Zero, Zero W, Zero WH
 - `[pi0w]`: Zero W, Zero WH

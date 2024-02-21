@@ -7,11 +7,8 @@
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
 
-kernel=Image
+kernel=zImage
 initramfs rootfs.cpio.lz4
-
-# enable 64bits support
-arm_64bit=1
 
 # fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
 dtoverlay=miniuart-bt
