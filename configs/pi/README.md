@@ -122,7 +122,9 @@ force_turbo=1
 max_usb_current=1
 ```
 
-## Config.txt Conditional Sections
+## Config.txt
+
+Upstream docs: https://www.raspberrypi.com/documentation/computers/config_txt.html
 
 The config.txt file supports conditional sections:
 
@@ -131,5 +133,6 @@ The config.txt file supports conditional sections:
 - `[pi3]`: Model 3B, Model 3B+, Model 3A+, Compute Module 3
 - `[pi3+]`: Model 3A+, Model 3B+
 - `[pi4]`: Model 4B
+- `[pi5]`: Model 5
 - `[pi0]`: Zero, Zero W, Zero WH
 - `[pi0w]`: Zero W, Zero WH

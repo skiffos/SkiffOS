@@ -1,0 +1,3 @@
+# Use rngd instead of haveged.
+# BR2_PACKAGE_HAVEGED is not set
+BR2_PACKAGE_RNG_TOOLS=y
