@@ -19,7 +19,7 @@ export SKIFF_CONFIG=apple/arm,skiff/core
 make configure compile
 ```
 
-[TODO] setup instructions
+Instructions on how to run using UTM will be added here soon (TODO).
 
 ## Compiling on MacOS
 
