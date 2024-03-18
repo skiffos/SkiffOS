@@ -17,8 +17,9 @@ if [[ "$PI_IMAGE" != /* ]]; then
     PI_IMAGE=$SKIFF_ROOT_DIR/$PI_IMAGE
 fi
 
+# TODO: reduce size of this image
 echo "Allocating sparse image..."
-fallocate -l 1.5G $PI_IMAGE
+fallocate -l 12G $PI_IMAGE
 
 echo "Setting up loopback device..."
 export PI_SD=$(losetup --show -fP $PI_IMAGE)
