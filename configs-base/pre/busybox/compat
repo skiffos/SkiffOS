@@ -1,0 +1,4 @@
+# Fix build against kernel 6.8.x
+# https://bugs.busybox.net/show_bug.cgi?id=15934
+# CONFIG_TC is not set
+
