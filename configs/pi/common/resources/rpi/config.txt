@@ -10,6 +10,10 @@
 kernel=Image
 initramfs rootfs.cpio.lz4
 
+# Use the extended feature firmware
+start_file=start4x.elf
+fixup_file=fixup4x.dat
+
 # enable 64bits support
 arm_64bit=1
 
