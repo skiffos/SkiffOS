@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SKIFF_CORE_VERSION = v1.11.0
+SKIFF_CORE_VERSION = v1.12.0
 SKIFF_CORE_SITE = $(call github,skiffos,skiff-core,$(SKIFF_CORE_VERSION))
 SKIFF_CORE_LICENSE = MIT
 SKIFF_CORE_LICENSE_FILES = LICENSE
