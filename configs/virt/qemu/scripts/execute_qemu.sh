@@ -5,6 +5,7 @@ IMAGES_DIR=$BUILDROOT_DIR/images
 QEMU_DIR=${BUILDROOT_DIR}/qemu-exec
 ROOTFS_DISK=${QEMU_DIR}/qemu-persist.qcow2
 SHARED_DIR=${QEMU_DIR}/qemu-shared
+: ${QEMU_ARGS:=""}
 
 # sparse rootfs file
 if [ -z "${ROOTFS_MAX_SIZE}" ]; then
@@ -38,20 +39,31 @@ if [ -z "${QEMU_MEMORY}" ]; then
     QEMU_MEMORY="2G"
 fi
 
+if [ -f /dev/kvm ]; then
+    QEMU_ARGS="${QEMU_ARGS:+$QEMU_ARGS }-accel kvm"
+fi
+
 # run the target architecture qemu-system
+# Remove -monitor none and set -serial mon:stdio to have interactive serial input.
 # Compat: -cpu qemu64,+ssse3,+sse4.1,+sse4.2,+x2apic
 # Host: -cpu host
+# -accel kvm \
 # Faster networking, but needs root: -nic tap
 mkdir -p ${SHARED_DIR}
+set -x
 ${BUILDROOT_DIR}/host/bin/qemu-system \
-  -smp ${QEMU_CPUS} \
+  -M virt \
   -m "size=${QEMU_MEMORY}" \
-  -nographic -serial mon:stdio \
+  -smp ${QEMU_CPUS} \
+  -cpu max \
+  -nographic -serial stdio -monitor none \
   -device virtio-rng-pci \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic \
   -kernel ${KERNEL_IMAGE} \
   -initrd rootfs.cpio.lz4 \
-  -append "console=ttyS0 root=/dev/ram0" \
+  -append "root=/dev/ram0 ro net.ifnames=0" \
   -drive file=${ROOTFS_DISK},if=virtio \
-  -virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=mapped,id=host0
+  -virtfs local,path=${SHARED_DIR},mount_tag=host0,security_model=mapped,id=host0 \
+  ${QEMU_ARGS}
+
