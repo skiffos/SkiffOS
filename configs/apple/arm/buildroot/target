@@ -1,0 +1,2 @@
+# disable .cpio.uboot
+# BR2_TARGET_ROOTFS_CPIO_UIMAGE is not set
