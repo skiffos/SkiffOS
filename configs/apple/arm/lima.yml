@@ -1,0 +1,17 @@
+images:
+  - location: >-
+      https://cloud.debian.org/images/cloud/sid/daily/latest/debian-sid-genericcloud-arm64-daily.qcow2
+    arch: aarch64
+disk: 50GB
+provision:
+  # Automatically installing the dependencies for a successful ARM build (taken from https://github.com/skiffos/SkiffOS/?tab=readme-ov-file#getting-started)
+  - mode: boot
+    script: |
+      apt-get update
+      apt-get install -y bash bc binutils build-essential bzip2 cpio diffutils file findutils gzip libarchive-tools libncurses-dev make patch perl rsync sed tar unzip wget golang git
+mounts:
+  - location: ~/Downloads/skiffos_utm
+    mountPoint: /opt/skiffos_utm
+    writable: true
+mountType: virtiofs
+vmType: vz
