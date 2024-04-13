@@ -52,6 +52,7 @@ main SkiffOS repository:
 | VirtualBox            | [virt/virtualbox]         | N/A              | ✔ 6.8.4         |
 | [Docker Img]          | [virt/docker]             | N/A              | N/A             |
 | [Qemu]                | [virt/qemu]               | N/A              | ✔ 6.8.4         |
+| [UTM] on MacOS        | [apple/arm] + [virt/qemu] | N/A              | ✔ 6.8.4         |
 | [V86] on WebAssembly  | [browser/v86]             | [V86]            | ✔ 6.8.4         |
 | [WSL] on Windows      | [virt/wsl]                | N/A              | N/A             |
 |-----------------------|---------------------------|------------------|-----------------|
@@ -169,6 +170,7 @@ main SkiffOS repository:
 [VisionFive2]: https://ameridroid.com/products/visionfive-2
 [Steam Deck]: https://store.steampowered.com/steamdeck
 [USBArmory Mk2]: https://github.com/f-secure-foundry/usbarmory
+[UTM]: https://getutm.app/
 [V86]: https://copy.sh/v86/?profile=copy/skiffos
 [Wandboard]: https://elinux.org/Wandboard
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
@@ -344,6 +346,32 @@ $ ./scripts/push_image.bash root@my-ip-address
 ```
 
 The SkiffOS upgrade (or downgrade) will take effect on next reboot.
+
+### Compile on MacOS
+
+Building directly on MacOS is not yet possible, particularly due to the
+case-insensitivity of the MacOS file system. You can use Lima to build the OS:
+
+[Install Lima](https://github.com/lima-vm/lima?tab=readme-ov-file#getting-started), then:
+
+```bash
+limactl start --name=skiffos-build https://raw.githubusercontent.com/skiffos/SkiffOS/master/build/lima/lima.yaml
+limactl shell skiffos-build
+```
+
+Then in the lima shell:
+
+```bash
+cd
+git clone https://github.com/skiffos/skiffos
+cd skiffos
+```
+
+Proceed with usual build sequence.
+
+See the [apple/arm] docs for building a VM to run on MacOS.
+
+[apple/arm]: ./configs/apple/arm
 
 ### Podman
 

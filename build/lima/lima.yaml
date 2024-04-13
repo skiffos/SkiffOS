@@ -1,0 +1,53 @@
+images:
+  - location: >-
+      https://cloud.debian.org/images/cloud/sid/daily/latest/debian-sid-genericcloud-arm64-daily.qcow2
+    arch: aarch64
+
+provision:
+  # Automatically installing the dependencies for a successful ARM build (taken from https://github.com/skiffos/SkiffOS/?tab=readme-ov-file#getting-started)
+  - mode: boot
+    script: |
+     #!/bin/bash
+     apt-get update
+     set -eux -o pipefail
+     export DEBIAN_FRONTEND=noninteractive
+      apt-get install -y \
+        bash \
+        bc \
+        binutils \
+        build-essential \
+        bzip2 \
+        cpio \
+        diffutils \
+        file \
+        findutils \
+        git \
+        golang \
+        gzip \
+        libarchive-tools \
+        libncurses-dev \
+        make \
+        patch \
+        perl \
+        rsync \
+        sed \
+        tar \
+        unzip \
+        wget \
+        zsh
+
+mounts:
+  - location: "/tmp/lima"
+    writable: true
+  - location: ~/skiffos-build
+    mountPoint: /opt/skiffos-build
+    writable: true
+
+mountType: virtiofs
+disk: 75GB
+cpus: 8
+
+# NOTE: This uses a "raw" disk format (unlike qemu).
+# This is faster but uses disk space equal to the disk: option above!
+# Not using this option will use less disk space.
+# vmType: vz

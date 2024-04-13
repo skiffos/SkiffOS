@@ -1,32 +1,36 @@
-# Apple Macbook (ARM)
+# Apple Silicon (ARM64)
 
-This package supports the ARM64 Macbook Pros.
+This package supports the ARM64 Macs.
 
-Direct hardware support through [Asahi Linux] will be supported, but has not
-been implemented yet. In the meantime, we support running with [UTM] on MacOS.
+Support for booting SkiffOS natively with [Asahi Linux] has not been implemented yet.
 
 [Asahi Linux]: https://asahilinux.org/
+
+In the meantime, we support running with [UTM] on MacOS.
+
 [UTM]: https://github.com/utmapp/UTM
 
-## Setup
+## Compiling
 
-Install UTM on your Mac.
+For compiling on MacOS, see [Compile on MacOS].
 
-Compile SkiffOS on a Linux host:
+[Compile on MacOS]: https://github.com/skiffos/SkiffOS?tab=readme-ov-file#compile-on-macos
 
-```
-export SKIFF_CONFIG=apple/arm,skiff/core
+```bash
+export SKIFF_CONFIG=apple/arm,skiff/core,virt/qemu
 make configure compile
+make cmd/virt/qemu/buildutm
 ```
 
-Instructions on how to run using UTM will be added here soon (TODO).
+Copy `workspaces/default/images/skiffos.utm` to your Mac, on Lima:
 
-## Compiling on MacOS
+```bash
+cp workspaces/default/images/skiffos.utm /opt/skiffos-build
+```
 
-Compiling SkiffOS on MacOS is not yet supported.
+## Running in UTM
 
-You can compile it in any Linux environment or VM.
+[Install UTM](https://getutm.app) on your MacOS machine.
 
-Instructions on how to build using [lima] will be added here soon.
+Run `open ~/skiffos-build` and double-click the skiffos.utm file to start the VM!
 
-[lima]: https://github.com/lima-vm/lima
