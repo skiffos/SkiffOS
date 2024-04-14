@@ -1,1 +1,0 @@
-source "$BR2_EXTERNAL_CORE_HOLOISO_PATH/package/skiff-core-holoiso/Config.in"
