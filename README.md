@@ -111,7 +111,7 @@ main SkiffOS repository:
 | [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2021.10 | ✔ 6.8.6         |
 | [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2021.10 | ✔ 6.8.6         |
 | [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 6.8.6         |
-| Valve [Steam Deck]    | [valve/deck]              | N/A              | ✔ valve-6.1.9   |
+| Valve [Steam Deck]    | [valve/deck]              | N/A              | ✔ valve-6.5.0   |
 | [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 6.8.6         |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha

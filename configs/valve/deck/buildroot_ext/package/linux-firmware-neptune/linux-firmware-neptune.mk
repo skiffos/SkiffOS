@@ -6,7 +6,6 @@
 
 # https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main
 # linux-firmware-neptune-20230217-1.src.tar.gz
-# jupiter-20230217-rtw-debug
 LINUX_FIRMWARE_NEPTUNE_VERSION = 20230217
 LINUX_FIRMWARE_NEPTUNE_SITE = $(call github,skiffos,linux-firmware-neptune,jupiter-$(LINUX_FIRMWARE_NEPTUNE_VERSION)-rtw-debug)
 

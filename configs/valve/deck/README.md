@@ -16,7 +16,7 @@ Reference:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=valve/deck,core/holoiso
+$ export SKIFF_CONFIG=valve/deck,skiff/core
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
@@ -47,14 +47,6 @@ Select the "EFI SD Card" to boot from the MicroSD.
 ## Startup
 
 You can connect to the deck via SSH, see the SkiffOS readme for more info.
-
-If core/holoiso is enabled, on first startup, the deck will download a ~4GB
-Docker image containing Holoiso and the SteamOS components.
-
-This will take some time. Once complete, you will see the Steam UI appear.
-
-Note that you will need to have added a valid wifi configuration for the deck to
-have internet access before it can download the Holoiso image.
 
 ## Overwriting SteamOS on NVME Drive
 

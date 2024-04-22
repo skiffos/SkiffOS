@@ -2,16 +2,16 @@ BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_KERNEL_HEADERS_AS_KERNEL=y
 
-# Steam Beta Channel as of Aug 31, 2022
-# https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-beta/linux-neptune-5.13.0.valve21.1-1.src.tar.gz
-# valve-5.13.0-valve21.1-1
-# c54cda5a36f3349f08ebb3ccd1552d642b8b8417
-# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,c54cda5a36f3349f08ebb3ccd1552d642b8b8417)/linux-valve-5.13.0-valve21.1-r1.tar.gz"
-# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_13=y
-
 # Steam Jupiter-main channel as of Feb 17, 2023
 # https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/linux-neptune-61-6.1.9.valve2-1.src.tar.gz
 # 6.1.9-valve2
 # 334f506c7d63fe9175d64bf862585aa7eb3f3ebe
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,334f506c7d63fe9175d64bf862585aa7eb3f3ebe)/linux-valve-6.1.9-valve2-1.tar.gz"
-BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
+# BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,334f506c7d63fe9175d64bf862585aa7eb3f3ebe)/linux-valve-6.1.9-valve2-1.tar.gz"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_1=y
+
+# Steam Jupiter-main channel as of Apr 14, 2024
+# https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/linux-neptune-65-6.5.0.valve1-3.src.tar.gz
+# 6.5.0-valve1
+# commit 3b047419df3945040b4087a79e1f46d4e911fa34
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,3b047419df3945040b4087a79e1f46d4e911fa34)/linux-valve-6.5.0-valve1-1.tar.gz"
+BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_5=y
