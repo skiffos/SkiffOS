@@ -44,6 +44,7 @@ RUN \
     openssh-client \
     pavucontrol \
     pulseaudio \
+    psmisc \
     python3-keyring \
     python3-launchpadlib \
     python3-secretstorage \
@@ -58,6 +59,7 @@ RUN \
     vim \
     wget \
     x11vnc \
+    xinput \
     xfce4-power-manager
 
 # remove unnecessary content
