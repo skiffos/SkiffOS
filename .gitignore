@@ -11,3 +11,4 @@ buildroot-work/
 *.swp
 .vagrant/
 *.log
+.aider*
