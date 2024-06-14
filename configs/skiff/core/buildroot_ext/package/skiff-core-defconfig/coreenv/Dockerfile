@@ -1,5 +1,6 @@
+# syntax=docker/dockerfile:1.8-labs
 ARG DISTRO
-FROM ${DISTRO:-debian:sid} as stage1
+FROM ${DISTRO:-debian:sid} AS stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
@@ -11,56 +12,62 @@ ENV LANG=C.UTF-8 \
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get update
 
-# Minimal desktop environment.
-RUN \
+# Setup packages list to install
+RUN cat > /etc/install-pkgs-list <<EOF
+accountsservice
+autotools-dev
+build-essential
+chromium
+cups
+curl
+ffmpeg
+git
+gnupg
+gnupg-utils
+gpg-agent
+htop
+less
+lightdm
+locales
+lsb-release
+mesa-utils
+mesa-vulkan-drivers
+mplayer
+nano
+ncurses-term
+net-tools
+openssh-client
+pavucontrol
+pulseaudio
+psmisc
+python3-keyring
+python3-launchpadlib
+python3-secretstorage
+rsync
+software-properties-common
+sudo
+systemd
+task-xfce-desktop
+tmux
+unzip
+usbutils
+vim
+wget
+x11vnc
+xinput
+xfce4-power-manager
+EOF
+
+RUN set -ex && \
     apt-get dist-upgrade -y && \
-    apt-get install -y  \
-    --no-install-recommends \
-    --ignore-missing \
-    -o "Dpkg::Options::=--force-confdef"  \
-    -o "Dpkg::Options::=--force-confnew"  \
-    accountsservice \
-    autotools-dev \
-    build-essential \
-    chromium \
-    cups \
-    curl \
-    ffmpeg \
-    git \
-    gnupg \
-    gnupg-utils \
-    gpg-agent \
-    htop \
-    less \
-    lightdm \
-    locales \
-    lsb-release \
-    mesa-utils \
-    mesa-vulkan-drivers \
-    mplayer \
-    nano \
-    ncurses-term \
-    net-tools \
-    openssh-client \
-    pavucontrol \
-    pulseaudio \
-    psmisc \
-    python3-keyring \
-    python3-launchpadlib \
-    python3-secretstorage \
-    rsync \
-    software-properties-common \
-    sudo \
-    systemd \
-    task-xfce-desktop \
-    tmux \
-    unzip \
-    usbutils \
-    vim \
-    wget \
-    x11vnc \
-    xinput \
-    xfce4-power-manager
+    apt-cache --generate pkgnames | \
+      grep --line-regexp --fixed-strings --file /etc/install-pkgs-list | \
+      xargs apt-get install -y \
+        --no-install-recommends \
+        --ignore-missing \
+        -o "Dpkg::Options::=--force-confdef" \
+    -o "Dpkg::Options::=--force-confnew" && \
+    rm /etc/install-pkgs-list
 
 # remove unnecessary content
 RUN \
@@ -69,11 +76,12 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 # ensure en_US locales are generated
-RUN sed -i 's/^#\(.*en_US.*\)/\1/' /etc/locale.gen && \
+RUN touch /etc/locale.gen && \
+    sed -i 's/^#\(.*en_US.*\)/\1/' /etc/locale.gen && \
     locale-gen "en_US.UTF-8"
 
 # flatten image
-FROM scratch as stage2
+FROM scratch AS stage2
 
 COPY --from=stage1 / /
 
@@ -87,9 +95,11 @@ ENV container=docker \
 RUN \
   mkdir -p /etc/lightdm/lightdm.conf.d && \
   printf '[Seat:*]\ngreeter-hide-users=false\n' > /etc/lightdm/lightdm.conf.d/01-enable-users.conf && \
-  printf \
-    "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"\$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
-    /etc/chromium.d/ignore-gpu-blocklist
+  if [ -d /etc/chromium.d ]; then \
+    printf \
+      "# Ignore the GPU blocklist and use GPU rendering.\nexport CHROMIUM_FLAGS=\"\$CHROMIUM_FLAGS --ignore-gpu-blocklist\"\n" >\
+      /etc/chromium.d/ignore-gpu-blocklist; \
+  fi
 
 # Create the user 'core' which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
