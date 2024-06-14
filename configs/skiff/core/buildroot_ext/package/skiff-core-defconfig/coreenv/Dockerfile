@@ -1,5 +1,5 @@
 ARG DISTRO
-FROM ${DISTRO:-debian:bookworm} as stage1
+FROM ${DISTRO:-debian:sid} as stage1
 
 # setup environment
 ENV LANG=C.UTF-8 \
@@ -110,6 +110,7 @@ RUN \
   passwd -d core && \
   echo "core    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+# TODO: Switch to using systemctl mask here.
 RUN systemctl set-default graphical.target && \
     systemctl mask tmp.mount && \
     (systemctl mask NetworkManager ModemManager wpa_supplicant) && \
