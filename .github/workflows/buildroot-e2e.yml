@@ -25,27 +25,12 @@ jobs:
 
       - name: Cache build cache and downloads
         uses: actions/cache@v4
-        env:
-          cache-name: cache-buildroot
         with:
           path: ~/br-cache/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-
-      - name: Clear caches if necessary
-        run: |
-          # necessary to save space
-          if [ ! -f ~/br-cache/ccache-v1 ]; then
-            echo "Clearing old compiler cache..."
-            rm -rf ~/br-cache/ccache* || true
-            mkdir -p ~/br-cache/ccache
-            touch ~/br-cache/ccache-v1
-          fi
-          if [ ! -f ~/br-cache/dl-v1 ]; then
-            echo "Clearing old downloads cache..."
-            rm -rf ~/br-cache/dl* || true
-            mkdir -p ~/br-cache/dl
-            touch ~/br-cache/dl-v1
-          fi
+          # https://github.com/actions/toolkit/issues/505#issuecomment-1650290249
+          key: buildroot-r1-h${{ hashFiles('buildroot/Makefile') }}
+          restore-keys: |
+            buildroot
 
       - name: Install buildroot apt deps
         run: |
