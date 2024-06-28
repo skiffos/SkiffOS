@@ -1,11 +1,3 @@
-# other skiff-core configurations:
-#  - core/alpine
-#  - core/debian
-#  - core/dietpi
-#  - core/gentoo
-#  - core/manjaro
-#  - core/nixos
-#  - core/ubuntu
 # Documented at https://github.com/skiffos/skiff-core
 containers:
   core: # name of the docker container
