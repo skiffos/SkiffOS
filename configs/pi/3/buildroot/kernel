@@ -2,4 +2,4 @@ BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 # BR2_LINUX_KERNEL_DEFCONFIG="bcm2711"
 BR2_LINUX_KERNEL_DEFCONFIG="bcm2709"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="bcm2708-rpi-b bcm2708-rpi-b-plus bcm2708-rpi-cm bcm2709-rpi-2-b bcm2710-rpi-3-b bcm2710-rpi-3-b-plus bcm2710-rpi-cm3 bcm2835-rpi-b bcm2835-rpi-b-plus bcm2835-rpi-b-rev2 bcm2835-rpi-cm1-io1 bcm2836-rpi-2-b bcm2837-rpi-3-b bcm2837-rpi-3-b-plus bcm2837-rpi-3-a-plus"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="broadcom/bcm2708-rpi-b broadcom/bcm2708-rpi-b-plus broadcom/bcm2708-rpi-cm broadcom/bcm2709-rpi-2-b broadcom/bcm2710-rpi-3-b broadcom/bcm2710-rpi-3-b-plus broadcom/bcm2710-rpi-cm3 broadcom/bcm2835-rpi-b broadcom/bcm2835-rpi-b-plus broadcom/bcm2835-rpi-b-rev2 broadcom/bcm2835-rpi-cm1-io1 broadcom/bcm2836-rpi-2-b broadcom/bcm2837-rpi-3-b broadcom/bcm2837-rpi-3-b-plus broadcom/bcm2837-rpi-3-a-plus"

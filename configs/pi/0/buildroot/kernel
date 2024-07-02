@@ -3,4 +3,4 @@ BR2_LINUX_KERNEL_DEFCONFIG="bcmrpi"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 
 # include dtbs for other pi 0 versions as well
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="bcm2708-rpi-b-plus bcm2708-rpi-zero-w bcm2710-rpi-zero-2-w"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="broadcom/bcm2708-rpi-b-plus broadcom/bcm2708-rpi-zero-w broadcom/bcm2710-rpi-zero-2-w"
