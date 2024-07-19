@@ -1,2 +1,5 @@
 # Set the URL to the SkiffOS mirror
 BR2_SKIFFOS_BACKUP_SITE="https://mirror.skiffos.com"
+
+# Set the GNU mirror to the kernel.org mirror
+BR2_GNU_MIRROR="https://mirrors.kernel.org/gnu/"
