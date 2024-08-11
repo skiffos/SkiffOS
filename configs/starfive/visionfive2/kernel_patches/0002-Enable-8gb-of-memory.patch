@@ -1,19 +1,19 @@
-From 6ef8073380e55aa1946a70d0d2a9777542f5f4bb Mon Sep 17 00:00:00 2001
+From 7de4abd60ae158c57e1a6eb926a062f223c8efc7 Mon Sep 17 00:00:00 2001
 From: Max Berger <max@berger.name>
-Date: Sat, 25 Feb 2023 21:01:24 +0100
+Date: Sun, 11 Aug 2024 15:05:38 +0200
 Subject: [PATCH] Enable 8gb of memory
 
 See https://github.com/starfive-tech/VisionFive2/issues/20
 for details
 ---
- arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi | 2 +-
+ arch/riscv/boot/dts/starfive/jh7110-common.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-index 4196574103eaa..05ef0ddb4689a 100755
---- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-+++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-@@ -46,7 +46,7 @@ cpus {
+diff --git a/arch/riscv/boot/dts/starfive/jh7110-common.dtsi b/arch/riscv/boot/dts/starfive/jh7110-common.dtsi
+index 68d16717db8c..0edb9225a8f9 100644
+--- a/arch/riscv/boot/dts/starfive/jh7110-common.dtsi
++++ b/arch/riscv/boot/dts/starfive/jh7110-common.dtsi
+@@ -27,7 +27,7 @@ chosen {
  
  	memory@40000000 {
  		device_type = "memory";
@@ -23,5 +23,5 @@ index 4196574103eaa..05ef0ddb4689a 100755
  
  	gpio-restart {
 -- 
-2.40.1
+2.43.0
 
