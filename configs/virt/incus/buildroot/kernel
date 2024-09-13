@@ -1,0 +1,2 @@
+# We don't need a kernel for Docker.
+# BR2_LINUX_KERNEL is not set
