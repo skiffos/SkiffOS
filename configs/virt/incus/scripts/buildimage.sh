@@ -1,22 +1,14 @@
 #!/bin/bash
-set -ex
+set -eu
 
 IMAGE_NAME=skiffos/testing
 CONTAINER=skiff
 OUTPUT_PATH="$BUILDROOT_DIR/output"
 IMAGES_PATH="$BUILDROOT_DIR/images"
-WORKING_PATH="${BUILDROOT_DIR}/nspawn-run"
-PERSIST_PATH="${WORKING_PATH}/nspawn-persist"
-INCUS_IMAGE_PATH="${IMAGE_PATH}/incus.tar.gz"
+INCUS_IMAGE_PATH="${IMAGES_PATH}/incus.tar.gz"
 roottar="${IMAGES_PATH}/rootfs.tar"
 
-if ! command -v incus >/dev/null 2>&1; then
-	echo "Failed to find the incus command. Is incus installed on your host system?"
-	exit 1
-fi
-
-mkdir -p "${PERSIST_PATH}"
-TMPDIR="${WORKING_PATH}/incus-tmp"
+TMPDIR="${BUILDROOT_DIR}/incus-tmp"
 trap 'rm -rf "$TMPDIR";' EXIT
 rm -rf "$TMPDIR"
 mkdir -p "${TMPDIR}/rootfs"

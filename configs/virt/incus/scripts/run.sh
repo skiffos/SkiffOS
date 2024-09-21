@@ -1,10 +1,10 @@
 #!/bin/bash
-set -e
+set -eu
 
 IMAGE_NAME=skiffos/testing
 CONTAINER=skiff
 IMAGES_PATH="$BUILDROOT_DIR/images"
-INCUS_IMAGE_PATH="${IMAGE_PATH}/incus.tar.gz"
+INCUS_IMAGE_PATH="${IMAGES_PATH}/incus.tar.gz"
 
 if ! command -v incus >/dev/null 2>&1; then
 	echo "Failed to find the incus command. Is incus installed on your host system?"
@@ -27,7 +27,7 @@ if ! incus storage volume show "$storage_pool" skiff-persist >/dev/null 2>&1; th
 	incus storage volume create "$storage_pool" "skiff-persist"
 fi
 
-if incus show "${CONTAINER}"; then
+if incus info "${CONTAINER}" > /dev/null 2>&1; then
 	incus stop "${CONTAINER}" || :
 	incus rm -f "${CONTAINER}" || :
 fi
