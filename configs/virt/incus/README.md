@@ -42,5 +42,5 @@ delete it, and it will be recreated:
 ```sh
 # You can find the right storage pool with:
 # incus storage list -c n -f csv | head -n 1
-$ incus volume delete "${STORAGE_POOL}" skiff-persist
+$ incus storage volume delete "${STORAGE_POOL}" skiff-persist
 ```
