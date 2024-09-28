@@ -109,8 +109,8 @@ main SkiffOS repository:
 | [RockPro64]           | [pine64/rockpro64]        | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]      | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   |
 | [VisionFive]          | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
-| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2021.10 | ✔ 6.10.7        |
-| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2021.10 | ✔ 6.10.7        |
+| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 6.10.7        |
+| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2024.07 | ✔ 6.10.7        |
 | [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 6.10.7        |
 | Valve [Steam Deck]    | [valve/deck]              | N/A              | ✔ valve-6.5.0   |
 | [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 6.10.7        |
