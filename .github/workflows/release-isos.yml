@@ -1,0 +1,63 @@
+name: Release ISOs
+
+on:
+  push:
+    branches: [master, next, stable, staging]
+  pull_request:
+    branches: [master, next, stable, staging]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      'SKIFF_WORKSPACE': intel-desktop
+      'SKIFF_CONFIG': intel/desktop,skiff/core
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update the submodule
+        run: |
+          cd $GITHUB_WORKSPACE
+          git submodule update --init --recursive
+
+      - name: Cache build cache and downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/br-cache/
+          key: buildroot-r1-h${{ hashFiles('buildroot/Makefile') }}-ubuntu-latest
+          restore-keys: |
+            buildroot-r1
+
+      - name: Install buildroot apt deps
+        run: |
+          sudo apt-get install -y libelf-dev python3-magic python3-flake8
+
+      - name: Print help and packages list
+        run: |
+          cd $GITHUB_WORKSPACE
+          make help
+
+      - name: Enable using a pre-built toolchain
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "BR2_TOOLCHAIN_EXTERNAL=y" > ./overrides/buildroot/toolchain
+
+      - name: Compile the OS
+        run: |
+          cd $GITHUB_WORKSPACE
+          export TERM=xterm
+          export BR2_CCACHE_DIR=${HOME}/br-cache/ccache
+          export BR2_DL_DIR=${HOME}/br-cache/dl
+          make -s configure compile check
+
+      - name: Create an ISO image
+        run: |
+          cd $GITHUB_WORKSPACE
+          make cmd/intel/desktop/buildiso
+          mkdir -p workflow-artifacts
+          mv ./intel-desktop-image.iso ./workflow-artifacts/intel-desktop-image.iso
+
+      - name: Upload ISO image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: intel-desktop-image.iso
+          path: ${{ github.workspace }}/workflow-artifacts/intel-desktop-image.iso

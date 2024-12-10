@@ -18,6 +18,6 @@ if [[ "$INTEL_DESKTOP_IMAGE" != /* ]]; then
 fi
 
 echo "Creating ISO image..."
-genisoimage -o $INTEL_DESKTOP_IMAGE.iso -b boot/grub/i386-pc/eltorito.img -c boot.catalog -no-emul-boot -boot-load-size 4 -boot-info-table -J -R -V "SkiffOS" $SKIFF_CURRENT_CONF_DIR/resources
+mkisofs -o $INTEL_DESKTOP_IMAGE.iso -b boot/grub/i386-pc/eltorito.img -c boot.catalog -no-emul-boot -boot-load-size 4 -boot-info-table -J -R -V "SkiffOS" $SKIFF_CURRENT_CONF_DIR/resources
 
 echo "ISO image created at $INTEL_DESKTOP_IMAGE.iso"

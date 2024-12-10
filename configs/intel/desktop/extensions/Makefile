@@ -9,3 +9,7 @@ buildimage:
 
 # alias to buildimage
 create-image: buildimage
+
+# Create an ISO image from the built image
+isoimage:
+	@$(SKIFF_CURRENT_CONF_DIR)/scripts/build_iso.sh

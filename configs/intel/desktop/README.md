@@ -57,3 +57,20 @@ dd if=intel-desktop-image.img of=/dev/sdX status=progress oflag=sync
 This is equivalent to using the format and install scripts.
 
 The persist partition will be resized to fill the available space on first boot.
+
+## Building an ISO
+
+It's possible to create an ISO image from the built .img file.
+
+```sh
+# must be root to use losetup
+sudo bash
+# set your skiff workspace
+export SKIFF_WORKSPACE=default
+# set the output path
+export INTEL_DESKTOP_IMAGE=./intel-desktop-image.img
+# make the ISO
+make cmd/intel/desktop/buildiso
+```
+
+The ISO image will be created at the specified output path.
