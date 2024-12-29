@@ -100,13 +100,13 @@ main SkiffOS repository:
 | [Pi 4]                | [pi/4]                    | N/A              | ✔ rpi-6.6.63    |
 | [Pi 4] (32bit mode)   | [pi/4x32]                 | N/A              | ✔ rpi-6.6.63    |
 | [Pi 5]                | [pi/5]                    | N/A              | ✔ rpi-6.6.63    |
-| [Pine64 H64]          | [pine64/h64]              | ✔ U-Boot 2022.04 | ✔ megi-6.6-pre  |
-| [PineBook A64]        | [pine64/book_a64]         | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
-| [PineBook Pro]        | [pine64/book]             | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
-| [PinePhone]           | [pine64/phone]            | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
-| [PinePhone Pro]       | [pine64/phone_pro]        | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
-| [Rock64] rk3328       | [pine64/rock64]           | ✔ U-Boot 2022.04 | ✔ megi-6.6-pre  |
-| [RockPro64]           | [pine64/rockpro64]        | ✔ U-Boot (bin)   | ✔ megi-6.6-pre  |
+| [Pine64 H64]          | [pine64/h64]              | ✔ U-Boot 2022.04 | ✔ megi-6.11.10  |
+| [PineBook A64]        | [pine64/book_a64]         | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
+| [PineBook Pro]        | [pine64/book]             | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
+| [PinePhone]           | [pine64/phone]            | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
+| [PinePhone Pro]       | [pine64/phone_pro]        | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
+| [Rock64] rk3328       | [pine64/rock64]           | ✔ U-Boot 2022.04 | ✔ megi-6.11.10  |
+| [RockPro64]           | [pine64/rockpro64]        | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]      | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   |
 | [VisionFive]          | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
 | [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 6.12.6        |
