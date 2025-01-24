@@ -8,7 +8,6 @@ containers:
     tty: true
     disableInit: true
     workingDirectory: /
-    entrypoint: ["/lib/systemd/systemd"]
     mounts:
       - /dev:/dev
       - /etc/hostname:/etc/hostname:ro
