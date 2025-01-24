@@ -11,7 +11,7 @@ BR2_KERNEL_HEADERS_AS_KERNEL=y
 
 # Steam Jupiter-main channel as of Jan 14, 2025
 # https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/linux-neptune-68-6.8.12.valve9-2.src.tar.gz
-# 6.8.9-valve1
-# commit 1765475ebff1cd42c817c75415f462030c652097
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,1765475ebff1cd42c817c75415f462030c652097)/linux-valve-6.8.9-valve1-1.tar.gz"
+# 6.8.12-valve9
+# commit 5c4a599ea95cc2aa8253c620568097f6b17e92fe
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,skiffos,linux,5c4a599ea95cc2aa8253c620568097f6b17e92fe)/linux-valve-6.8.12-valve9-1.tar.gz"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_6_8=y
