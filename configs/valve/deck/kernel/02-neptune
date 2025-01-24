@@ -9,30 +9,65 @@
 # CONFIG_DRM_AMDGPU_SI is not set
 # CONFIG_DRM_RADEON is not set
 
-#
-# Use xz instead of zstd to save space
-#
-CONFIG_KERNEL_XZ=y
-# CONFIG_KERNEL_ZSTD is not set
-CONFIG_MODULE_COMPRESS_XZ=y
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-
 # Doesn't build on latest tag, not used in neptune hardware (?)
 CONFIG_SND_SOC_CS35L36=n
 # Update this to =y to workaround initialization issues and deadlocks when loaded as module
 # The cs35l41 / acp5x drivers in EV2 fail IRQ initialization with this set to =y, changed back
 CONFIG_SPI_AMD=m
+CONFIG_I2C_AMD=m
 
 # Works around issues with the touchscreen driver
 CONFIG_PINCTRL_AMD=y
-
 CONFIG_SND_SOC_AMD_ACP5x=m
 CONFIG_SND_SOC_AMD_VANGOGH_MACH=m
 CONFIG_SND_SOC_WM_ADSP=m
 CONFIG_SND_SOC_CS35L41=m
 CONFIG_SND_SOC_CS35L41_SPI=m
-# CONFIG_SND_SOC_CS35L41_I2C is not set
 CONFIG_SND_SOC_NAU8821=m
+CONFIG_SND_SOC_MAX98388=m
+
+CONFIG_SND_SOC_AMD_ACP3x=n
+CONFIG_SND_SOC_AMD_RV_RT5682_MACH=n
+CONFIG_SND_SOC_AMD_RENOIR=n
+CONFIG_SND_SOC_AMD_RENOIR_MACH=n
+
+CONFIG_SND_SOC_AMD_ACP6x=n
+CONFIG_SND_SOC_AMD_YC_MACH=n
+CONFIG_SND_AMD_ACP_CONFIG=m
+CONFIG_SND_SOC_AMD_ACP_COMMON=m
+CONFIG_SND_SOC_AMD_ACP_PDM=n
+CONFIG_SND_SOC_AMD_ACP_I2S=n
+CONFIG_SND_SOC_AMD_ACP_PCM=n
+CONFIG_SND_SOC_AMD_ACP_PCI=n
+CONFIG_SND_AMD_ASOC_RENOIR=n
+CONFIG_SND_AMD_ASOC_REMBRANDT=n
+CONFIG_SND_SOC_AMD_MACH_COMMON=m
+CONFIG_SND_SOC_AMD_LEGACY_MACH=n
+
+CONFIG_SND_SOC_AMD_SOF_MACH=m
+CONFIG_SND_SOC_AMD_RPL_ACP6x=n
+CONFIG_SND_SOC_AMD_PS=n
+CONFIG_SND_SOC_AMD_PS_MACH=n
+
+CONFIG_SND_SOC_SOF=m
+CONFIG_SND_SOC_SOF_PROBE_WORK_QUEUE=y
+CONFIG_SND_SOC_SOF_IPC3=y
+CONFIG_SND_SOC_SOF_INTEL_IPC4=y
+
+CONFIG_SND_SOC_SOF_AMD_TOPLEVEL=m
+CONFIG_SND_SOC_SOF_AMD_COMMON=m
+CONFIG_SND_SOC_SOF_AMD_RENOIR=n
+CONFIG_SND_SOC_SOF_AMD_REMBRANDT=n
+CONFIG_SND_SOC_SOF_AMD_VANGOGH=m
+
+# SOF sound debugging
+#CONFIG_SND_SOC_SOF_DEBUG=y
+#CONFIG_SND_SOC_SOF_DEBUG_ENABLE_FIRMWARE_TRACE=y
+#CONFIG_SND_SOC_SOF_DEVELOPER_SUPPORT=y
+
+# Steam Deck HID driver
+CONFIG_HID_STEAM=m
+CONFIG_STEAM_FF=y
 
 # Enable Ambient Light Sensor
 CONFIG_LTRF216A=m
@@ -43,8 +78,34 @@ CONFIG_EXTCON_STEAMDECK=m
 CONFIG_LEDS_STEAMDECK=m
 CONFIG_SENSORS_STEAMDECK=m
 
+# Enable support for AMDGPU color calibration features
+CONFIG_DRM_AMD_COLOR_STEAMDECK=y
+
 # PARAVIRT options have overhead, even on bare metal boots. They can cause
 # spinlocks to not be inlined as well. Either way, we don't intend to run this
 # kernel as a guest, so this also clears out a whole bunch of
 # virtualization-specific drivers.
 CONFIG_HYPERVISOR_GUEST=n
+
+# Disable some options enabled in ArchLinux 6.1.12-arch1 config
+CONFIG_HAVE_RUST=n
+
+# Build as module to experiment with toggling
+CONFIG_TCG_TPM=m
+
+# Per Colin at Quectel
+CONFIG_CFG80211_CERTIFICATION_ONUS=y
+CONFIG_ATH_REG_DYNAMIC_USER_REG_HINTS=y
+
+# Enable ath11k tracing for wifi debugging
+CONFIG_ATH11K_TRACING=y
+
+# Disable simple-framebuffer to fix logo regression
+CONFIG_SYSFB_SIMPLEFB=n
+
+# Enable Extensible Scheduling Class
+CONFIG_SCHED_CLASS_EXT=y
+
+# Disable call depth tracking speculative execution vulnerability mitigation
+CONFIG_CALL_DEPTH_TRACKING=n
+
