@@ -26,6 +26,7 @@ RUN \
     usbutils \
     qt5-tools \
     maliit-keyboard \
+    kscreen \
     wget \
     x11vnc \
   && rm -rf /var/cache/*
