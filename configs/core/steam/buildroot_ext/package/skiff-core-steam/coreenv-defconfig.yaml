@@ -1,0 +1,57 @@
+containers:
+  core:
+    image: skiffos/skiff-core-steam:latest
+    # systemd
+    env:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DRINODE=/dev/dri/renderD128
+      - STARTUP=KDE
+      - RESOLUTION=1920x1080
+    stopSignal: RTMIN+3
+    tty: true
+    disableInit: true
+    workingDirectory: /
+    entrypoint: ["/lib/systemd/systemd"]
+    mounts:
+      - /dev:/dev
+      - /etc/hostname:/etc/hostname:ro
+      - /lib/modules:/lib/modules:ro
+      - /mnt:/mnt
+      - /run/udev:/run/udev
+      - /mnt/persist/skiff/core/repos/tmp:/var/tmp
+      - /mnt/persist/skiff/core/repos/docker:/var/lib/docker
+      - /mnt/persist/skiff/core/repos/pacman:/var/cache/pacman
+      - /mnt/persist/skiff/core/repos/log:/var/log
+      - /mnt/persist/skiff/core/repos/steam:/home/core/.local/share/Steam
+    privileged: true
+    startAfterCreate: true
+    restartPolicy: "always"
+    capAdd:
+      - ALL
+    hostIPC: true
+    hostUTS: true
+    hostNetwork: true
+    securityOpt:
+      - seccomp=unconfined
+    tmpFs:
+      /run: rw,noexec,nosuid,size=65536k
+      /run/lock: rw,noexec,nosuid,size=65536k
+users:
+  core:
+    container: core
+    containerUser: core
+    containerShell:
+      - "/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+  skiffos/skiff-core-steam:latest:
+    pull:
+      policy: ifnotexists
+      # avoid docker hub rate limits
+      registry: quay.io
+    build:
+      source: /opt/skiff/coreenv/skiff-core-steam
+

@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_STEAM_PATH/package/skiff-core-steam/Config.in"
