@@ -48,7 +48,8 @@ RUN useradd -m core && \
     usermod -aG nopasswdlogin core && \
     printf "[Autologin]\nUser=core\nSession=plasma.desktop\nRelogin=false\n\n[General]\nNumlockOnWaylandEnable=true" | sudo tee /etc/sddm.conf.d/10-autologin.conf && \
     sed -i '0,/^[^#]/s//auth        sufficient  pam_succeed_if.so user ingroup nopasswdlogin\n&/' /etc/pam.d/sddm-autologin && \
-    printf "[Unit]\nDescription=Fix Steam directory permissions\nAfter=graphical.target\n\n[Service]\nType=oneshot\nExecStart=/bin/chown core:core /home/core/.local/ /home/core/.local/share /home/core/.local/share/Steam\n\n[Install]\nWantedBy=graphical.target" | sudo tee /etc/systemd/system/fix-steam-perms.service && sudo systemctl enable fix-steam-perms.service
+    printf "[Unit]\nDescription=Fix Steam directory permissions\nAfter=graphical.target\n\n[Service]\nType=oneshot\nExecStart=/bin/chown core:core /home/core/.local/ /home/core/.local/share /home/core/.local/share/Steam\n\n[Install]\nWantedBy=graphical.target" | sudo tee /etc/systemd/system/fix-steam-perms.service && sudo systemctl enable fix-steam-perms.service && \
+    sed -i -z 's/#HandlePowerKey=poweroff\n#HandlePowerKeyLongPress=ignore/HandlePowerKey=suspend\nHandlePowerKeyLongPress=poweroff/' /etc/systemd/logind.conf
 
 # minimize image size by squashing OS to 1 layer.
 FROM scratch
