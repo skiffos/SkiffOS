@@ -4,6 +4,8 @@
 
 The configuration package **valve/deck** is for the **Steam Deck** by Valve.
 
+It is recommended to also use the **core/steam** layer to add SteamOS in a container.
+
 Reference:
 
  - https://en.wikipedia.org/wiki/Steam_Deck
@@ -16,7 +18,7 @@ Reference:
 Set the comma-separated `SKIFF_CONFIG` variable:
 
 ```sh
-$ export SKIFF_CONFIG=valve/deck,skiff/core
+$ export SKIFF_CONFIG=valve/deck,core/steam
 $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
