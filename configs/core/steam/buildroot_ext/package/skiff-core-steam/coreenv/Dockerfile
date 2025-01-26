@@ -45,7 +45,7 @@ RUN systemctl set-default graphical.target && \
     systemctl mask zswap-arm.service NetworkManager.service firewalld.service \
       udisks2-zram-setup@.service udisks2-zram-setup@zram0.service \
       systemd-firstboot.service systemd-remount-fs.service \
-      steamos-install-steamcl steamos-install-grub etc.mount
+      steamos-install-steamcl steamos-create-homedir steamos-install-grub etc.mount
 
 # add skiff core user
 RUN \
