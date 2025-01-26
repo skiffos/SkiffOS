@@ -9,13 +9,14 @@ RUN \
     userdel abc && \
     userdel kasm-user && \
     rm -rf /etc/s6-overlay && \
-    pacman --noconfirm -R x11vnc sunshine sunshine-debug nginx
+    pacman --noconfirm -R sunshine sunshine-debug nginx
 
 # update packages
 RUN \
   echo "# <file system> <mount pt>    <type>  <options>     <dump>  <pass>" >\
     /etc/fstab && \
-  pacman --noconfirm -Syu vi \
+  pacman --noconfirm -Syu \
+    vi \
     vim \
     sudo \
     base-devel \
@@ -35,7 +36,6 @@ RUN \
     maliit-keyboard \
     kscreen \
     wget \
-    x11vnc \
   && rm -rf /var/cache/*
 
 RUN systemctl set-default graphical.target && \
