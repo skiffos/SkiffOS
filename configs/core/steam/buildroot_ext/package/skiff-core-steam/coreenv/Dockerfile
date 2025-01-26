@@ -8,7 +8,7 @@ ENV LANG=C \
 RUN \
     userdel abc && \
     userdel kasm-user && \
-    rm -rf /etc/s6-overlay /config && \
+    rm -rf /etc/s6-overlay && \
     pacman --noconfirm -R x11vnc sunshine sunshine-debug nginx
 
 # update packages
@@ -64,6 +64,7 @@ RUN \
     printf '[AC][Display]\nLockBeforeTurnOffDisplay=true\nTurnOffDisplayIdleTimeoutSec=-1\nTurnOffDisplayWhenIdle=false\n[AC][SuspendAndShutdown]\nLidAction=1\nPowerButtonAction=1\n[Battery][Display]\nDimDisplayIdleTimeoutSec=600\nLockBeforeTurnOffDisplay=true\nTurnOffDisplayIdleTimeoutSec=-1\nTurnOffDisplayWhenIdle=false\n[Battery][SuspendAndShutdown]\nAutoSuspendIdleTimeoutSec=300\nLidAction=1\nPowerButtonAction=1\n[LowBattery][Display]\nDimDisplayIdleTimeoutSec=-1\nDimDisplayWhenIdle=false\nLockBeforeTurnOffDisplay=true\nTurnOffDisplayIdleTimeoutSec=-1\nTurnOffDisplayWhenIdle=false\nUseProfileSpecificDisplayBrightness=false\n[LowBattery][SuspendAndShutdown]\nAutoSuspendAction=1\nAutoSuspendIdleTimeoutSec=600\nLidAction=1\nPowerButtonAction=1' > /home/core/.config/powerdevilrc && \
     printf "[Daemon]\nAutolock=false\nLockOnResume=false\nTimeout=0\n" > /etc/xdg/kscreenlockerrc && \
     cp /etc/xdg/kscreenlockerrc /home/core/.config/kscreenlockerrc && \
+    rm -f /home/core/Desktop/Return.desktop && \
     chown -R core:core /home/core
 
 # minimize image size by squashing OS to 1 layer.
