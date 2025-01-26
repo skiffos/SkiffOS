@@ -1,0 +1,2 @@
+# enable logind for power button detect
+BR2_PACKAGE_SYSTEMD_LOGIND=y
