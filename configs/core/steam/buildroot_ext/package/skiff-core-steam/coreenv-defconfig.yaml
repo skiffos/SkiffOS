@@ -9,6 +9,7 @@ containers:
       - DRINODE=/dev/dri/renderD128
       - STARTUP=KDE
       - RESOLUTION=1920x1080
+      - LC_ALL=en_US.utf8
     stopSignal: RTMIN+3
     tty: true
     disableInit: true
