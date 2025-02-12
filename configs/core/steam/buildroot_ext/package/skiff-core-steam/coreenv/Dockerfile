@@ -33,7 +33,6 @@ RUN \
     unzip \
     usbutils \
     qt5-tools \
-    maliit-keyboard \
     kscreen \
     wget \
   && rm -rf /var/cache/*
