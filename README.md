@@ -60,12 +60,12 @@ main SkiffOS repository:
 | [Allwinner Nezha]     | [allwinner/nezha]         | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    |
 | [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 6.12.11       |
 | [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 6.12.11       |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
-| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
-| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
-| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
-| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
-| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2023.07 | ✔ 6.12.11       |
+| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
+| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
+| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
+| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
+| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
+| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2025.01 | ✔ 6.12.11       |
 | [BeagleBoard X15]     | [beaglebone/x15]          | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone AI]       | [beaglebone/ai]           | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone Black]    | [beaglebone/black]        | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
