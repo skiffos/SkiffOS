@@ -15,3 +15,8 @@ BR2_TARGET_UBOOT_NEEDS_DTC=y
 BR2_TARGET_UBOOT_NEEDS_GNUTLS=y
 BR2_TARGET_UBOOT_NEEDS_OPENSSL=y
 BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
+
+# https://lore.kernel.org/buildroot/96b69abb843dc7292777c64f6787f134@free.fr/
+# https://gitlab.com/buildroot.org/buildroot/-/blob/2024.11.1/configs/orangepi_zero_plus2_defconfig#L45
+# https://github.com/skiffos/SkiffOS/issues/325
+BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="SCP=/dev/null"
