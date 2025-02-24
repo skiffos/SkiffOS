@@ -1,9 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Start a shell in the Buildroot directory
 set -eo pipefail
 
-if [ -d "${SKIFF_FINAL_CONFIG_DIR}" ]; then
-  source ${SKIFF_FINAL_CONFIG_DIR}/bind_env.sh
+# Source any environment binding configuration if present
+if [[ -d ${SKIFF_FINAL_CONFIG_DIR} ]]; then
+	source "${SKIFF_FINAL_CONFIG_DIR}/bind_env.sh"
 fi
 
-cd ${SKIFF_BUILDROOT_DIR}
+# Change to Buildroot directory and start a shell
+cd "${SKIFF_BUILDROOT_DIR}"
 bash

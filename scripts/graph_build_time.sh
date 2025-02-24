@@ -2,10 +2,10 @@
 set -eo pipefail
 
 if [ -z "$BR2_GRAPH_OUT" ]; then
-    BR2_GRAPH_OUT=png
-    echo "Using ${BR2_GRAPH_OUT} output, set BR2_GRAPH_OUT to override."
+	BR2_GRAPH_OUT=png
+	echo "Using ${BR2_GRAPH_OUT} output, set BR2_GRAPH_OUT to override."
 else
-    echo "Using BR2_GRAPH_OUT=${BR2_GRAPH_OUT} output."
+	echo "Using BR2_GRAPH_OUT=${BR2_GRAPH_OUT} output."
 fi
 
 cd ${BUILDROOT_DIR}/

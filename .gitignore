@@ -12,3 +12,5 @@ buildroot-work/
 .vagrant/
 *.log
 .aider*
+CLAUDE.md
+
