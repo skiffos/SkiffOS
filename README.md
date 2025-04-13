@@ -10,10 +10,10 @@
  - **Reliable**: minimal read-only host system for unbreakable boot-ups and over-the-air updates.
  - **Reproducible**: offline builds, pinned package versions, source-controlled custom configs.
 
-Configuration packages are merged together to configure the system:
+Configuration packages are merged together to configure the system, examples:
 
+ - `SKIFF_CONFIG=intel/desktop,core/fedora` - run Fedora desktop on a amd64 PC
  - `SKIFF_CONFIG=pi/4,core/debian` - run Debian desktop on a Raspberry Pi 4.
- - `SKIFF_CONFIG=odroid/xu4,core/fedora` - run Fedora desktop on a Odroid XU4.
  - `SKIFF_CONFIG=virt/qemu,custom/config` - run a custom config in a Qemu VM.
 
 There is a [project template] you can use for version-controlled customizations.
