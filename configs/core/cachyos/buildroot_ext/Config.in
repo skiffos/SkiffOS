@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_CACHYOS_PATH/package/skiff-core-cachyos/Config.in"
