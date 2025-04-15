@@ -53,7 +53,7 @@ echo "Making EFI partition..."
 sudo parted $INTEL_DESKTOP_DISK mkpart primary fat32 1049kB 538MB
 sudo parted $INTEL_DESKTOP_DISK name 1 EFI
 sudo parted $INTEL_DESKTOP_DISK set 1 boot on
-# sudo parted $INTEL_DESKTOP_DISK set 1 esp on
+sudo parted $INTEL_DESKTOP_DISK set 1 esp on || true
 
 echo "Making persist partition..."
 sudo parted -a optimal $INTEL_DESKTOP_DISK -- mkpart primary ext4 538MB "100%"
