@@ -48,23 +48,25 @@ RUN sed -i "s/^#IgnorePkg   =/IgnorePkg = $PKGS_TO_IGNORE/" /etc/pacman.conf
 RUN \
   echo "# <file system> <mount pt>    <type>  <options>     <dump>  <pass>" >\
     /etc/fstab && \
-  pacman --noconfirm -Syu vi \
-    vim \
-    sudo \
+  pacman --noconfirm -Syu \
     base-devel \
+    bluez-utils \
     curl \
     git \
     htop \
     less \
     mesa-utils \
     nano \
+    ncdu \
     net-tools \
     openssh \
     rsync \
+    sudo \
     systemd \
-    ncdu \
     unzip \
     usbutils \
+    vi \
+    vim \
     wget \
   && rm -rf /var/cache/*
 
