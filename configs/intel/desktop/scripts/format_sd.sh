@@ -76,6 +76,9 @@ mkfs.ext4 -F -L "SKIFFOS" ${INTEL_DESKTOP_DISK_SFX}2
 
 sudo partprobe $INTEL_DESKTOP_DISK || true
 
+# wait a moment or some systems don't see the new partition
+sleep 2
+
 # Install EFI to the first partition.
 mounts=()
 MOUNTS_DIR=${outp_path}/mounts
