@@ -11,7 +11,7 @@ RUN apk upgrade --no-cache && \
 
 ENV CACHYOS_ISO_URL=https://cdn77.cachyos.org/ISO/desktop/250330/cachyos-desktop-linux-250330.iso
 
-RUN wget "${CACHYOS_ISO_URL}" "${CACHYOS_ISO_URL}.sha256"
+RUN wget -q "${CACHYOS_ISO_URL}" "${CACHYOS_ISO_URL}.sha256"
 RUN sha256sum -c *.iso.sha256
 
 RUN mkdir /mnt/iso /system && \
