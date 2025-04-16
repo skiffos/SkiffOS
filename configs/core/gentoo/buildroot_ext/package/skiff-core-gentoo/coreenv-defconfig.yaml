@@ -1,12 +1,6 @@
 containers:
   core:
-    # Select a image option (also update under images section):
     image: skiffos/skiff-core-gentoo:latest
-    # Image option: upstream gentoo stage3 (minimal):
-    # image: gentoo/stage3:systemd
-    # Image option: LTO, graphite, latest compiler, O3
-    # image: skiffos/skiff-core-gentoo-lto:latest
-    # Image option: sane defaults, generic cflags, developer tools
     entrypoint: ["/lib/systemd/systemd"]
     # systemd: indicate this is a container
     env: ["container=docker"]
@@ -51,10 +45,8 @@ users:
     auth:
       copyRootKeys: true
 images:
-  # See the image choices in the comment block above.
   skiffos/skiff-core-gentoo:latest:
     pull:
-      # images are provided for arm64, arm, amd64
       # also an option: policy: ifbuildfails
       policy: ifnotexists
       # avoid docker hub rate limits

@@ -79,13 +79,19 @@ COPY ./package.accept_keywords /etc/portage/package.accept_keywords/01-standard
 COPY ./package.use /etc/portage/package.use/01-standard
 COPY ./sysctl.conf /etc/sysctl.conf
 
+# pass #0: portage, gentoo-sources, gcc
+# disable certain use flags that cause cycles
+RUN \
+    export USE="-tk -icu" && \
+    emerge -1 portage && \
+    emerge -1 gentoo-sources && \
+    emerge -1 gcc libtool binutils
+
 # pass #1: base package set, system, remove tk and icu to fix circular deps
 # be failure tolerant here. we can deal with it later.
 # disable certain use flags that cause cycles
 RUN \
   export USE="-tk -icu" && \
-  emerge -1 portage && \
-  emerge -1 gentoo-sources && \
   (emerge -uDU --quiet-build y --with-bdeps=y --keep-going --autounmask-write --autounmask-backtrack=y --backtrack=50 @system || true)
 
 # update gcc (not currently necessary)
@@ -103,30 +109,31 @@ RUN emerge --update --newuse --deep --backtrack=50 @world
 
 # pass #4: clean any outdated / not needed dependencies
 # minimize image size
-RUN emerge --unmerge gentoo-sources; \
-   (emerge --depclean || true); \
-   rm -rf /var/cache/distfiles/* \
-   /var/log/* /var/tmp/* /usr/src/* \
-   /etc/xdg/autostart/* /var/db/repos/gentoo || true
+RUN emerge --rage-clean gentoo-sources; \
+    CLEAN_DELAY=0 emerge --depclean; \
+    rm -rf /var/cache/distfiles/* \
+    /var/log/* /var/tmp/* /usr/src/* \
+    /etc/xdg/autostart/* /var/db/repos/gentoo || true
 
 FROM scratch
 
 COPY --from=stage4 / /
 
-ENV container docker
+ENV container=docker
 
 # Create the user which will be the usual userspace account
 # Also allow core to run stuff as sudo without a password.
 RUN \
-  useradd \
-  -G users,audio,dialout,systemd-journal \
-  -s /bin/bash \
-  core && \
-  mkdir -p /home/core/ && \
-  chown core:core /home/core && \
-  printf "# skiff core build user\ncore    ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/10-skiff-core && \
-  chmod 0400 /etc/sudoers.d/10-skiff-core && \
-  visudo -c -f /etc/sudoers.d/10-skiff-core
+  mkdir -p /etc/sudoers.d \
+  && useradd \
+    -G users,audio,dialout,systemd-journal \
+    -s /bin/bash \
+    core \
+  && mkdir -p /home/core/ \
+  && chown core:core /home/core \
+  && printf "# skiff core build user\ncore    ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/10-skiff-core \
+  && chmod 0400 /etc/sudoers.d/10-skiff-core \
+  && visudo -c -f /etc/sudoers.d/10-skiff-core
 
 WORKDIR /
 ENTRYPOINT ["/lib/systemd/systemd"]
