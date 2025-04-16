@@ -1,7 +1,7 @@
 # See: https://github.com/gentoo/gentoo-docker-images/blob/master/stage3.Dockerfile
 ARG BOOTSTRAP
 
-FROM ${BOOTSTRAP:-alpine:edge} AS downloader
+FROM ${BOOTSTRAP:-alpine:edge} as downloader
 # FROM ${BOOTSTRAP:-quay.io/skiffos/alpine:latest} as downloader
 
 WORKDIR /gentoo
@@ -38,13 +38,13 @@ RUN source /overrides.sh \
  && echo 'UTC' > etc/timezone \
  && rm ${STAGE3}.asc ${STAGE3}.DIGESTS ${STAGE3}.CONTENTS.gz ${STAGE3}
 
-FROM scratch AS stage3
+FROM scratch as stage3
 
 WORKDIR /
 COPY --from=downloader /gentoo/ /
 CMD ["/bin/bash"]
 
-FROM stage3 AS stage4
+FROM stage3 as stage4
 
 # setup environment
 ENV LANG=C.UTF-8 \

@@ -18,7 +18,6 @@ net-mail/notmuch emacs python
 net-misc/remmina vnc
 net-misc/tigervnc server
 sci-geosciences/gpsd python
-sys-apps/systemd cgroup-hybrid
 sys-devel/gcc graphite zstd
 sys-fs/ecryptfs-utils suid
 sys-libs/libseccomp static-libs python
