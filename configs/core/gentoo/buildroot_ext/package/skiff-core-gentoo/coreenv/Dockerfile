@@ -1,7 +1,7 @@
 # See: https://github.com/gentoo/gentoo-docker-images/blob/master/stage3.Dockerfile
 ARG BOOTSTRAP
 
-FROM ${BOOTSTRAP:-alpine:edge} as downloader
+FROM ${BOOTSTRAP:-alpine:edge} AS downloader
 # FROM ${BOOTSTRAP:-quay.io/skiffos/alpine:latest} as downloader
 
 WORKDIR /gentoo
@@ -26,7 +26,7 @@ RUN source /overrides.sh \
 
 RUN source /overrides.sh \
  && echo "Building Gentoo Container image for ${ARCH} ${SUFFIX} fetching from ${DIST}" \
- && STAGE3PATH="$(wget -O- "${DIST}/latest-stage3-${MICROARCH}${SUFFIX}.txt" | tail -n 1 | cut -f 1 -d ' ')" \
+ && STAGE3PATH="$(wget -O- "${DIST}/latest-stage3-${MICROARCH}${SUFFIX}.txt" | grep -E '^[0-9]+.*\.tar\.xz' | awk '{print $1}')" \
  && echo "STAGE3PATH:" $STAGE3PATH \
  && STAGE3="$(basename ${STAGE3PATH})" \
     && wget "${DIST}/${STAGE3PATH}.asc" "${DIST}/${STAGE3PATH}.DIGESTS" \
@@ -38,13 +38,13 @@ RUN source /overrides.sh \
  && echo 'UTC' > etc/timezone \
  && rm ${STAGE3}.asc ${STAGE3}.DIGESTS ${STAGE3}.CONTENTS.gz ${STAGE3}
 
-FROM scratch as stage3
+FROM scratch AS stage3
 
 WORKDIR /
 COPY --from=downloader /gentoo/ /
 CMD ["/bin/bash"]
 
-FROM stage3 as stage4
+FROM stage3 AS stage4
 
 # setup environment
 ENV LANG=C.UTF-8 \
@@ -61,7 +61,7 @@ RUN emerge --oneshot --quiet-build y --with-bdeps=y --backtrack=30 dev-vcs/git
 COPY ./overrides.sh /gentoo-skiff-overrides.sh
 RUN source /gentoo-skiff-overrides.sh; \
   PROFILES_DIR=/var/db/repos/gentoo/profiles/default; \
-  PROFILE_DIR=$(realpath ${PROFILES_DIR}/linux/${ARCH}/17.*/${SUBPROFILE} | sort | tail -n1); \
+  PROFILE_DIR=$(find ${PROFILES_DIR}/linux/${ARCH} -maxdepth 1 -type d -name "[0-9]*" | sort -V | tail -n1)/${SUBPROFILE}; \
   PROFILE=default/${PROFILE_DIR#"${PROFILES_DIR}/"}; \
   eselect profile set "${PROFILE}"; \
   touch /etc/portage/repos.conf
