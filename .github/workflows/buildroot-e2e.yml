@@ -17,7 +17,7 @@ jobs:
       'SKIFF_WORKSPACE': docker
       'SKIFF_CONFIG': virt/docker,core/gentoo
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Update the submodule
         run: |
           cd $GITHUB_WORKSPACE
