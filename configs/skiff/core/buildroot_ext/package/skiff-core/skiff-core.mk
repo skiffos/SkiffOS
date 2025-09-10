@@ -15,6 +15,4 @@ SKIFF_CORE_TAGS = cgo static_build
 SKIFF_CORE_LDFLAGS = \
 	-X main.gitCommit="$(SKIFF_CORE_VERSION)"
 
-SKIFF_CORE_INSTALL_BINS = $(notdir $(SKIFF_CORE_BUILD_TARGETS))
-
 $(eval $(golang-package))
