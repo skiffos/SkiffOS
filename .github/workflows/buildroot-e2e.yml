@@ -28,7 +28,7 @@ jobs:
         with:
           path: ~/br-cache/
           # https://github.com/actions/toolkit/issues/505#issuecomment-1650290249
-          key: buildroot-r1-h${{ hashFiles('buildroot/Makefile') }}-${{ matrix.build-os }}
+          key: buildroot-r2-h${{ hashFiles('buildroot/Makefile') }}-${{ matrix.build-os }}
           restore-keys: |
             buildroot-r1
 
