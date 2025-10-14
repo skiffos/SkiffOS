@@ -1,6 +1,6 @@
 containers:
   core:
-    image: skiffos/skiff-core-nixos:latest
+    image: skiffos/docker-nixos:latest
     entrypoint: ["/init"]
     # systemd: indicate this is a container
     env: ["container=docker"]
@@ -37,10 +37,10 @@ users:
     auth:
       copyRootKeys: true
 images:
-  skiffos/skiff-core-nixos:latest:
+  skiffos/docker-nixos:latest:
     pull:
       policy: ifnotexists
       # avoid docker hub rate limits
-      registry: quay.io
+      registry: gchr.io
     build:
       source: /opt/skiff/coreenv/skiff-core-nixos
