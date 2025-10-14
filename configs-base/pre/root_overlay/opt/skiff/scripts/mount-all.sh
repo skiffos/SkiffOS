@@ -176,11 +176,11 @@ touch /root/.ssh/authorized_keys
 chmod 600 /root/.ssh/authorized_keys
 mkdir -p /root/.ssh/tmp-keys
 chmod 700 /root/.ssh/tmp-keys
-if find ${KEYS_PERSIST} -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
-    cp $KEYS_PERSIST/*.pub /root/.ssh/tmp-keys/ 2>/dev/null || true
-fi
 if find /etc/skiff/authorized_keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
     cp /etc/skiff/authorized_keys/*.pub /root/.ssh/tmp-keys/ 2>/dev/null || true
+fi
+if find ${KEYS_PERSIST} -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
+    cp $KEYS_PERSIST/*.pub /root/.ssh/tmp-keys/ 2>/dev/null || true
 fi
 if find /root/.ssh/tmp-keys -name "*.pub" -mindepth 1 -maxdepth 1 | read; then
     cat /root/.ssh/tmp-keys/*.pub > /root/.ssh/authorized_keys
