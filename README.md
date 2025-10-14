@@ -260,6 +260,7 @@ sudo apt-get install -y \
   diffutils \
   file \
   findutils \
+  git \
   gzip \
   libarchive-tools \
   libncurses-dev \
