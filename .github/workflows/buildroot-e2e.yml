@@ -9,13 +9,14 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.build-os }}
     strategy:
       matrix:
-        build-os: [ubuntu-latest, ubuntu-22.04]
+        # build-os: [ubuntu-latest, ubuntu-22.04]
+        build-os: [ubuntu-latest]
+    runs-on: ${{ matrix.build-os }}
     env:
       'SKIFF_WORKSPACE': docker
-      'SKIFF_CONFIG': virt/docker,core/gentoo
+      'SKIFF_CONFIG': virt/docker,skiff/core
     steps:
       - uses: actions/checkout@v5
       - name: Update the submodule
