@@ -128,6 +128,7 @@ if [ ! -f $SKIP_JOURNAL_FLAG ] && ! mountpoint -q /var/log/journal ; then
     mount --bind ${JOURNAL_PERSIST} /var/log/journal
     chmod 4755 /var/log/journal
     systemd-tmpfiles --create --prefix /var/log/journal || true
+    systemctl restart systemd-journald || true
 fi
 
 # Setup ssh persist.
@@ -165,6 +166,42 @@ if [ -f $SKIP_MOUNT_FLAG ] || \
        mount $ROOTFS_MNT_FLAGS $ROOTFS_DEVICE $ROOTFS_MNT; then
     echo "Rootfs drive is at ${ROOTFS_MNT}."
 fi
+
+# Apply hostname from persist partition.
+if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/hostname)" ]; then
+    OHOSTNAME=$(cat /etc/hostname)
+    if [ -z "$OHOSTNAME" ]; then
+        OHOSTNAME=skiff-unknown
+    fi
+    NHOSTNAME=$(cat $PERSIST_ROOT/skiff/hostname)
+    sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
+    echo "$NHOSTNAME" > /etc/hostname
+else
+    hostname > $PERSIST_ROOT/skiff/hostname
+    if [ "$(hostname)" == "" ]; then
+        "skiff-unknown" > $PERSIST_ROOT/skiff/hostname
+    fi
+fi
+
+hostname -F /etc/hostname # change transient hostname
+
+# Apply machine-id from persist partition.
+MACHINE_ID_PERSIST=${PERSIST_ROOT}/skiff/machine-id
+if [ -f $MACHINE_ID_PERSIST ] && [ -n "$(cat ${MACHINE_ID_PERSIST})" ]; then
+    echo "Restoring machine-id $MACHINE_ID_PERSIST from persist partition"
+    cat $MACHINE_ID_PERSIST > /etc/machine-id
+fi
+
+# Initialize or commit machine-id
+MACHINE_ID=$(systemd-machine-id-setup --print --commit)
+
+# Save to persist if not already saved
+if [ ! -f $MACHINE_ID_PERSIST ] || [ -z "$(cat ${MACHINE_ID_PERSIST})" ]; then
+    echo "Persisting machine-id $MACHINE_ID to persist partition"
+    echo "$MACHINE_ID" > $MACHINE_ID_PERSIST
+fi
+
+systemctl daemon-reload
 
 # Build SSH keys list.
 echo "Building SSH key list..."
@@ -213,25 +250,6 @@ else
     mkdir -p $PERSIST_ROOT/skiff/etc/
 fi
 echo "Place etc overrides here." > $PERSIST_ROOT/skiff/etc/readme
-
-# Apply hostname from persist partition.
-if [ -f $PERSIST_ROOT/skiff/hostname ] && [ -n "$(cat ${PERSIST_ROOT}/skiff/hostname)" ]; then
-    OHOSTNAME=$(cat /etc/hostname)
-    if [ -z "$OHOSTNAME" ]; then
-        OHOSTNAME=skiff-unknown
-    fi
-    NHOSTNAME=$(cat $PERSIST_ROOT/skiff/hostname)
-    sed -i -e "s/$OHOSTNAME/$NHOSTNAME/g" /etc/hosts
-    echo "$NHOSTNAME" > /etc/hostname
-else
-    hostname > $PERSIST_ROOT/skiff/hostname
-    if [ "$(hostname)" == "" ]; then
-        "skiff-unknown" > $PERSIST_ROOT/skiff/hostname
-    fi
-fi
-
-hostname -F /etc/hostname # change transient hostname
-systemctl daemon-reload
 
 # Attempt to resize disk, if necessary.
 # Note: this is an online resize, no re-mount required.
