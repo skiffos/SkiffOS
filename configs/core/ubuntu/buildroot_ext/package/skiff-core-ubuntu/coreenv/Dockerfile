@@ -31,7 +31,7 @@ RUN \
   mesa-utils \
   nano \
   ncurses-term \
-  neofetch \
+  fastfetch \
   net-tools \
   openssh-client \
   rsync \
