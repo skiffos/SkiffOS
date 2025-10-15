@@ -1,0 +1,5 @@
+-falign-functions=32
+-fomit-frame-pointer
+-march=znver4 -mtune=znver4
+-mshstk
+--param=l1-cache-line-size=64 --param=l1-cache-size=32 --param=l2-cache-size=1024
