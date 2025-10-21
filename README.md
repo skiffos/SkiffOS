@@ -464,6 +464,11 @@ To customize a running system, edit `/mnt/persist/skiff/core/config.yaml` and
 run `systemctl restart skiff-core` to apply. You may need to delete existing
 containers and restart skiff-core to re-create them after changing their config.
 
+To override the default skiff-core configuration in a configuration package, you
+can place a `.yaml` file in the `root_overlay` at:
+`root_overlay/opt/skiff/coreenv/defconfig.yaml`. This allows you to customize
+the container configuration as part of your build.
+
 The configuration format and skiff-core source is in [the skiff-core repo].
 
 [the skiff-core repo]: https://github.com/skiffos/skiff-core/blob/master/config/core_config.go
