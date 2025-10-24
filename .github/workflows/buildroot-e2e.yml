@@ -64,7 +64,7 @@ jobs:
       # Upload docker image
       - name: Upload Docker container image artifact
         if: matrix.build-os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
