@@ -97,7 +97,7 @@ jobs:
           tar -cvf ./workflow-artifacts/images.tar.gz --exclude="rootfs.cpio" -C ./workspaces/$SKIFF_WORKSPACE/images/ ./
 
       # Upload system image
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: images-${{ matrix.skiffconf }}.tar.gz
           path: ${{ github.workspace }}/workflow-artifacts/images.tar.gz
