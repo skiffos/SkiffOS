@@ -1,6 +1,11 @@
 # Dual SSH Daemon Setup
 
-This guide explains how to configure separate SSH daemons for the SkiffOS host system and containers, enabling flexible access patterns for different use cases.
+This guide explains how to configure separate SSH daemons for the SkiffOS host system and containers. Example use cases:
+
+- The normal SSH for SkiffOS with skiff/core enabled maps "root" to go to the root within the "host system" and "core" to go to the core container. Running a ssh daemon in the container enables sshing to root within the container.
+- If we want to remove a layer of indirection and have better performance with "scp" or "rsync" or X11 forwarding
+- If we want to run specific pam rules for ssh and sshd_config within the container
+- If we trust the hardening / security of the ssh daemon within the container more than the buildroot version
 
 ## Overview
 
