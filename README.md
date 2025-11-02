@@ -691,6 +691,8 @@ It takes SSH public key files (`*.pub`) from these locations:
  
 Your SSH public key will usually be located at `~/.ssh/id_ed25519.pub`.
 
+For advanced SSH setups, such as running separate SSH daemons for the host and containers, see the [Dual SSH Daemon Setup guide](./doc/skiff-core-ssh.md).
+
 ### Mount a Disk to a Container
 
 To mount a Linux disk, for example an `ext4` partition, to a path inside a
