@@ -28,7 +28,7 @@ jobs:
         # - odroid-u
         # - virt-wsl
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Update the submodule
         run: |
           cd $GITHUB_WORKSPACE
