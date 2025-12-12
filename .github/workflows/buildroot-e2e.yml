@@ -25,7 +25,7 @@ jobs:
           git submodule update --init --recursive
 
       - name: Cache build cache and downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/br-cache/
           # https://github.com/actions/toolkit/issues/505#issuecomment-1650290249
@@ -64,7 +64,7 @@ jobs:
       # Upload docker image
       - name: Upload Docker container image artifact
         if: matrix.build-os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: docker-image.tar
           path: ${{ github.workspace }}/workflow-artifacts/docker-image.tar
