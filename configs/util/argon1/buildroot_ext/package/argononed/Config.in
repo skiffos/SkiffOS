@@ -11,7 +11,8 @@ config BR2_PACKAGE_ARGONONED
 	select BR2_PACKAGE_PYTHON3
 	select BR2_PACKAGE_PYTHON_RPI_GPIO
 	select BR2_PACKAGE_PYTHON_SMBUS_CFFI
-	select BR2_PACKAGE_RPI_USERLAND
+	# TODO: removed in 2026, need a replacement? check...
+	# select BR2_PACKAGE_RPI_USERLAND
 	help
 	  argononed is a daemon to control the Argon One case fans.
 
