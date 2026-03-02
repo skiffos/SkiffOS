@@ -1,0 +1,211 @@
+# v86-minimal: absolute minimum for v86 emulator
+# Only: serial, 9p, virtio, NE2K, basic networking
+
+# === Architecture ===
+# CONFIG_X86_EXTENDED_PLATFORM is not set
+# CONFIG_SMP is not set
+# CONFIG_DMI is not set
+# CONFIG_ACPI is not set
+# CONFIG_MICROCODE is not set
+# CONFIG_SUSPEND is not set
+# CONFIG_HIBERNATION is not set
+# CONFIG_PM is not set
+
+CONFIG_X86_GENERIC=y
+CONFIG_PROCESSOR_SELECT=y
+# CONFIG_CPU_SUP_CYRIX_32 is not set
+# CONFIG_CPU_SUP_HYGON is not set
+# CONFIG_CPU_SUP_CENTAUR is not set
+# CONFIG_CPU_SUP_TRANSMETA_32 is not set
+# CONFIG_CPU_SUP_UMC_32 is not set
+# CONFIG_CPU_SUP_ZHAOXIN is not set
+# CONFIG_CPU_SUP_VORTEX_32 is not set
+
+# === Boot ===
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+
+# === Serial console (v86 UART) ===
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_SERIAL_8250_NR_UARTS=4
+
+# === PCI (required for virtio + NE2K) ===
+CONFIG_PCI=y
+# CONFIG_PCIEPORTBUS is not set
+# CONFIG_HOTPLUG_PCI is not set
+# CONFIG_PCI_MSI is not set
+
+# === NE2K (v86 NIC) ===
+CONFIG_NE2K_PCI=y
+CONFIG_NETDEVICES=y
+CONFIG_NET=y
+CONFIG_INET=y
+CONFIG_PACKET=y
+CONFIG_IP_PNP=y
+CONFIG_IP_PNP_DHCP=y
+
+# === Virtio (9p transport) ===
+CONFIG_VIRTIO=y
+CONFIG_VIRTIO_PCI=y
+CONFIG_VIRTIO_NET=y
+CONFIG_VIRTIO_BALLOON=y
+CONFIG_VIRTIO_MMIO=y
+
+# === 9p filesystem (root mount) ===
+CONFIG_9P_FS=y
+CONFIG_9P_FS_POSIX_ACL=y
+CONFIG_NET_9P=y
+CONFIG_NET_9P_VIRTIO=y
+
+# === Core filesystems ===
+CONFIG_TMPFS=y
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_PROC_FS=y
+CONFIG_SYSFS=y
+CONFIG_DEVPTS_FS=y
+
+# === Timers ===
+CONFIG_HIGH_RES_TIMERS=y
+CONFIG_NO_HZ=y
+
+# === Misc required ===
+CONFIG_COMPAT_32BIT_TIME=y
+CONFIG_INPUT_EVDEV=y
+CONFIG_UNIX=y
+CONFIG_TTY=y
+CONFIG_VT=y
+CONFIG_VT_CONSOLE=y
+CONFIG_PRINTK=y
+CONFIG_BLK_DEV_LOOP=y
+CONFIG_EXT4_FS=y
+
+# === Disable everything else ===
+# No USB
+# CONFIG_USB is not set
+# No SCSI/SATA
+# CONFIG_ATA is not set
+# CONFIG_SCSI is not set
+# CONFIG_BLK_DEV_SD is not set
+# No DRM/GPU
+# CONFIG_DRM is not set
+# CONFIG_AGP is not set
+# CONFIG_BACKLIGHT_CLASS_DEVICE is not set
+# No sound
+# CONFIG_SOUND is not set
+# CONFIG_SND is not set
+# No physical NICs (only NE2K)
+# CONFIG_8139TOO is not set
+# CONFIG_E1000 is not set
+# CONFIG_E1000E is not set
+# CONFIG_E100 is not set
+# CONFIG_R8169 is not set
+# CONFIG_SKY2 is not set
+# CONFIG_TIGON3 is not set
+# CONFIG_BNX2 is not set
+# CONFIG_FORCEDETH is not set
+# CONFIG_NET_TULIP is not set
+# No wireless
+# CONFIG_WIRELESS is not set
+# CONFIG_WLAN is not set
+# CONFIG_CFG80211 is not set
+# No Bluetooth
+# CONFIG_BT is not set
+# No RAID/LVM/DM
+# CONFIG_BLK_DEV_MD is not set
+# CONFIG_BLK_DEV_DM is not set
+# CONFIG_MD is not set
+# No NFS
+# CONFIG_NFS_FS is not set
+# No FUSE
+# CONFIG_FUSE_FS is not set
+# No MSDOS/VFAT/ISO
+# CONFIG_MSDOS_FS is not set
+# CONFIG_VFAT_FS is not set
+# CONFIG_ISO9660_FS is not set
+# No BINFMT_MISC
+# CONFIG_BINFMT_MISC is not set
+# No security frameworks
+# CONFIG_SECURITY is not set
+# CONFIG_SECCOMP is not set
+# CONFIG_SECURITY_SELINUX is not set
+# No crypto
+# CONFIG_SYSTEM_TRUSTED_KEYRING is not set
+# CONFIG_CRYPTO_RSA is not set
+# CONFIG_PKCS7_MESSAGE_PARSER is not set
+# CONFIG_X509_CERTIFICATE_PARSER is not set
+# CONFIG_ASYMMETRIC_KEY_TYPE is not set
+# No debug
+# CONFIG_DEBUG_KERNEL is not set
+# CONFIG_PROFILING is not set
+# CONFIG_SCHEDSTATS is not set
+# CONFIG_RCU_TRACE is not set
+# CONFIG_KALLSYMS_ALL is not set
+# CONFIG_KPROBES is not set
+# CONFIG_BLK_DEV_IO_TRACE is not set
+# CONFIG_DEBUG_BOOT_PARAMS is not set
+# CONFIG_DEBUG_DEVRES is not set
+# CONFIG_DEBUG_STACK_USAGE is not set
+# CONFIG_SCHED_DEBUG is not set
+# No watchdog/thermal
+# CONFIG_WATCHDOG is not set
+# CONFIG_THERMAL is not set
+# No misc
+# CONFIG_PCCARD is not set
+# CONFIG_YENTA is not set
+# CONFIG_MACINTOSH_DRIVERS is not set
+# CONFIG_INPUT_JOYSTICK is not set
+# CONFIG_INPUT_TABLET is not set
+# CONFIG_INPUT_TOUCHSCREEN is not set
+# CONFIG_INPUT_MISC is not set
+# CONFIG_HID_GYRATION is not set
+# CONFIG_HID_NTRIG is not set
+# CONFIG_HID_PANTHERLORD is not set
+# CONFIG_HID_PETALYNX is not set
+# CONFIG_HID_SAMSUNG is not set
+# CONFIG_HID_SONY is not set
+# CONFIG_HID_SUNPLUS is not set
+# CONFIG_HID_TOPSEED is not set
+# CONFIG_HIDRAW is not set
+# CONFIG_DMADEVICES is not set
+# CONFIG_TASKSTATS is not set
+# CONFIG_BSD_PROCESS_ACCT is not set
+# CONFIG_CONNECTOR is not set
+# CONFIG_QUOTA is not set
+# CONFIG_I2C_I801 is not set
+# CONFIG_LEDS_CLASS is not set
+# CONFIG_HW_RANDOM is not set
+# CONFIG_NVRAM is not set
+# CONFIG_X86_CPUID is not set
+# CONFIG_X86_MSR is not set
+# CONFIG_X86_INTEL_PSTATE is not set
+# CONFIG_NETCONSOLE is not set
+# CONFIG_NET_SCHED is not set
+# CONFIG_NETLABEL is not set
+# CONFIG_IP_ADVANCED_ROUTER is not set
+# CONFIG_IP_MULTICAST is not set
+# CONFIG_INET6_AH is not set
+# CONFIG_INET6_ESP is not set
+# CONFIG_XFRM_USER is not set
+# CONFIG_OVERLAY_FS is not set
+# CONFIG_POSIX_MQUEUE is not set
+# CONFIG_MODULES is not set
+# CONFIG_VIRTUALIZATION is not set
+# CONFIG_RETPOLINE is not set
+# CONFIG_GCC_PLUGINS is not set
+# CONFIG_LEGACY_PTYS is not set
+# CONFIG_CRASH_DUMP is not set
+# CONFIG_KEXEC is not set
+# CONFIG_BPF is not set
+# CONFIG_BPF_JIT is not set
+# CONFIG_BPF_SYSCALL is not set
+# CONFIG_BTRFS_FS is not set
+# CONFIG_XFS_FS is not set
+# CONFIG_MEDIA_SUPPORT is not set
+# CONFIG_RANDOMIZE_BASE is not set
+# CONFIG_SURFACE_PLATFORMS is not set
+# CONFIG_NEW_LEDS is not set
+# CONFIG_6LOWPAN is not set
+# CONFIG_BATMAN_ADV is not set
+# CONFIG_AUDIT is not set

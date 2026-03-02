@@ -1,0 +1,52 @@
+# Strip everything not needed for a minimal shell environment.
+
+# No bootloader.
+# BR2_TARGET_UBOOT is not set
+# BR2_TARGET_SYSLINUX is not set
+
+# No SSH.
+# BR2_PACKAGE_DROPBEAR is not set
+# BR2_PACKAGE_OPENSSH is not set
+
+# No network management.
+# BR2_PACKAGE_NETWORK_MANAGER is not set
+# BR2_PACKAGE_MODEM_MANAGER is not set
+
+# No systemd packages.
+# BR2_PACKAGE_SYSTEMD_COREDUMP is not set
+# BR2_PACKAGE_SYSTEMD_HOSTNAMED is not set
+# BR2_PACKAGE_SYSTEMD_HWDB is not set
+# BR2_PACKAGE_SYSTEMD_MYHOSTNAME is not set
+# BR2_PACKAGE_SYSTEMD_PSTORE is not set
+
+# No editors beyond BusyBox vi.
+# BR2_PACKAGE_VIM is not set
+# BR2_PACKAGE_NANO is not set
+
+# No firmware.
+# BR2_PACKAGE_LINUX_FIRMWARE is not set
+
+# No unnecessary packages.
+# BR2_PACKAGE_E2FSPROGS is not set
+# BR2_PACKAGE_PARTED is not set
+# BR2_PACKAGE_DOSFSTOOLS is not set
+# BR2_PACKAGE_BTRFS_PROGS is not set
+# BR2_PACKAGE_CA_CERTIFICATES is not set
+# BR2_PACKAGE_FILE is not set
+# BR2_PACKAGE_HAVEGED is not set
+# BR2_PACKAGE_I2C_TOOLS is not set
+# BR2_PACKAGE_SMARTMONTOOLS is not set
+# BR2_PACKAGE_NTP is not set
+# BR2_PACKAGE_NTP_NTPD is not set
+# BR2_PACKAGE_RNG_TOOLS is not set
+# BR2_PACKAGE_POWERTOP is not set
+# BR2_PACKAGE_EMBIGGEN_DISK is not set
+# BR2_PACKAGE_CRDA is not set
+# BR2_PACKAGE_WIRELESS_REGDB is not set
+# BR2_PACKAGE_WIRELESS_TOOLS is not set
+# BR2_PACKAGE_WPA_SUPPLICANT is not set
+# BR2_PACKAGE_IW is not set
+
+# Root login, no password.
+BR2_TARGET_ENABLE_ROOT_LOGIN=y
+BR2_TARGET_GENERIC_ROOT_PASSWD=""

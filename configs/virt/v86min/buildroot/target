@@ -1,0 +1,9 @@
+# Output: CPIO initramfs only (LZ4 compressed).
+BR2_TARGET_ROOTFS_CPIO=y
+BR2_TARGET_ROOTFS_CPIO_LZ4=y
+# BR2_TARGET_ROOTFS_CPIO_UIMAGE is not set
+
+# No ISO, no ext2/4, no tar.
+# BR2_TARGET_ROOTFS_ISO9660 is not set
+# BR2_TARGET_ROOTFS_EXT2 is not set
+# BR2_TARGET_ROOTFS_TAR is not set

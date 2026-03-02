@@ -1,0 +1,5 @@
+# No init system -- wasivm launches the shell directly.
+BR2_INIT_NONE=y
+# BR2_INIT_BUSYBOX is not set
+# BR2_INIT_SYSTEMD is not set
+# BR2_INIT_SYSV is not set

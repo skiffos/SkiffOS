@@ -1,0 +1,2 @@
+CONFIG_CMDLINE_BOOL=y
+CONFIG_CMDLINE="console=ttyS0 rw root=host9p rootfstype=9p rootflags=trans=virtio,cache=loose mitigations=off audit=0 tsc=reliable random.trust_cpu=on nowatchdog noapic nomce"

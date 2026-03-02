@@ -1,0 +1,30 @@
+CONFIG_EXPERT=y
+
+# Fill pages with zeros after freeing to release v86 memory.
+CONFIG_INIT_ON_FREE_DEFAULT_ON=y
+# CONFIG_PAGE_POISONING is not set
+
+# Use maximum available cpu speed.
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+
+# Disable N/A security features.
+# CONFIG_SECCOMP is not set
+# CONFIG_SECURITY is not set
+# CONFIG_SECURITY_APPARMOR is not set
+# CONFIG_SPECULATION_MITIGATIONS is not set
+# CONFIG_STACKPROTECTOR is not set
+# CONFIG_STACKPROTECTOR_STRONG is not set
+
+# v86 only supports a single-core processor.
+# CONFIG_SMP is not set
+# CONFIG_CPU_ISOLATION is not set
+# CONFIG_SCHED_CLUSTER is not set
+
+# v86 does not support dmi.
+# CONFIG_DMI is not set
+
+# Remove debug symbols.
+# CONFIG_KALLSYMS_ALL is not set
+
+# Optimize for size.
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
