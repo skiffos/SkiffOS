@@ -50,3 +50,9 @@
 # Root login, no password.
 BR2_TARGET_ENABLE_ROOT_LOGIN=y
 BR2_TARGET_GENERIC_ROOT_PASSWD=""
+
+# Disable packages that force kernel options (NETFILTER, USB, WIRELESS).
+# BR2_PACKAGE_IPTABLES is not set
+# BR2_PACKAGE_RTL8812AU_AIRCRACK_NG is not set
+# BR2_PACKAGE_RTL8821CU is not set
+# BR2_PACKAGE_KMEMD is not set

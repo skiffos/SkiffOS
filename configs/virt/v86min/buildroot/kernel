@@ -1,0 +1,7 @@
+# Use a standalone defconfig instead of the fragment merge system.
+# The fragment merge (base/pre -> config -> base/post) starts from
+# i386_defconfig which enables netfilter, USB, etc. Our complete
+# defconfig starts from scratch with only what v86 needs.
+# BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG is not set
+BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
+BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="SKIFF_CONFIG_ROOT/kernel_defconfig"

@@ -1,0 +1,107 @@
+# v86-minimal: strip remaining base config bloat.
+# The bulk of Docker networking moved to apps/docker/kernel/net.
+# This handles cgroups, BPF, USB, HID, wireless, BT, crypto, etc.
+
+# === Cgroups: not needed (BusyBox init, no systemd, no containers) ===
+# CONFIG_CGROUPS is not set
+# CONFIG_CGROUP_SCHED is not set
+# CONFIG_CGROUP_PIDS is not set
+# CONFIG_CGROUP_FREEZER is not set
+# CONFIG_CGROUP_DEVICE is not set
+# CONFIG_CGROUP_CPUACCT is not set
+# CONFIG_CGROUP_PERF is not set
+# CONFIG_CGROUP_HUGETLB is not set
+# CONFIG_CGROUP_RDMA is not set
+# CONFIG_CGROUP_MISC is not set
+# CONFIG_CGROUP_DEBUG is not set
+# CONFIG_CGROUP_BPF is not set
+# CONFIG_CGROUP_NET_PRIO is not set
+# CONFIG_MEMCG is not set
+# CONFIG_BLK_CGROUP is not set
+# CONFIG_CFS_BANDWIDTH is not set
+# CONFIG_CPUSETS is not set
+
+# === Namespaces: not needed in v86 ===
+# CONFIG_NAMESPACES is not set
+# CONFIG_NET_NS is not set
+# CONFIG_IPC_NS is not set
+# CONFIG_PID_NS is not set
+# CONFIG_USER_NS is not set
+# CONFIG_UTS_NS is not set
+
+# === BPF/perf: not needed ===
+# CONFIG_BPF is not set
+# CONFIG_BPF_SYSCALL is not set
+# CONFIG_BPF_JIT is not set
+# CONFIG_PERF_EVENTS is not set
+
+# === USB: entire subsystem ===
+# CONFIG_USB_SUPPORT is not set
+# CONFIG_USB is not set
+
+# === HID specialty drivers (base enables these) ===
+# CONFIG_HID_A4TECH is not set
+# CONFIG_HID_BELKIN is not set
+# CONFIG_HID_CHERRY is not set
+# CONFIG_HID_CYPRESS is not set
+# CONFIG_HID_EZKEY is not set
+# CONFIG_HID_ITE is not set
+# CONFIG_HID_KENSINGTON is not set
+# CONFIG_HID_REDRAGON is not set
+# CONFIG_HID_MICROSOFT is not set
+# CONFIG_HID_MONTEREY is not set
+# CONFIG_USB_HID is not set
+# CONFIG_HIDRAW is not set
+
+# === Wireless (base/pre/kernel/wifi enables these) ===
+# CONFIG_WIRELESS is not set
+# CONFIG_WLAN is not set
+# CONFIG_CFG80211 is not set
+# CONFIG_MAC80211 is not set
+
+# === Bluetooth (base/pre/kernel/bt) ===
+# CONFIG_BT is not set
+
+# === RFKILL ===
+# CONFIG_RFKILL is not set
+
+# === Crypto overhead ===
+# CONFIG_SYSTEM_TRUSTED_KEYRING is not set
+# CONFIG_ASYMMETRIC_KEY_TYPE is not set
+
+# === Sound (base/pre/kernel/sound) ===
+# CONFIG_SOUND is not set
+# CONFIG_SND is not set
+
+# === Hardware monitoring/power/thermal ===
+# CONFIG_HWMON is not set
+# CONFIG_THERMAL is not set
+
+# === ZRAM/ZSWAP (base/pre/kernel/zram) ===
+# CONFIG_ZRAM is not set
+# CONFIG_ZSWAP is not set
+
+# === Misc base bloat ===
+# CONFIG_CHECKPOINT_RESTORE is not set
+# CONFIG_BINFMT_MISC is not set
+# CONFIG_MEDIA_SUPPORT is not set
+# CONFIG_MEDIA_CAMERA_SUPPORT is not set
+# CONFIG_MEDIA_PCI_SUPPORT is not set
+# CONFIG_FAIR_GROUP_SCHED is not set
+# CONFIG_DMIID is not set
+# CONFIG_GPIOLIB is not set
+# CONFIG_IKCONFIG is not set
+# CONFIG_IKCONFIG_PROC is not set
+# CONFIG_KEY_DH_OPERATIONS is not set
+# CONFIG_60XX_WDT is not set
+# CONFIG_ACCESSIBILITY is not set
+# CONFIG_DEBUG_BOOT_PARAMS is not set
+# CONFIG_IOSCHED_BFQ is not set
+
+# === Keep MPTCP disabled (not needed for basic 9p) ===
+# CONFIG_MPTCP is not set
+
+# === Networking diag (not needed) ===
+# CONFIG_NETLINK_DIAG is not set
+# CONFIG_INET_DIAG is not set
+# CONFIG_NET_DROP_MONITOR is not set
