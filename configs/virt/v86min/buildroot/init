@@ -1,3 +1,4 @@
-# BusyBox init instead of systemd.
-BR2_INIT_BUSYBOX=y
-# BR2_INIT_SYSTEMD is not set
+# Minimal systemd init.
+BR2_INIT_SYSTEMD=y
+# BR2_INIT_BUSYBOX is not set
+# BR2_INIT_SYSV is not set
