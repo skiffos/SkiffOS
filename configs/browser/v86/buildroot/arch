@@ -1,5 +1,4 @@
 BR2_i386=y
-BR2_x86_pentium3=y
-
-# While SSE2 is supported, it's less performant.
-# BR2_x86_pentium4=y
+# v86 emulates Pentium 4 level CPU with full SSE3.
+# prescott = Pentium 4 with SSE3, matches v86 capabilities.
+BR2_x86_prescott=y

@@ -1,4 +1,5 @@
-# v86 supports sse2
-# however: it's less performant than without.
-# commented here for now.
-# -msse -msse2
+# v86 emulates Pentium 3 level CPU with SSE3.
+# CPUID reports: MMX, SSE, SSE2, SSE3, POPCNT, RDRAND.
+# No SSE4, no AVX, no x86-64.
+-msse -msse2 -msse3 -mpopcnt
+-ftree-vectorize -fomit-frame-pointer
