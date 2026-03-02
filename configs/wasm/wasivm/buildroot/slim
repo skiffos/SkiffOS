@@ -1,4 +1,5 @@
 # Strip everything not needed for a minimal WASM userspace.
+# Only busybox should be built for the target.
 
 # No bootloader.
 # BR2_TARGET_UBOOT is not set
@@ -8,46 +9,82 @@
 # No firmware.
 # BR2_PACKAGE_LINUX_FIRMWARE is not set
 
-# No SSH.
-# BR2_PACKAGE_DROPBEAR is not set
-# BR2_PACKAGE_OPENSSH is not set
+# No compression tools (busybox has builtins).
+# BR2_PACKAGE_BZIP2 is not set
+# BR2_PACKAGE_GZIP is not set
+# BR2_PACKAGE_UNZIP is not set
+# BR2_PACKAGE_XZ is not set
+# BR2_PACKAGE_ZIP is not set
+# BR2_PACKAGE_LZ4 is not set
+# BR2_PACKAGE_LZ4_PROGS is not set
+# BR2_PACKAGE_LZO is not set
 
-# No network management.
-# BR2_PACKAGE_NETWORK_MANAGER is not set
-# BR2_PACKAGE_MODEM_MANAGER is not set
+# No dev tools on target.
+# BR2_PACKAGE_BINUTILS is not set
+# BR2_PACKAGE_GDB is not set
+# BR2_PACKAGE_GREP is not set
 
-# No systemd packages.
-# BR2_PACKAGE_SYSTEMD_COREDUMP is not set
-# BR2_PACKAGE_SYSTEMD_HOSTNAMED is not set
-# BR2_PACKAGE_SYSTEMD_HWDB is not set
-# BR2_PACKAGE_SYSTEMD_MYHOSTNAME is not set
-# BR2_PACKAGE_SYSTEMD_PSTORE is not set
-
-# No editors beyond BusyBox vi.
-# BR2_PACKAGE_VIM is not set
-# BR2_PACKAGE_NANO is not set
-
-# No unnecessary packages.
+# No filesystem tools.
 # BR2_PACKAGE_E2FSPROGS is not set
 # BR2_PACKAGE_PARTED is not set
 # BR2_PACKAGE_DOSFSTOOLS is not set
 # BR2_PACKAGE_BTRFS_PROGS is not set
-# BR2_PACKAGE_CA_CERTIFICATES is not set
+# BR2_PACKAGE_EXFATPROGS is not set
 # BR2_PACKAGE_FILE is not set
-# BR2_PACKAGE_HAVEGED is not set
+
+# No hardware tools.
+# BR2_PACKAGE_LSSCSI is not set
+# BR2_PACKAGE_PCIUTILS is not set
+# BR2_PACKAGE_SPI_TOOLS is not set
 # BR2_PACKAGE_I2C_TOOLS is not set
 # BR2_PACKAGE_SMARTMONTOOLS is not set
-# BR2_PACKAGE_NTP is not set
-# BR2_PACKAGE_NTP_NTPD is not set
-# BR2_PACKAGE_RNG_TOOLS is not set
 # BR2_PACKAGE_POWERTOP is not set
 # BR2_PACKAGE_EMBIGGEN_DISK is not set
+# BR2_PACKAGE_IGT_GPU_TOOLS is not set
+
+# No networking packages.
+# BR2_PACKAGE_DROPBEAR is not set
+# BR2_PACKAGE_OPENSSH is not set
+# BR2_PACKAGE_NETWORK_MANAGER is not set
+# BR2_PACKAGE_MODEM_MANAGER is not set
+# BR2_PACKAGE_ETHTOOL is not set
+# BR2_PACKAGE_IFUPDOWN_SCRIPTS is not set
+# BR2_PACKAGE_NTP is not set
+# BR2_PACKAGE_NTP_NTPD is not set
+# BR2_PACKAGE_LIBCURL is not set
+# BR2_PACKAGE_CA_CERTIFICATES is not set
 # BR2_PACKAGE_CRDA is not set
 # BR2_PACKAGE_WIRELESS_REGDB is not set
 # BR2_PACKAGE_WIRELESS_TOOLS is not set
 # BR2_PACKAGE_WPA_SUPPLICANT is not set
 # BR2_PACKAGE_IW is not set
 
+# No crypto/security libs.
+# BR2_PACKAGE_NETTLE is not set
+# BR2_PACKAGE_GMP is not set
+# BR2_PACKAGE_HAVEGED is not set
+# BR2_PACKAGE_RNG_TOOLS is not set
+# BR2_PACKAGE_SCRUB is not set
+
+# No ncurses / util-linux.
+# BR2_PACKAGE_NCURSES is not set
+# BR2_PACKAGE_UTIL_LINUX is not set
+
+# No editors beyond BusyBox vi.
+# BR2_PACKAGE_VIM is not set
+# BR2_PACKAGE_NANO is not set
+
+# No systemd.
+# BR2_PACKAGE_SYSTEMD_COREDUMP is not set
+# BR2_PACKAGE_SYSTEMD_HOSTNAMED is not set
+# BR2_PACKAGE_SYSTEMD_HWDB is not set
+# BR2_PACKAGE_SYSTEMD_MYHOSTNAME is not set
+# BR2_PACKAGE_SYSTEMD_PSTORE is not set
+
+# No zlib on target (busybox has built-in gunzip).
+# BR2_PACKAGE_ZLIB is not set
+
 # Root login, no password.
 BR2_TARGET_ENABLE_ROOT_LOGIN=y
 BR2_TARGET_GENERIC_ROOT_PASSWD=""
+# BR2_PACKAGE_GNUPG2 is not set

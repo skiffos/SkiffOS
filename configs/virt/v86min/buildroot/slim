@@ -46,3 +46,93 @@ BR2_TARGET_GENERIC_ROOT_PASSWD=
 # BR2_PACKAGE_SYSTEMD_TIMEDATED is not set
 # BR2_PACKAGE_SYSTEMD_TIMESYNCD is not set
 # BR2_PACKAGE_SYSTEMD_VCONSOLE is not set
+
+# Strip /bin bloat: disable packages not needed in browser shell.
+# BusyBox provides most utilities in a single ~1 MB binary.
+
+# DNS server and tools (dig, host, nslookup, nsupdate, named-*, dnssec-*).
+# BR2_PACKAGE_BIND is not set
+# BR2_PACKAGE_DNSMASQ is not set
+
+# Standalone coreutils (busybox has all of these).
+# BR2_PACKAGE_COREUTILS is not set
+# BR2_PACKAGE_GREP is not set
+# BR2_PACKAGE_TAR is not set
+# BR2_PACKAGE_UNZIP is not set
+# BR2_PACKAGE_GZIP is not set
+
+# Bash (busybox ash is sufficient).
+
+# Compression tools (keep busybox gzip/gunzip only).
+# BR2_PACKAGE_BZIP2 is not set
+# BR2_PACKAGE_XZ is not set
+# BR2_PACKAGE_LZ4 is not set
+# BR2_PACKAGE_LZ4_PROGS is not set
+# BR2_PACKAGE_LZO is not set
+# BR2_PACKAGE_ZIP is not set
+# BR2_PACKAGE_SQUASHFS is not set
+
+# Sound tools (no audio in v86min).
+# BR2_PACKAGE_ALSA_UTILS is not set
+
+# Hardware tools (no physical hardware).
+# BR2_PACKAGE_PCIUTILS is not set
+# BR2_PACKAGE_USBUTILS is not set
+# BR2_PACKAGE_LSHW is not set
+# BR2_PACKAGE_LSSCSI is not set
+# BR2_PACKAGE_LSOF is not set
+# BR2_PACKAGE_SPI_TOOLS is not set
+# BR2_PACKAGE_MMC_UTILS is not set
+# BR2_PACKAGE_ETHTOOL is not set
+# BR2_PACKAGE_IRQBALANCE is not set
+# BR2_PACKAGE_I2C_TOOLS is not set
+# BR2_PACKAGE_MDADM is not set
+# BR2_PACKAGE_ATINOUT is not set
+
+# Network tools (no network services in browser).
+# BR2_PACKAGE_RSYNC is not set
+# BR2_PACKAGE_WGET is not set
+# BR2_PACKAGE_LIBCURL is not set
+# BR2_PACKAGE_IPUTILS is not set
+
+# Crypto/TLS (no network services).
+# BR2_PACKAGE_LIBOPENSSL is not set
+# BR2_PACKAGE_GNUTLS is not set
+# BR2_PACKAGE_NETTLE is not set
+
+# Security (single user, root only).
+# BR2_PACKAGE_SUDO is not set
+
+# Misc utilities.
+# BR2_PACKAGE_HTOP is not set
+# BR2_PACKAGE_NEOFETCH is not set
+# BR2_PACKAGE_SCRUB is not set
+# BR2_PACKAGE_BINUTILS is not set
+# BR2_PACKAGE_PROCPS_NG is not set
+# BR2_PACKAGE_LIBZIP is not set
+
+# Filesystem tools (ramdisk only).
+# BR2_PACKAGE_EXFATPROGS is not set
+
+# Keep systemd-analyze for boot debugging.
+# Keep ncurses (needed by busybox).
+# Keep util-linux (mount, umount, dmesg -- disable extras).
+# BR2_PACKAGE_UTIL_LINUX_CHFN_CHSH is not set
+# BR2_PACKAGE_UTIL_LINUX_FALLOCATE is not set
+# BR2_PACKAGE_UTIL_LINUX_HWCLOCK is not set
+# BR2_PACKAGE_UTIL_LINUX_IRQTOP is not set
+# BR2_PACKAGE_UTIL_LINUX_KILL is not set
+# BR2_PACKAGE_UTIL_LINUX_LINE is not set
+# BR2_PACKAGE_UTIL_LINUX_LOGIN is not set
+# BR2_PACKAGE_UTIL_LINUX_LOSETUP is not set
+# BR2_PACKAGE_UTIL_LINUX_MORE is not set
+# BR2_PACKAGE_UTIL_LINUX_NEWGRP is not set
+# BR2_PACKAGE_UTIL_LINUX_NSENTER is not set
+# BR2_PACKAGE_UTIL_LINUX_RENAME is not set
+# BR2_PACKAGE_UTIL_LINUX_SCHEDUTILS is not set
+# BR2_PACKAGE_UTIL_LINUX_SETPRIV is not set
+# BR2_PACKAGE_UTIL_LINUX_SU is not set
+# BR2_PACKAGE_UTIL_LINUX_UNSHARE is not set
+# BR2_PACKAGE_UTIL_LINUX_WAITPID is not set
+# BR2_PACKAGE_UTIL_LINUX_WDCTL is not set
+# BR2_PACKAGE_UTIL_LINUX_ZRAMCTL is not set
