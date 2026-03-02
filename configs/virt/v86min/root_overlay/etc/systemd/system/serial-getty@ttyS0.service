@@ -1,0 +1,20 @@
+[Unit]
+Description=Serial Console on ttyS0
+After=systemd-user-sessions.service
+
+[Service]
+ExecStart=-/bin/sh -l
+StandardInput=tty
+StandardOutput=tty
+StandardError=tty
+TTYPath=/dev/ttyS0
+TTYReset=yes
+TTYVHangup=yes
+Type=idle
+Restart=always
+RestartSec=0
+UtmpIdentifier=ttyS0
+UtmpMode=login
+
+[Install]
+WantedBy=multi-user.target
