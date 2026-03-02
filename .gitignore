@@ -12,3 +12,4 @@ buildroot-work/
 .vagrant/
 *.log
 .aider*
+/.tmp
