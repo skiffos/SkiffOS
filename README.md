@@ -310,7 +310,7 @@ $ make br/sdk        # build relocatable SDK for target
 $ make br/graph-size # graph the target packages sizes
 ```
 
-There are other [application packages] available i.e. `apps/podman` and `apps/crio`.
+There are other [application packages] available i.e. `apps/crio`.
 
 [application packages]: ./configs/apps
 
