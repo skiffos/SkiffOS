@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Default TERM if not set (e.g. non-interactive SSH sessions).
+[ -z "$TERM" ] && export TERM=dumb
 set -e
 
 OLDPATH=$(pwd)
