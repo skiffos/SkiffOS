@@ -1,3 +1,6 @@
+TERM ?= xterm
+export TERM
+
 %:
 	@./scripts/primary_env.sh $@
 
