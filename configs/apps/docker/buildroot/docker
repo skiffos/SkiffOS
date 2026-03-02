@@ -13,3 +13,4 @@ BR2_PACKAGE_TINI=y
 
 # Add the docker compose CLI plugin.
 BR2_PACKAGE_DOCKER_COMPOSE=y
+BR2_PACKAGE_IPTABLES=y
