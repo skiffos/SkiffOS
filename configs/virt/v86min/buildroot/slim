@@ -136,3 +136,18 @@ BR2_TARGET_GENERIC_ROOT_PASSWD=
 # BR2_PACKAGE_UTIL_LINUX_WAITPID is not set
 # BR2_PACKAGE_UTIL_LINUX_WDCTL is not set
 # BR2_PACKAGE_UTIL_LINUX_ZRAMCTL is not set
+
+# No locale generation (saves ~5.8 MB in /lib/locale).
+BR2_ENABLE_LOCALE_PURGE=y
+BR2_ENABLE_LOCALE_WHITELIST="C"
+BR2_GENERATE_LOCALE=""
+
+# No C++ runtime (nothing links libstdc++, saves 2.6 MB).
+# BR2_TOOLCHAIN_BUILDROOT_CXX is not set
+# BR2_INSTALL_LIBSTDCPP is not set
+
+# No timezone database (saves 3 MB, UTC only).
+# BR2_TARGET_TZ_INFO is not set
+
+# Optimize for size (-Os).
+BR2_OPTIMIZE_S=y
