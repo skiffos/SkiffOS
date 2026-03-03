@@ -1,3 +1,4 @@
 BR2_TOOLCHAIN_EXTERNAL=y
 BR2_TOOLCHAIN_EXTERNAL_WASI_SDK=y
 BR2_TOOLCHAIN_EXTERNAL_DOWNLOAD=y
+BR2_TARGET_LDFLAGS="-lwasi-emulated-signal -lwasi-emulated-mman -lwasi-emulated-process-clocks -lwasi-emulated-getpid -Wl,--import-undefined -Wl,--allow-undefined -Wl,-u,__main_argc_argv"
