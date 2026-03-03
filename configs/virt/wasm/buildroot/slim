@@ -1,5 +1,6 @@
 # Strip everything not needed for a minimal WASM userspace.
-# Only busybox should be built for the target.
+# busybox + vim only. BR2_USE_MMU unlocks many base SkiffOS packages;
+# disable them here.
 
 # No bootloader.
 # BR2_TARGET_UBOOT is not set
@@ -31,6 +32,8 @@
 # BR2_PACKAGE_BTRFS_PROGS is not set
 # BR2_PACKAGE_EXFATPROGS is not set
 # BR2_PACKAGE_FILE is not set
+# BR2_PACKAGE_SQUASHFS is not set
+# BR2_PACKAGE_TAR is not set
 
 # No hardware tools.
 # BR2_PACKAGE_LSSCSI is not set
@@ -41,6 +44,7 @@
 # BR2_PACKAGE_POWERTOP is not set
 # BR2_PACKAGE_EMBIGGEN_DISK is not set
 # BR2_PACKAGE_IGT_GPU_TOOLS is not set
+# BR2_PACKAGE_IRQBALANCE is not set
 
 # No networking packages.
 # BR2_PACKAGE_DROPBEAR is not set
@@ -58,6 +62,9 @@
 # BR2_PACKAGE_WIRELESS_TOOLS is not set
 # BR2_PACKAGE_WPA_SUPPLICANT is not set
 # BR2_PACKAGE_IW is not set
+# BR2_PACKAGE_DNSMASQ is not set
+# BR2_PACKAGE_IPUTILS is not set
+# BR2_PACKAGE_WGET is not set
 
 # No crypto/security libs.
 # BR2_PACKAGE_NETTLE is not set
@@ -66,13 +73,29 @@
 # BR2_PACKAGE_RNG_TOOLS is not set
 # BR2_PACKAGE_SCRUB is not set
 
-# No ncurses / util-linux.
-# BR2_PACKAGE_NCURSES is not set
-# BR2_PACKAGE_UTIL_LINUX is not set
+# No audio.
+# BR2_PACKAGE_ALSA_LIB is not set
+# BR2_PACKAGE_ALSA_UTILS is not set
 
-# No editors beyond BusyBox vi.
-# BR2_PACKAGE_VIM is not set
+# Use busybox shell (not bash). BR2_SYSTEM_BIN_SH_BASH selects bash.
+BR2_SYSTEM_BIN_SH_BUSYBOX=y
+# BR2_PACKAGE_BASH is not set
+# BR2_PACKAGE_COREUTILS is not set
+
+# No system tools.
+# BR2_PACKAGE_UTIL_LINUX is not set
+# BR2_PACKAGE_PROCPS_NG is not set
+# BR2_PACKAGE_LSOF is not set
+# BR2_PACKAGE_SUDO is not set
+# BR2_PACKAGE_RSYNC is not set
+# BR2_PACKAGE_NEOFETCH is not set
+
+# No nano (vim is the editor).
 # BR2_PACKAGE_NANO is not set
+
+# Enable vim editor.
+BR2_PACKAGE_VIM=y
+BR2_PACKAGE_VIM_RUNTIME=y
 
 # No systemd.
 # BR2_PACKAGE_SYSTEMD_COREDUMP is not set

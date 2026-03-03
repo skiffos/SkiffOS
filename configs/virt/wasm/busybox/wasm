@@ -1,0 +1,260 @@
+# Disable Linux-specific busybox features for wasm32.
+# BR2_USE_MMU enables many features that need Linux kernel headers or
+# functions not available in wasi-libc.
+
+# Console tools (need sys/kd.h, linux/vt.h, TIOCCONS, TIOCLINUX).
+# CONFIG_OPENVT is not set
+# CONFIG_LOADFONT is not set
+# CONFIG_SETFONT is not set
+# CONFIG_SHOWKEY is not set
+# CONFIG_SETCONSOLE is not set
+# CONFIG_SETLOGCONS is not set
+# CONFIG_FREERAMDISK is not set
+
+# Login utils (need getusershell, shadow functions).
+# CONFIG_SU is not set
+# CONFIG_LOGIN is not set
+# CONFIG_VLOCK is not set
+# CONFIG_SULOGIN is not set
+
+# System tools (need Linux mount, pivot_root).
+# CONFIG_PIVOT_ROOT is not set
+# CONFIG_SWITCH_ROOT is not set
+
+# Networking (wasi-libc has no sockets).
+# CONFIG_FEATURE_IPV6 is not set
+# CONFIG_FEATURE_PREFER_IPV4_ADDRESS is not set
+# CONFIG_IFCONFIG is not set
+# CONFIG_ROUTE is not set
+# CONFIG_PING is not set
+# CONFIG_TRACEROUTE is not set
+# CONFIG_WGET is not set
+# CONFIG_FTPD is not set
+# CONFIG_FTPGET is not set
+# CONFIG_FTPPUT is not set
+# CONFIG_HTTPD is not set
+# CONFIG_TELNET is not set
+# CONFIG_TELNETD is not set
+# CONFIG_TFTP is not set
+# CONFIG_TFTPD is not set
+# CONFIG_NC is not set
+# CONFIG_NETCAT is not set
+# CONFIG_NETSTAT is not set
+# CONFIG_NSLOOKUP is not set
+# CONFIG_NTPD is not set
+# CONFIG_ARP is not set
+# CONFIG_ARPING is not set
+# CONFIG_BRCTL is not set
+# CONFIG_DNSD is not set
+# CONFIG_ETHER_WAKE is not set
+# CONFIG_HOSTNAME is not set
+# CONFIG_INETD is not set
+# CONFIG_IP is not set
+# CONFIG_IPADDR is not set
+# CONFIG_IPLINK is not set
+# CONFIG_IPROUTE is not set
+# CONFIG_IPRULE is not set
+# CONFIG_IPTUNNEL is not set
+# CONFIG_IPNEIGH is not set
+# CONFIG_NAMEIF is not set
+# CONFIG_SENDMAIL is not set
+# CONFIG_UDHCPC is not set
+# CONFIG_UDHCPD is not set
+# CONFIG_UDPSVD is not set
+# CONFIG_TCPSVD is not set
+# CONFIG_VCONFIG is not set
+# CONFIG_ZCIP is not set
+
+# awk uses popen (not in wasi-libc).
+# CONFIG_AWK is not set
+
+# mktemp (undeclared function in wasi-libc).
+# CONFIG_MKTEMP is not set
+
+# Kernel module utils (need syscall/__NR_init_module).
+# CONFIG_INSMOD is not set
+# CONFIG_LSMOD is not set
+# CONFIG_MODPROBE is not set
+# CONFIG_RMMOD is not set
+# CONFIG_DEPMOD is not set
+# CONFIG_MODINFO is not set
+
+# Hardware tools (need Linux ioctls, linux/hdreg.h).
+# CONFIG_HDPARM is not set
+
+# I2C tools (need linux/i2c.h).
+# CONFIG_I2CGET is not set
+# CONFIG_I2CSET is not set
+# CONFIG_I2CDUMP is not set
+# CONFIG_I2CDETECT is not set
+# CONFIG_I2CTRANSFER is not set
+
+# Syslog remote (needs socket).
+# CONFIG_FEATURE_REMOTE_LOG is not set
+# CONFIG_FEATURE_SYSLOG is not set
+
+# procps (need struct sysinfo, /proc).
+# CONFIG_FREE is not set
+# CONFIG_UPTIME is not set
+# CONFIG_TOP is not set
+# CONFIG_PMAP is not set
+# CONFIG_LSOF is not set
+
+# syslogd (need LOG_FAC, syslog.h facilities).
+# CONFIG_SYSLOGD is not set
+# CONFIG_LOGGER is not set
+# CONFIG_LOGREAD is not set
+# CONFIG_KLOGD is not set
+
+# Scheduler tools (need SCHED_* constants, sched_getscheduler).
+# CONFIG_CHRT is not set
+
+# Magnetic tape (needs sys/mtio.h).
+# CONFIG_MT is not set
+
+# IPC tools (need sys/ipc.h, sys/shm.h, sys/msg.h, sys/sem.h).
+# CONFIG_IPCRM is not set
+# CONFIG_IPCS is not set
+
+# sysctl (needs /proc/sys, linux-specific).
+# CONFIG_BB_SYSCTL is not set
+
+# runlevel (needs utmpx functions).
+# CONFIG_RUNLEVEL is not set
+
+# Disk tools (need Linux block device ioctls).
+# CONFIG_FDISK is not set
+# CONFIG_MKFS_EXT2 is not set
+# CONFIG_MKFS_MINIX is not set
+# CONFIG_MKFS_VFAT is not set
+# CONFIG_MKSWAP is not set
+# CONFIG_SWAPON is not set
+# CONFIG_SWAPOFF is not set
+# CONFIG_BLKID is not set
+# CONFIG_BLOCKDEV is not set
+# CONFIG_FINDFS is not set
+# CONFIG_LOSETUP is not set
+# CONFIG_MDEV is not set
+# CONFIG_MOUNT is not set
+# CONFIG_UMOUNT is not set
+# CONFIG_SWAPONOFF is not set
+# CONFIG_FEATURE_MOUNT_HELPERS is not set
+# CONFIG_FEATURE_MOUNT_LABEL is not set
+# CONFIG_FEATURE_MOUNT_NFS is not set
+# CONFIG_FEATURE_MOUNT_CIFS is not set
+# CONFIG_FEATURE_MOUNT_FLAGS is not set
+# CONFIG_FEATURE_MOUNT_FSTAB is not set
+
+# time command (needs wait3, full struct rusage fields).
+# CONFIG_TIME is not set
+
+# watchdog (needs linux/watchdog.h).
+# CONFIG_WATCHDOG is not set
+
+# UBI/MTD tools (need mtd/mtd-user.h).
+# CONFIG_UBIRENAME is not set
+
+# Virtual terminal tools (need linux/vt.h, sys/kd.h).
+# CONFIG_CHVT is not set
+# CONFIG_DEALLOCVT is not set
+# CONFIG_DUMPKMAP is not set
+# CONFIG_LOADKMAP is not set
+# CONFIG_SETKEYCODES is not set
+
+# Linux device/block tools.
+# CONFIG_DEVMEM is not set
+# CONFIG_EJECT is not set
+# CONFIG_FBSET is not set
+# CONFIG_FDFLUSH is not set
+# CONFIG_FDFORMAT is not set
+# CONFIG_FSCK is not set
+# CONFIG_FSFREEZE is not set
+# CONFIG_FSTRIM is not set
+# CONFIG_HALT is not set
+# CONFIG_HWCLOCK is not set
+# CONFIG_LINUX32 is not set
+# CONFIG_LINUX64 is not set
+# CONFIG_LINUXRC is not set
+# CONFIG_LSPCI is not set
+# CONFIG_LSSCSI is not set
+# CONFIG_LSUSB is not set
+# CONFIG_MAKEDEVS is not set
+# CONFIG_MKDOSFS is not set
+# CONFIG_MKE2FS is not set
+# CONFIG_PARTPROBE is not set
+# CONFIG_POWEROFF is not set
+# CONFIG_READPROFILE is not set
+# CONFIG_REBOOT is not set
+# CONFIG_RESUME is not set
+# CONFIG_SEEDRNG is not set
+# CONFIG_SETSERIAL is not set
+# CONFIG_SETARCH is not set
+# CONFIG_START_STOP_DAEMON is not set
+# CONFIG_UEVENT is not set
+
+# Init system (needs Linux init, /proc).
+# CONFIG_INIT is not set
+# CONFIG_RUN_INIT is not set
+
+# Networking with sockets.
+# CONFIG_DNSDOMAINNAME is not set
+# CONFIG_IFDOWN is not set
+# CONFIG_IFUP is not set
+# CONFIG_RDATE is not set
+# CONFIG_MICROCOM is not set
+# CONFIG_MIM is not set
+
+# Process management (need /proc, Linux ioctls).
+# CONFIG_FUSER is not set
+# CONFIG_KILLALL5 is not set
+# CONFIG_PIDOF is not set
+# CONFIG_PS is not set
+# CONFIG_W is not set
+# CONFIG_WHO is not set
+# CONFIG_LAST is not set
+
+# cron (needs fork/daemon).
+# CONFIG_CROND is not set
+# CONFIG_CRONTAB is not set
+
+# User management (need /etc/passwd, shadow).
+# CONFIG_ADDGROUP is not set
+# CONFIG_ADDUSER is not set
+# CONFIG_DELGROUP is not set
+# CONFIG_DELUSER is not set
+# CONFIG_GETTY is not set
+# CONFIG_MKPASSWD is not set
+# CONFIG_PASSWD is not set
+# CONFIG_NOLOGIN is not set
+
+# Privilege tools.
+# CONFIG_SETPRIV is not set
+# CONFIG_NPROC is not set
+
+# CPIO (needs device files).
+# CONFIG_CPIO is not set
+
+# Run-parts (needs /etc/run-parts.d).
+# CONFIG_RUN_PARTS is not set
+
+# SVC (runit, needs daemon).
+# CONFIG_SVC is not set
+# CONFIG_SVOK is not set
+
+# Extended attrs (need linux/xattr.h).
+# CONFIG_CHATTR is not set
+# CONFIG_LSATTR is not set
+# CONFIG_GETFATTR is not set
+# CONFIG_SETFATTR is not set
+
+# dmesg (needs klogctl).
+# CONFIG_DMESG is not set
+
+# MONOTONIC_SYSCALL (needs clock_gettime CLOCK_MONOTONIC_RAW).
+# CONFIG_MONOTONIC_SYSCALL is not set
+
+# pipe_progress (needs alarm/signals).
+# CONFIG_PIPE_PROGRESS is not set
+
+# watch (needs fork).
+# CONFIG_WATCH is not set
