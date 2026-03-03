@@ -1,2 +1,1 @@
-# No Linux kernel -- wasivm provides the kernel in Go.
 # BR2_LINUX_KERNEL is not set
