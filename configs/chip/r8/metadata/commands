@@ -1,0 +1,1 @@
+flashnand Flash SkiffOS to internal NAND via USB FEL mode. Set BUILDROOT_DIR=... Requires: sunxi-tools u-boot-tools mtd-utils.
