@@ -1,0 +1,4 @@
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+# sun5i-r8-pocketchip.dts was added to mainline Linux in 5.11.
+# Verify DTS presence with: find arch/arm/boot/dts/allwinner/ -name '*pocket*'
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="allwinner/sun5i-r8-pocketchip"
