@@ -18,7 +18,7 @@ if [[ "$PI_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 2G $PI_IMAGE
+fallocate -l 4G $PI_IMAGE
 
 echo "Setting up loopback device..."
 export PI_SD=$(losetup --show -fP $PI_IMAGE)
