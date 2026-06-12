@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LC_ALL=C
+
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
