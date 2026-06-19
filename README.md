@@ -398,12 +398,12 @@ Other distributions and images supported:
 | **Distribution** | **Config Package** | **Notes**              |
 |------------------|--------------------|------------------------|
 | [Alpine]         | core/alpine        | OpenRC                 |
-| [Arch] Linux     | core/arch          | Minimal desktop        |
+| [Arch] Linux     | [core/arch]        | Minimal desktop        |
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
-| [Fedora]         | core/fedora        | Minimal desktop        |
+| [Fedora]         | [core/fedora]      | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
-| [LibreELEC]      | core/libreelec     | Kodi media center      |
-| [Ubuntu]         | core/ubuntu        | Snaps & Ubuntu Desktop |
+| [LibreELEC]      | [core/libreelec]   | Kodi media center      |
+| [Ubuntu]         | [core/ubuntu]      | Snaps & Ubuntu Desktop |
 
 Other less frequently updated images:
 
@@ -432,10 +432,14 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
 
+[core/arch]: ./configs/core/arch
 [core/debian]: ./configs/core/debian
 [core/dietpi]: ./configs/core/dietpi
+[core/fedora]: ./configs/core/fedora
+[core/libreelec]: ./configs/core/libreelec
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
+[core/ubuntu]: ./configs/core/ubuntu
 [pine64/book]: ./configs/pine64/book
 [pine64/phone]: ./configs/pine64/phone
 [jetson/common]: ./configs/jetson/common
