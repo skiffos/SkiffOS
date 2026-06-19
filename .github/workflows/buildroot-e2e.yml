@@ -18,7 +18,7 @@ jobs:
       'SKIFF_WORKSPACE': docker
       'SKIFF_CONFIG': virt/docker,skiff/core
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Update the submodule
         run: |
           cd $GITHUB_WORKSPACE
