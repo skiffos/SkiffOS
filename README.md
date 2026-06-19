@@ -402,6 +402,7 @@ Other distributions and images supported:
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
 | [Fedora]         | [core/fedora]      | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
+| [Jellyfin]       | [core/jellyfin]    | Media server           |
 | [LibreELEC]      | [core/libreelec]   | Kodi media center      |
 | [Ubuntu]         | [core/ubuntu]      | Snaps & Ubuntu Desktop |
 
@@ -423,6 +424,7 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [Alpine]: https://www.alpinelinux.org/
 [Gentoo]: https://www.gentoo.org/
 [Fedora]: https://www.getfedora.org/
+[Jellyfin]: https://jellyfin.org/
 [KDE Neon]: https://neon.kde.org/
 [LibreELEC]: https://libreelec.tv/
 [NASA cFS]: https://github.com/nasa/cFS
@@ -436,6 +438,7 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [core/debian]: ./configs/core/debian
 [core/dietpi]: ./configs/core/dietpi
 [core/fedora]: ./configs/core/fedora
+[core/jellyfin]: ./configs/core/jellyfin
 [core/libreelec]: ./configs/core/libreelec
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime

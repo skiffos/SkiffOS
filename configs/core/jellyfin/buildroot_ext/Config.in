@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_CORE_JELLYFIN_PATH/package/skiff-core-jellyfin/Config.in"
