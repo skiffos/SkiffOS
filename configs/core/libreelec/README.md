@@ -9,6 +9,64 @@ The default container user is `root`, with shell `/bin/sh`.
 
 https://libreelec.tv
 
+## Using this configuration
+
+This example is for a standard Intel/AMD x86_64 desktop PC, matching the
+LibreELEC Generic image.
+
+The `SKIFF_CONFIG` comma-separated environment variable selects which
+configuration layers should be merged together to configure the build.
+
+```sh
+$ make                                      # lists all available layers
+$ export SKIFF_CONFIG=intel/desktop,core/libreelec
+$ make configure                            # configure the system
+$ make compile                              # build the system
+```
+
+After you run `make configure` Skiff will remember what you selected in
+`SKIFF_CONFIG`. The compile command instructs Skiff to build the host system.
+The LibreELEC core container image is pulled from Quay on first boot.
+
+You can add your SSH public key to the target image by adding it to
+`overrides/root_overlay/etc/skiff/authorized_keys/my-key.pub`, or by adding it
+to your own custom configuration package.
+
+Once the build is complete, flash the system to the target disk. You will need
+to switch to `sudo bash` for this on most systems.
+
+```sh
+$ sudo bash                 # switch to root
+$ blkid                     # find the target disk
+$ export INTEL_DESKTOP_DISK=/dev/sdz # make sure this is right
+$ make cmd/intel/desktop/format      # format the device
+$ make cmd/intel/desktop/install     # install SkiffOS
+```
+
+The device needs to be formatted only one time. After that, the install command
+can update SkiffOS without clearing persistent state. The persist partition is
+not touched during install, so saved Kodi data, Docker state, and Skiff Core
+configuration remain in place.
+
+## Connecting to the system
+
+If you need to add your SSH key after the system is configured, mount the
+persist partition and save your `id_rsa.pub` at `skiff/keys/mykey.pub`.
+
+Connect to the core container as `core`:
+
+```sh
+$ ssh core@my-ip-address
+```
+
+This configuration maps the `core` login to the LibreELEC container's `root`
+user with `/bin/sh`. You can also ssh to `root` to access the SkiffOS host
+system.
+
+Edit `/mnt/persist/skiff/core/config.yaml` to change the core image, users,
+bind mounts, or container runtime options. LibreELEC persistent state is stored
+under `/mnt/persist/skiff/core/repos/libreelec/`.
+
 ## How it is set up
 
 The SkiffOS config lives in `configs/core/libreelec` and follows the normal
