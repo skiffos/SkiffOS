@@ -402,6 +402,7 @@ Other distributions and images supported:
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
 | [Fedora]         | core/fedora        | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
+| [LibreELEC]      | core/libreelec     | Kodi media center      |
 | [Ubuntu]         | core/ubuntu        | Snaps & Ubuntu Desktop |
 
 Other less frequently updated images:
@@ -423,6 +424,7 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [Gentoo]: https://www.gentoo.org/
 [Fedora]: https://www.getfedora.org/
 [KDE Neon]: https://neon.kde.org/
+[LibreELEC]: https://libreelec.tv/
 [NASA cFS]: https://github.com/nasa/cFS
 [NASA Fprime]: https://github.com/nasa/fprime
 [NixOS]: https://nixos.org
