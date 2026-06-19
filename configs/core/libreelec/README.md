@@ -169,9 +169,30 @@ LibreELEC Dockerfile therefore:
 - keeps LibreELEC's `kodi.target`;
 - masks mount, remount, fsck, growfs, swap, sysctl, and udev units;
 - masks network/firewall units: ConnMan, ConnMan VPN, iwd, and iptables;
-- masks host-visible server daemons: sshd, Samba, Avahi, and RPCBind.
+- masks host-visible server daemons: sshd, Samba, and RPCBind;
+- leaves Avahi enabled so Kodi can publish AirPlay/RAOP and other mDNS
+  services on the host network.
 
 Bluetooth is left enabled because it is a plausible LibreELEC media feature.
+
+## AirPlay discovery
+
+Kodi's AirPlay server listens on the host network when
+`services.airplay=true`, but AirPlay clients discover it through mDNS. The
+container must run with host networking and `avahi-daemon.service` must not be
+masked or disabled.
+
+On a running system, check the container with:
+
+```sh
+docker inspect core --format '{{.HostConfig.NetworkMode}}'
+docker exec core systemctl --no-pager status avahi-daemon.service
+docker exec core avahi-browse -at
+```
+
+The expected discovery record for Kodi AirPlay audio is `_raop._tcp`, for
+example `Kodi (LibreELEC)`. Kodi may not publish `_airplay._tcp` unless video
+AirPlay support is enabled and supported by the Kodi build.
 
 ## Runtime smoke test
 

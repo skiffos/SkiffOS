@@ -3,7 +3,8 @@
 This configuration runs the LibreELEC Generic x86_64 root filesystem as the
 Skiff Core container. The image keeps LibreELEC's `kodi.target` default target
 and masks services SkiffOS already owns on the host, such as mount setup, udev,
-network management, firewall setup, SSH, Samba, and Avahi.
+network management, firewall setup, SSH, and Samba. Avahi remains enabled so
+Kodi can publish AirPlay/RAOP and other mDNS services on the host network.
 
 The default container user is `root`, with shell `/bin/sh`.
 

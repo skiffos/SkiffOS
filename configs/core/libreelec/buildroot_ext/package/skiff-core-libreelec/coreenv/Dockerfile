@@ -44,8 +44,7 @@ RUN set -eux; \
       rpcbind.socket \
       sshd.service \
       smbd.service \
-      nmbd.service \
-      avahi-daemon.service; \
+      nmbd.service; \
     do \
       ln -sf /dev/null "/etc/systemd/system/${unit}"; \
     done
