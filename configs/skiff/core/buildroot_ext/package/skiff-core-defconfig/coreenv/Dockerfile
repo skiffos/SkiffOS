@@ -37,6 +37,7 @@ nano
 ncurses-term
 net-tools
 openssh-client
+openssh-sftp-server
 pavucontrol
 pulseaudio
 psmisc
