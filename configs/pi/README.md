@@ -18,8 +18,8 @@ need to `sudo bash` for this on most systems.
 ```sh
 $ sudo bash             # switch to root
 $ export PI_SD=/dev/sdz # make sure this is right! (usually sdb)
-$ make cmd/odroid/common/format  # tell skiff to format the device
-$ make cmd/odroid/common/install # tell skiff to install the os
+$ make cmd/pi/common/format  # tell skiff to format the device
+$ make cmd/pi/common/install # tell skiff to install the os
 ```
 
 You only need to run the `format` step once. It will create the partition table.
@@ -76,6 +76,122 @@ dd if=pi-image.img of=/dev/sdX status=progress oflag=sync
 This is equivalent to using the format and install scripts.
 
 The persist partition will be resized to fill the available space on first boot.
+
+## USB Gadget Networking
+
+Raspberry Pi USB gadget networking is opt-in. It only works on boards and USB
+ports that support USB device/gadget mode, with a data-capable USB cable and a
+host that accepts the gadget network interface. It is not guaranteed for every
+Pi model, port, hub, or power-only cable.
+
+The base kernel configuration includes gadget networking modules such as
+`dwc2` and `g_ether`. Enable them from a custom Skiff config overlay instead of
+editing generated output or the built image.
+
+Create a custom config package that depends on your Pi config, then copy the
+selected Pi boot files into it. For example:
+
+```sh
+mkdir -p my/pi-gadget/metadata my/pi-gadget/resources/rpi
+printf 'pi/4,skiff/core\n' > my/pi-gadget/metadata/dependencies
+cp configs/pi/common/resources/rpi/config.txt my/pi-gadget/resources/rpi/
+cp configs/pi/common/resources/rpi/cmdline.txt my/pi-gadget/resources/rpi/
+```
+
+In `my/pi-gadget/resources/rpi/config.txt`, add:
+
+```ini
+dtoverlay=dwc2
+```
+
+In `my/pi-gadget/resources/rpi/cmdline.txt`, add `modules-load=dwc2,g_ether`
+to the single existing line. Keep `cmdline.txt` as one line.
+
+Use the custom package in `SKIFF_CONFIG`:
+
+```sh
+export SKIFF_CONFIG=my/pi-gadget
+make configure
+make compile
+```
+
+The examples below use host IP `10.0.0.1` and Pi device IP `10.0.0.3`.
+
+### Host machine: NetworkManager sharing
+
+To set up the host with NetworkManager:
+
+ 1. Create a new connection configuration in NetworkManager.
+ 2. Set the interface to the USB network interface, usually `usb0`.
+ 3. Set the IPv4 mode to Shared.
+ 4. Set the IPv4 address to `10.0.0.1`.
+ 5. Save and exit.
+
+The equivalent host `nmconnection` file is:
+
+```ini
+[connection]
+id=usbgadget
+uuid=5349d6bb-6ee2-4c6d-8b70-4a9ebfa947b2
+type=ethernet
+interface-name=usb0
+
+[ipv4]
+address1=10.0.0.1/8
+may-fail=false
+method=shared
+never-default=true
+
+[ipv6]
+method=disabled
+```
+
+### Host machine: manual iptables sharing
+
+To set up the host without NetworkManager:
+
+```sh
+# add an IP address to usb0
+ip addr add 10.0.0.1/24 dev usb0
+
+# Enable forwarding internet traffic on behalf of the Pi.
+# You can change OUTGOING to your outgoing interface, such as wlan0.
+OUTGOING=$(ip route get 1.1.1.1 | cut -d" " -f5 | head -n1)
+iptables -t nat -A POSTROUTING -s 10.0.0.3/32 -o ${OUTGOING} -j MASQUERADE
+iptables -A FORWARD -s 10.0.0.3 -j ACCEPT
+echo 1 > /proc/sys/net/ipv4/ip_forward
+```
+
+### Device IP address
+
+Set the Pi's USB network address by adding a NetworkManager override to the
+same custom config package:
+
+`my/pi-gadget/overrides/root_overlay/etc/NetworkManager/system-connections/usb0.nmconnection`
+
+Use the following contents:
+
+```ini
+[connection]
+id=usb
+uuid=004ae043-8866-4fa3-819a-8b5031c70c59
+type=ethernet
+interface-name=usb0
+
+[ethernet]
+
+[ipv4]
+address1=10.0.0.3/8,10.0.0.1
+dns=1.1.1.1;
+method=manual
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=disabled
+```
+
+Customize the Pi address by changing the first IP in `address1`. If you change
+it, update the host address and iptables rules to match the same subnet.
 
 ## Note: config.txt
 
