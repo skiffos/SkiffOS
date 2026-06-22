@@ -1,0 +1,15 @@
+[Unit]
+Description=Show SkiffOS boot status on tty1
+Documentation=https://github.com/skiffos/SkiffOS/issues/336
+After=skiff-init.service NetworkManager.service sshd.service docker.service skiff-core.service
+ConditionPathExists=/dev/tty1
+
+[Service]
+Type=oneshot
+Environment=SKIFF_STATUS_OUTPUT=/dev/tty1
+ExecStart=/opt/skiff/scripts/skiff-status.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
