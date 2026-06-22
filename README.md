@@ -575,6 +575,12 @@ $ make cmd/virt/qemu/run
 The `util/rootlogin` package is used here to enable logging in as "root" on the
 qemu debug console shown when running "cmd/virt/qemu/run".
 
+The [Devices workflow](https://github.com/skiffos/SkiffOS/actions/workflows/devices.yml)
+publishes the same Buildroot image directory for the `virt/qemu` target as
+`images-virt-qemu.tar.gz` on successful `master`, `next`, and `stable` builds.
+The artifact contains the kernel, initramfs, and rootfs files used by
+`cmd/virt/qemu/run`; it is not a standalone ISO or disk image.
+
 Qemu can emulate other architectures, for example, riscv64:
 
 ```
