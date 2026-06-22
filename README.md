@@ -49,38 +49,38 @@ main SkiffOS repository:
 
 | **System**            | **Config Package**        | **Bootloader**   | **Kernel**      |
 |-----------------------|---------------------------|------------------|-----------------|
-| VirtualBox            | [virt/virtualbox]         | N/A              | ✔ 7.0.11       |
+| VirtualBox            | [virt/virtualbox]         | N/A              | ✔ 7.0.12       |
 | [Docker Img]          | [virt/docker]             | N/A              | N/A             |
-| [Incus]               | [virt/incus]              | N/A              | ✔ 7.0.11       |
-| [Qemu]                | [virt/qemu]               | N/A              | ✔ 7.0.11       |
-| [UTM] on MacOS        | [apple/arm] + [virt/qemu] | N/A              | ✔ 7.0.11       |
+| [Incus]               | [virt/incus]              | N/A              | ✔ 7.0.12       |
+| [Qemu]                | [virt/qemu]               | N/A              | ✔ 7.0.12       |
+| [UTM] on MacOS        | [apple/arm] + [virt/qemu] | N/A              | ✔ 7.0.12       |
 | [V86] on WebAssembly  | [browser/v86]             | [V86]            | ✔ 7.0           |
 | [WSL] on Windows      | [virt/wsl]                | N/A              | N/A             |
 |-----------------------|---------------------------|------------------|-----------------|
 | [Allwinner Nezha]     | [allwinner/nezha]         | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    |
-| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 7.0.11       |
-| [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 7.0.11       |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
-| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
-| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
-| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
-| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
-| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2025.01 | ✔ 7.0.11       |
+| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 7.0.12       |
+| [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 7.0.12       |
+| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
+| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
+| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
+| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
+| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
+| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2025.01 | ✔ 7.0.12       |
 | [BeagleBoard X15]     | [beaglebone/x15]          | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone AI]       | [beaglebone/ai]           | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone Black]    | [beaglebone/black]        | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBoard BeagleV] | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
-| **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.0.11       |
+| **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.0.12       |
 | [ModalAI Voxl2]       | [modalai/voxl2]           | N/A              | ✔ msm-4.19.125  |
 | [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.120] |
 | [NVIDIA Jetson Nano]  | [jetson/nano]             | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]              | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [Odroid C2]           | [odroid/c2]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid C4]           | [odroid/c4]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
-| [Odroid H2]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.11       |
-| [Odroid H2+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.11       |
-| [Odroid H3]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.11       |
-| [Odroid H3+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.11       |
+| [Odroid H2]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.12       |
+| [Odroid H2+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.12       |
+| [Odroid H3]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.12       |
+| [Odroid H3+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.0.12       |
 | [Odroid HC1]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC2]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC4]          | [odroid/hc4]              | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
@@ -90,10 +90,10 @@ main SkiffOS repository:
 | [Odroid U]            | [odroid/u]                | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid XU3]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid XU4]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
-| [OrangePi Lite]       | [orangepi/lite]           | ✔ U-Boot 2018.05 | ✔ 7.0.11       |
-| [OrangePi Zero]       | [orangepi/zero]           | ✔ U-Boot 2018.07 | ✔ 7.0.11       |
-| [PcDuino 3]           | [pcduino/3]               | ✔ U-Boot 2019.07 | ✔ 7.0.11       |
-| [PcEngines APU2]      | [pcengines/apu2]          | ✔ CoreBoot       | ✔ 7.0.11       |
+| [OrangePi Lite]       | [orangepi/lite]           | ✔ U-Boot 2018.05 | ✔ 7.0.12       |
+| [OrangePi Zero]       | [orangepi/zero]           | ✔ U-Boot 2018.07 | ✔ 7.0.12       |
+| [PcDuino 3]           | [pcduino/3]               | ✔ U-Boot 2019.07 | ✔ 7.0.12       |
+| [PcEngines APU2]      | [pcengines/apu2]          | ✔ CoreBoot       | ✔ 7.0.12       |
 | [Pi 0]                | [pi/0]                    | N/A              | ✔ rpi-6.12.51   |
 | [Pi 1]                | [pi/1]                    | N/A              | ✔ rpi-6.12.51   |
 | [Pi 3] + 1, 2         | [pi/3]                    | N/A              | ✔ rpi-6.12.51   |
@@ -109,11 +109,11 @@ main SkiffOS repository:
 | [RockPro64]           | [pine64/rockpro64]        | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]      | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   |
 | [VisionFive]          | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
-| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 7.0.11       |
-| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2024.07 | ✔ 7.0.11       |
-| [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 7.0.11       |
+| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 7.0.12       |
+| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2024.07 | ✔ 7.0.12       |
+| [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 7.0.12       |
 | Valve [Steam Deck]    | [valve/deck]              | N/A              | ✔ valve-6.11.11 |
-| [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 7.0.11       |
+| [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 7.0.12       |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook Intel]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
@@ -398,11 +398,13 @@ Other distributions and images supported:
 | **Distribution** | **Config Package** | **Notes**              |
 |------------------|--------------------|------------------------|
 | [Alpine]         | core/alpine        | OpenRC                 |
-| [Arch] Linux     | core/arch          | Minimal desktop        |
+| [Arch] Linux     | [core/arch]        | Minimal desktop        |
 | [Debian] Sid     | skiff/core         | Default: XFCE desktop  |
-| [Fedora]         | core/fedora        | Minimal desktop        |
+| [Fedora]         | [core/fedora]      | Minimal desktop        |
 | [Gentoo]         | core/gentoo        | Based on latest stage3 |
-| [Ubuntu]         | core/ubuntu        | Snaps & Ubuntu Desktop |
+| [Jellyfin]       | [core/jellyfin]    | Media server           |
+| [LibreELEC]      | [core/libreelec]   | Kodi media center      |
+| [Ubuntu]         | [core/ubuntu]      | Snaps & Ubuntu Desktop |
 
 Other less frequently updated images:
 
@@ -422,7 +424,9 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [Alpine]: https://www.alpinelinux.org/
 [Gentoo]: https://www.gentoo.org/
 [Fedora]: https://www.getfedora.org/
+[Jellyfin]: https://jellyfin.org/
 [KDE Neon]: https://neon.kde.org/
+[LibreELEC]: https://libreelec.tv/
 [NASA cFS]: https://github.com/nasa/cFS
 [NASA Fprime]: https://github.com/nasa/fprime
 [NixOS]: https://nixos.org
@@ -430,10 +434,15 @@ There are also core images specific to [pine64/phone] and [pine64/book] and [jet
 [Ubuntu]: https://ubuntu.com/
 [XFCE]: https://www.xfce.org/
 
+[core/arch]: ./configs/core/arch
 [core/debian]: ./configs/core/debian
 [core/dietpi]: ./configs/core/dietpi
+[core/fedora]: ./configs/core/fedora
+[core/jellyfin]: ./configs/core/jellyfin
+[core/libreelec]: ./configs/core/libreelec
 [core/nasa_cfs]: ./configs/core/nasa_cfs
 [core/nasa_fprime]: ./configs/core/nasa_fprime
+[core/ubuntu]: ./configs/core/ubuntu
 [pine64/book]: ./configs/pine64/book
 [pine64/phone]: ./configs/pine64/phone
 [jetson/common]: ./configs/jetson/common

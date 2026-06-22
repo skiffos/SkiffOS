@@ -1,0 +1,26 @@
+containers:
+  core:
+    image: jellyfin/jellyfin:latest
+    tty: true
+    disableInit: true
+    workingDirectory: /
+    mounts:
+      - /etc/hostname:/etc/hostname:ro
+      - /mnt/persist/skiff/core/repos/jellyfin/config:/config
+      - /mnt/persist/skiff/core/repos/jellyfin/cache:/cache
+      - /mnt/persist/media:/media
+    startAfterCreate: true
+    restartPolicy: "always"
+    hostNetwork: true
+users:
+  core:
+    container: core
+    containerUser: root
+    containerShell:
+      - "/usr/bin/bash"
+    auth:
+      copyRootKeys: true
+images:
+  jellyfin/jellyfin:latest:
+    pull:
+      policy: ifnotexists
