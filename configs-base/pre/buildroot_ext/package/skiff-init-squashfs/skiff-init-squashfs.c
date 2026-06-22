@@ -152,6 +152,7 @@ int loopdev_setup_device(const char *file, uint64_t offset, const char *device);
 void write_skiff_init_pid(pid_t pid);
 void do_bind_host_paths(void);
 const char *read_param_from_cmdline(const char *name);
+int device_is_root_mount(const char *device);
 
 int main(int argc, char *argv[]) {
   int res = 0;
@@ -286,14 +287,25 @@ int main(int argc, char *argv[]) {
         dup2(fileno(logfd), fileno(stdout));
         dup2(fileno(logfd), fileno(stderr));
 
-        // re-use environment (in child process)
-        char **r2fsargv = (char **)malloc(4 * sizeof(const char *));
+        // The persist device is still mounted as / before the overlay chroot.
+        int force_online = device_is_root_mount(linebuf);
+        char *r2fsargv[6];
         r2fsargv[0] = (char *)resize2fs_path;
         r2fsargv[1] = (char *)"-F";
-        r2fsargv[2] = linebuf;
-        r2fsargv[3] = NULL;
+        if (force_online) {
+          fprintf(logfd,
+                  "SkiffOS resize2fs: forcing online resize for %s mounted at "
+                  "/\n",
+                  linebuf);
+          r2fsargv[2] = (char *)"-o";
+          r2fsargv[3] = (char *)"/";
+          r2fsargv[4] = linebuf;
+          r2fsargv[5] = NULL;
+        } else {
+          r2fsargv[2] = linebuf;
+          r2fsargv[3] = NULL;
+        }
         res = execve(resize2fs_path, r2fsargv, environ);
-        free(r2fsargv);
         if (res != 0) {
           res = errno;
           fprintf(logfd,
@@ -1014,4 +1026,20 @@ const char *read_param_from_cmdline(const char *name) {
 
   // The parameter was not found, so return NULL
   return NULL;
+}
+
+int device_is_root_mount(const char *device) {
+  struct stat root_st = {0};
+  struct stat device_st = {0};
+
+  if (stat("/", &root_st) != 0) {
+    return 0;
+  }
+  if (stat(device, &device_st) != 0) {
+    return 0;
+  }
+  if (!S_ISBLK(device_st.st_mode)) {
+    return 0;
+  }
+  return root_st.st_dev == device_st.st_rdev;
 }

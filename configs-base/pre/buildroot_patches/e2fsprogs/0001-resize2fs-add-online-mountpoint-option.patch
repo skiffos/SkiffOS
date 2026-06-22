@@ -1,0 +1,112 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Christian Stewart <christian@aperture.us>
+Date: Mon, 22 Jun 2026 12:00:00 -0700
+Subject: [PATCH] resize2fs: add online mountpoint option
+
+SkiffOS init runs a static resize2fs before switching from the
+persist-mounted root filesystem into the squashfs overlay. In that early boot
+environment resize2fs can fail to identify that the target device is already
+mounted as /, so it attempts an offline resize of the live root filesystem.
+
+Add an explicit mountpoint option which tells resize2fs to use the online
+resize path for the supplied mountpoint. Existing behavior is unchanged unless
+the option is passed.
+
+Signed-off-by: Christian Stewart <christian@aperture.us>
+---
+--- a/resize/main.c
++++ b/resize/main.c
+@@ -48,7 +48,7 @@
+ {
+ 	fprintf (stderr, _("Usage: %s [-d debug_flags] [-f] [-F] [-M] [-P] "
+ 			   "[-p] device [-b|-s|new_size] [-S RAID-stride] "
+-			   "[-z undo_file]\n\n"),
++			   "[-z undo_file] [-o mount_point]\n\n"),
+ 		 prog ? prog : "resize2fs");
+ 
+ 	exit (1);
+@@ -269,7 +269,8 @@
+ 	unsigned int	blocksize;
+ 	long		sysval;
+ 	int		len, mount_flags;
+-	char		*mtpt, *undo_file = NULL;
++	int		force_online = 0;
++	char		*mtpt = NULL, *undo_file = NULL;
+ 
+ #ifdef ENABLE_NLS
+ 	setlocale(LC_MESSAGES, "");
+@@ -288,7 +289,7 @@
+ 	else
+ 		usage(NULL);
+ 
+-	while ((c = getopt(argc, argv, "d:fFhMPpS:bsz:")) != EOF) {
++	while ((c = getopt(argc, argv, "d:fFhMPpS:bsz:o:")) != EOF) {
+ 		switch (c) {
+ 		case 'h':
+ 			usage(program_name);
+@@ -323,6 +324,11 @@
+ 		case 'z':
+ 			undo_file = optarg;
+ 			break;
++		case 'o':
++			force_online = 1;
++			mount_flags = EXT2_MF_MOUNTED;
++			mtpt = optarg;
++			break;
+ 		default:
+ 			usage(program_name);
+ 		}
+@@ -344,24 +350,26 @@
+ 	 * Figure out whether or not the device is mounted, and if it is
+ 	 * where it is mounted.
+ 	 */
+-	len=80;
+-	while (1) {
+-		mtpt = malloc(len);
+-		if (!mtpt)
+-			return ENOMEM;
+-		mtpt[len-1] = 0;
+-		retval = ext2fs_check_mount_point(device_name, &mount_flags,
+-						  mtpt, len);
+-		if (retval) {
+-			com_err("ext2fs_check_mount_point", retval,
+-				_("while determining whether %s is mounted."),
+-				device_name);
+-			exit(1);
++	if (!force_online) {
++		len=80;
++		while (1) {
++			mtpt = malloc(len);
++			if (!mtpt)
++				return ENOMEM;
++			mtpt[len-1] = 0;
++			retval = ext2fs_check_mount_point(device_name, &mount_flags,
++							  mtpt, len);
++			if (retval) {
++				com_err("ext2fs_check_mount_point", retval,
++					_("while determining whether %s is mounted."),
++					device_name);
++				exit(1);
++			}
++			if (!(mount_flags & EXT2_MF_MOUNTED) || (mtpt[len-1] == 0))
++				break;
++			free(mtpt);
++			len = 2 * len;
+ 		}
+-		if (!(mount_flags & EXT2_MF_MOUNTED) || (mtpt[len-1] == 0))
+-			break;
+-		free(mtpt);
+-		len = 2 * len;
+ 	}
+ 
+ 	if (print_min_size)
+@@ -672,7 +680,8 @@
+ 				   ((flags & RESIZE_PERCENT_COMPLETE) ?
+ 				    resize_progress_func : 0));
+ 	}
+-	free(mtpt);
++	if (!force_online)
++		free(mtpt);
+ 	if (retval) {
+ 		com_err(program_name, retval, _("while trying to resize %s"),
+ 			device_name);
