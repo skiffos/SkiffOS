@@ -8,6 +8,26 @@ fi
 
 echo "SkiffOS: inside chroot, executing new PID namespace for systemd..."
 
+WSL_WINDOWS_PATH_DIR=/mnt/persist/skiff-overlays/skiff-init
+WSL_WINDOWS_PATH_FILE=${WSL_WINDOWS_PATH_DIR}/wsl-windows-path
+if mkdir -p "${WSL_WINDOWS_PATH_DIR}" 2>/dev/null; then
+  : > "${WSL_WINDOWS_PATH_FILE}" || true
+  if [ -w "${WSL_WINDOWS_PATH_FILE}" ]; then
+    old_ifs=${IFS}
+    IFS=:
+    for wsl_path_dir in ${PATH}; do
+      case "${wsl_path_dir}" in
+        /mnt/[A-Za-z]/*)
+          printf '%s\n' "${wsl_path_dir}" >> "${WSL_WINDOWS_PATH_FILE}"
+          ;;
+      esac
+    done
+    IFS=${old_ifs}
+    unset old_ifs wsl_path_dir
+  fi
+fi
+unset WSL_WINDOWS_PATH_DIR WSL_WINDOWS_PATH_FILE
+
 export PATH=/usr/lib/systemd:/usr/sbin:/usr/bin
 
 # ensure that / is shared

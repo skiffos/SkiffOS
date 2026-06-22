@@ -295,11 +295,12 @@ int main(int argc, char *argv[]) {
   continue_as_child();
 
   // drop environment
-  char** shellenv = NULL;
+  char* emptyenv[] = {NULL};
+  char** shellenv = emptyenv;
 #ifdef NO_DROP_ENV
   shellenv = environ;
 #endif
-  if (execve(userShell, shellargv, environ) != 0) {
+  if (execve(userShell, shellargv, shellenv) != 0) {
     res = errno;
     fprintf(logfd, "SkiffOS: failed to exec shell process: (%d) %s\n", res, strerror(res));
     return res;
