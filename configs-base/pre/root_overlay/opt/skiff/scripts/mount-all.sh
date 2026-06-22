@@ -74,14 +74,14 @@ fi
 udevadm settle --timeout=30s || echo "Udev settle timed out! Continuing..."
 
 # Rewrite LABEL= to a /dev/ path so that resizing works below.
-if [[ "${PERSIST_DEVICE}" =~ "^LABEL=.*" ]]; then
+if [[ "${PERSIST_DEVICE}" == LABEL=* ]]; then
     # If we are mounting LABEL=foo, use /dev/disk/by-label/foo
     PERSIST_DEVICE="/dev/disk/by-label/${PERSIST_DEVICE:6}"
 fi
 
 # If we have not configured any devices to wait
 if [ ${#WAIT_PATHS_EXIST[@]} -eq 0 ]; then
-    if [[ "${PERSIST_DEVICE}" =~ "^/dev/.*" ]]; then
+    if [[ "${PERSIST_DEVICE}" == /dev/* ]]; then
         # If we are mounting /dev/..., wait for that file to exist.
         WAIT_PATHS_EXIST+=("${PERSIST_DEVICE}")
     fi

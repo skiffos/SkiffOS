@@ -3,7 +3,6 @@
 {
   imports = [
     <nixpkgs/nixos/modules/virtualisation/docker-image.nix>
-    ./hardware-configuration.nix
     (import <mobile-nixos/lib/configuration.nix> { device = "pine64-pinephone"; })
     # <mobile-nixos/examples/demo/configuration.nix>
     <mobile-nixos/examples/hello/configuration.nix>

@@ -42,7 +42,7 @@ echo "Zeroing out partition table..."
 sudo dd if=/dev/zero of=${PI_SD} conv=fsync bs=1024 count=4900
 
 echo "Formatting device..."
-sudo parted $PI_SD mklabel msdos
+sudo parted $PI_SD mklabel gpt
 sleep 1
 
 echo "Making boot partition..."
@@ -52,7 +52,7 @@ echo "Making rootfs partition..."
 sudo parted -a optimal $PI_SD -- mkpart primary ext4 1.4G 1.6G
 
 echo "Making persist partition..."
-sudo parted -a optimal $PI_SD -- mkpart primary ext4 1.6G "-1s"
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 1.6G "100%"
 
 echo "Waiting for partprobe..."
 sudo partprobe $PI_SD || true

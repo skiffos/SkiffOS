@@ -7,8 +7,8 @@
 # Create a Skiff config, and copy this file to:
 # my/config/resources/rpi/config.txt
 
-start_file=start.elf
-fixup_file=fixup.dat
+start_file=start_x.elf
+fixup_file=fixup_x.dat
 
 kernel=zImage
 
