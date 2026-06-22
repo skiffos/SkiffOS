@@ -1,0 +1,12 @@
+config BR2_PACKAGE_SKIFF_DBUS_PROXY
+	bool "skiff-dbus-proxy"
+	depends on BR2_PACKAGE_SYSTEMD
+	depends on BR2_TOOLCHAIN_HAS_THREADS # systemd
+	depends on BR2_USE_MMU # systemd
+	help
+	  Forward selected host D-Bus services into Skiff Core containers.
+
+	  https://github.com/skiffos/skiff-dbus-proxy
+
+comment "skiff-dbus-proxy needs systemd"
+	depends on !BR2_PACKAGE_SYSTEMD

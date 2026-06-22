@@ -1,0 +1,17 @@
+[Unit]
+Description=Skiff Core D-Bus proxy
+Requires=docker.service skiff-core.service
+After=docker.service skiff-core.service
+PartOf=skiff-core.service
+
+[Service]
+Type=simple
+Environment=SKIFF_DBUS_PROXY_CONTAINER=core
+Environment=SKIFF_DBUS_PROXY_SERVICES=org.freedesktop.NetworkManager
+EnvironmentFile=-/mnt/persist/skiff/core/dbus-proxy.env
+ExecStart=/opt/skiff/scripts/skiff-dbus-proxy.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -9,6 +9,7 @@ config BR2_PACKAGE_SKIFF_CORE_DEFCONFIG
 	select BR2_PACKAGE_CONTAINERD # skiff-core
 	select BR2_PACKAGE_IPTABLES # skiff-core
 	select BR2_PACKAGE_SKIFF_CORE
+	select BR2_PACKAGE_SKIFF_DBUS_PROXY if BR2_PACKAGE_SYSTEMD
 	help
 	  Skiff Core environment default config.
 
