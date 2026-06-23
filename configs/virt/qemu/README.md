@@ -17,6 +17,14 @@ stop emulation, or you can use `killall qemu-system`.
 
 Log in as "root" for the default Skiff setup.
 
+## CI image artifact
+
+The [Devices workflow] publishes `images-virt-qemu.tar.gz` for successful
+`master`, `next`, and `stable` builds. This artifact is the Buildroot `images/`
+directory for `SKIFF_CONFIG=virt/qemu,skiff/core,core/gentoo`; it contains the
+kernel, initramfs, and rootfs files used by `make cmd/virt/qemu/run`, not a
+standalone ISO or disk image.
+
 The `intel/x64` portion of `SKIFF_CONFIG` can be replaced with any of the
 SkiffOS targets, including the arm and riscv64 systems.
 
@@ -41,3 +49,5 @@ cp workspaces/default/images/skiffos.utm /opt/skiffos-build
 [Install UTM](https://getutm.app) on your MacOS machine.
 
 Run `open ~/skiffos-build` and double-click the skiffos.utm file to start the VM!
+
+[Devices workflow]: https://github.com/skiffos/SkiffOS/actions/workflows/devices.yml
