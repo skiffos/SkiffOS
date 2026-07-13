@@ -25,7 +25,7 @@ jobs:
           git submodule update --init --recursive
 
       - name: Cache build cache and downloads
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/br-cache/
           # https://github.com/actions/toolkit/issues/505#issuecomment-1650290249
