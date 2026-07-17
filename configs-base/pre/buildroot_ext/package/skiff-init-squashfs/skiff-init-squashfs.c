@@ -164,7 +164,10 @@ int main(int argc, char *argv[]) {
   if (getpid() == 1) {
     // mkdir -p /dev
     if (stat("/dev", &st) == -1) {
-      mkdir("/dev", 0755);
+      if (mkdir("/dev", 0755) != 0) {
+        fprintf(logfd, "SkiffOS init: failed to mkdir /dev: (%d) %s\n", errno,
+                strerror(errno));
+      }
     }
 
     // mount devtmpfs: if not already mounted
@@ -178,9 +181,9 @@ int main(int argc, char *argv[]) {
 
     logfd = fopen(pid1_log, "w");
     if (logfd == 0) {
+      logfd = stderr;
       fprintf(logfd, "Failed to open %s as PID 1: %s\n", pid1_log,
               strerror(errno));
-      logfd = stderr;
     } else {
       setbuf(logfd, NULL);
       closeLogFd = 1;
