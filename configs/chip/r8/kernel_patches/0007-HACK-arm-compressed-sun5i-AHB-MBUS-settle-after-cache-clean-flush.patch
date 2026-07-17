@@ -1,0 +1,65 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 18:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i AHB/MBUS settle after cache_clean_flush
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the kernel is completely silent
+after U-Boot jumps to the zImage, even with the settle in patch 0006
+(after decompress_kernel) and in patch 0003 (__enter_kernel).
+
+Root cause: the decompressor calls cache_clean_flush() which writes
+the remaining dirty D-cache lines to DRAM (up to 8 KB = 256 x 32-byte
+lines) AFTER the main patch 0006 settle.  That creates a fresh AHB/MBUS
+write burst.  Then cache_off() is called, which empties the I-cache via
+"mcr p15,0,r0,c7,c7" (invalidate both caches).  After cache_off()
+returns, the I-cache is empty: every instruction fetch -- including the
+first instruction of our patch 0003 settle in __enter_kernel -- causes
+an I-cache miss and goes to DRAM via AHB.  If the AHB write buffer
+from cache_clean_flush is still in flight those reads stall
+indefinitely.
+
+Fix: insert a DSB + busy-wait immediately after bl cache_clean_flush
+returns and BEFORE bl cache_off.  At this point the I-cache is still
+populated from the decompressor's execution; the settle loop runs
+entirely out of I-cache with no DRAM reads, giving the MBUS arbiter
+time to drain the cache_clean_flush write burst.
+
+  mcr p15, 0, r0, c7, c10, 4  @ ARMv5 DSB
+  0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz ~= 200 ms
+  r0 is scratch here (was the start-address argument to cache_clean_flush;
+  not needed after the call returns).
+
+After this settle, cache_off() and the branch to __enter_kernel execute
+cleanly.  The existing settle in patch 0003 (__enter_kernel) then handles
+any residual backlog before the jump to the decompressed kernel.
+
+Guarded by #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/boot/compressed/head.S | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -655,6 +655,21 @@
+ 		mov	r0, r4			@ start of inflated image
+ 		add	r1, r1, r0		@ end of inflated image
+ 		bl	cache_clean_flush
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i AHB/MBUS: cache_clean_flush() just wrote remaining
++		 * dirty D-cache lines to DRAM.  The I-cache is still populated
++		 * here; cache_off() will empty it.  After cache_off, instruction
++		 * fetches miss the I-cache and go to DRAM -- stalling if the
++		 * AHB write buffer from cache_clean_flush is not yet drained.
++		 * Settle while I-cache is still hot.  r0 is scratch here.
++		 */
++		mcr	p15, 0, r0, c7, c10, 4		@ ARMv5 DSB
++		mov	r0, #0x04000000			@ 67M iters ~= 200ms @ 1 GHz
++sun5i_flush_settle:
++		subs	r0, r0, #1
++		bne	sun5i_flush_settle
++#endif
+ 		bl	cache_off
+ 
+ #ifdef CONFIG_ARM_VIRT_EXT

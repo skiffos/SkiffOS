@@ -1,0 +1,28 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 04 May 2026 19:45:00 +0200
+Subject: [PATCH] drivers: core: root: sun5i MBUS settle between dm_init and dm_scan (main U-Boot only)
+
+Excluded from SPL: SPL NAND reads use DMA which needs cache coherency.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/drivers/core/root.c	2026-05-08 19:35:42.865896290 +0200
++++ b/drivers/core/root.c	2026-05-08 19:35:42.865896290 +0200
+@@ -349,6 +349,17 @@
+ 		debug("dm_init() failed: %d\n", ret);
+ 		return ret;
+ 	}
++#if IS_ENABLED(CONFIG_MACH_SUN5I) && !IS_ENABLED(CONFIG_SPL_BUILD)
++	{
++		unsigned int _cnt;
++		asm volatile(
++			"mcr p15, 0, %0, c7, c10, 4\n"
++			"mov %0, #0x2000000\n"
++			"1: subs %0, %0, #1\n"
++			"   bne 1b\n"
++			: "=r" (_cnt) :: "cc", "memory");
++	}
++#endif
+ 	if (!CONFIG_IS_ENABLED(OF_PLATDATA_INST)) {
+ 		ret = dm_scan(pre_reloc_only);
+ 		if (ret) {

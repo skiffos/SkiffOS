@@ -1,0 +1,58 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 29 Mar 2026 12:00:00 +0100
+Subject: [PATCH 1/2] HACK: mm: Allwinner sun5i AHB/MBUS bus-stall workaround in memmap_init_range
+
+On Allwinner sun5i SoCs (R8/A13, NextThing C.H.I.P.), initialising the
+page map via memmap_init_range() writes 131072 struct page entries in a
+sustained burst to DRAM.  After the burst, the AHB/MBUS bus arbiter
+retains unresolved write transactions; the very next DRAM read (e.g.,
+loading a printk format string from .rodata) stalls the CPU indefinitely.
+
+The same failure class was fixed in U-Boot:
+  env/nowhere.c   - DSB + 50 ms before himport_r()
+  lib/hashtable.c - 5 ms udelay per himport_r() iteration
+  boot/image-fdt.c - DSB + 5 ms between each FDT fixup step
+
+Apply the equivalent workaround for the kernel:
+
+1. Inside the memmap_init_range() loop: mb() + short busy-wait every
+   256 pages (pfn & 0xff == 0) so the AHB arbiter can drain between
+   bursts of struct page writes.
+
+2. After the loop: mb() + 2 M-iteration busy-wait to allow the bus to
+   return to idle before the first post-init printk.
+
+Temporary diagnostic pr_notice included to confirm the function
+completes — remove once boot is stable.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ mm/mm_init.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -903,6 +903,11 @@ void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone
+ #endif
+
+ 	for (pfn = start_pfn; pfn < end_pfn; ) {
++		/* sun5i AHB/MBUS settle: periodic barrier during heavy DRAM writes */
++		if ((pfn & 0xff) == 0) {
++			mb();
++			{ volatile int __d; for (__d = 0; __d < 100000; __d++); }
++		}
+ 		/*
+ 		 * There can be holes in boot-time mem_map[]s handed to this
+ 		 * function.  They do not exist on hotplugged memory.
+@@ -939,6 +944,10 @@ void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone
+ 		}
+ 		pfn++;
+ 	}
++	/* sun5i AHB/MBUS settle: DSB + busy-wait after heavy DRAM writes */
++	mb();
++	{ volatile int __d; for (__d = 0; __d < 2000000; __d++); }
++	pr_notice("[MM-DBG] memmap_init_range done pfn %lu\n", pfn);
+ }
+
+ static void __init memmap_init_zone_range(struct zone *zone,

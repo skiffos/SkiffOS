@@ -1,0 +1,50 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Mon, 23 Mar 2026 20:30:00 +0100
+Subject: [PATCH] lib: hashtable: add per-iteration settle delay on sun5i/R8
+
+On Allwinner sun5i/R8 (C.H.I.P.), U-Boot hangs inside the
+himport_r() parse loop after NAND BBT scanning.  A one-time barrier
+or delay before entering the loop is insufficient; the issue
+requires settling time between iterations.
+
+Debug UART puts() calls distributed through the loop body (each
+~1.5 ms at 115200 baud) eliminated the hang, confirming per-
+iteration timing is required.  The UART accesses target the APB0
+bus which is separate from the AHB bus used by NAND and DRAM.
+
+Add a 5 ms udelay per iteration when building for sun5i.  This is
+compiled away to nothing on all other SoCs via IS_ENABLED().  Total
+overhead for a ~30-variable environment is ~150 ms at boot, which
+is acceptable.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ lib/hashtable.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/lib/hashtable.c b/lib/hashtable.c
+--- a/lib/hashtable.c
++++ b/lib/hashtable.c
+@@ -32,6 +32,7 @@
+ #else				/* U-Boot build */
+ # include <linux/string.h>
+ # include <linux/ctype.h>
++# include <linux/delay.h>
+ #endif
+
+ #define USED_FREE 0
+@@ -882,6 +883,14 @@
+ 	do {
+ 		struct env_entry e, *rv;
+
++		/*
++		 * Workaround for sun5i/R8 (C.H.I.P.): after NAND BBT scan the
++		 * AHB/MBUS bus needs settling time between env parse iterations.
++		 * A 5 ms gap matches the timing that debug UART puts() provided.
++		 */
++		if (IS_ENABLED(CONFIG_MACH_SUN5I))
++			udelay(5000);
++
+ 		/* skip leading white space */
+ 		while (isblank(*dp))
+ 			++dp;

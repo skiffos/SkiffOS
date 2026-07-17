@@ -1,0 +1,58 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Mon, 23 Mar 2026 10:00:00 +0100
+Subject: [PATCH] env: nowhere: add DSB + settle delay before env_set_default on sun5i
+
+On Allwinner sun5i/R8 (C.H.I.P.), U-Boot hangs inside the
+himport_r() parse loop when loading the default environment after
+NAND initialisation.  The sunxi NAND controller (NFC) enables the
+AHB DMA clock gate during hw_init even though all I/O is PIO/SRAM;
+combined with the MBUS arbiter state left by NAND BBT scanning,
+there appear to be unresolved AHB/MBUS bus transactions that stall
+subsequent DRAM accesses from the CPU core.
+
+UART writes target device/strongly-ordered memory, which on ARM926
+acts as an implicit Data Synchronisation Barrier -- this explains
+why adding debug puts() inside the parse loop eliminates the hang.
+
+Issue an explicit CP15 DSB before env_set_default() to drain all
+pending write-buffer and bus transactions, then wait 50 ms for the
+AHB/MBUS arbiter to return to idle before beginning the environment
+parse.  Without this the parse loop stalls indefinitely after NAND
+initialisation on sun5i.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ env/nowhere.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/env/nowhere.c b/env/nowhere.c
+--- a/env/nowhere.c
++++ b/env/nowhere.c
+@@ -13,6 +13,8 @@
+ #include <env_internal.h>
+ #include <asm/global_data.h>
+ #include <linux/stddef.h>
++#include <asm/system.h>
++#include <linux/delay.h>
+
+ DECLARE_GLOBAL_DATA_PTR;
+
+@@ -34,8 +36,18 @@
+ 	 * searches default_environment array in that case.
+ 	 * For U-Boot proper, import the default environment to allow reload.
+ 	 */
+-	if (!IS_ENABLED(CONFIG_SPL_BUILD))
++	if (!IS_ENABLED(CONFIG_SPL_BUILD)) {
++		/*
++		 * Workaround for sun5i/R8: the AHB/MBUS arbiter retains
++		 * pending transactions after NAND BBT scanning.  Issue a DSB
++		 * to drain the ARM write buffer and wait for the bus to idle
++		 * before calling himport_r(); without this the parse loop
++		 * stalls indefinitely on this SoC.
++		 */
++		dsb();
++		udelay(50000);
+ 		env_set_default(NULL, 0);
++	}
+
+ 	gd->env_valid = ENV_INVALID;

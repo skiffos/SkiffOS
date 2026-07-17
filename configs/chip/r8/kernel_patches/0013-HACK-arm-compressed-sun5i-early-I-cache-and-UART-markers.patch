@@ -1,0 +1,66 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 11 May 2026 20:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i early I-cache enable + UART markers
+
+Enable I-cache immediately at the 1: entry point to reduce MBUS pressure
+throughout the decompressor.  With I-cache off, every instruction fetch
+competes with data writes on MBUS, triggering sun5i stalls.
+
+Add direct UART write markers (no LSR poll) for diagnosis:
+  'K\n' at 1: label -- kernel entered, I-cache enabled
+  'Q\n' after fdt_check_mem_start -- FDT memory check completed
+
+No LSR poll: the LSR poll loop generates a DRAM read (volatile pointer
+load from stack) that stalls on pending MBUS write transactions.
+Direct writes to UART0 THR go through APB (not MBUS) and cannot stall.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -222,5 +222,24 @@
+ 		__EFI_HEADER
+ 1:
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * Enable I-cache early: with I-cache off every instruction fetch
++		 * competes with data writes on MBUS, triggering sun5i stalls.
++		 * With I-cache on only DATA accesses (DTB reads, stack writes)
++		 * use MBUS.  r3 is scratch; r0=0, r1=machid, r2=atags preserved.
++		 */
++		mrc	p15, 0, r3, c1, c0, 0	@ read SCTLR
++		orr	r3, r3, #0x1000		@ set I bit: enable I-cache
++		mcr	p15, 0, r3, c1, c0, 0	@ write SCTLR
++		mcr	p15, 0, r3, c7, c5, 4	@ ISB: flush pipeline; I-cache active
++		@ Marker K: kernel 1: label reached. Direct APB write, no LSR poll.
++		mov	r3, #0x01C00000		@ UART1 base (CHIP console)
++		orr	r3, r3, #0x28400
++		mov	r4, #'K'
++		str	r4, [r3]
++		mov	r4, #'\n'
++		str	r4, [r3]
++#endif
+  ARM_BE8(	setend	be		)	@ go BE8 if compiled for BE8
+  AR_CLASS(	mrs	r9, cpsr	)
+ #ifdef CONFIG_ARM_VIRT_EXT
+@@ -307,6 +326,20 @@
+ 		mov	r1, r8
+ 		bl	fdt_check_mem_start
+ 1:
++#ifdef CONFIG_MACH_SUN5I
++		@ Marker Q: fdt_check_mem_start done. Direct APB write, no LSR poll.
++		@ r1/r2 clobbered by callee. Restore r0=memory base for TEXT_OFFSET.
++		mov	r1, #0x01C00000		@ UART1 base (CHIP console)
++		orr	r1, r1, #0x28400
++		mov	r2, #'Q'
++		str	r2, [r1]
++		mov	r2, #'\n'
++		str	r2, [r1]
++		mov	r0, pc			@ restore r0 = memory base
++		and	r0, r0, #0xf8000000
++		mov	r1, r7			@ restore r1 = machid (clobbered above)
++		mov	r2, r8			@ restore r2 = atags  (clobbered above)
++#endif
+ #endif /* CONFIG_USE_OF */
+ 		/* Determine final kernel image address. */
+ 		add	r4, r0, #TEXT_OFFSET

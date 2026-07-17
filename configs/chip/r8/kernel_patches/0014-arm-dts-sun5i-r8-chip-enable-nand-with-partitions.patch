@@ -1,0 +1,102 @@
+From 2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c Mon Sep 17 00:00:00 2001
+From: SkiffOS <skiffos@skiffos.org>
+Date: Sat, 01 Jan 2000 00:00:00 +0000
+Subject: [PATCH] ARM: dts: sun5i-r8-chip: enable NAND controller with
+ partitions
+
+Enable the NFC on the C.H.I.P. (mirrors U-Boot patch 0001 and the
+in-tree sun5i-gr8-chip-pro.dts node) and add a fixed-partitions table
+matching U-Boot's mtdparts layout:
+
+  nand0:4m(spl),4m(spl-backup),4m(uboot),4m(env),-(UBI)
+
+Without this node the sunxi_nand driver never probes, no mtd devices
+exist, ubi.mtd=4 cannot attach, and the kernel panics with
+"VFS: Unable to mount root fs on unknown-block(0,253)".
+
+64-bit address/size cells: the CHIP's Hynix H27UCG8T2ETR is 8 GiB,
+beyond 32-bit sizing. The UBI partition size (8 GiB) intentionally
+extends past the device end; mtdpart truncates with a warning,
+emulating mtdparts' "-" remainder syntax. It must span the FULL
+remainder: U-Boot auto-resizes the "persist" UBI volume to all PEBs
+of its 8176 MiB partition; a smaller kernel partition makes UBI
+attach fail (more reserved PEBs than available).
+
+nand-ecc-strength=56: match U-Boot. For this chip ID U-Boot's
+nand_ids entry uses 56-bit/1KiB ECC, the kernel's uses 40-bit/1KiB;
+mismatched layouts make every U-Boot-written page fail with ECC
+errors in the kernel.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.org>
+---
+ arch/arm/boot/dts/allwinner/sun5i-r8-chip.dts | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+--- a/arch/arm/boot/dts/allwinner/sun5i-r8-chip.dts
++++ b/arch/arm/boot/dts/allwinner/sun5i-r8-chip.dts
+@@ -280,3 +280,65 @@
+ 	usb0_vbus-supply = <&reg_usb0_vbus>;
+ 	usb1_vbus-supply = <&reg_vcc5v0>;
+ };
++
++&nfc {
++	pinctrl-names = "default";
++	pinctrl-0 = <&nand_pins &nand_cs0_pin &nand_rb0_pin>;
++	status = "okay";
++
++	nand@0 {
++		reg = <0>;
++		allwinner,rb = <0>;
++		nand-ecc-mode = "hw";
++		/*
++		 * Match U-Boot's ECC layout.  For chip ID
++		 * ad,de,14,a7,42,4a U-Boot's nand_ids table
++		 * (H27QCG8T2E5R-BCF) uses 56-bit/1KiB while the
++		 * kernel's (H27UCG8T2ETR-BC) uses 40-bit/1KiB.
++		 * Without this override every page U-Boot wrote
++		 * fails with -EBADMSG (ECC error) in the kernel.
++		 */
++		nand-ecc-strength = <56>;
++		nand-ecc-step-size = <1024>;
++
++		partitions {
++			compatible = "fixed-partitions";
++			#address-cells = <2>;
++			#size-cells = <2>;
++
++			partition@0 {
++				label = "spl";
++				reg = <0x0 0x0 0x0 0x400000>;
++			};
++
++			partition@400000 {
++				label = "spl-backup";
++				reg = <0x0 0x400000 0x0 0x400000>;
++			};
++
++			partition@800000 {
++				label = "uboot";
++				reg = <0x0 0x800000 0x0 0x400000>;
++			};
++
++			partition@c00000 {
++				label = "env";
++				reg = <0x0 0xc00000 0x0 0x400000>;
++			};
++
++			partition@1000000 {
++				label = "UBI";
++				/*
++				 * Size intentionally covers "rest of device"
++				 * (8 GiB from 16 MiB on).  mtdpart truncates
++				 * any partition extending past the device end
++				 * with a warning -- matches U-Boot's
++				 * mtdparts "-(UBI)" remainder syntax.
++				 * 64-bit cells: device is 8 GiB (Toshiba MLC),
++				 * beyond 32-bit sizing.
++				 */
++				reg = <0x0 0x1000000 0x2 0x0>;
++			};
++		};
++	};
++};

@@ -1,0 +1,10 @@
+# Low-level UART debug — DISABLED (boot is stable as of July 8, 2026).
+#
+# When diagnosing early boot again, re-enable:
+#   CONFIG_DEBUG_LL=y
+#   CONFIG_DEBUG_SUNXI_UART1=y     <-- UART1! console is 0x01C28400, NOT UART0
+#   CONFIG_EARLY_PRINTK=y
+#   CONFIG_DEBUG_UART_8250_WORD=y
+# and add `earlyprintk` to the bootargs in resources/nand-boot/boot.txt.
+# CONFIG_DEBUG_LL is not set
+# CONFIG_EARLY_PRINTK is not set

@@ -1,0 +1,103 @@
+From: SkiffOS <skiffos@skiffos.org>
+Date: Sun, 29 Mar 2026 14:00:00 +0100
+Subject: [PATCH] drivers: mtd: nand: sunxi: sun5i AHB/MBUS settle before NFC probe
+
+On Allwinner sun5i SoCs (R8/A13, C.H.I.P.) U-Boot hangs with "NAND:   "
+printed and nothing further.  The hang is the AHB/MBUS bus stall class:
+
+  Prior initcalls (power_init_board etc.) write CCU/PMU registers.
+  clk_enable_bulk() in sunxi_nand_probe() calls clrsetbits() on the
+  CCU AHB clock-gate (read-modify-write); the READ hangs because the
+  AHB arbiter has not drained prior write transactions.
+
+Fix: DSB + udelay settle at three points, all guarded by
+IS_ENABLED(CONFIG_MACH_SUN5I):
+
+1. sunxi_nand_probe() entry: 50 ms after INIT_LIST_HEAD, before any
+   AHB/CCU access.  Drains pending writes from prior initcalls.
+
+2. sunxi_nand_probe() after clk_enable_bulk(): 50 ms before the first
+   NFC register access in sunxi_nfc_rst().
+
+3. sunxi_nfc_rst(): 5 ms before first NFC writel, and again between
+   the write burst and the polling readl loop.
+
+Diagnostic pr_notice markers included; remove once NAND probes reliably.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.org>
+---
+ drivers/mtd/nand/raw/sunxi_nand.c | 1 file changed
+
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -370,9 +370,27 @@
+ 				 NFC_DEFAULT_TIMEOUT_MS) / 1000;
+ 	u32 time_start;
+ 
++	/*
++	 * sun5i AHB/MBUS bus stall: DSB + udelay before first NFC
++	 * register write so the AHB arbiter can drain.
++	 */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++		pr_notice("[NAND-DBG] nfc_rst: DSB+5ms settle before ECC_CTL\n");
++		dsb();
++		udelay(5000);
++	}
+ 	writel(0, nfc->regs + NFC_REG_ECC_CTL);
+ 	writel(NFC_RESET, nfc->regs + NFC_REG_CTL);
+ 
++	/*
++	 * sun5i AHB/MBUS bus stall: settle between write burst
++	 * and the first NFC read (poll loop below).
++	 */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++		dsb();
++		udelay(5000);
++		pr_notice("[NAND-DBG] nfc_rst: settled, polling CTL\n");
++	}
+ 	time_start = get_timer(0);
+ 	do {
+ 		if (!(readl(nfc->regs + NFC_REG_CTL) & NFC_RESET))
+@@ -1788,6 +1806,17 @@
+ 	init_waitqueue_head(&nfc->controller.wq);
+ 	INIT_LIST_HEAD(&nfc->chips);
+ 
++	/*
++	 * sun5i AHB/MBUS: previous initcalls write CCU/PMU registers.
++	 * Drain the bus before ANY AHB/CCU access in this driver.
++	 */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++		pr_notice("[NAND-DBG] sunxi_nand_probe ENTER\n");
++		dsb();
++		udelay(50000);
++		pr_notice("[NAND-DBG] probe: pre-clk settled\n");
++	}
++
+ 	nfc->regs = dev_read_addr_ptr(dev);
+ 	if (!nfc->regs)
+ 		return -EINVAL;
+@@ -1800,9 +1829,23 @@
+ 	if (!ret)
+ 		clk_enable_bulk(&clk_bulk);
+ 
++	/*
++	 * sun5i AHB/MBUS bus stall: clk_enable_bulk() writes CCU
++	 * registers.  50 ms settle before first NFC register access.
++	 */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++		pr_notice("[NAND-DBG] probe: after clk_enable, 50ms settle\n");
++		dsb();
++		udelay(50000);
++		pr_notice("[NAND-DBG] probe: calling sunxi_nfc_rst\n");
++	}
++
+ 	ret = sunxi_nfc_rst(nfc);
+ 	if (ret)
+ 		return ret;
++	if (IS_ENABLED(CONFIG_MACH_SUN5I))
++		pr_notice("[NAND-DBG] probe: nfc_rst ok, calling chips_init\n");
++
+ 
+ 	ret = sunxi_nand_chips_init(dev, nfc);
+ 	if (ret) {

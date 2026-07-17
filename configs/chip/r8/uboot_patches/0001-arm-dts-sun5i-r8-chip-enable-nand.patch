@@ -1,0 +1,44 @@
+From 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b Mon Sep 17 00:00:00 2001
+From: SkiffOS <skiffos@skiffos.org>
+Date: Sat, 01 Jan 2000 00:00:00 +0000
+Subject: [PATCH] ARM: dts: sun5i-r8-chip: enable NAND controller
+
+Enable the NAND Flash Controller (NFC) on the C.H.I.P. board by adding
+a DTS node with the correct pinctrl groups and hardware ECC settings.
+
+The CHIP uses a Hynix or Toshiba MLC NAND connected to the NFC.  The
+controller is defined in sun5i.dtsi but left disabled; this overlay
+enables it with the standard CHIP pinmux (nand_pins, nand_cs0, nand_rb0)
+and hardware BCH ECC, matching the configuration used by the Linux kernel
+DTS for the CHIP.
+
+Without this node the DM NAND driver (sunxi_nand.c) does not probe,
+making nand/ubi/ubifsmount/ubifsload U-Boot shell commands unavailable
+at runtime even when CONFIG_NAND_SUNXI=y.  Note that the SPL NAND reader
+(sunxi_nand_spl.c) is register-based and works without a DTS node.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.org>
+---
+ arch/arm/dts/sun5i-r8-chip.dts | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/arch/arm/dts/sun5i-r8-chip.dts b/arch/arm/dts/sun5i-r8-chip.dts
+index 1a2b3c4..5d6e7f8 100644
+--- a/arch/arm/dts/sun5i-r8-chip.dts
++++ b/arch/arm/dts/sun5i-r8-chip.dts
+@@ -280,3 +280,15 @@
+ 	usb0_vbus-supply = <&reg_usb0_vbus>;
+ 	usb1_vbus-supply = <&reg_vcc5v0>;
+ };
++
++&nfc {
++	pinctrl-names = "default";
++	pinctrl-0 = <&nand_pins &nand_cs0_pin &nand_rb0_pin>;
++	status = "okay";
++
++	nand@0 {
++		reg = <0>;
++		allwinner,rb = <0>;
++		nand-ecc-mode = "hw";
++	};
++};

@@ -1,0 +1,55 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 12:00:00 +0200
+Subject: [PATCH] HACK: arm: kernel: sun5i AHB/MBUS settle after __create_page_tables
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the kernel is completely silent
+after the zImage decompressor jumps to the decompressed kernel.
+
+Root cause: __create_page_tables writes 16 KB of page table data to
+DRAM. The AHB/MBUS bus arbiter retains those write transactions. The
+first DRAM read after returning to stext (literal pool load for
+__mmap_switched address, or procinfo struct access) stalls the CPU
+indefinitely.
+
+Fix: at the end of __create_page_tables, before ret lr, issue a DSB +
+busy-wait loop. The settle runs while still executing in the
+__create_page_tables code region (a known-good instruction fetch path),
+so the loop itself can execute. After the settle the bus is drained and
+the return to stext proceeds cleanly.
+
+  mcr p15, 0, r0, c7, c10, 4  @ ARMv5 DSB
+  0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz ≈ 200 ms
+  r0 is scratch at this point; r4/r8/r9/r10/lr are preserved.
+
+Guarded by #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/kernel/head.S | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+--- a/arch/arm/kernel/head.S
++++ b/arch/arm/kernel/head.S
+@@ -373,6 +373,22 @@
+ #ifdef CONFIG_ARM_LPAE
+ 	sub	r4, r4, #0x1000		@ point to the PGD table
+ #endif
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS bus stall: we just wrote 16 KB of page table
++	 * data to DRAM.  The AHB arbiter retains those write transactions;
++	 * the first DRAM read after returning to stext (literal pool /
++	 * procinfo) stalls the CPU indefinitely.
++	 * DSB + busy-wait drains the arbiter while still executing in the
++	 * __create_page_tables code region (known-good fetch path).
++	 * r0 is scratch here; r4/r8/r9/r10/lr are preserved.
++	 */
++	mcr	p15, 0, r0, c7, c10, 4		@ ARMv5 DSB
++	mov	r0, #0x04000000			@ 67M iters ≈ 200ms @ 1 GHz
++sun5i_pgtbl_settle:
++	subs	r0, r0, #1
++	bne	sun5i_pgtbl_settle
++#endif
+ 	ret	lr
+ ENDPROC(__create_page_tables)
+ 	.ltorg

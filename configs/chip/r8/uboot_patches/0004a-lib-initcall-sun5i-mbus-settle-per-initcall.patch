@@ -1,0 +1,50 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 04 May 2026 19:00:00 +0200
+Subject: [PATCH] lib: initcall: sun5i MBUS settle before each post-reloc initcall
+
+U-Boot on sun5i/R8 hangs at different initcalls on different boots:
+initr_dm, sunxi_nand_probe, and others. Each stall follows the same
+pattern: the previous initcall wrote to AHB-connected hardware (CCU,
+PIO, etc.); the first AHB read in the next initcall finds the MBUS
+arbiter busy with those pending writes and stalls indefinitely.
+
+Fix: add a sun5i DSB + register-only busy-wait (~6 ms @ 1 GHz) before
+each POST-RELOCATION initcall (reloc_ofs != 0). Pre-reloc (SPL)
+initcalls include DRAM init and clock setup which are timing-sensitive;
+the settle is skipped for those.
+
+The loop uses only IBUS instruction fetches and register ops -- no DBUS
+reads -- so it cannot stall even while MBUS has pending writes.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/lib/initcall.c	2026-05-08 17:31:59.549311499 +0200
++++ b/lib/initcall.c	2026-05-08 17:33:47.238994319 +0200
+@@ -10,6 +10,9 @@
+ #include <log.h>
+ #include <relocate.h>
+ #include <asm/global_data.h>
++#ifdef CONFIG_MACH_SUN5I
++#include <asm/system.h>
++#endif
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+@@ -72,6 +75,17 @@
+ 			debug("initcall: %p\n", (char *)func - reloc_ofs);
+ 		}
+ 
++		if (reloc_ofs) {
++#ifdef CONFIG_MACH_SUN5I
++			unsigned int _cnt;
++			asm volatile(
++				"mcr p15, 0, %0, c7, c10, 4\n"
++				"mov %0, #0x2000000\n"
++				"1: subs %0, %0, #1\n"
++				"   bne 1b\n"
++				: "=r" (_cnt) :: "cc", "memory");
++#endif
++		}
+ 		ret = type ? event_notify_null(type) : func();
+ 	}
+ 

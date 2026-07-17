@@ -1,0 +1,103 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 16 Apr 2026 11:50:00 +0200
+Subject: [PATCH] boot: fdt_support: sun5i AHB/MBUS settle in fdt_fixup_memory_banks
+
+Three read-after-write stalls in fdt_fixup_memory_banks() on sun5i:
+
+1. fdt_find_or_add_subnode() may call fdt_add_subnode() which writes
+   the /memory node; fdt_setprop("device_type") then reads that
+   newly-written structure -> stall.
+
+2. fdt_setprop("device_type") writes to blob; fdt_pack_reg() reads
+   #address-cells from root node -> stall.
+
+3. fdt_pack_reg() reads blob; fdt_setprop("reg") writes again;
+   caller's first post-FDT read then stalls.
+
+All three guards use #ifdef CONFIG_MACH_SUN5I.
+
+CRITICAL: Use udelay() (TIMER MMIO read) not a raw DRAM busy-wait loop.
+The raw loop's own first iteration reads the counter from the stack
+(DRAM). If the MBUS write-buffer is still in flight, that read itself
+stalls indefinitely — making the settle useless. udelay() reads a
+hardware timer MMIO register which does not share the MBUS stall path.
+
+Settle times: 50ms for write -> read on blob, 5ms before write-only.
+All guards: #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/boot/fdt_support.c
++++ b/boot/fdt_support.c
+@@ -10,6 +10,7 @@
+ #include <abuf.h>
+ #include <env.h>
+ #include <log.h>
++#include <linux/delay.h>
+ #include <mapmem.h>
+ #include <net.h>
+ #include <stdio_dev.h>
+@@ -483,6 +484,23 @@
+ 	if (nodeoffset < 0)
+ 			return nodeoffset;
+
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS: fdt_find_or_add_subnode() may have called
++	 * fdt_add_subnode() which writes the /memory node into the DTB blob.
++	 * fdt_setprop("device_type") next reads that newly-written structure;
++	 * if the AHB write buffer is still in flight the read stalls.
++	 *
++	 * Use udelay() (TIMER MMIO read) not a raw DRAM busy-wait loop:
++	 * the loop's own first iteration reads _s from the stack (DRAM),
++	 * which itself stalls when the MBUS write-buffer is still in flight.
++	 */
++	printf("[FIXUP-DBG] pre device_type settle\n");
++	asm volatile("mcr p15, 0, %0, c7, c10, 4" :: "r"(0) : "memory");
++	udelay(50000);
++	printf("[FIXUP-DBG] device_type setprop\n");
++#endif
++
+ 	err = fdt_setprop(blob, nodeoffset, "device_type", "memory",
+ 			sizeof("memory"));
+ 	if (err < 0) {
+@@ -491,6 +509,20 @@
+ 		return err;
+ 	}
+
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS: fdt_setprop("device_type") wrote to the DTB blob
++	 * in DRAM.  fdt_pack_reg() below reads #address-cells from the root
++	 * node; if that cache line was evicted the AHB write buffer stalls
++	 * the subsequent DRAM read indefinitely.
++	 * Use udelay() so the timer MMIO read does not itself stall on DRAM.
++	 */
++	printf("[FIXUP-DBG] pre pack_reg settle\n");
++	asm volatile("mcr p15, 0, %0, c7, c10, 4" :: "r"(0) : "memory");
++	udelay(50000);
++	printf("[FIXUP-DBG] pack_reg\n");
++#endif
++
+ 	for (i = 0; i < banks; i++) {
+ 		if (start[i] == 0 && size[i] == 0)
+ 			break;
+@@ -503,6 +535,18 @@
+
+ 	len = fdt_pack_reg(blob, tmp, start, size, banks);
+
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS: settle before fdt_setprop("reg") writes to the
++	 * blob, to prevent the caller's first post-FDT DRAM read from
++	 * stalling on the residual write burst.
++	 */
++	printf("[FIXUP-DBG] pre reg setprop settle\n");
++	asm volatile("mcr p15, 0, %0, c7, c10, 4" :: "r"(0) : "memory");
++	udelay(5000);
++	printf("[FIXUP-DBG] reg setprop\n");
++#endif
++
+ 	err = fdt_setprop(blob, nodeoffset, "reg", tmp, len);
+ 	if (err < 0) {
+ 		printf("WARNING: could not set %s %s.\n",

@@ -1,0 +1,35 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 08 May 2026 19:30:00 +0200
+Subject: [PATCH] drivers: core: device: sun5i MBUS settle in device_bind_common
+
+dm_scan_fdt_node() calls device_bind_common() for each of ~51 DT devices
+in a tight loop. Each bind writes a udevice struct to DRAM, then the loop
+reads the next DTB sibling. sun5i MBUS deadlocks on that read.
+
+Fix: DSB + register-only settle at success return, excluded from SPL
+(SPL has fewer devices and no MBUS stall at this point).
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/drivers/core/device.c	2026-05-08 18:56:34.910672836 +0200
++++ b/drivers/core/device.c	2026-05-08 18:56:45.409682881 +0200
+@@ -188,6 +188,19 @@
+ 
+ 	dev_or_flags(dev, DM_FLAG_BOUND);
+ 
++#if IS_ENABLED(CONFIG_MACH_SUN5I) && !IS_ENABLED(CONFIG_SPL_BUILD)
++	/* sun5i MBUS settle: drain device struct writes before caller reads DTB.
++	 * Not needed in SPL: fewer devices, simpler code path, no MBUS stall. */
++	{
++		unsigned int _cnt;
++		asm volatile("mcr p15, 0, %0, c7, c10, 4 \n\t"
++			     "mov %0, #0x200000           \n\t"
++			     "1: subs %0, %0, #1          \n\t"
++			     "   bne 1b                   \n\t"
++			     : "=r" (_cnt) :: "cc", "memory");
++	}
++#endif
++
+ 	return 0;
+ 
+ fail_uclass_post_bind:

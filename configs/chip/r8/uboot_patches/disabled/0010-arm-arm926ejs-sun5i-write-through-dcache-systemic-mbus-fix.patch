@@ -1,0 +1,25 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 08 May 2026 17:00:00 +0200
+Subject: [PATCH] arm: arm926ejs: sun5i: write-through D-cache in enable_caches (main U-Boot only)
+
+Excluded from SPL: write-through breaks NAND DMA cache coherency.
+With write-through, DMA writes to DRAM bypass D-cache but CPU reads
+the same addresses through D-cache and gets stale data. Only main
+U-Boot (which does not use NAND DMA for its primary data path) gets
+the write-through optimization.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/arch/arm/cpu/arm926ejs/cache.c	2026-05-08 19:33:54.247099391 +0200
++++ b/arch/arm/cpu/arm926ejs/cache.c	2026-05-08 19:33:54.288098927 +0200
+@@ -86,6 +86,10 @@
+ 	icache_enable();
+ #endif
+ #if !CONFIG_IS_ENABLED(SYS_DCACHE_OFF)
++#if IS_ENABLED(CONFIG_MACH_SUN5I) && !IS_ENABLED(CONFIG_SPL_BUILD)
++	/* Write-through excluded from SPL: breaks NAND DMA cache coherency */
++	asm volatile("mcr p15, 7, %0, c15, c0, 0" : : "r"(4));
++#endif
+ 	dcache_enable();
+ #endif
+ }

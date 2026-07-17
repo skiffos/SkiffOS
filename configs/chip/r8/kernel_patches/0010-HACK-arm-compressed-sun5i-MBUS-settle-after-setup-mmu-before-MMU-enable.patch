@@ -1,0 +1,64 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 08 May 2026 18:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i enable I-cache before __setup_mmu + settle
+
+The settle loop in __armv4_mmu_cache_on must drain MBUS after __setup_mmu
+writes 16KB of page tables. The loop must not itself stall on MBUS.
+
+First attempt: instruction-only busy-wait AFTER __setup_mmu with I-cache
+off. Fails: each settle instruction fetches via IBUS->MBUS, which is
+congested by the 16KB write burst. IBUS reads stall; loop never runs.
+Decompressor hangs before BSS clear; no UART markers appear.
+
+Fix: enable I-cache BEFORE bl __setup_mmu.
+
+  1. Enable I-cache (SCTLR I bit). r0 is scratch at this point.
+  2. bl __setup_mmu: instruction fetches from I-cache (no MBUS reads).
+     Page table stores drain to MBUS as write transactions.
+  3. DSB: drain CPU write buffer.
+  4. Settle loop: runs from I-cache; MBUS carries only writes, drains
+     uncontested in ~200ms.
+  5. TLB flush, D-cache + MMU enable. First TLB miss DBUS read finds
+     clean MBUS and succeeds.
+
+The later orr #0x5000 also sets the I bit; idempotent.
+r3 is scratch after __setup_mmu returns.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/arch/arm/boot/compressed/head.S	2026-05-08 18:15:51.819678536 +0200
++++ b/arch/arm/boot/compressed/head.S	2026-05-08 18:15:33.792503045 +0200
+@@ -953,9 +953,33 @@
+ 		mov	r12, lr
+ #ifdef CONFIG_MMU
+ 		mov	r6, #CB_BITS | 0x12	@ U
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i MBUS: enable I-cache BEFORE __setup_mmu writes the
++		 * 16KB page table to DRAM. With I-cache on, __setup_mmu
++		 * instruction fetches are served from I-cache (not MBUS),
++		 * so MBUS only carries write transactions from the stores.
++		 * The settle loop below also runs from I-cache and drains
++		 * MBUS writes without any competing instruction reads.
++		 * Without this, the settle loop itself stalls: I-cache is
++		 * off so each settle instruction fetches via MBUS, which is
++		 * congested by the 16KB write burst and deadlocks.
++		 * r0 is scratch before bl __setup_mmu.
++		 */
++		mrc	p15, 0, r0, c1, c0, 0	@ read SCTLR
++		orr	r0, r0, #0x1000		@ set I bit: enable I-cache
++		mcr	p15, 0, r0, c1, c0, 0	@ write SCTLR
++#endif
+ 		bl	__setup_mmu
+ 		mov	r0, #0
+ 		mcr	p15, 0, r0, c7, c10, 4	@ drain write buffer
++#ifdef CONFIG_MACH_SUN5I
++		/* Settle: runs from I-cache; MBUS drains 16KB writes uncontested */
++		mov	r3, #0x04000000		@ ~200ms @ 1GHz
++sun5i_mmu_on_settle:
++		subs	r3, r3, #1
++		bne	sun5i_mmu_on_settle
++#endif
+ 		mcr	p15, 0, r0, c8, c7, 0	@ flush I,D TLBs
+ 		mrc	p15, 0, r0, c1, c0, 0	@ read control reg
+ 		orr	r0, r0, #0x5000		@ I-cache enable, RR cache replacement

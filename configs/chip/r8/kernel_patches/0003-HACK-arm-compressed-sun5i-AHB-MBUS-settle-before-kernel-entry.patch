@@ -1,0 +1,53 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 11:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i AHB/MBUS settle before kernel entry
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the zImage decompressor writes
+~15 MiB of decompressed kernel data to DRAM in one continuous burst.
+cache_clean_flush() then flushes all dirty D-cache lines to DRAM,
+adding another large write burst.
+
+When the decompressor jumps to the decompressed kernel at r4, the
+first instruction fetch from that address stalls the CPU indefinitely:
+the AHB/MBUS bus arbiter has not drained the write transactions.
+
+Fix: in __enter_kernel, immediately before the branch to r4, issue a
+DSB + busy-wait loop long enough to drain the arbiter (~200 ms at
+1 GHz, the nominal R8 clock frequency).
+
+  mcr p15, 0, r0, c7, c10, 4   @ ARMv5 DSB (CP15 write-buffer drain)
+  0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz ≈ 200 ms
+
+Guarded by CONFIG_MACH_SUN5I so it only fires on affected silicon.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/boot/compressed/head.S | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -1432,6 +1432,23 @@
+ #endif /* CONFIG_ARM_VIRT_EXT */
+ 
+ __enter_kernel:
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i (R8/A13) AHB/MBUS bus stall.
++		 * cache_clean_flush() just flushed ~15 MiB of decompressed
++		 * kernel data to DRAM.  The AHB arbiter retains those write
++		 * transactions; the first instruction fetch from the
++		 * decompressed kernel at r4 stalls the CPU indefinitely.
++		 * DSB + ~200 ms busy-wait drains the arbiter before the jump.
++		 * 0x04000000 = 67,108,864 iters; at ~3 cycles/iter on ARM926
++		 * @ 1 GHz ≈ 200 ms.
++		 */
++		mcr	p15, 0, r0, c7, c10, 4		@ DSB
++		mov	r3, #0x04000000			@ ~67M iters ≈ 200ms @ 1GHz
++sun5i_settle:
++		subs	r3, r3, #1
++		bne	sun5i_settle
++#endif
+ 		mov	r0, #0			@ must be 0
+ 		mov	r1, r7			@ restore architecture number
+ 		mov	r2, r8			@ restore atags pointer

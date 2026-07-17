@@ -1,4 +1,4 @@
-echo "SkiffOS on Allwinner R8 (Pocket C.H.I.P.)"
+echo "SkiffOS on Allwinner R8 (Pocket C.H.I.P. NAND boot)"
 
 setenv dtb_name "sun5i-r8-pocketchip.dtb"
 setenv condev "console=ttyS0,115200n8 console=tty1"
