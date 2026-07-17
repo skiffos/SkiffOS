@@ -1,0 +1,122 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 29 Mar 2026 13:00:00 +0100
+Subject: [PATCH 2/2] HACK: debug: add boot progress markers in mm, arm/setup, arm/mmu
+
+Temporary diagnostic patch to trace the early kernel boot path on
+sun5i/R8.  The markers confirm which steps complete before a hang:
+
+  [MM-DBG]     - memory map initialisation steps (mm/mm_init.c)
+  [PAGING-DBG] - paging_init() stages (arch/arm/mm/mmu.c)
+  [SETUP-DBG]  - setup_arch() stages (arch/arm/kernel/setup.c)
+
+Remove this patch once the board boots reliably.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/kernel/setup.c |  6 ++++++
+ arch/arm/mm/mmu.c       |  2 ++
+ mm/mm_init.c            | 13 +++++++++++++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
+--- a/arch/arm/kernel/setup.c
++++ b/arch/arm/kernel/setup.c
+@@ -1155,17 +1155,23 @@ void __init setup_arch(char **cmdline_p)
+ 	early_ioremap_reset();
+
+ 	paging_init(mdesc);
++	pr_notice("[SETUP-DBG] after paging_init\n");
+ 	kasan_init();
++	pr_notice("[SETUP-DBG] after kasan_init\n");
+ 	request_standard_resources(mdesc);
++	pr_notice("[SETUP-DBG] after request_standard_resources\n");
+
+ 	if (mdesc->restart) {
+ 		__arm_pm_restart = mdesc->restart;
+ 		register_restart_handler(&arm_restart_nb);
+ 	}
+
++	pr_notice("[SETUP-DBG] before unflatten_device_tree\n");
+ 	unflatten_device_tree();
++	pr_notice("[SETUP-DBG] after unflatten_device_tree\n");
+
+ 	arm_dt_init_cpu_maps();
++	pr_notice("[SETUP-DBG] after arm_dt_init_cpu_maps\n");
+ 	psci_dt_init();
+ #ifdef CONFIG_SMP
+ 	if (is_smp()) {
+diff --git a/arch/arm/mm/mmu.c b/arch/arm/mm/mmu.c
+--- a/arch/arm/mm/mmu.c
++++ b/arch/arm/mm/mmu.c
+@@ -1785,9 +1785,11 @@ void __init paging_init(const struct machine_desc *mdesc)
+ 	zero_page = early_alloc(PAGE_SIZE);
+
+ 	bootmem_init();
++	pr_notice("[PAGING-DBG] after bootmem_init\n");
+
+ 	empty_zero_page = virt_to_page(zero_page);
+ 	__flush_dcache_folio(NULL, page_folio(empty_zero_page));
++	pr_notice("[PAGING-DBG] paging_init done\n");
+ }
+
+ void __init early_mm_init(const struct machine_desc *mdesc)
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -984,17 +984,21 @@ static void __init memmap_init(void)
+ 	for_each_mem_pfn_range(i, MAX_NUMNODES, &start_pfn, &end_pfn, &nid) {
+ 		struct pglist_data *node = NODE_DATA(nid);
+
++		pr_notice("[MM-DBG] memmap pfn range %lu-%lu nid %d\n", start_pfn, end_pfn, nid);
+ 		for (j = 0; j < MAX_NR_ZONES; j++) {
+ 			struct zone *zone = node->node_zones + j;
+
+ 			if (!populated_zone(zone))
+ 				continue;
+
++			pr_notice("[MM-DBG] memmap_init_zone_range zone %d\n", j);
+ 			memmap_init_zone_range(zone, start_pfn, end_pfn,
+ 					       &hole_pfn);
++			pr_notice("[MM-DBG] memmap_init_zone_range done\n");
+ 			zone_id = j;
+ 		}
+ 	}
++	pr_notice("[MM-DBG] memmap loop done\n");
+
+ 	/*
+ 	 * Initialize the memory map for hole in the range [memory_end,
+@@ -1750,11 +1754,16 @@ static void __init free_area_init_node(int nid)
+ 		reset_memoryless_node_totalpages(pgdat);
+ 	}
+
++	pr_notice("[MM-DBG] alloc_node_mem_map\n");
+ 	alloc_node_mem_map(pgdat);
++	pr_notice("[MM-DBG] pgdat_set_deferred_range\n");
+ 	pgdat_set_deferred_range(pgdat);
+
++	pr_notice("[MM-DBG] free_area_init_core\n");
+ 	free_area_init_core(pgdat);
++	pr_notice("[MM-DBG] lru_gen_init_pgdat\n");
+ 	lru_gen_init_pgdat(pgdat);
++	pr_notice("[MM-DBG] free_area_init_node done\n");
+ }
+
+ /* Any regular or high memory on that node ? */
+@@ -1934,13 +1943,17 @@ void __init free_area_init(unsigned long *zones_size)
+ 	for_each_node_state(nid, N_MEMORY)
+ 		sparse_vmemmap_init_nid_late(nid);
+
++	pr_notice("[MM-DBG] calc_nr_kernel_pages\n");
+ 	calc_nr_kernel_pages();
++	pr_notice("[MM-DBG] memmap_init\n");
+ 	memmap_init();
+
+ 	/* disable hash distribution for systems with a single node */
++	pr_notice("[MM-DBG] fixup_hashdist\n");
+ 	fixup_hashdist();
+
+ 	set_high_memory();
++	pr_notice("[MM-DBG] free_area_init done\n");
+ }
+
+ /**

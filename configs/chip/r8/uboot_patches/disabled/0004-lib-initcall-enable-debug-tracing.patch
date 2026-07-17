@@ -1,0 +1,26 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Mon, 24 Mar 2026 21:00:00 +0100
+Subject: [PATCH] lib: initcall: enable debug tracing to diagnose init hang
+
+U-Boot on sun5i/R8 hangs silently after "DRAM: 512 MiB".  Enable
+initcall debug output so that each function's address is printed
+before it runs.  The last address printed identifies the hanging
+function — look it up in u-boot.map.
+
+This is a temporary diagnostic patch.  Remove once the hang is found.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ lib/initcall.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/initcall.c b/lib/initcall.c
+--- a/lib/initcall.c
++++ b/lib/initcall.c
+@@ -1,4 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
++/* Enable initcall tracing — temporary diagnostic for sun5i hang */
++#define DEBUG
+ /*
+  * Copyright (c) 2013 The Chromium OS Authors.
+  */

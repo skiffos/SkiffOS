@@ -1,0 +1,27 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 22 Mar 2026 15:00:00 +0100
+Subject: [PATCH] ARM: dts: sun5i-r8-chip: disable uart3 (Bluetooth) in U-Boot
+
+uart3 is the RTL8723BS Bluetooth UART.  Linux handles it; U-Boot has no
+use for it.  With uart3 status="okay", serial_stdio_init() probes all
+enabled UCLASS_SERIAL devices including uart3.  The uart3 CTS/RTS
+pinmux init hangs on sun5i/R8 in U-Boot 2024.04, preventing any output
+after "Loading Environment from nowhere..." and blocking BOOTCOMMAND.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/dts/sun5i-r8-chip.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/dts/sun5i-r8-chip.dts b/arch/arm/dts/sun5i-r8-chip.dts
+--- a/arch/arm/dts/sun5i-r8-chip.dts
++++ b/arch/arm/dts/sun5i-r8-chip.dts
+@@ -254,7 +254,7 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart3_pg_pins>,
+ 		    <&uart3_cts_rts_pg_pins>;
+-	status = "okay";
++	status = "disabled";
+
+ 	bluetooth {
+ 		compatible = "realtek,rtl8723bs-bt";

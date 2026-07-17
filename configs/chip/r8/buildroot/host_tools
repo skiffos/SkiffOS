@@ -1,0 +1,4 @@
+# Build host-side mtd-utils so flash_nand.sh can use a mkfs.ubifs that
+# supports LEB sizes > 2 MiB (required for the CHIP's 4 MiB physical
+# erase blocks; the system mkfs.ubifs caps at 2 MiB).
+BR2_PACKAGE_HOST_MTD=y

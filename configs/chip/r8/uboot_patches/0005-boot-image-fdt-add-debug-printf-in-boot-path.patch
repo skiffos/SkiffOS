@@ -1,0 +1,178 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Tue, 01 Apr 2026 22:00:00 +0100
+Subject: [PATCH] boot: sun5i FDT fixup DSB+udelay settle + debug markers; bootm.c pre-kernel settle
+
+Key fixes:
+1. image-fdt.c: DSB+200ms udelay settles between FDT fixup steps to drain
+   the sun5i AHB/MBUS write buffer. Settle added before first blob read,
+   after fdt_root, after fdt_chosen, after arch_fixup_fdt. Lighter 5ms
+   settles after smaller steps.
+
+2. bootm.c: printf placed BEFORE dsb+udelay settle in boot_jump_linux.
+   A printf AFTER the settle writes to stack (DRAM, uncached); the next
+   DRAM read (first kernel instruction fetch) stalls on residual writes.
+   Note: the major D-cache flush drain is now handled in cleanup_before_linux()
+   (see patch 0008); this 200ms settle only drains the small printf stack writes.
+
+All sun5i guards: IS_ENABLED(CONFIG_MACH_SUN5I).
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/boot/image-fdt.c	2026-04-29 14:55:55.276678822 +0200
++++ b/boot/image-fdt.c	2026-04-29 14:59:50.181599195 +0200
+@@ -22,6 +22,7 @@
+ #include <linux/libfdt.h>
+ #include <mapmem.h>
+ #include <asm/io.h>
++#include <linux/delay.h>
+ #include <dm/ofnode.h>
+ #include <tee/optee.h>
+ 
+@@ -578,6 +579,7 @@
+ 	ulong *initrd_start = &images->initrd_start;
+ 	ulong *initrd_end = &images->initrd_end;
+ 	int ret, fdt_ret, of_size;
++	printf("[FDT-DBG] image_setup_libfdt enter\n");
+ 
+ 	if (IS_ENABLED(CONFIG_OF_ENV_SETUP)) {
+ 		const char *fdt_fixup;
+@@ -594,25 +596,42 @@
+ 
+ 	ret = -EPERM;
+ 
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++		printf("[FDT-DBG] sun5i: pre-read settle after DMA reloc\n");
++		dsb();
++		udelay(200000);
++		printf("[FDT-DBG] blob magic: %08x\n", *(u32 *)blob);
++	}
++	printf("[FDT-DBG] fdt_root\n");
+ 	if (fdt_root(blob) < 0) {
+ 		printf("ERROR: root node setup failed\n");
+ 		goto err;
+ 	}
++	/* fdt_root writes root-name — drain before fdt_chosen reads blob */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(200000); }
++	printf("[FDT-DBG] fdt_chosen\n");
+ 	if (fdt_chosen(blob) < 0) {
+ 		printf("ERROR: /chosen node create failed\n");
+ 		goto err;
+ 	}
++	/* fdt_chosen does heavy mixed writes — drain before arch_fixup_fdt reads blob */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(200000); }
++	printf("[FDT-DBG] arch_fixup_fdt\n");
+ 	if (arch_fixup_fdt(blob) < 0) {
+ 		printf("ERROR: arch-specific fdt fixup failed\n");
+ 		goto err;
+ 	}
++	/* arch_fixup_fdt writes /memory — drain before optee reads blob */
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(200000); }
+ 
++	printf("[FDT-DBG] optee_copy\n");
+ 	fdt_ret = optee_copy_fdt_nodes(blob);
+ 	if (fdt_ret) {
+ 		printf("ERROR: transfer of optee nodes to new fdt failed: %s\n",
+ 		       fdt_strerror(fdt_ret));
+ 		goto err;
+ 	}
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(5000); }
+ 
+ 	/* Store name of configuration node as u-boot,bootconf in /chosen node */
+ 	if (images->fit_uname_cfg)
+@@ -621,11 +640,14 @@
+ 					strlen(images->fit_uname_cfg) + 1, 1);
+ 
+ 	/* Update ethernet nodes */
++	printf("[FDT-DBG] fdt_fixup_ethernet\n");
+ 	fdt_fixup_ethernet(blob);
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(5000); }
+ #if IS_ENABLED(CONFIG_CMD_PSTORE)
+ 	/* Append PStore configuration */
+ 	fdt_fixup_pstore(blob);
+ #endif
++	printf("[FDT-DBG] ft_board_setup\n");
+ 	if (IS_ENABLED(CONFIG_OF_BOARD_SETUP)) {
+ 		const char *skip_board_fixup;
+ 
+@@ -641,6 +663,7 @@
+ 			}
+ 		}
+ 	}
++	printf("[FDT-DBG] ft_system_setup\n");
+ 	if (IS_ENABLED(CONFIG_OF_SYSTEM_SETUP)) {
+ 		fdt_ret = ft_system_setup(blob, gd->bd);
+ 		if (fdt_ret) {
+@@ -650,9 +673,12 @@
+ 		}
+ 	}
+ 
++	printf("[FDT-DBG] fdt_initrd\n");
+ 	if (fdt_initrd(blob, *initrd_start, *initrd_end))
+ 		goto err;
++	if (IS_ENABLED(CONFIG_MACH_SUN5I)) { dsb(); udelay(5000); }
+ 
++	printf("[FDT-DBG] ft_verify_fdt\n");
+ 	if (!ft_verify_fdt(blob))
+ 		goto err;
+ 
+@@ -672,6 +698,8 @@
+ 		}
+ 	}
+ 
++	printf("[FDT-DBG] image_setup_libfdt done\n");
++
+ 	/* Delete the old LMB reservation */
+ 	if (lmb)
+ 		lmb_free(lmb, map_to_sysmem(blob), fdt_totalsize(blob));
+--- a/arch/arm/lib/bootm.c	2026-04-29 14:55:57.186635442 +0200
++++ b/arch/arm/lib/bootm.c	2026-04-29 14:59:50.197598864 +0200
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include <common.h>
++#include <linux/delay.h>
+ #include <bootm.h>
+ #include <bootstage.h>
+ #include <command.h>
+@@ -336,6 +337,7 @@
+ 	unsigned long r2;
+ 	int fake = (flag & BOOTM_STATE_OS_FAKE_GO);
+ 
++	printf("[BOOT-DBG] boot_jump_linux enter\n");
+ 	kernel_entry = (void (*)(int, int, uint))images->ep;
+ #ifdef CONFIG_CPU_V7M
+ 	ulong addr = (ulong)kernel_entry | 1;
+@@ -361,6 +363,33 @@
+ 		r2 = gd->bd->bi_boot_params;
+ 
+ 	if (!fake) {
++		if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++			u32 _sctlr;
++			/* Marker at entry to sun5i block, BEFORE I-cache enable. */
++			printf("[BOOT-DBG] sun5i: ENTER (caches off)\n");
++			/*
++			 * Re-enable I-cache.  cleanup_before_linux disabled all
++			 * caches.  With I-cache off, instruction fetches compete
++			 * with MBUS data writes -- metastable state.
++			 * Fix: re-enable I-cache. After ISB all instruction
++			 * fetches come from I-cache; only DATA writes enter MBUS.
++			 */
++			asm volatile("mrc p15, 0, %0, c1, c0, 0" : "=r"(_sctlr));
++			_sctlr |= 0x1000;
++			asm volatile("mcr p15, 0, %0, c1, c0, 0\n"
++				     "mcr p15, 0, %0, c7, c5, 4"
++				     : : "r"(_sctlr) : "memory");
++			printf("[BOOT-DBG] sun5i: settling (I-cache on)\n");
++			udelay(2000000);  /* 2s: drain cleanup writes */
++			printf("[BOOT-DBG] sun5i: post-settle\n");
++			printf("[BOOT-DBG] sun5i: pre-kernel jump\n");
++			/* Register-only busy-wait to drain printf stack writes. */
++			asm volatile(
++				"mov r2, #0x10000000\n"
++				"1: subs r2, r2, #1\n"
++				"   bne 1b\n"
++				: : : "r2", "cc", "memory");
++		}
+ #ifdef CONFIG_ARMV7_NONSEC
+ 		if (armv7_boot_nonsec()) {
+ 			armv7_init_nonsec();

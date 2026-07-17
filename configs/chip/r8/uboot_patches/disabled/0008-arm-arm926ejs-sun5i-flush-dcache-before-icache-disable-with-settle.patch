@@ -1,0 +1,104 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 16 Apr 2026 14:00:00 +0200
+Subject: [PATCH] arm: arm926ejs: sun5i: flush D-cache before disabling I-cache with settle
+
+cleanup_before_linux() on arm926ejs disables I-cache then D-cache:
+
+  icache_disable();   <- instruction fetches now go through AHB/MBUS
+  dcache_disable();   <- flush_dcache_all() writes dirty D-cache lines
+                         to DRAM via MBUS: large write burst
+
+With I-cache disabled, instruction fetches for flush_dcache_all() and
+for the subsequent udelay() settle in boot_jump_linux() go through
+AHB/MBUS.  The MBUS arbiter deadlocks: it is still processing the
+dirty D-cache write burst while the CPU issues a new MBUS read (fetch).
+Result: CPU stalls indefinitely.  No output appears after
+"Starting kernel..." even with a 1-second udelay in boot_jump_linux().
+
+Fix: reverse the disable order for sun5i.
+
+  dcache_disable();   <- flush_dcache_all() write burst; I-cache still ON
+                         -> instruction fetches still served from I-cache
+  DSB;                <- drain write buffer to AHB
+  udelay(500000);     <- 500 ms: reads TIMER MMIO (APB, not DRAM),
+                         I-cache on -> no MBUS read pressure -> MBUS drains
+  icache_disable();   <- MBUS drained; first uncached fetch won't stall
+
+Why udelay() and not a DRAM busy-wait loop:
+  A raw "for (_s = N; _s; _s--)" reads _s from stack (DRAM) on every
+  iteration.  If the MBUS write buffer is still in flight, that first
+  read stalls indefinitely — making the settle useless.
+  udelay() reads the hardware TIMER MMIO register (APB bus, different
+  AHB slave from DRAM), so it does not stall on MBUS DRAM contention.
+
+Debug markers (TEMPORARY — remove once boot progresses past this point):
+  [LINUX-DBG] cleanup: pre-dcache-flush   <- printed while D+I caches on (safe)
+  [LINUX-DBG] cleanup: post-settle        <- printed after 500ms settle, before
+                                             icache_disable (I-cache still on;
+                                             MBUS should be drained; D-cache off
+                                             so format string read goes to DRAM
+                                             via MBUS — safe only if settle worked)
+
+If "pre-dcache-flush" prints but "post-settle" does not: hang is inside
+dcache_disable() (flush_dcache_all) or the settle mechanism itself.
+
+If "post-settle" prints: cleanup_before_linux completes; the hang is in
+the kernel decompressor (kernel patches 0003-0008 need more investigation).
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/cpu/arm926ejs/cpu.c | 33 +++++++++++++++++++++++++-------
+ 1 file changed, 26 insertions(+), 7 deletions(-)
+
+--- a/arch/arm/cpu/arm926ejs/cpu.c
++++ b/arch/arm/cpu/arm926ejs/cpu.c
+@@ -17,6 +17,9 @@
+ #include <cpu_func.h>
+ #include <irq_func.h>
+ #include <asm/cache.h>
++#ifdef CONFIG_MACH_SUN5I
++#include <linux/delay.h>
++#endif
+ #include <asm/system.h>
+
+ static void cache_flush(void);
+@@ -43,12 +46,33 @@
+ 	 * we turn off caches etc ...
+ 	 */
+
+-	disable_interrupts();
+-
+-
+-	/* turn off I/D-cache */
+-	icache_disable();
+-	dcache_disable();
++	disable_interrupts();
++
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS stall: dcache_disable() calls flush_dcache_all()
++	 * which creates a large DRAM write burst (all dirty D-cache lines).
++	 * If I-cache is disabled first, subsequent instruction fetches for
++	 * the flush loop and for any udelay() settle go through AHB/MBUS
++	 * and stall on the pending DRAM writes — the MBUS arbiter deadlocks.
++	 *
++	 * Fix: flush D-cache first while I-cache is still on.  I-cache
++	 * supplies instruction fetches; udelay() reads TIMER MMIO (APB,
++	 * not DRAM) so it does not stall on MBUS contention.  After 500 ms
++	 * the MBUS write buffer is drained; then disable I-cache — the
++	 * first uncached fetch hits a drained MBUS.
++	 */
++	printf("[LINUX-DBG] cleanup: pre-dcache-flush\n");
++	dcache_disable();   /* flush_dcache_all() + clear C bit: MBUS write burst */
++	asm volatile("mcr p15, 0, %0, c7, c10, 4" :: "r"(0) : "memory"); /* DSB */
++	udelay(2000000);    /* 2000 ms: I-cache on -> MBUS drains via TIMER MMIO reads */
++	printf("[LINUX-DBG] cleanup: post-settle\n");
++	icache_disable();   /* MBUS drained — first uncached fetch will not stall */
++#else
++	/* turn off I/D-cache */
++	icache_disable();
++	dcache_disable();
++#endif
+ 	l2_cache_disable();
+
+ 	/* flush I/D-cache */

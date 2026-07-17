@@ -1,0 +1,55 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 14:00:00 +0200
+Subject: [PATCH] HACK: arm: kernel: sun5i AHB/MBUS settle after BSS zero in __mmap_switched
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the kernel is completely silent
+after the zImage decompressor jumps to the decompressed kernel, even
+with settles in __enter_kernel (compressed/head.S) and at the end of
+__create_page_tables (head.S).
+
+Root cause: in __mmap_switched (head-common.S), __memset zeros ~1.6 MiB
+of BSS to DRAM in a single sustained burst.  The AHB/MBUS bus arbiter
+retains those write transactions; the very first post-BSS DRAM read
+(adr_l r0, init_task) stalls the CPU indefinitely.
+
+Fix: after bl __memset returns and before adr_l r0, init_task, issue a
+DSB + busy-wait loop to drain the arbiter.
+
+  mcr p15, 0, r0, c7, c10, 4  @ ARMv5 DSB
+  0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz ≈ 200 ms
+  r0 is scratch here (trashed by __memset; re-loaded by adr_l below).
+
+BSS size on this build: ~1.6 MiB (c12fa628–c133a2d4).
+Settle time scales with burst size; 200 ms matches the decompressor fix.
+
+Guarded by #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/kernel/head-common.S | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+--- a/arch/arm/kernel/head-common.S
++++ b/arch/arm/kernel/head-common.S
+@@ -104,6 +104,21 @@
+ 	sub	r2, r1, r0
+ 	mov	r1, #0
+ 	bl	__memset			@ clear .bss
++#ifdef CONFIG_MACH_SUN5I
++	/*
++	 * sun5i AHB/MBUS bus stall: __memset just zeroed ~1.6 MiB of BSS
++	 * to DRAM in a single burst.  The AHB arbiter retains those write
++	 * transactions; the first post-BSS DRAM read (adr_l init_task below)
++	 * stalls the CPU indefinitely.
++	 * DSB + busy-wait drains the arbiter before any DRAM read.
++	 * r0 is scratch here (trashed by __memset; re-loaded by adr_l below).
++	 */
++	mcr	p15, 0, r0, c7, c10, 4		@ ARMv5 DSB
++	mov	r0, #0x04000000			@ 67M iters ≈ 200ms @ 1 GHz
++sun5i_bss_settle:
++	subs	r0, r0, #1
++	bne	sun5i_bss_settle
++#endif
+
+ 	adr_l	r0, init_task			@ get swapper task_struct
+ 	set_current r0, r1

@@ -1,0 +1,43 @@
+From 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b Mon Sep 17 00:00:00 2001
+From: SkiffOS <skiffos@skiffos.org>
+Date: Sat, 01 Jan 2000 00:00:00 +0000
+Subject: [PATCH] Increase UBIFS_MAX_LEB_SZ and UBI_MAX_PEB_SZ to 8 MiB
+
+The CHIP (Allwinner R8) uses Hynix/Toshiba MLC NAND with a 4 MiB
+physical erase block. UBI presents a Logical Erase Block (LEB) of
+  PEB - 2 * page_size = 4194304 - 32768 = 4161536 bytes (~3.97 MiB)
+
+Both mkfs.ubifs and ubinize have a conservative 2 MiB cap that predates
+large-page MLC NAND. The Linux kernel and U-Boot UBIFS drivers have no
+such restriction. Raise both host tool limits to 8 MiB.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.org>
+---
+ include/libubi.h               | 2 +-
+ ubifs-utils/mkfs.ubifs/ubifs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ubifs-utils/mkfs.ubifs/ubifs.h b/ubifs-utils/mkfs.ubifs/ubifs.h
+--- a/ubifs-utils/mkfs.ubifs/ubifs.h
++++ b/ubifs-utils/mkfs.ubifs/ubifs.h
+@@ -26,7 +26,7 @@
+ #define __UBIFS_H__
+ 
+ /* Maximum logical eraseblock size in bytes */
+-#define UBIFS_MAX_LEB_SZ (2*1024*1024)
++#define UBIFS_MAX_LEB_SZ (8*1024*1024)
+ 
+ /* Minimum amount of data UBIFS writes to the flash */
+ #define MIN_WRITE_SZ (UBIFS_DATA_NODE_SZ + 8)
+diff --git a/include/libubi.h b/include/libubi.h
+--- a/include/libubi.h
++++ b/include/libubi.h
+@@ -36,7 +36,7 @@
+ #define LIBUBI_UBI_VERSION 1
+ 
+ /* Maximum physical eraseblock size in bytes */
+-#define UBI_MAX_PEB_SZ (2*1024*1024)
++#define UBI_MAX_PEB_SZ (8*1024*1024)
+ 
+ /* The maximum volume name length (from Linux's ubi-media.h) */
+ #define UBI_VOL_NAME_MAX 127

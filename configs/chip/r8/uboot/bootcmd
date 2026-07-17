@@ -1,0 +1,70 @@
+# MTD / NAND / UBI subsystem — required for SPL NAND boot and U-Boot commands.
+# CONFIG_MTD must be set first; NAND_SUNXI selects SPL_NAND_SUPPORT automatically.
+# CONFIG_DM_MTD must be explicit: NAND_SUNXI uses UCLASS_MTD but does not select
+# DM_MTD in Kconfig.  Without it, uclass_get(UCLASS_MTD) returns -EPFNOSUPPORT
+# and U-Boot hangs with "initcall failed … (err=-96)" before running BOOTCOMMAND.
+CONFIG_MTD=y
+CONFIG_DM_MTD=y
+CONFIG_MTD_RAW_NAND=y
+CONFIG_NAND_SUNXI=y
+
+# CHIP NAND physical geometry.
+# 8 GB boards (NAND: 8192 MiB) = Hynix H27UCG8T2A → OOB 0x680 (1664 B).
+# 4 GB boards (NAND: 4096 MiB) = Toshiba TC58TEG6DCJTA → OOB 0x500 (1280 B).
+# Using Hynix values; wrong OOB → wrong ECC layout → BROM cannot read SPL from NAND.
+CONFIG_SYS_NAND_PAGE_SIZE=0x4000
+CONFIG_SYS_NAND_OOBSIZE=0x680
+CONFIG_SYS_NAND_BLOCK_SIZE=0x400000
+
+CONFIG_CMD_NAND=y
+CONFIG_CMD_NAND_TRIMFFS=y
+CONFIG_CMD_MTDPARTS=y
+CONFIG_CMD_UBI=y
+CONFIG_CMD_UBIFS=y
+
+# Disable the entire VIDEO subsystem — R8/sun5i has no working display path.
+#
+# Root cause: CONFIG_VIDEO=y causes include/configs/sunxi-common.h to set
+# the default env to stdout=serial,vidconsole.  With CONSOLE_MUX=y and
+# SYS_CONSOLE_IS_IN_ENV=y, console_init_r() probes the vidconsole device,
+# which needs a video framebuffer.  Without VIDEO_SUNXI (HDMI/TVE hang), there
+# is no framebuffer, the probe hangs, and U-Boot never reaches BOOTCOMMAND.
+# Disabling CONFIG_VIDEO makes the default env use stdout=serial only.
+#
+# Additional: VIDEO_SUNXI requires VIDEO_DT_SIMPLEFB; without it,
+# sunxi_simplefb_setup in board.c ft_board_setup causes a link error.
+# CONFIG_VIDEO is not set
+# CONFIG_VIDEO_SUNXI is not set
+# CONFIG_VIDEO_DT_SIMPLEFB is not set
+# CONFIG_VIDEO_HDMI is not set
+# CONFIG_VIDEO_COMPOSITE is not set
+
+# Disable all USB and DISTRO_DEFAULTS — R8/sun5i hangs during USB init.
+#
+# Root cause: DISTRO_DEFAULTS && USB_HOST → select USB_KEYBOARD (arch/arm/Kconfig:1175).
+# stdio_add_devices() probes UCLASS_KEYBOARD which triggers USB EHCI/OHCI bus init.
+# The EHCI controller init hangs on sun5i (no VBUS / PHY not ready), blocking
+# everything between "Loading Environment from nowhere..." and BOOTCOMMAND.
+# board_late_init() also calls usb_ether_init() (CONFIG_USB_ETHER) which inits
+# the MUSB gadget — another hang source.  Disabling USB entirely and DISTRO_DEFAULTS
+# (deprecated; we use an explicit BOOTCOMMAND) removes all of these paths.
+# CONFIG_DISTRO_DEFAULTS is not set
+# CONFIG_USB is not set
+# CONFIG_USB_HOST is not set
+# CONFIG_USB_GADGET is not set
+# CONFIG_USB_MUSB_GADGET is not set
+# CONFIG_USB_MUSB_SUNXI is not set
+# CONFIG_USB_ETHER is not set
+# CONFIG_USB_KEYBOARD is not set
+# CONFIG_FASTBOOT is not set
+# CONFIG_CMD_FASTBOOT is not set
+# CONFIG_DFU_OVER_USB is not set
+# CONFIG_USB_FUNCTION_FASTBOOT is not set
+
+# Try to run a boot script loaded into DRAM by sunxi-fel (FEL flashing),
+# falling back to the compiled-in NAND boot when no script is present.
+# NOTE: CONFIG_EXTRA_ENV_SETTINGS is a C macro (CFG_EXTRA_ENV_SETTINGS in
+# sunxi-common.h), not a Kconfig option — setting it here has no effect.
+# The full NAND boot sequence is therefore inlined directly in BOOTCOMMAND.
+CONFIG_USE_BOOTCOMMAND=y
+CONFIG_BOOTCOMMAND="source ${scriptaddr}; echo 'SkiffOS NAND boot'; setenv mtdparts nand0:4m(spl),4m(spl-backup),4m(uboot),4m(env),-(UBI); mtdparts; ubi part UBI; ubifsmount ubi0:rootfs; ubifsload ${fdt_addr_r} /boot/${fdtfile}; ubifsload ${kernel_addr_r} /boot/zImage; setenv bootargs ubi.mtd=4 root=ubi0:rootfs rootfstype=ubifs rw init=/boot/skiff-init/skiff-init-squashfs console=ttyS0,115200n8 net.ifnames=0; setenv skip_board_fixup 1; bootz ${kernel_addr_r} - ${fdt_addr_r}"

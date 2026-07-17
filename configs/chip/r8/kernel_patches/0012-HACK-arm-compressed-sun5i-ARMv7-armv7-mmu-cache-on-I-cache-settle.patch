@@ -1,0 +1,85 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Sun, 11 May 2026 12:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i ARMv7 __armv7_mmu_cache_on: I-cache + settle
+
+The R8/A13 is Cortex-A8 (ARMv7).  call_cache_fn dispatches via the
+proc_types table using MIDR bits[19:16]; for ARMv7 (bits[19:16]=0xF)
+the matching entry calls __armv7_mmu_cache_on, NOT __armv4_mmu_cache_on
+or __arm926ejs_mmu_cache_on.  All previous sun5i settle patches that
+target those two functions are dead code for this CPU.
+
+Without this patch:
+
+  __armv7_mmu_cache_on:
+      ...
+      blne  __setup_mmu        <- 16 KB page-table stores, I-cache OFF
+      mcr   c7,c10,4           <- DSB (drains CPU write buffer only)
+      mcrne c8,c7,0            <- TLB flush (CP15 write, no stall)
+      mrc   c1,c0,0            <- SCTLR read (CP15, no stall)
+      ...
+      mcr   c1,c0,0            <- enable caches + MMU
+      mov   pc, r12            <- return
+
+After __setup_mmu the MBUS write buffer holds 16 KB of outstanding DRAM
+write transactions.  The first MBUS read after cache/MMU enable (an
+I-cache fill for restart: or for GOT/BSS code) stalls indefinitely.
+The decompressor hangs before BSS clear; no 'D' UART marker appears.
+
+Fix (same approach as patch 0010 for __armv4_mmu_cache_on):
+
+1. Enable I-cache (SCTLR I bit) BEFORE bl __setup_mmu.
+   __setup_mmu instruction fetches are then served from I-cache after
+   the initial cold fill; MBUS carries only write transactions from the
+   16 KB section-entry stores.
+
+2. After __setup_mmu returns and the DSB drains the CPU write buffer,
+   a register-only busy-wait loop running from I-cache allows ~67 ms
+   for the MBUS arbiter to drain the 16 KB write backlog before the
+   TLB flush and MMU enable.
+
+Register notes:
+  r0  scratch before/after blne __setup_mmu (clobbered by callee)
+  r2  clobbered by __setup_mmu; reused as settle counter
+  r3  page-table base; set by __setup_mmu; preserved across the settle
+  r11 ID_MMFR0; set before the block; __setup_mmu does not touch r11
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -1016,9 +1016,35 @@
+ 		mrc	p15, 0, r11, c0, c1, 4	@ read ID_MMFR0
+ 		tst	r11, #0xf		@ VMSA
+ 		movne	r6, #CB_BITS | 0x02	@ !XN
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i MBUS: enable I-cache BEFORE __setup_mmu writes 16 KB
++		 * of page-table entries to DRAM.  With I-cache on, __setup_mmu
++		 * instruction fetches are served from I-cache (not MBUS); MBUS
++		 * carries only write transactions from the stores.  The settle
++		 * loop below also runs from I-cache and drains MBUS uncontested.
++		 * r0 is scratch here (__setup_mmu clobbers r0, r2, r9, r10).
++		 */
++		mrc	p15, 0, r0, c1, c0, 0	@ read SCTLR
++		orr	r0, r0, #0x1000		@ set I bit: enable I-cache
++		mcr	p15, 0, r0, c1, c0, 0	@ write SCTLR
++		mcr	p15, 0, r0, c7, c5, 4	@ ISB: flush pipeline; I-cache now active
++#endif
+ 		blne	__setup_mmu
+ 		mov	r0, #0
+ 		mcr	p15, 0, r0, c7, c10, 4	@ drain write buffer
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i MBUS: settle after 16 KB page-table write burst.
++		 * Loop runs from I-cache (enabled above); MBUS drains
++		 * uncontested.  r2 is clobbered by __setup_mmu; reuse as
++		 * counter.  r3 (page-table base set by __setup_mmu) preserved.
++		 */
++		mov	r2, #0x04000000		@ ~67ms @ 1 GHz
++sun5i_armv7_mmu_settle:
++		subs	r2, r2, #1
++		bne	sun5i_armv7_mmu_settle
++#endif
+ 		tst	r11, #0xf		@ VMSA
+ 		mcrne	p15, 0, r0, c8, c7, 0	@ flush I,D TLBs
+ #endif

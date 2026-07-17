@@ -1,7 +1,7 @@
 # SkiffOS — NextThing C.H.I.P. / Pocket C.H.I.P.
 
 SkiffOS support for the **NextThing C.H.I.P.** and **Pocket C.H.I.P.** using
-the mainline Linux kernel (6.x) and U-Boot 2025.01. These configs replace the
+the mainline Linux kernel (6.x) and U-Boot 2024.04. These configs replace the
 outdated NTC Linux 4.4 fork with a fully up-to-date software stack.
 
 ---
@@ -24,7 +24,7 @@ Both packages depend on `allwinner/r8`, which provides the SoC base
 |---|---|---|
 | SoC | Allwinner R8 (Cortex-A8, 1 GHz) | same |
 | RAM | 512 MB LPDDR3 | same |
-| Storage | 4–8 GB internal NAND | same |
+| Storage | 4–8 GB internal NAND (MLC, 4 MiB erase blocks) | same |
 | WiFi / BT | RTL8723BS (SDIO) | same |
 | USB | Micro-USB OTG (MUSB) | same |
 | Audio | 3.5 mm headphone + mic | same |
@@ -73,6 +73,11 @@ Subsequent `make compile` runs are incremental and much faster.
 
 Output images are written to `workspaces/default/images/`.
 
+> **Note:** The build also compiles patched `mkfs.ubifs` and `ubinize` host
+> tools (in `workspaces/default/host/sbin/`) that support the CHIP's 4 MiB
+> physical erase blocks. These are required by the flash script and are built
+> automatically.
+
 ---
 
 ## Flashing to NAND
@@ -83,8 +88,12 @@ NAND via USB **FEL mode** using `sunxi-tools`.
 ### Install flash tools
 
 ```bash
-sudo apt install -y sunxi-tools u-boot-tools mtd-utils rsync
+sudo apt install -y sunxi-tools u-boot-tools rsync
 ```
+
+> `mtd-utils` is **not** required from the system package — the flash script
+> uses the patched `mkfs.ubifs` and `ubinize` built by Buildroot in
+> `workspaces/default/host/sbin/`.
 
 ### Enter FEL mode
 
@@ -98,14 +107,7 @@ sudo apt install -y sunxi-tools u-boot-tools mtd-utils rsync
 ### Flash
 
 ```bash
-sudo BUILDROOT_DIR=$(pwd)/workspaces/default \
-     SKIFF_CURRENT_CONF_DIR=$(pwd)/configs/chip/r8 \
-     make cmd/chip/r8/flashnand
-```
-
-Or call the script directly:
-
-```bash
+cd SkiffOS
 sudo BUILDROOT_DIR=$(pwd)/workspaces/default \
      SKIFF_CURRENT_CONF_DIR=$(pwd)/configs/chip/r8 \
      bash configs/chip/r8/scripts/flash_nand.sh
@@ -115,20 +117,15 @@ The script will prompt before writing. Monitor progress on the board's
 **UART** at 115200 baud. Flashing takes **3–10 minutes**; do not disconnect
 power.
 
-### NAND variants
-
-C.H.I.P. shipped with two NAND types (Hynix and Toshiba). They differ only
-in OOB spare-area size. The flash script handles **both variants** transparently
-by enabling pseudo-SLC mode (`nand slc-mode on`) in U-Boot, which normalises
-behaviour for both chips.
-
 ### `--erase-bb` option (worn NAND)
 
 If a board has accumulated bad-block markers from repeated flashing, pass the
 `--erase-bb` flag to scrub them:
 
 ```bash
-sudo ... bash configs/chip/r8/scripts/flash_nand.sh --erase-bb
+sudo BUILDROOT_DIR=$(pwd)/workspaces/default \
+     SKIFF_CURRENT_CONF_DIR=$(pwd)/configs/chip/r8 \
+     bash configs/chip/r8/scripts/flash_nand.sh --erase-bb
 ```
 
 Use with care — scrubbing bad-block markers on genuinely worn NAND can cause
@@ -136,13 +133,36 @@ data errors.
 
 ### NAND layout (after flash)
 
+The CHIP NAND is partitioned as `nand0:4m(spl),4m(spl-backup),4m(uboot),4m(env),-(UBI)` (U-Boot 2024.04 `nand_register()` names devices `nand0`, `nand1`, …):
+
 ```
-0x0000000 – 0x0800000   SPL (8 × 1 MiB redundant copies)
-0x0800000 – 0x1000000   U-Boot
-0x1000000 – end         UBI partition
-  ubi0:rootfs           kernel + squashfs + skiff-init  (~read-only)
-  ubi0:persist          user data, expands to fill remaining NAND
+Offset      Size   Partition    Contents
+──────────────────────────────────────────────────────────────
+0x0000000   4 MiB  spl          U-Boot SPL (primary copy)
+0x0400000   4 MiB  spl-backup   U-Boot SPL (redundant copy)
+0x0800000   4 MiB  uboot        U-Boot proper (u-boot-dtb.bin)
+0x0C00000   4 MiB  env          U-Boot environment
+0x1000000   rest   UBI          UBI partition
+                     ubi0:rootfs   kernel + squashfs + skiff-init
+                     ubi0:persist  user data (autoresize to fill NAND)
 ```
+
+### NAND physical geometry
+
+The CHIP uses Hynix (H27UCG8T2A) or Toshiba (TC58TEG6DCJTA) MLC NAND with
+identical logical geometry visible to the driver:
+
+| Parameter | Value |
+|---|---|
+| Physical page size | 16 KiB (0x4000) |
+| OOB size | 1280 B (0x500) |
+| Physical erase block (PEB) | 4 MiB (0x400000) |
+| UBIFS LEB | 4,161,536 B (PEB − 2 × page) |
+
+> **Why patched host tools?** Standard `mkfs.ubifs` and `ubinize` from
+> `mtd-utils` 2.2.x cap LEB/PEB size at 2 MiB, predating large-page MLC NAND.
+> SkiffOS patches these limits to 8 MiB via
+> `configs/chip/r8/buildroot_patches/mtd/`.
 
 ---
 
@@ -289,8 +309,10 @@ cat /sys/class/power_supply/axp20x-ac/online
 ### Display
 
 The 4.3" RGB panel (480×272) is driven by the sun4i display engine. The
-framebuffer device is `/dev/fb0`. Console output is shown on both the HDMI
-output (if connected) and the panel.
+framebuffer device is `/dev/fb0`. Console output is shown on the panel.
+
+> The R8 SoC has no HDMI hardware; HDMI is disabled in U-Boot
+> (`# CONFIG_VIDEO_HDMI is not set`) to prevent hangs during init.
 
 ### Touchscreen (TSC2007)
 
@@ -338,6 +360,8 @@ scp ~/.ssh/id_rsa.pub root@192.168.7.2:/mnt/persist/skiff/keys/
 | `lsusb` shows nothing in FEL | FEL pin not bridged / wrong pin | Double-check FEL–GND jumper |
 | Flash hangs at "Waiting 1s" | Board not responding after SPL | Retry; ensure USB cable supports data |
 | Boot stops at U-Boot prompt | Bad NAND write / incomplete flash | Reflash; try `--erase-bb` |
+| `ERROR: Buildroot host-mtd tools not found` | Build not run yet | Run `SKIFF_CONFIG=chip/r8 make configure compile` first |
+| `too large LEB size` / `too high physical eraseblock size` | Using system mtd-utils instead of Buildroot tools | Do not install `mtd-utils` system-wide; let the script use Buildroot's patched binaries |
 | No WiFi interface (`wlan0`) | `rtl8723bs` module not loaded | `modprobe rtl8723bs`; check `dmesg` |
 | No BT interface | Firmware not found | Verify `rtl_bt/rtl8723bs_fw.bin` is in `/lib/firmware/` |
 | Touchscreen not responding (Pocket) | Wrong input event node | Run `evtest` to identify correct `/dev/input/event#` |

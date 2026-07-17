@@ -1,0 +1,74 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Thu, 08 May 2026 21:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i AHB/MBUS settle after self-relocation copy
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the zImage must self-relocate
+when loaded to an address overlapping the final decompressed kernel
+image. The backward ldmdb/stmdb copy loop writes ~1.5 MiB of zImage
+data to a new DRAM address.
+
+After the copy, cache_clean_flush() is called. With write-through
+D-cache enabled (patch 0008, __arm926ejs_mmu_cache_on), the copy
+stores went directly to DRAM as individual AHB/MBUS write transactions
+-- no dirty D-cache lines to flush. cache_clean_flush() therefore
+only invalidates I-cache and issues a DSB. DSB drains the CPU write
+buffer but does NOT drain the MBUS arbiter's pending write transaction
+queue.
+
+After cache_clean_flush() returns:
+  badr r0, restart       (PC-relative arithmetic -- no DRAM access)
+  add  r0, r0, r6        (register arithmetic -- no DRAM access)
+  mov  pc, r0            (branch to new DRAM location)
+
+The 'mov pc, r0' causes an I-cache miss (I-cache just invalidated).
+The fill goes IBUS -> AHB -> MBUS -> new DRAM location. MBUS has
+~375,000 pending write transactions for that address range from the
+1.5 MiB copy. The read stalls the CPU indefinitely.
+
+Symptom: no 'D' UART marker (patch 0009), no earlycon, complete silence
+after "[BOOT-DBG] sun5i: pre-kernel settle".
+
+Fix: after 'bl cache_clean_flush' and before 'badr r0, restart',
+insert a DSB + busy-wait settle. The settle instructions are fetched
+from the OLD (source) location -- no pending MBUS writes there -- so
+fetches succeed and the tight loop runs from I-cache while MBUS drains.
+By the time 'mov pc, r0' executes, MBUS is idle.
+
+Settle: 0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz = 200ms.
+r0 is scratch after cache_clean_flush returns; r6 (reloc offset) is
+preserved across the settle.
+
+Guarded by #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/boot/compressed/head.S | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -533,6 +533,24 @@
+ 		mov	r0, r9			@ start of relocated zImage
+ 		add	r1, sp, r6		@ end of relocated zImage
+ 		bl	cache_clean_flush
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i AHB/MBUS: settle after self-relocation write burst.
++		 * ~1.5 MiB of zImage data was copied to a new DRAM address.
++		 * MBUS retains those write transactions; the first instruction
++		 * fetch at the new 'restart' address (I-cache miss after
++		 * cache_clean_flush invalidated I-cache) stalls indefinitely.
++		 * Settle runs from OLD location (copy source) -- no pending
++		 * writes there, so fetches succeed and the loop runs from
++		 * I-cache while MBUS drains the ~1.5 MiB write backlog.
++		 * r0 is scratch after cache_clean_flush; r6 preserved.
++		 */
++		mcr	p15, 0, r0, c7, c10, 4		@ DSB
++		mov	r0, #0x04000000			@ ~200ms @ 1GHz
++sun5i_reloc_settle:
++		subs	r0, r0, #1
++		bne	sun5i_reloc_settle
++#endif
+
+ 		badr	r0, restart
+ 		add	r0, r0, r6

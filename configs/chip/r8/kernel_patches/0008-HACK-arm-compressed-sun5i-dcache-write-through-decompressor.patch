@@ -1,0 +1,82 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 20:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i use D-cache write-through during decompression
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the kernel decompressor hangs
+completely after U-Boot jumps to the zImage, producing no output even
+with DSB+busy-wait settles added at various points in the decompressor.
+
+Root cause: the decompressor enables write-back D-cache via cache_on()
+(see __arm926ejs_mmu_cache_on).  decompress_kernel() then writes ~15 MiB
+of decompressed kernel data to DRAM.  The ARM926EJ-S write-back D-cache
+buffers these writes and evicts dirty lines to the AHB bus in bursts as
+the 8 KB D-cache fills and refills over the course of 15 MiB.
+
+Simultaneously, decompress_kernel()'s ~100 KB code body thrashes the
+8 KB I-cache: by the time it returns, the outer decompressor code (the
+instruction immediately after "bl decompress_kernel") has been evicted
+from I-cache.  That first instruction fetch is an I-cache miss that must
+go to DRAM via AHB -- but the AHB/MBUS arbiter is still saturated with
+the accumulated dirty-line eviction burst from decompression.  The CPU
+stalls indefinitely on that single instruction fetch.
+
+DSB+busy-wait settles added AFTER decompress_kernel cannot help: the
+settle code itself is evicted from I-cache and its first instruction
+fetch stalls for the same reason.
+
+Fix: in __arm926ejs_mmu_cache_on, enable ARM926EJ-S D-cache write-through
+mode (CP15 c15 test register, bit 2) for CONFIG_MACH_SUN5I before calling
+__armv4_mmu_cache_on.  Write-through sends each decompressor write directly
+to AHB as an individual transaction that the MBUS arbiter drains in real
+time.  No dirty-line burst accumulates.  When decompress_kernel() returns,
+the AHB has at most a handful of in-flight writes from the last few store
+instructions; the first I-cache miss is serviced immediately.
+
+Also clear the write-through bit in __armv4_mmu_cache_off (which is the
+cache-off path for ARM926) so that the main kernel starts with normal
+write-back D-cache behaviour.  At cache_off time r0 is already zero, so
+only the mcr is needed.
+
+The existing settle patches (0003/0006/0007) are retained as defensive
+belt-and-suspenders for any residual bus activity, but the write-through
+mode change is the primary fix.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/boot/compressed/head.S | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -877,6 +877,20 @@
+ 		mov	r0, #4			@ put dcache in WT mode
+ 		mcr	p15, 7, r0, c15, c0, 0
+ #endif
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i AHB/MBUS: enable D-cache write-through during decompression.
++		 * With write-back, decompress_kernel() evicts ~15 MiB of dirty lines
++		 * to the AHB bus.  By the time it returns, the I-cache has been fully
++		 * evicted by the decompressor internal code; the first instruction
++		 * fetch at the return address (I-cache miss) hits a stalled AHB bus.
++		 * Write-through sends each write directly to AHB as individual
++		 * transactions that the MBUS drains in real time -- no burst, no stall.
++		 * This CP15 c15 register is ARM926EJ-S-specific.
++		 */
++		mov	r0, #4				@ ARM926EJ-S WT mode bit
++		mcr	p15, 7, r0, c15, c0, 0		@ enable D-cache write-through
++#endif
+ 
+ __armv4_mmu_cache_on:
+ 		mov	r12, lr
+@@ -1214,6 +1228,10 @@
+ 		mov	r0, #0
+ 		mcr	p15, 0, r0, c7, c7	@ invalidate whole cache v4
+ 		mcr	p15, 0, r0, c8, c7	@ invalidate whole TLB v4
++#ifdef CONFIG_MACH_SUN5I
++		/* clear ARM926EJ-S write-through mode set by cache_on (r0 = 0 here) */
++		mcr	p15, 7, r0, c15, c0, 0
++#endif
+ #endif
+ 		mov	pc, lr
+ 

@@ -1,0 +1,48 @@
+From 3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d Mon Sep 17 00:00:00 2001
+From: SkiffOS <skiffos@skiffos.org>
+Date: Sat, 01 Jan 2000 00:00:00 +0000
+Subject: [PATCH] HACK: ubi: sun5i: allow attaching MLC NAND on CHIP
+
+Mainline UBI refuses MLC NAND (paired-page corruption risk).  The
+C.H.I.P.'s Hynix H27UCG8T2ETR is MLC, and both the stock NTC firmware
+and U-Boot run UBI on it in full-MLC page order.  SLC emulation
+(slc-mode DT property) is NOT usable here: it remaps pages via the
+pairing scheme and could not read the UBI image U-Boot flashed.
+
+Allow the attach on CONFIG_MACH_SUN5I kernels with a warning.  The
+SkiffOS rootfs is a read-mostly squashfs, limiting write exposure.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.org>
+---
+ drivers/mtd/ubi/build.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+
+--- a/drivers/mtd/ubi/build.c
++++ b/drivers/mtd/ubi/build.c
+@@ -897,9 +897,23 @@
+ 	 */
+ 	if (mtd->type == MTD_MLCNANDFLASH &&
+ 	    !(mtd->flags & MTD_SLC_ON_MLC_EMULATION)) {
+-		pr_err("ubi: refuse attaching mtd%d - MLC NAND is not supported\n",
+-			mtd->index);
+-		return -EINVAL;
++		if (IS_ENABLED(CONFIG_MACH_SUN5I)) {
++			/*
++			 * HACK (sun5i/CHIP): allow UBI on the CHIP's MLC
++			 * NAND.  The stock CHIP firmware and U-Boot both
++			 * run UBI on this flash in full-MLC page order;
++			 * SLC emulation would not be able to read data
++			 * written by U-Boot.  Paired-page corruption on
++			 * power loss remains a real risk -- rootfs is a
++			 * read-mostly squashfs, which limits exposure.
++			 */
++			pr_warn("ubi: attaching mtd%d despite MLC NAND (sun5i CHIP override)\n",
++				mtd->index);
++		} else {
++			pr_err("ubi: refuse attaching mtd%d - MLC NAND is not supported\n",
++				mtd->index);
++			return -EINVAL;
++		}
+ 	}
+ 
+ 	/* UBI cannot work on flashes with zero erasesize. */

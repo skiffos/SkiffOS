@@ -1,0 +1,69 @@
+From: SkiffOS <skiffos@skiffos.com>
+Date: Fri, 04 Apr 2026 16:00:00 +0200
+Subject: [PATCH] HACK: arm: compressed: sun5i AHB/MBUS settle after decompress_kernel()
+
+On Allwinner sun5i (R8/A13, C.H.I.P.) the kernel is completely silent
+after U-Boot jumps to the zImage, even with the settle in __enter_kernel
+(patch 0003).
+
+Root cause: __enter_kernel is NEVER REACHED.  cache_clean_flush() is
+called on line 640, two instructions after bl decompress_kernel returns.
+Inside cache_clean_flush(), the ARM926 "test, clean and invalidate"
+instruction (mcr p15, 0, r0, c7, c14, 0) iterates over all dirty
+D-cache lines and writes each one to the AHB bus.  At this point the
+AHB/MBUS arbiter already holds unresolved write transactions from the
+~15 MiB of D-cache evictions that occurred during decompression.  The
+first new write inside cache_clean_flush() fills the AHB write buffer;
+the MCR stalls indefinitely waiting for AHB to accept it.
+
+The settle in patch 0003 (__enter_kernel) is not reached because
+cache_clean_flush() never returns.
+
+Additionally, get_inflated_image_size (called two instructions after
+decompress_kernel) performs DRAM reads that would stall for the same
+reason.
+
+Fix: immediately after bl decompress_kernel returns (r0-r3 are scratch,
+r4=kernel-start and r8=atags are preserved by the callee), issue a
+DSB + busy-wait to drain the AHB/MBUS arbiter before any DRAM access.
+
+  mcr p15, 0, r0, c7, c10, 4  @ ARMv5 DSB
+  0x04000000 = 67,108,864 iters * ~3 cycles/iter @ 1 GHz ≈ 200 ms
+
+After this settle, get_inflated_image_size reads succeed, cache_clean_flush()
+completes (the remaining dirty cache lines are at most one 8-16 KB cache
+fill worth), and __enter_kernel is reached.  The existing settle in patch
+0003 (__enter_kernel) then handles any residual backlog from cache_clean_flush().
+
+Guarded by #ifdef CONFIG_MACH_SUN5I.
+
+Signed-off-by: SkiffOS <skiffos@skiffos.com>
+---
+ arch/arm/boot/compressed/head.S | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -632,6 +632,23 @@
+ 		add	r2, sp, #MALLOC_SIZE	@ 64k max
+ 		mov	r3, r7
+ 		bl	decompress_kernel
++#ifdef CONFIG_MACH_SUN5I
++		/*
++		 * sun5i AHB/MBUS bus stall: decompress_kernel() just wrote ~15 MiB
++		 * of decompressed kernel data to DRAM via D-cache evictions.  The
++		 * AHB/MBUS arbiter has accumulated write transactions; the next DRAM
++		 * read in get_inflated_image_size and in cache_clean_flush() stalls
++		 * the CPU indefinitely.
++		 * DSB + busy-wait drains the arbiter before any post-decomp access.
++		 * r0-r3 are caller-saved across bl decompress_kernel; r4 (kernel
++		 * start) and r8 (atags) are preserved by the callee.
++		 */
++		mcr	p15, 0, r0, c7, c10, 4		@ ARMv5 DSB
++		mov	r0, #0x04000000			@ 67M iters ≈ 200ms @ 1 GHz
++sun5i_decomp_settle:
++		subs	r0, r0, #1
++		bne	sun5i_decomp_settle
++#endif
+
+ 		get_inflated_image_size	r1, r2, r3
