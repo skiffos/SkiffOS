@@ -1,0 +1,40 @@
+# PocketC.H.I.P. 4.3" 480x272 parallel-RGB LCD (Olimex LCD-OLinuXino-4.3TS).
+#
+# chip/r8 disables the whole VIDEO subsystem (see r8/uboot/bootcmd): sun5i has
+# no working HDMI and the composite/TVE path hangs U-Boot.  PocketC.H.I.P. does
+# have a real parallel-RGB panel, so re-enable VIDEO_SUNXI here and route it to
+# the LCD.  These override the "is not set" lines from chip/r8 (pocketr8 is
+# merged after r8, so it wins).
+#
+# VIDEO_SUNXI selects VIDEO + DISPLAY and implies VIDEO_DT_SIMPLEFB, which hands
+# the framebuffer to Linux.  With a real framebuffer present the vidconsole
+# probe no longer hangs (that hang only happened when VIDEO was on with no
+# working display path).
+CONFIG_VIDEO=y
+CONFIG_VIDEO_SUNXI=y
+CONFIG_VIDEO_DT_SIMPLEFB=y
+
+# Generic parallel-interface panel.  This selects VIDEO_LCD_IF_PARALLEL, which
+# is non-promptable and must NOT be set directly.
+CONFIG_VIDEO_LCD_PANEL_PARALLEL=y
+
+# Keep HDMI/composite off: HDMI regs don't exist on R8, TVE hangs.
+# CHIP_defconfig defaults CONFIG_VIDEO_COMPOSITE=y, so disable it explicitly.
+# CONFIG_VIDEO_HDMI is not set
+# CONFIG_VIDEO_COMPOSITE is not set
+
+# Panel timing = Olimex LCD-OLinuXino-4.3TS (matches the kernel panel-simple
+# entry olimex,lcd-olinuxino-43-ts): 480x272 @ 9 MHz pixel clock.
+#   le=hback=10 ri=hfront=5 hs=hsync=30  up=vback=3 lo=vfront=8 vs=vsync=5
+# depth:18 = RGB666 (panel wired to the lcd_rgb666 pin group).
+CONFIG_VIDEO_LCD_MODE="x:480,y:272,depth:18,pclk_khz:9000,le:10,ri:5,up:3,lo:8,hs:30,vs:5,sync:3,vmode:0"
+
+# LCD panel VCC via AXP209 LDO.
+CONFIG_VIDEO_LCD_POWER="AXP0-1"
+
+# Backlight: enable line is PD18 (real SoC GPIO), brightness PWM on PB2.
+# (Confirmed on stock hardware: pwm-backlight, enable-gpios=PD18, pwms=PWM0/PB2.)
+# The kernel drives PB2 with inverted polarity; U-Boot's simple BL_PWM may not,
+# so brightness in U-Boot could differ.  Cosmetic — Linux sets it correctly.
+CONFIG_VIDEO_LCD_BL_EN="PD18"
+CONFIG_VIDEO_LCD_BL_PWM="PB2"

@@ -1,0 +1,4 @@
+# PocketC.H.I.P. keyboard: TI TCA8418 I2C keypad-matrix controller on i2c1
+# (6 rows x 10 columns).  Keymap lives in the DTS.
+CONFIG_INPUT_KEYBOARD=y
+CONFIG_KEYBOARD_TCA8418=y

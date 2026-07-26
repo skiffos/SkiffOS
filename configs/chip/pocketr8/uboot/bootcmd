@@ -1,0 +1,12 @@
+# PocketC.H.I.P. boot override.
+#
+# chip/r8's BOOTCOMMAND loads /boot/${fdtfile}, and on cold boot U-Boot sets
+# fdtfile from the SPL's DT name — which is "sun5i-r8-chip" (we build U-Boot
+# with the CHIP defconfig).  So the kernel would load sun5i-r8-chip.dtb and
+# get NO panel/backlight/keyboard.  Hardcode the PocketC.H.I.P. dtb instead.
+#
+# Also add `console=tty1 fbcon=map:0` so the kernel console renders on the
+# 4.3" LCD (framebuffer console mapped to display 0), not only the UART.
+#
+# pocketr8 is merged after chip/r8, so this CONFIG_BOOTCOMMAND wins.
+CONFIG_BOOTCOMMAND="source ${scriptaddr}; echo 'SkiffOS PocketCHIP NAND boot'; setenv mtdparts nand0:4m(spl),4m(spl-backup),4m(uboot),4m(env),-(UBI); mtdparts; ubi part UBI; ubifsmount ubi0:rootfs; ubifsload ${fdt_addr_r} /boot/sun5i-r8-pocketchip.dtb; ubifsload ${kernel_addr_r} /boot/zImage; setenv bootargs ubi.mtd=4 root=ubi0:rootfs rootfstype=ubifs rw init=/boot/skiff-init/skiff-init-squashfs console=ttyS0,115200n8 console=tty1 net.ifnames=0 fbcon=map:0; setenv skip_board_fixup 1; bootz ${kernel_addr_r} - ${fdt_addr_r}"

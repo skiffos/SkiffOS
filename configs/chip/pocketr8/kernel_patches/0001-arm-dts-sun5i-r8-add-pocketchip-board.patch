@@ -1,0 +1,136 @@
+arm: dts: sun5i-r8: add PocketC.H.I.P. board
+
+Kernel 6.19.8 (and mainline) ship no sun5i-r8-pocketchip.dts.  Add one for
+the NextThing PocketC.H.I.P.:
+  - Olimex 480x272 parallel-RGB panel on RGB565 pins (PD18 kept free for the
+    backlight-enable GPIO; the RGB666 group would steal it -> dark panel)
+  - PWM backlight (PWM0/PB2 + PD18 enable)
+  - R8 built-in resistive touchscreen, TCA8418 keypad
+  - composite/tve0 disabled so DRM fbdev binds the LCD, not the TV output
+  - mmc0 (RTL8723BS SDIO WiFi) capped to 50 MHz to stop data-error floods
+Validated end-to-end on assembled hardware: panel, touch, keyboard, WiFi.
+
+Signed-off-by: SkiffOS chip/pocketr8 <juanernestobiondi@gmail.com>
+
+---
+--- /dev/null
++++ b/arch/arm/boot/dts/allwinner/sun5i-r8-pocketchip.dts
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++/*
++ * Device tree for the NextThing Co. PocketC.H.I.P.
++ *
++ * The PocketC.H.I.P. is a C.H.I.P. (sun5i-r8-chip) carrier board.  It adds a
++ * 4.3" 480x272 parallel-RGB LCD (Olimex LCD-OLinuXino-4.3TS), a PWM backlight,
++ * the R8's built-in resistive touchscreen (RTP), and a TCA8418 keypad matrix.
++ *
++ * Hardware description validated against a running stock PocketC.H.I.P.
++ * (NTC 4.4.13-ntc-mlc /proc/device-tree):
++ *   - panel      olimex,lcd-olinuxino-43-ts   (480x272 @ 9 MHz, RGB565 pins (PD18 freed for backlight))
++ *   - backlight  pwm-backlight, PWM0 (PB2) + enable-gpio PD18, 11 levels
++ *   - touch      allwinner,sun5i-a13-ts  (internal RTP @ 1c25000, NOT tsc2007)
++ *   - keyboard   ti,tca8418 on i2c1 @0x34, IRQ PG1, 6 rows x 10 cols
++ */
++
++#include "sun5i-r8-chip.dts"
++#include <dt-bindings/pwm/pwm.h>
++
++/ {
++	model = "NextThing PocketC.H.I.P.";
++	compatible = "nextthing,pocketchip", "nextthing,chip",
++		     "allwinner,sun5i-r8", "allwinner,sun5i-a13";
++
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm 0 8000 PWM_POLARITY_INVERTED>;
++		brightness-levels = <0 1 2 4 8 12 16 24 28 32 100>;
++		default-brightness-level = <8>;
++		enable-gpios = <&pio 3 18 GPIO_ACTIVE_HIGH>; /* PD18 */
++	};
++
++	panel {
++		compatible = "olimex,lcd-olinuxino-43-ts";
++		power-supply = <&reg_vcc3v3>;
++		backlight = <&backlight>;
++
++		port {
++			panel_input: endpoint {
++				remote-endpoint = <&tcon0_out_panel>;
++			};
++		};
++	};
++};
++
++/* Keypad matrix controller (PocketC.H.I.P. membrane keyboard). */
++&i2c1 {
++	status = "okay";
++
++	keyboard@34 {
++		compatible = "ti,tca8418";
++		reg = <0x34>;
++		interrupt-parent = <&pio>;
++		interrupts = <6 1 IRQ_TYPE_EDGE_FALLING>; /* PG1 */
++		keypad,num-rows = <6>;
++		keypad,num-columns = <10>;
++		keypad,autorepeat;
++		/* Captured verbatim from a stock unit; MATRIX_KEY(row, col, code). */
++		linux,keymap = <
++			0x0d 0x10002 0x20003 0x30004 0x40005
++			0x50006 0x60007 0x70008 0x80009 0x9000a
++			0x1000010 0x1010011 0x1020012 0x1030013 0x1040014
++			0x1050015 0x1060016 0x1070017 0x1080018 0x1090019
++			0x200001e 0x201001f 0x2020020 0x2030021 0x2040022
++			0x2050023 0x2060024 0x2070025 0x2080026 0x209001c
++			0x300000f 0x301002c 0x302002d 0x303002e 0x304002f
++			0x3050030 0x3060031 0x3070032 0x3080067 0x309006c
++			0x4000001 0x4010064 0x4020038 0x4030039 0x4040061
++			0x4050035 0x4060036 0x4080069 0x409006a 0x500002a
++			0x501000b 0x502004a 0x503000e 0x5040034
++		>;
++	};
++};
++
++&pwm {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pwm0_pin>;
++	status = "okay";
++};
++
++/* Built-in resistive touchscreen (also the thermal sensor). */
++&rtp {
++	allwinner,ts-attached;
++	status = "okay";
++};
++
++&tcon0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_rgb565_pins>;
++	status = "okay";
++};
++
++&tcon0_out {
++	tcon0_out_panel: endpoint@0 {
++		reg = <0>;
++		remote-endpoint = <&panel_input>;
++	};
++};
++
++/*
++ * Disable the composite/TV encoder that chip.dts enables.  PocketC.H.I.P. has
++ * no composite output, and if it stays enabled the DRM fbdev picks the always-
++ * "connected" Composite connector (720x480) over the LCD panel, leaving the
++ * panel disabled and the screen black.  With tve0 off, the RGB panel is the
++ * only connector, so fbcon lands on the 480x272 LCD.
++ */
++&tve0 {
++	status = "disabled";
++};
++
++/*
++ * RTL8723BS SDIO WiFi throws "data error, sending stop command" floods at the
++ * default SDIO clock on the mainline sun5i-a13-mmc (2-clock, no sample/output
++ * timing).  Cap the bus clock so the radio is reliable.
++ */
++&mmc0 {
++	max-frequency = <50000000>;
++};
