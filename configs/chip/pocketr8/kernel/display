@@ -1,13 +1,31 @@
-# TSC2007 I2C resistive touchscreen (Pocket C.H.I.P. display)
-CONFIG_INPUT_TOUCHSCREEN=y
-CONFIG_TOUCHSCREEN_TSC2007=y
+# PocketC.H.I.P. 4.3" 480x272 display stack.
+# Hardware confirmed against a running stock unit (NTC 4.4 /proc/device-tree).
 
-# sun4i/sun5i DRM display engine (TCON + RGB/LVDS panel output)
+# Touch: the R8's built-in resistive touchscreen controller (RTP @ 1c25000),
+# driver sun4i-ts.  PocketC.H.I.P. has NO external tsc2007 (nothing at i2c 0x48).
+CONFIG_INPUT_TOUCHSCREEN=y
+CONFIG_TOUCHSCREEN_SUN4I=y
+
+# sun4i/sun5i DRM display engine (TCON + parallel RGB panel via panel-simple).
 CONFIG_DRM=y
 CONFIG_DRM_SUN4I=y
 CONFIG_DRM_PANEL_SIMPLE=y
-CONFIG_DRM_PANEL_LVDS=y
 
-# Backlight
+# DRM fbdev emulation + framebuffer console.  Without these there is no
+# /dev/fb0, so nothing triggers a modeset: the panel connector stays disabled
+# and the screen is black after U-Boot hands off (confirmed on hardware).
+# This creates /dev/fb0 on the sun4i-drm device and binds fbcon to it, so the
+# kernel console (console=tty1, fbcon=map:0) renders on the LCD.
+CONFIG_FB=y
+CONFIG_DRM_FBDEV_EMULATION=y
+CONFIG_FRAMEBUFFER_CONSOLE=y
+CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+# Boot logo — a visible confirmation the panel lit even before login.
+CONFIG_LOGO=y
+CONFIG_LOGO_LINUX_CLUT224=y
+
+# PWM backlight: brightness on PWM0 (PB2), enable on PD18.
+CONFIG_PWM=y
+CONFIG_PWM_SUN4I=y
 CONFIG_BACKLIGHT_CLASS_DEVICE=y
-CONFIG_BACKLIGHT_GPIO=y
+CONFIG_BACKLIGHT_PWM=y
