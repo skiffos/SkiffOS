@@ -70,6 +70,8 @@ main SkiffOS repository:
 | [BeagleBone AI]       | [beaglebone/ai]           | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone Black]    | [beaglebone/black]        | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBoard BeagleV] | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
+| [NextThing C.H.I.P.]  | [chip/r8]                 | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
+| [Pocket C.H.I.P.]     | [chip/pocketr8]           | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
 | **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.1.3       |
 | [ModalAI Voxl2]       | [modalai/voxl2]           | N/A              | ✔ msm-4.19.125  |
 | [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.120] |
@@ -134,6 +136,8 @@ main SkiffOS repository:
 [NVIDIA Jetson AGX]: https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit
 [NVIDIA Jetson Nano]: https://developer.nvidia.com/embedded/jetson-nano-developer-kit
 [NVIDIA Jetson TX2]: https://developer.nvidia.com/embedded/jetson-tx2
+[NextThing C.H.I.P.]: https://www.nextthing.co/pages/chip
+[Pocket C.H.I.P.]: https://www.nextthing.co/pages/pocketchip
 [Odroid C2]: https://wiki.odroid.com/odroid-c2/odroid-c2
 [Odroid C4]: https://wiki.odroid.com/odroid-c4/odroid-c4
 [Odroid H2]: https://www.hardkernel.com/shop/odroid-h2/
@@ -194,6 +198,8 @@ main SkiffOS repository:
 [beaglebone/black]: ./configs/beaglebone
 [beaglebone/x15]: ./configs/beaglebone
 [browser/v86]: ./configs/browser/v86
+[chip/pocketr8]: ./configs/chip/pocketr8
+[chip/r8]: ./configs/chip/r8
 [freescale/wandboard]: ./configs/freescale/wandboard
 [intel/desktop]: ./configs/intel/desktop
 [jetson/agx]: ./configs/jetson/agx
