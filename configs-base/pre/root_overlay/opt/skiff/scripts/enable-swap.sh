@@ -55,8 +55,14 @@ if [ -z "${DISABLE_ZRAM}" ] && ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); t
     done
     swapoff /dev/zram0 2>/dev/null || true
     mkswap /dev/zram0 || true
-    # set priority to -10
-    if ! swapon -p -10 /dev/zram0 ; then
+    # Priority must be positive. swapon(8) only sets SWAP_FLAG_PREFER when the
+    # value is >= 0 (util-linux sys-utils/swapon.c: `if (priority >= 0)`), so a
+    # negative -p is dropped without an error and the kernel falls back to
+    # auto-assignment (mm/swapfile.c: `si->prio = --least_priority`, starting at
+    # -1). Priorities then follow activation order alone, and whenever zram came
+    # up after the swapfile the disk ended up ABOVE zram -- the exact opposite
+    # of what this script intends.
+    if ! swapon -p 100 /dev/zram0 ; then
         echo "Failed to enable zram0 swap, continuing..."
     else
         echo "ZRAM enabled with size ${ZRAM_SIZE}."
@@ -93,5 +99,6 @@ fi
 
 chmod 600 $SWAPFILE_PATH
 mkswap $SWAPFILE_PATH
-# set priority to -100
-swapon -p -100 $SWAPFILE_PATH
+# Positive, and below zram's 100 -- see the note above on why negative
+# priorities never reach the kernel.
+swapon -p 10 $SWAPFILE_PATH
