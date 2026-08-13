@@ -30,7 +30,29 @@ SWAP_LIST=$(swapon | cut -d" " -f1 | sed 1d) || true
 if [ -z "${DISABLE_ZRAM}" ] && ! (echo "${SWAP_LIST}" | grep -q "/dev/zram0"); then
     echo "Enabling ZRAM at /dev/zram0..."
     modprobe zram || true
-    zramctl -s ${ZRAM_SIZE} /dev/zram0 || true
+    # modprobe returns as soon as the module is loaded, but udev then opens the
+    # freshly created zram0 to probe it. zramctl resets the device before sizing
+    # it, and that reset fails with EBUSY while udev still holds it:
+    #
+    #   zramctl: /dev/zram0: failed to reset: Device or resource busy
+    #   mkswap: error: swap area needs to be at least 40 KiB
+    #   swapon: /dev/zram0: read swap header failed
+    #
+    # Every command in this block is `|| true` and swapon.service uses
+    # `ExecStart=-`, so the sequence failed silently and the unit still went
+    # green -- the system just came up without zram. Which boot wins the race
+    # varies: across 30 identical devices running one image, 11 had zram and 19
+    # did not.
+    command -v udevadm >/dev/null 2>&1 && udevadm settle --timeout=10 || true
+    zram_tries=0
+    while ! zramctl -s ${ZRAM_SIZE} /dev/zram0 2>/dev/null; do
+        zram_tries=$((zram_tries + 1))
+        if [ "${zram_tries}" -ge 5 ]; then
+            echo "zramctl could not size /dev/zram0 after ${zram_tries} tries."
+            break
+        fi
+        sleep 1
+    done
     swapoff /dev/zram0 2>/dev/null || true
     mkswap /dev/zram0 || true
     # set priority to -10
