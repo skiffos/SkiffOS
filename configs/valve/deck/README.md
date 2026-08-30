@@ -74,9 +74,12 @@ You can install SkiffOS on the NVME drive once you have booted to the SD card.
  16. `mount /dev/nvme0n1p2 /mnt/nvme/persist`
  17. `rsync -rav /mnt/efi/ /mnt/nvme/efi/`
  18. `rsync -rav /mnt/persist/boot/ /mnt/nvme/persist/boot/`
- 19. Edit /mnt/nvme/persist/boot/refind_linux.conf and change `root=PARTUUID=...` to `root=/dev/nvme0n1p2`
- 20. `sync`
- 21. `reboot`
+ 19. `sync`
+ 20. `reboot`
+
+Clover boots the `current` slot and offers the matching `previous` kernel and
+squashfs slot as recovery. Both use the `SKIFFOS` filesystem label, so no
+per-device boot configuration is needed.
 
 After rebooting, the system will reboot into SkiffOS from the NVME drive.
 

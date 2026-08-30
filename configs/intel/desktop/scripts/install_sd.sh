@@ -2,7 +2,7 @@
 
 # ensure we don't use the buildroot host path "mount"
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-if [ $EUID != 0 ]; then
+if [ "$EUID" != 0 ]; then
   echo "This script requires root, we are UID $EUID - it might not work."
 fi
 
@@ -23,16 +23,6 @@ if [ ! -b "$INTEL_DESKTOP_PARTITION" ]; then
   exit 1
 fi
 
-if ! partuuid=$(blkid -o "value" -s "PARTUUID" ${INTEL_DESKTOP_PARTITION}); then
-  echo "Unable to determine PARTUUID for ${INTEL_DESKTOP_PARTITION}!"
-  exit 1
-fi
-if [ -z "${partuuid}" ]; then
-  echo "Blkid returned empty PARTUUID for ${INTEL_DESKTOP_PARTITION}!"
-  exit 1
-fi
-
-RESOURCES_DIR="${SKIFF_CURRENT_CONF_DIR}/resources"
 OUTPUT_DIR="${BUILDROOT_DIR}"
 IMAGES_DIR="${OUTPUT_DIR}/images"
 UIMG_PATH="${IMAGES_DIR}/bzImage"
@@ -43,39 +33,36 @@ ROOTFS_PART_DIR="${IMAGES_DIR}/rootfs_part"
 PERSIST_PART_DIR="${IMAGES_DIR}/persist_part"
 BOOT_PART_DIR="${IMAGES_DIR}/boot_part"
 
-source ${SKIFF_CURRENT_CONF_DIR}/scripts/determine_config.sh
-
 if [ ! -f "$UIMG_PATH" ]; then
   echo "bzImage not found, make sure Buildroot is done compiling."
   exit 1
 fi
-
-skiff_release_path="${IMAGES_DIR}/skiff-release"
-if [ ! -f "$skiff_release_path" ]; then
-    echo "skiff-release not found, make sure Buildroot is done compiling."
-    exit 1
+if [ ! -f "$SQUASHFS_PATH" ]; then
+  echo "rootfs.squashfs not found, make sure Buildroot is done compiling."
+  exit 1
 fi
-skiff_release=$(cat $skiff_release_path | grep "VERSION=" | cut -d= -f2)
-# add -1 to the end of the release to avoid refind problems
-skiff_release="${skiff_release}-1"
+if [ ! -f "${SKIFF_INIT_DIR}/skiff-init-squashfs" ]; then
+  echo "skiff-init-squashfs not found, make sure Buildroot is done compiling."
+  exit 1
+fi
 
 mounts=()
 MOUNTS_DIR=${OUTPUT_DIR}/mounts
 mkdir -p ${MOUNTS_DIR}
-WORK_DIR=`mktemp -d -p "${MOUNTS_DIR}"`
+WORK_DIR=$(mktemp -d -p "${MOUNTS_DIR}")
 RS="rsync -rav --no-perms --no-owner --no-group --progress --inplace"
 
 # deletes the temp directory
-function cleanup {
-sync || true
-for mount in "${mounts[@]}"; do
-  echo "Unmounting ${mount}..."
-  umount $mount || true
-done
-mounts=()
-if [ -d "$WORK_DIR" ]; then
-  rm -rf "$WORK_DIR" || true
-fi
+cleanup() {
+  sync || true
+  for mount in "${mounts[@]}"; do
+    echo "Unmounting ${mount}..."
+    umount "$mount" || true
+  done
+  mounts=()
+  if [ -d "$WORK_DIR" ]; then
+    rm -rf "$WORK_DIR" || true
+  fi
 }
 trap cleanup EXIT
 
@@ -83,65 +70,68 @@ PERSIST_DIR="${WORK_DIR}/persist"
 ROOTFS_DIR="${PERSIST_DIR}/rootfs"
 BOOT_DIR="${PERSIST_DIR}/boot"
 
-echo "Mounting ${INTEL_DESKTOP_PARTITION} to $PERSIST_DIR..."
-mkdir -p $PERSIST_DIR
-mounts+=("$PERSIST_DIR")
-mount ${INTEL_DESKTOP_PARTITION} $PERSIST_DIR
+install_slot() {
+  local next_dir="${BOOT_DIR}/.next"
 
-echo "Copying kernel..."
-mkdir -p ${BOOT_DIR}
-${RS} $UIMG_PATH $BOOT_DIR/$(basename $UIMG_PATH)-skiffos-${skiff_release}
-sync
+  rm -rf "$next_dir"
+  mkdir -p "$next_dir"
+  echo "Copying kernel to next boot slot..."
+  ${RS} "$UIMG_PATH" "$next_dir/bzImage"
+  echo "Copying squashfs to next boot slot..."
+  ${RS} "$SQUASHFS_PATH" "$next_dir/init-skiffos.squashfs"
+  echo "Copying skiff-init to next boot slot..."
+  ${RS} "${SKIFF_INIT_DIR}/" "$next_dir/skiff-init/"
+  sync
+
+  if [ -d "${BOOT_DIR}/previous" ]; then
+    mv "${BOOT_DIR}/previous" "${BOOT_DIR}/.old-previous"
+  fi
+  if [ -d "${BOOT_DIR}/current" ]; then
+    mv "${BOOT_DIR}/current" "${BOOT_DIR}/previous"
+  else
+    cp -a "$next_dir" "${BOOT_DIR}/previous"
+  fi
+  mv "$next_dir" "${BOOT_DIR}/current"
+  rm -rf "${BOOT_DIR}/.old-previous"
+  sync
+}
+
+echo "Mounting ${INTEL_DESKTOP_PARTITION} to $PERSIST_DIR..."
+mkdir -p "$PERSIST_DIR"
+mounts+=("$PERSIST_DIR")
+mount "$INTEL_DESKTOP_PARTITION" "$PERSIST_DIR"
+mkdir -p "$BOOT_DIR"
+
+install_slot
 
 if [ -d "${BOOT_PART_DIR}" ]; then
     echo "Copying boot_part..."
-    ${RS} ${BOOT_PART_DIR}/ ${BOOT_DIR}/
+    ${RS} "${BOOT_PART_DIR}/" "${BOOT_DIR}/"
     sync
 fi
 
 if [ -d "${ROOTFS_PART_DIR}" ]; then
   echo "Copying rootfs_part..."
-  mkdir -p ${ROOTFS_DIR}
-  ${RS} ${ROOTFS_PART_DIR}/ $ROOTFS_DIR/
+  mkdir -p "${ROOTFS_DIR}"
+  ${RS} "${ROOTFS_PART_DIR}/" "${ROOTFS_DIR}/"
   sync
 fi
 
 if [ -d "${PERSIST_PART_DIR}" ]; then
   echo "Copying persist_part..."
-  ${RS} ${PERSIST_PART_DIR}/ $PERSIST_DIR/
+  ${RS} "${PERSIST_PART_DIR}/" "${PERSIST_DIR}/"
   sync
 fi
 
-if [ -f ${CPIO_DIR} ]; then
+if [ -f "${CPIO_DIR}" ]; then
   echo "Copying initrd..."
-  initrd_filename=initrd-skiffos-${skiff_release}
-  ${RS} $CPIO_DIR $BOOT_DIR/${initrd_filename}
+  ${RS} "$CPIO_DIR" "$BOOT_DIR/initrd-skiffos"
   sync
-fi
-
-if [ -f ${SQUASHFS_PATH} ]; then
-  echo "Copying squashfs..."
-  squashfs_filename=init-skiffos-${skiff_release}.squashfs
-  ${RS} $SQUASHFS_PATH $BOOT_DIR/${squashfs_filename}
-  sync
-fi
-
-if [ -d $SKIFF_INIT_DIR ]; then
-  echo "Copying skiff-init..."
-  ${RS} ${SKIFF_INIT_DIR}/ $BOOT_DIR/skiff-init/
-  sync
-fi
-
-if [ ! -f "${BOOT_DIR}/refind_linux.conf" ]; then
-  echo "Copying initial refind_linux.conf..."
-  cp ${refind_config} ${BOOT_DIR}/refind_linux.conf
-  echo "Setting PARTUUID=${partuuid} in refind_linux.conf..."
-  sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${BOOT_DIR}/refind_linux.conf
 fi
 
 if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
     PERSIST_SWAP=${PERSIST_DIR}/primary.swap
-    if [ ! -f ${PERSIST_SWAP} ]; then
+    if [ ! -f "${PERSIST_SWAP}" ]; then
         echo "Pre-allocating 2GB swapfile with zeros (ignoring errors)..."
         dd if=/dev/zero of=${PERSIST_SWAP} bs=1M count=2000 || true
     fi

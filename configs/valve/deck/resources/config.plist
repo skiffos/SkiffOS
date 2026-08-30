@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>GUI</key>
+    <dict>
+        <key>TextOnly</key>
+        <true/>
+        <key>Scan</key>
+        <dict>
+            <key>Entries</key>
+            <false/>
+            <key>Legacy</key>
+            <false/>
+            <key>Tool</key>
+            <false/>
+        </dict>
+        <key>Custom</key>
+        <dict>
+            <key>Entries</key>
+            <array>
+                <dict>
+                    <key>Title</key>
+                    <string>SkiffOS for Steam Deck</string>
+                    <key>Volume</key>
+                    <string>SKIFFOS</string>
+                    <key>Path</key>
+                    <string>\boot\current\bzImage</string>
+                    <key>Type</key>
+                    <string>LinuxKernel</string>
+                    <key>Arguments</key>
+                    <string>root=LABEL=SKIFFOS skiffos.squashfs=/boot/current/init-skiffos.squashfs rootwait rw init=/boot/current/skiff-init/skiff-init-squashfs earlyprintk initrd=/boot/amd-ucode.img module_blacklist=tpm amd_iommu=off amdgpu.gttsize=8128 spi_amd.speed_dev=1 audit=0 fbcon=rotate:1</string>
+                </dict>
+                <dict>
+                    <key>Title</key>
+                    <string>SkiffOS recovery</string>
+                    <key>Volume</key>
+                    <string>SKIFFOS</string>
+                    <key>Path</key>
+                    <string>\boot\previous\bzImage</string>
+                    <key>Type</key>
+                    <string>LinuxKernel</string>
+                    <key>Arguments</key>
+                    <string>root=LABEL=SKIFFOS skiffos.squashfs=/boot/previous/init-skiffos.squashfs rootwait rw init=/boot/previous/skiff-init/skiff-init-squashfs earlyprintk initrd=/boot/amd-ucode.img module_blacklist=tpm amd_iommu=off amdgpu.gttsize=8128 spi_amd.speed_dev=1 audit=0 fbcon=rotate:1</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>
