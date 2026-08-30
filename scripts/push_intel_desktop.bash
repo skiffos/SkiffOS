@@ -14,7 +14,8 @@ if [ ! -d ./workspaces ]; then
     exit 1
 fi
 
-RS="rsync -rv --progress --sparse"
+# rEFInd cannot load a sparse kernel image from its ext4 driver.
+RS="rsync -rv --progress"
 
 SKIFF_ROOT=${SKIFF_ROOT:-.}
 SKIFF_WORKSPACE=${SKIFF_WORKSPACE:-default}
