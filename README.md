@@ -49,40 +49,40 @@ main SkiffOS repository:
 
 | **System**            | **Config Package**        | **Bootloader**   | **Kernel**      |
 |-----------------------|---------------------------|------------------|-----------------|
-| VirtualBox            | [virt/virtualbox]         | N/A              | ✔ 7.1.3       |
+| VirtualBox            | [virt/virtualbox]         | N/A              | ✔ 7.2.2       |
 | [Docker Img]          | [virt/docker]             | N/A              | N/A             |
-| [Incus]               | [virt/incus]              | N/A              | ✔ 7.1.3       |
-| [Qemu]                | [virt/qemu]               | N/A              | ✔ 7.1.3       |
-| [UTM] on MacOS        | [apple/arm] + [virt/qemu] | N/A              | ✔ 7.1.3       |
+| [Incus]               | [virt/incus]              | N/A              | ✔ 7.2.2       |
+| [Qemu]                | [virt/qemu]               | N/A              | ✔ 7.2.2       |
+| [UTM] on MacOS        | [apple/arm] + [virt/qemu] | N/A              | ✔ 7.2.2       |
 | [V86] on WebAssembly  | [browser/v86]             | [V86]            | ✔ 7.0           |
 | [WSL] on Windows      | [virt/wsl]                | N/A              | N/A             |
 |-----------------------|---------------------------|------------------|-----------------|
 | [Allwinner Nezha]     | [allwinner/nezha]         | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    |
-| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 7.1.3       |
-| [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 7.1.3       |
-| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
-| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
-| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
-| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
-| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
-| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2025.01 | ✔ 7.1.3       |
+| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 7.2.2       |
+| [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
+| [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
+| [BananaPi M2]         | [bananapi/m2]             | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
+| [BananaPi M2+]        | [bananapi/m2plus]         | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
+| [BananaPi M2 Ultra]   | [bananapi/m2ultra]        | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
+| [BananaPi M3]         | [bananapi/m3]             | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
 | [BeagleBoard X15]     | [beaglebone/x15]          | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone AI]       | [beaglebone/ai]           | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBone Black]    | [beaglebone/black]        | ✔ U-Boot 2022.04 | ✔ 5.10.168-ti   |
 | [BeagleBoard BeagleV] | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
 | [NextThing C.H.I.P.]  | [chip/r8]                 | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
 | [Pocket C.H.I.P.]     | [chip/pocketr8]           | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
-| **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.1.3       |
+| **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.2.2       |
 | [ModalAI Voxl2]       | [modalai/voxl2]           | N/A              | ✔ msm-4.19.125  |
 | [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.120] |
 | [NVIDIA Jetson Nano]  | [jetson/nano]             | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]              | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [Odroid C2]           | [odroid/c2]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid C4]           | [odroid/c4]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
-| [Odroid H2]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.1.3       |
-| [Odroid H2+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.1.3       |
-| [Odroid H3]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.1.3       |
-| [Odroid H3+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.1.3       |
+| [Odroid H2]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Odroid H2+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Odroid H3]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Odroid H3+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
 | [Odroid HC1]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC2]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC4]          | [odroid/hc4]              | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
@@ -92,10 +92,10 @@ main SkiffOS repository:
 | [Odroid U]            | [odroid/u]                | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid XU3]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid XU4]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
-| [OrangePi Lite]       | [orangepi/lite]           | ✔ U-Boot 2018.05 | ✔ 7.1.3       |
-| [OrangePi Zero]       | [orangepi/zero]           | ✔ U-Boot 2018.07 | ✔ 7.1.3       |
-| [PcDuino 3]           | [pcduino/3]               | ✔ U-Boot 2019.07 | ✔ 7.1.3       |
-| [PcEngines APU2]      | [pcengines/apu2]          | ✔ CoreBoot       | ✔ 7.1.3       |
+| [OrangePi Lite]       | [orangepi/lite]           | ✔ U-Boot 2018.05 | ✔ 7.2.2       |
+| [OrangePi Zero]       | [orangepi/zero]           | ✔ U-Boot 2018.07 | ✔ 7.2.2       |
+| [PcDuino 3]           | [pcduino/3]               | ✔ U-Boot 2019.07 | ✔ 7.2.2       |
+| [PcEngines APU2]      | [pcengines/apu2]          | ✔ CoreBoot       | ✔ 7.2.2       |
 | [Pi 0]                | [pi/0]                    | N/A              | ✔ rpi-6.18.42   |
 | [Pi 1]                | [pi/1]                    | N/A              | ✔ rpi-6.18.42   |
 | [Pi 3] + 1, 2         | [pi/3]                    | N/A              | ✔ rpi-6.18.42   |
@@ -111,11 +111,11 @@ main SkiffOS repository:
 | [RockPro64]           | [pine64/rockpro64]        | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [Sipeed LicheeRV]     | [allwinner/licheerv]      | ✔ U-Boot 2022.07 | ✔ sm-5.19-rc1   |
 | [VisionFive]          | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
-| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 7.1.3       |
-| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2024.07 | ✔ 7.1.3       |
-| [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 7.1.3       |
+| [VisionFive2] v1.2    | [starfive/visionfive2_12] | ✔ U-Boot 2024.07 | ✔ 7.2.2       |
+| [VisionFive2] v1.3    | [starfive/visionfive2]    | ✔ U-Boot 2024.07 | ✔ 7.2.2       |
+| [USBArmory Mk2]       | [usbarmory/mk2]           | ✔ U-Boot 2020.10 | ✔ 7.2.2       |
 | Valve [Steam Deck]    | [valve/deck]              | N/A              | ✔ valve-6.11.11 |
-| [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 7.1.3       |
+| [Wandboard]           | [freescale/wandboard]     | ✔ U-Boot 2022.04 | ✔ 7.2.2       |
 
 [Allwinner Nezha]: https://linux-sunxi.org/Allwinner_Nezha
 [Apple Macbook Intel]: https://wiki.gentoo.org/wiki/Apple_Macbook_Pro_Retina_(early_2013)
