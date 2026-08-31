@@ -17,7 +17,7 @@ outp_path="${BUILDROOT_DIR}"
 efi_path="${outp_path}/images/efi-part"
 
 if [ ! -d "$efi_path" ]; then
-    echo "refind not found, make sure Buildroot is done compiling."
+    echo "grub not found, make sure Buildroot is done compiling."
     exit 1
 fi
 

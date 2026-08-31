@@ -10,9 +10,6 @@ for confp in "${config_paths[@]}"; do
   fi
 done
 
-if [ -z "$refind_config" ]; then
-  echo "Unable to find refind_linux.conf!"
-  exit 1
-fi
+# optional: machine flag source for BLS entries
 
 export refind_config

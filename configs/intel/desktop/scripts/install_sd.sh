@@ -132,12 +132,22 @@ if [ -d $SKIFF_INIT_DIR ]; then
   sync
 fi
 
-if [ ! -f "${BOOT_DIR}/refind_linux.conf" ]; then
-  echo "Copying initial refind_linux.conf..."
-  cp ${refind_config} ${BOOT_DIR}/refind_linux.conf
-  echo "Setting PARTUUID=${partuuid} in refind_linux.conf..."
-  sed -i -e "s/{SKIFFOS_PARTUUID}/${partuuid}/g" ${BOOT_DIR}/refind_linux.conf
+echo "Writing BLS boot entries..."
+mkdir -p ${BOOT_DIR}/loader/entries
+cat > ${BOOT_DIR}/loader/entries/skiffos-${skiff_release}.conf <<EOF
+title SkiffOS (${skiff_release})
+linux /boot/bzImage-skiffos-${skiff_release}
+initrd /boot/initrd-skiffos-${skiff_release}
+options root=PARTUUID=${partuuid} skiffos.squashfs=/boot/init-skiffos-${skiff_release}.squashfs rootwait rw console=tty1 init=/boot/skiff-init/skiff-init-squashfs
+EOF
+if [ -f ${refind_config} ]; then
+  echo "Merging machine flags from ${refind_config}..."
+  flags=$(grep -oP '(?<=noinitrd )[^"]+' ${refind_config} | head -1 || true)
+  if [ -n "$flags" ]; then
+    sed -i -e "s|init=/boot/skiff-init/skiff-init-squashfs |init=/boot/skiff-init/skiff-init-squashfs ${flags} |" ${BOOT_DIR}/loader/entries/skiffos-${skiff_release}.conf
+  fi
 fi
+cat ${BOOT_DIR}/loader/entries/skiffos-${skiff_release}.conf
 
 if [ -z "$DISABLE_CREATE_SWAPFILE" ]; then
     PERSIST_SWAP=${PERSIST_DIR}/primary.swap
