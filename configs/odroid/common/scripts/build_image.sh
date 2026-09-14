@@ -18,7 +18,10 @@ if [[ "$ODROID_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1.5G $ODROID_IMAGE
+# truncate (not fallocate) -- fallocate fails with "Operation not supported"
+# on filesystems like ecryptfs/overlayfs that don't implement it; truncate's
+# sparse-file creation works everywhere.
+truncate -s 1536M $ODROID_IMAGE
 
 echo "Setting up loopback device..."
 export ODROID_SD=$(losetup --show -fP $ODROID_IMAGE)

@@ -18,7 +18,10 @@ if [[ "$PI_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1.5G $PI_IMAGE
+# truncate (not fallocate) -- fallocate fails with "Operation not supported"
+# on filesystems like ecryptfs/overlayfs that don't implement it; truncate's
+# sparse-file creation works everywhere.
+truncate -s 1536M $PI_IMAGE
 
 echo "Setting up loopback device..."
 export PI_SD=$(losetup --show -fP $PI_IMAGE)
