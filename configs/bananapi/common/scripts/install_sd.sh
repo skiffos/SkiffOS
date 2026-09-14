@@ -63,9 +63,45 @@ persist_dir="${WORK_DIR}/persist"
 rootfs_dir="${persist_dir}/rootfs"
 
 mkdir -p $boot_dir
+
+# Desktop environments mount removable media on insert, and fsck on a
+# mounted filesystem corrupts it — "-a" answers its own "really check it?"
+# prompt with yes, so the usual safety net does not apply here.
+if command -v findmnt >/dev/null 2>&1 && findmnt -rn -S ${PI_SD_SFX}1 >/dev/null 2>&1; then
+  echo "${PI_SD_SFX}1 is already mounted elsewhere, unmounting before the check..."
+  umount ${PI_SD_SFX}1
+fi
+
+# In-place rsync writes onto the FAT32 boot partition (rootfs.squashfs
+# overwritten in place, see below) leave orphaned cluster chains behind if
+# a previous update was interrupted before a clean unmount (dirty bit set).
+# Those chains stay allocated but invisible to ls/du, silently eating the
+# ~1GB partition until "No space left on device" — verified: 4 unclean
+# cycles reserved ~660MB of ghost usage on a BPI-M2-Ultra. Run fsck -a
+# every time so this self-heals instead of accumulating.
+if ! command -v fsck.vfat >/dev/null 2>&1; then
+  echo "WARNING: fsck.vfat not found (install dosfstools) — skipping the boot"
+  echo "         partition check. Orphaned clusters will accumulate silently."
+else
+  echo "Checking ${PI_SD_SFX}1 for orphaned clusters before mounting..."
+  # Exit codes: 0 = clean, 1 = repaired. Both are expected here, so they must
+  # not abort the run under "set -e". Anything above 1 means the filesystem
+  # could not be verified — writing onto it anyway is how the ghost usage got
+  # missed in the first place, so stop instead.
+  fsck_rc=0
+  fsck.vfat -a ${PI_SD_SFX}1 || fsck_rc=$?
+  if [ "$fsck_rc" -gt 1 ]; then
+    echo "fsck.vfat returned ${fsck_rc} on ${PI_SD_SFX}1 — refusing to continue." >&2
+    exit 1
+  fi
+fi
 echo "Mounting ${PI_SD_SFX}1 to $boot_dir..."
 mounts+=("$boot_dir")
 mount ${PI_SD_SFX}1 $boot_dir
+# fsck -a recovers orphaned chains as FSCK####.REC files instead of freeing
+# them outright — on this partition they're always leftovers from a prior
+# update (nothing here legitimately creates such files), safe to delete.
+rm -f "$boot_dir"/FSCK*.REC
 
 echo "Mounting ${PI_SD_SFX}2 to $persist_dir..."
 mkdir -p $persist_dir
