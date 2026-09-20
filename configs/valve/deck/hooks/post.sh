@@ -2,11 +2,11 @@
 set -eo pipefail
 
 IMAGES_DIR=${SKIFF_BUILDROOT_DIR}/output/images
+CLOVER_CONF=${SKIFF_CURRENT_CONF_DIR}/resources/config.plist
 
-REFIND_CONF=${SKIFF_CURRENT_CONF_DIR}/resources/refind.conf
-if [ -d ${IMAGES_DIR}/efi-part/EFI/refind ]; then
-    echo "valve/deck: copying refind.conf..."
+if [ -d ${IMAGES_DIR}/efi-part/EFI/CLOVER ]; then
+    echo "valve/deck: copying Clover config.plist..."
     cp \
-        ${REFIND_CONF} \
-        ${IMAGES_DIR}/efi-part/EFI/refind/refind.conf
+        ${CLOVER_CONF} \
+        ${IMAGES_DIR}/efi-part/EFI/CLOVER/config.plist
 fi

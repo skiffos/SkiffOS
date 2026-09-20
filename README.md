@@ -58,7 +58,7 @@ main SkiffOS repository:
 | [WSL] on Windows      | [virt/wsl]                | N/A              | N/A             |
 |-----------------------|---------------------------|------------------|-----------------|
 | [Allwinner Nezha]     | [allwinner/nezha]         | ✔ U-boot 2022.10 | ✔ sm-6.1-rc3    |
-| [Apple Macbook Intel] | [apple/intel]             | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Apple Macbook Intel] | [apple/intel]             | ✔ [Clover]       | ✔ 7.2.2       |
 | [Apple Silicon]       | [apple/arm]               | ✔ UTM (as VM)    | ✔ 7.2.2       |
 | [BananaPi M1+/Pro]    | [bananapi/m1plus]         | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
 | [BananaPi M1]         | [bananapi/m1]             | ✔ U-Boot 2025.01 | ✔ 7.2.2       |
@@ -72,17 +72,17 @@ main SkiffOS repository:
 | [BeagleBoard BeagleV] | [starfive/visionfive]     | ✔ U-Boot 2021.04 | ✔ sv-5.19-rc3   |
 | [NextThing C.H.I.P.]  | [chip/r8]                 | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
 | [Pocket C.H.I.P.]     | [chip/pocketr8]           | ✔ U-Boot 2024.04 | ✔ 6.19.8      |
-| **[Intel x86/64]**    | [intel/desktop]           | ✔ [rEFInd]       | ✔ 7.2.2       |
+| **[Intel x86/64]**    | [intel/desktop]           | ✔ [Clover]       | ✔ 7.2.2       |
 | [ModalAI Voxl2]       | [modalai/voxl2]           | N/A              | ✔ msm-4.19.125  |
 | [NVIDIA Jetson AGX]   | [jetson/agx]              | ✔ UEFI           | ✔ [nv-5.10.120] |
 | [NVIDIA Jetson Nano]  | [jetson/nano]             | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [NVIDIA Jetson TX2]   | [jetson/tx2]              | ✔ U-Boot         | ✔ [nv-4.9.337]  |
 | [Odroid C2]           | [odroid/c2]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid C4]           | [odroid/c4]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
-| [Odroid H2]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
-| [Odroid H2+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
-| [Odroid H3]           | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
-| [Odroid H3+]          | [odroid/h3]               | ✔ [rEFInd]       | ✔ 7.2.2       |
+| [Odroid H2]           | [odroid/h3]               | ✔ [Clover]       | ✔ 7.2.2       |
+| [Odroid H2+]          | [odroid/h3]               | ✔ [Clover]       | ✔ 7.2.2       |
+| [Odroid H3]           | [odroid/h3]               | ✔ [Clover]       | ✔ 7.2.2       |
+| [Odroid H3+]          | [odroid/h3]               | ✔ [Clover]       | ✔ 7.2.2       |
 | [Odroid HC1]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC2]          | [odroid/xu]               | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
 | [Odroid HC4]          | [odroid/hc4]              | ✔ U-Boot 2023.07 | ✔ tb-6.4.3      |
@@ -182,7 +182,7 @@ main SkiffOS repository:
 [WSL]: https://docs.microsoft.com/en-us/windows/wsl/
 [nv-4.9.337]: https://github.com/skiffos/linux/tree/skiff-jetson-4.9.x
 [nv-5.10.120]: https://github.com/skiffos/linux/tree/skiff-jetson-5.10.x
-[rEFInd]: https://www.rodsbooks.com/refind/
+[Clover]: https://github.com/CloverHackyColor/CloverBootloader
 
 [allwinner/licheerv]: ./configs/allwinner/licheerv
 [allwinner/nezha]: ./configs/allwinner/nezha

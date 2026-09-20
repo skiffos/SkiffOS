@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GUI</key>
+	<dict>
+		<key>Custom</key>
+		<dict>
+			<key>Entries</key>
+			<array>
+				<dict>
+					<key>Arguments</key>
+					<string>root=LABEL=SKIFFOS skiffos.squashfs=/boot/current/init-skiffos.squashfs rootwait rw console=tty1 init=/boot/current/skiff-init/skiff-init-squashfs</string>
+					<key>Path</key>
+					<string>\boot\current\bzImage</string>
+					<key>Title</key>
+					<string>SkiffOS</string>
+					<key>Type</key>
+					<string>LinuxKernel</string>
+					<key>Volume</key>
+					<string>SKIFFOS</string>
+				</dict>
+				<dict>
+					<key>Arguments</key>
+					<string>root=LABEL=SKIFFOS skiffos.squashfs=/boot/current/init-skiffos.squashfs rootwait rw console=tty1 init=/boot/current/skiff-init/skiff-init-squashfs threadirqs nosmt</string>
+					<key>Path</key>
+					<string>\boot\current\bzImage</string>
+					<key>Title</key>
+					<string>SkiffOS without SMT</string>
+					<key>Type</key>
+					<string>LinuxKernel</string>
+					<key>Volume</key>
+					<string>SKIFFOS</string>
+				</dict>
+				<dict>
+					<key>Arguments</key>
+					<string>root=LABEL=SKIFFOS skiffos.squashfs=/boot/previous/init-skiffos.squashfs rootwait rw console=tty1 init=/boot/previous/skiff-init/skiff-init-squashfs</string>
+					<key>Path</key>
+					<string>\boot\previous\bzImage</string>
+					<key>Title</key>
+					<string>SkiffOS recovery</string>
+					<key>Type</key>
+					<string>LinuxKernel</string>
+					<key>Volume</key>
+					<string>SKIFFOS</string>
+				</dict>
+			</array>
+		</dict>
+		<key>Scan</key>
+		<dict>
+			<key>Entries</key>
+			<false/>
+			<key>Legacy</key>
+			<false/>
+			<key>Tool</key>
+			<false/>
+		</dict>
+		<key>TextOnly</key>
+		<true/>
+	</dict>
+</dict>
+</plist>
