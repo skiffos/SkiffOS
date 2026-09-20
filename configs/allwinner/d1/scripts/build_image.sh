@@ -17,7 +17,10 @@ if [[ "$ALLWINNER_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1G $ALLWINNER_IMAGE
+# truncate (not fallocate) -- fallocate fails with "Operation not supported"
+# on filesystems like ecryptfs/overlayfs that don't implement it; truncate's
+# sparse-file creation works everywhere.
+truncate -s 1G $ALLWINNER_IMAGE
 
 echo "Setting up loopback device..."
 export ALLWINNER_SD=$(losetup --show -fP $ALLWINNER_IMAGE)
