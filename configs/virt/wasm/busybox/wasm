@@ -47,7 +47,6 @@
 # CONFIG_BRCTL is not set
 # CONFIG_DNSD is not set
 # CONFIG_ETHER_WAKE is not set
-# CONFIG_HOSTNAME is not set
 # CONFIG_INETD is not set
 # CONFIG_IP is not set
 # CONFIG_IPADDR is not set
@@ -64,12 +63,6 @@
 # CONFIG_TCPSVD is not set
 # CONFIG_VCONFIG is not set
 # CONFIG_ZCIP is not set
-
-# awk uses popen (not in wasi-libc).
-# CONFIG_AWK is not set
-
-# mktemp (undeclared function in wasi-libc).
-# CONFIG_MKTEMP is not set
 
 # Kernel module utils (need syscall/__NR_init_module).
 # CONFIG_INSMOD is not set
@@ -94,9 +87,6 @@
 # CONFIG_FEATURE_SYSLOG is not set
 
 # procps (need struct sysinfo, /proc).
-# CONFIG_FREE is not set
-# CONFIG_UPTIME is not set
-# CONFIG_TOP is not set
 # CONFIG_PMAP is not set
 # CONFIG_LSOF is not set
 
@@ -135,15 +125,12 @@
 # CONFIG_FINDFS is not set
 # CONFIG_LOSETUP is not set
 # CONFIG_MDEV is not set
-# CONFIG_MOUNT is not set
-# CONFIG_UMOUNT is not set
 # CONFIG_SWAPONOFF is not set
 # CONFIG_FEATURE_MOUNT_HELPERS is not set
 # CONFIG_FEATURE_MOUNT_LABEL is not set
 # CONFIG_FEATURE_MOUNT_NFS is not set
 # CONFIG_FEATURE_MOUNT_CIFS is not set
 # CONFIG_FEATURE_MOUNT_FLAGS is not set
-# CONFIG_FEATURE_MOUNT_FSTAB is not set
 
 # time command (needs wait3, full struct rusage fields).
 # CONFIG_TIME is not set
@@ -170,7 +157,6 @@
 # CONFIG_FSCK is not set
 # CONFIG_FSFREEZE is not set
 # CONFIG_FSTRIM is not set
-# CONFIG_HALT is not set
 # CONFIG_HWCLOCK is not set
 # CONFIG_LINUX32 is not set
 # CONFIG_LINUX64 is not set
@@ -182,9 +168,7 @@
 # CONFIG_MKDOSFS is not set
 # CONFIG_MKE2FS is not set
 # CONFIG_PARTPROBE is not set
-# CONFIG_POWEROFF is not set
 # CONFIG_READPROFILE is not set
-# CONFIG_REBOOT is not set
 # CONFIG_RESUME is not set
 # CONFIG_SEEDRNG is not set
 # CONFIG_SETSERIAL is not set
@@ -193,7 +177,6 @@
 # CONFIG_UEVENT is not set
 
 # Init system (needs Linux init, /proc).
-# CONFIG_INIT is not set
 # CONFIG_RUN_INIT is not set
 
 # Networking with sockets.
@@ -206,9 +189,6 @@
 
 # Process management (need /proc, Linux ioctls).
 # CONFIG_FUSER is not set
-# CONFIG_KILLALL5 is not set
-# CONFIG_PIDOF is not set
-# CONFIG_PS is not set
 # CONFIG_W is not set
 # CONFIG_WHO is not set
 # CONFIG_LAST is not set
@@ -258,3 +238,30 @@
 
 # watch (needs fork).
 # CONFIG_WATCH is not set
+
+# Init, mounts and shutdown, which the wasivm kernel implements.
+CONFIG_INIT=y
+CONFIG_FEATURE_USE_INITTAB=y
+CONFIG_FEATURE_INIT_SCTTY=y
+CONFIG_MOUNT=y
+CONFIG_FEATURE_MOUNT_FSTAB=y
+CONFIG_UMOUNT=y
+CONFIG_FEATURE_UMOUNT_ALL=y
+CONFIG_HALT=y
+CONFIG_POWEROFF=y
+CONFIG_REBOOT=y
+
+# hostname, which the inittab runs to set the name from /etc/hostname.
+CONFIG_HOSTNAME=y
+
+# stat, as Linux BusyBox builds provide it.
+CONFIG_STAT=y
+CONFIG_FEATURE_STAT_FORMAT=y
+
+# Process tools, which read the kernel's /proc.
+CONFIG_PS=y
+CONFIG_TOP=y
+CONFIG_FREE=y
+CONFIG_UPTIME=y
+CONFIG_PIDOF=y
+CONFIG_KILLALL5=y

@@ -1,6 +1,6 @@
-# Strip everything not needed for a minimal WASM userspace.
-# busybox + vim only. BR2_USE_MMU unlocks many base SkiffOS packages;
-# disable them here.
+# Keep the SkiffOS base userspace programs and drop the hardware, firmware,
+# network and systemd packages, which wasi-libc and the wasivm kernel cannot
+# run.
 
 # No bootloader.
 # BR2_TARGET_UBOOT is not set
@@ -10,30 +10,30 @@
 # No firmware.
 # BR2_PACKAGE_LINUX_FIRMWARE is not set
 
-# No compression tools (busybox has builtins).
-# BR2_PACKAGE_BZIP2 is not set
-# BR2_PACKAGE_GZIP is not set
+# The SkiffOS base compression tools.
+BR2_PACKAGE_BZIP2=y
+BR2_PACKAGE_GZIP=y
 # BR2_PACKAGE_UNZIP is not set
-# BR2_PACKAGE_XZ is not set
+BR2_PACKAGE_XZ=y
 # BR2_PACKAGE_ZIP is not set
 # BR2_PACKAGE_LZ4 is not set
 # BR2_PACKAGE_LZ4_PROGS is not set
 # BR2_PACKAGE_LZO is not set
 
-# No dev tools on target.
+# No dev tools on target, apart from grep.
 # BR2_PACKAGE_BINUTILS is not set
 # BR2_PACKAGE_GDB is not set
-# BR2_PACKAGE_GREP is not set
+BR2_PACKAGE_GREP=y
 
-# No filesystem tools.
+# No filesystem tools, apart from file and tar.
 # BR2_PACKAGE_E2FSPROGS is not set
 # BR2_PACKAGE_PARTED is not set
 # BR2_PACKAGE_DOSFSTOOLS is not set
 # BR2_PACKAGE_BTRFS_PROGS is not set
 # BR2_PACKAGE_EXFATPROGS is not set
-# BR2_PACKAGE_FILE is not set
+BR2_PACKAGE_FILE=y
 # BR2_PACKAGE_SQUASHFS is not set
-# BR2_PACKAGE_TAR is not set
+BR2_PACKAGE_TAR=y
 
 # No hardware tools.
 # BR2_PACKAGE_LSSCSI is not set
@@ -77,12 +77,13 @@
 # BR2_PACKAGE_ALSA_LIB is not set
 # BR2_PACKAGE_ALSA_UTILS is not set
 
-# Use busybox shell (not bash). BR2_SYSTEM_BIN_SH_BASH selects bash.
+# BusyBox is /bin/sh; bash and coreutils are installed beside it.
 BR2_SYSTEM_BIN_SH_BUSYBOX=y
-# BR2_PACKAGE_BASH is not set
-# BR2_PACKAGE_COREUTILS is not set
+BR2_PACKAGE_BASH=y
+BR2_PACKAGE_COREUTILS=y
 
-# No system tools.
+# No system tools, apart from htop. BusyBox provides ps, top, free, kill
+# and pgrep; procps-ng needs utmp, pidfd, SysV IPC and real-time signals.
 # BR2_PACKAGE_UTIL_LINUX is not set
 # BR2_PACKAGE_PROCPS_NG is not set
 # BR2_PACKAGE_LSOF is not set
@@ -90,12 +91,14 @@ BR2_SYSTEM_BIN_SH_BUSYBOX=y
 # BR2_PACKAGE_RSYNC is not set
 # BR2_PACKAGE_NEOFETCH is not set
 
-# No nano (vim is the editor).
-# BR2_PACKAGE_NANO is not set
+# nano and vim are the editors.
+BR2_PACKAGE_NANO=y
 
 # Enable vim editor.
 BR2_PACKAGE_VIM=y
 BR2_PACKAGE_VIM_RUNTIME=y
+BR2_PACKAGE_HTOP=y
+BR2_PACKAGE_NCURSES_TARGET_PROGS=y
 
 # No systemd.
 # BR2_PACKAGE_SYSTEMD_COREDUMP is not set
