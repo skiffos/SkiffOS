@@ -17,7 +17,10 @@ if [[ "$BEAGLEBONE_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1G $BEAGLEBONE_IMAGE
+# truncate (not fallocate) -- fallocate fails with "Operation not supported"
+# on filesystems like ecryptfs/overlayfs that don't implement it; truncate's
+# sparse-file creation works everywhere.
+truncate -s 1G $BEAGLEBONE_IMAGE
 
 echo "Setting up loopback device..."
 export BEAGLEBONE_SD=$(losetup --show -fP $BEAGLEBONE_IMAGE)

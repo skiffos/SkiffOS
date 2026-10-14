@@ -27,18 +27,28 @@ fi
 
 outp_path="${BUILDROOT_DIR}/output"
 images_path="${outp_path}/images"
-uimg_path="${images_path}/zImage"
 cpio_path="${images_path}/rootfs.cpio.lz4"
 squashfs_path="${images_path}/rootfs.squashfs"
 skiff_init_path="${images_path}/skiff-init/"
 firm_path="${images_path}/rpi-firmware"
 
-if [ ! -f "$uimg_path" ]; then
-  uimg_path="${images_path}/Image"
+# Prefer the kernel image referenced by config.txt's "kernel=" line, since
+# that's what the firmware will actually try to load. Fall back to scanning
+# for known formats (compressed first) for configs that don't set "kernel=".
+uimg_name=$(grep -oP '^kernel=\K.*' "$pi_config_txt" || true)
+uimg_path="${images_path}/${uimg_name}"
+
+if [ -z "$uimg_name" ] || [ ! -f "$uimg_path" ]; then
+  for kimg in Image.gz zImage Image; do
+    if [ -f "${images_path}/${kimg}" ]; then
+      uimg_path="${images_path}/${kimg}"
+      break
+    fi
+  done
 fi
 
 if [ ! -f "$uimg_path" ]; then
-  echo "zImage not found, make sure Buildroot is done compiling."
+  echo "Kernel image (${uimg_name:-Image.gz/zImage/Image}) not found, make sure Buildroot is done compiling."
   exit 1
 fi
 
