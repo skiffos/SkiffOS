@@ -304,3 +304,23 @@ br_exts=$(join_by : "${br_exts[@]}")
 # Now copy the config
 mv $BUILDROOT_DIR/.config $SKIFF_FINAL_CONFIG_DIR/final/buildroot
 ln -fs $SKIFF_FINAL_CONFIG_DIR/final/buildroot $BUILDROOT_DIR/.config
+
+# Kconfig silently drops a requested option whose dependencies the target
+# cannot meet, such as core/nixos on a 32-bit ARM board. Name each option
+# a selected config defines in its buildroot_ext that did not survive.
+enabled_opts() {
+  grep -E '^BR2_[A-Za-z0-9_]+=y$' "$1" | sed 's/=y$//' | sort -u || true
+}
+defined_opts() {
+  local d
+  for d in ${br_exts//:/ }; do
+    grep -rhoE '^(menu)?config BR2_[A-Za-z0-9_]+' "$d" --include='Config.in*' |
+      awk '{print $2}'
+  done | sort -u
+}
+dropped=$(comm -23 <(enabled_opts $br_conf) <(enabled_opts $SKIFF_FINAL_CONFIG_DIR/final/buildroot) | comm -12 - <(defined_opts))
+if [ -n "$dropped" ]; then
+  printf "\n$(tput smso)WARNING: requested options were dropped:$(tput sgr0)\n"
+  printf "  %s\n" $dropped
+  printf "This target does not meet their dependencies; see their menuconfig help.\n\n"
+fi
