@@ -18,7 +18,10 @@ if [[ "$INTEL_DESKTOP_IMAGE" != /* ]]; then
 fi
 
 echo "Allocating sparse image..."
-fallocate -l 1.5G $INTEL_DESKTOP_IMAGE
+# truncate (not fallocate) -- fallocate fails with "Operation not supported"
+# on filesystems like ecryptfs/overlayfs that don't implement it; truncate's
+# sparse-file creation works everywhere.
+truncate -s 1536M $INTEL_DESKTOP_IMAGE
 
 echo "Setting up loopback device..."
 export INTEL_DESKTOP_DISK=$(losetup --show -fP $INTEL_DESKTOP_IMAGE)
