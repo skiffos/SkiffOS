@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LC_ALL=C
+
 if [ $EUID != 0 ]; then
   echo "This script requires sudo, so it might not work."
 fi
@@ -44,13 +46,13 @@ sudo parted $PI_SD mklabel gpt
 sleep 1
 
 echo "Making boot partition..."
-sudo parted -a optimal $PI_SD -- mkpart primary fat32 0% 8G
+sudo parted -a optimal $PI_SD -- mkpart primary fat32 0% 1.4G
 
 echo "Making rootfs partition..."
-sudo parted -a optimal $PI_SD -- mkpart primary ext4 8G 10G
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 1.4G 1.6G
 
 echo "Making persist partition..."
-sudo parted -a optimal $PI_SD -- mkpart primary ext4 10G "100%"
+sudo parted -a optimal $PI_SD -- mkpart primary ext4 1.6G "100%"
 
 echo "Waiting for partprobe..."
 sudo partprobe $PI_SD || true
@@ -68,6 +70,13 @@ echo "Formatting rootfs partition..."
 sudo mkfs.ext4 -F -L "rootfs" -O ^64bit ${PI_SD_SFX}2
 
 echo "Formatting persist partition..."
-sudo mkfs.ext4 -F -L "persist" -O ^64bit ${PI_SD_SFX}3
+# This partition starts small (image-build size) and is grown to fill the SD
+# card on first boot (embiggen-disk). mkfs would otherwise pick mke2fs.conf's
+# "small" inode_ratio (4096) for a sub-512MB filesystem, baking a much higher
+# inode density into inodes_per_group than intended — and that ratio survives
+# resize2fs growth unchanged. Pin -i to mke2fs.conf's "default" ratio (16384,
+# what a directly-formatted ~14-30GB filesystem gets) so the grown filesystem
+# ends up with the same inode density either way.
+sudo mkfs.ext4 -F -L "persist" -O ^64bit -i 16384 ${PI_SD_SFX}3
 
 sudo partprobe $PI_SD || true
