@@ -7,6 +7,10 @@
 # still packs the last ones. When the target holds modules, they name the
 # current kernel releases, and the trees of every other release are dropped,
 # so a kernel update does not keep packing the old kernel's modules.
+#
+# Buildroot's depmod indexes only the modules the current build left in the
+# target, which after an incremental build may be a single package's, so the
+# index is regenerated here over the merged directory before packing.
 
 set -eo pipefail
 
@@ -14,7 +18,8 @@ OUTPUT_DIR=${SKIFF_BUILDROOT_DIR}/output
 TARGET_DIR=${OUTPUT_DIR}/target
 TARGET_MODULES_DIR=${TARGET_DIR}/usr/lib/modules
 IMAGES_DIR=${OUTPUT_DIR}/images
-MODULES_DIR=${OUTPUT_DIR}/extra_images/modules
+MODULES_BASE_DIR=${OUTPUT_DIR}/extra_images
+MODULES_DIR=${MODULES_BASE_DIR}/modules
 ROOTFS_DIR=${IMAGES_DIR}/rootfs_part
 MODULES_IMG=${ROOTFS_DIR}/modules.squashfs
 
@@ -36,6 +41,9 @@ fi
 
 rsync -rv --remove-source-files ${TARGET_MODULES_DIR}/ ${MODULES_DIR}/
 rm -rf ${TARGET_MODULES_DIR}/* || true
+for release in $(find ${MODULES_DIR} -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
+  ${OUTPUT_DIR}/host/sbin/depmod -a -b ${MODULES_BASE_DIR} -m /modules "${release}"
+done
 echo "Module image will be mounted here from rootfs partition." > ${TARGET_MODULES_DIR}/MOUNTPOINT
 cp ${TARGET_DIR}/etc/skiff-release ${MODULES_DIR}/skiff-release
 cp ${TARGET_DIR}/etc/buildroot-release ${MODULES_DIR}/buildroot-release
