@@ -105,6 +105,7 @@ main SkiffOS repository:
 | [Pine64 H64]          | [pine64/h64]              | ✔ U-Boot 2022.04 | ✔ megi-6.11.10  |
 | [PineBook A64]        | [pine64/book_a64]         | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [PineBook Pro]        | [pine64/book]             | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
+| [PineCube]            | [pine64/cube]             | ✔ U-Boot 2026.04 | ✔ 7.3.5       |
 | [PinePhone]           | [pine64/phone]            | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [PinePhone Pro]       | [pine64/phone_pro]        | ✔ U-Boot (bin)   | ✔ megi-6.11.10  |
 | [Rock64] rk3328       | [pine64/rock64]           | ✔ U-Boot 2022.04 | ✔ megi-6.11.10  |
@@ -165,6 +166,7 @@ main SkiffOS repository:
 [Pine64 H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
+[PineCube]: https://wiki.pine64.org/wiki/PineCube
 [PinePhone]: https://www.pine64.org/pinephone/
 [PinePhone Pro]: https://www.pine64.org/pinephonepro/
 [Incus]: https://linuxcontainers.org/incus/
@@ -227,6 +229,7 @@ main SkiffOS repository:
 [pi/5]: ./configs/pi
 [pine64/book_a64]: ./configs/pine64/book_a64
 [pine64/book]: ./configs/pine64/book
+[pine64/cube]: ./configs/pine64/cube
 [pine64/h64]: ./configs/pine64/h64
 [pine64/phone]: ./configs/pine64/phone
 [pine64/phone_pro]: ./configs/pine64/phone_pro

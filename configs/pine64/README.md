@@ -20,6 +20,7 @@ There are specific packages tuned to each model:
 | [H64]           | [pine64/h64]       |                |
 | [PineBook A64]  | [pine64/book_a64]  |                |
 | [PineBook Pro]  | [pine64/book]      |                |
+| [PineCube]      | [pine64/cube]      | See its README |
 | [PinePhone]     | [pine64/phone]     |                |
 | [PinePhone Pro] | [pine64/phone_pro] | ⚠ Experimental |
 | [Rock64]        | [pine64/rock64]    |                |
@@ -28,6 +29,7 @@ There are specific packages tuned to each model:
 [H64]: https://www.pine64.org/pine-h64-ver-b/
 [PineBook A64]: https://www.pine64.org/pinebook/
 [PineBook Pro]: https://www.pine64.org/pinebook-pro/
+[PineCube]: https://wiki.pine64.org/wiki/PineCube
 [PinePhone]: https://www.pine64.org/pinephone/
 [PinePhone Pro]: https://www.pine64.org/pinephonepro/
 [Rock64]: https://www.pine64.org/rock64/
@@ -36,6 +38,7 @@ There are specific packages tuned to each model:
 [pine64/h64]: ./h64
 [pine64/book]: ./book
 [pine64/book_a64]: ./book_a64
+[pine64/cube]: ./cube
 [pine64/phone]: ./phone
 [pine64/phone_pro]: ./phone_pro
 [pine64/rock64]: ./rock64
