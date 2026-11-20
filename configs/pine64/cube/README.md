@@ -19,6 +19,10 @@ $ make configure                   # configure the system
 $ make compile                     # build the system
 ```
 
+The board has 128 MB of RAM, so leave out `skiff/core` and Docker. The `lite`
+fragment drops ModemManager and smartmontools, and a sysctl keeps 4 MB free for
+the atomic allocations the Ethernet driver makes when `eth0` opens.
+
 ## Flashing
 
 These commands require root and may need to be run with `sudo bash`.
