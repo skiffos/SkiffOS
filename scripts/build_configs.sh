@@ -301,9 +301,20 @@ rm $BUILDROOT_DIR/.config 2>/dev/null || true
 # ln -fs $br_conf $BUILDROOT_DIR/.config
 br_exts=$(join_by : "${br_exts[@]}")
 (cd $BUILDROOT_DIR && make defconfig BR2_DEFCONFIG=$br_conf BR2_EXTERNAL="${br_exts}")
+# Buildroot leaves a deselected package's files in place and does not rebuild a
+# package whose options changed, so clean the packages the change affects,
+# using the config and dependency graph the previous configure saved beside the
+# build output they describe.
+configured=$BUILDROOT_DIR/build/skiff-configured
+python3 $SKIFF_SCRIPTS_DIR/clean_changed_packages.py $BUILDROOT_DIR \
+  $configured.config $BUILDROOT_DIR/.config $configured-show-info.json \
+  $configured-config-files.json
 # Now copy the config
 mv $BUILDROOT_DIR/.config $SKIFF_FINAL_CONFIG_DIR/final/buildroot
 ln -fs $SKIFF_FINAL_CONFIG_DIR/final/buildroot $BUILDROOT_DIR/.config
+mkdir -p $BUILDROOT_DIR/build
+cp $SKIFF_FINAL_CONFIG_DIR/final/buildroot $configured.config
+(cd $BUILDROOT_DIR && make -s show-info) > $configured-show-info.json
 
 # Kconfig silently drops a requested option whose dependencies the target
 # cannot meet, such as core/nixos on a 32-bit ARM board. Name each option
